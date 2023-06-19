@@ -13,7 +13,7 @@ namespace Hyrule
 
 
 	public:
-		virtual void Initialize() abstract;
+		virtual int Initialize() abstract;
 		virtual void Finalize() abstract;
 	};
 }

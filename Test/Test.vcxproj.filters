@@ -1,16 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="0. EntryPoint">
       <UniqueIdentifier>{25a8e758-a5de-4f10-967a-d828c0f555eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Loop">
+      <UniqueIdentifier>{5a2774b9-d2a4-4d30-9378-3b6f69f78740}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>0. EntryPoint</Filter>
     </ClCompile>
+    <ClCompile Include="Loop.cpp">
+      <Filter>1. Loop</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Loop.h">
+      <Filter>1. Loop</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>0. EntryPoint</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

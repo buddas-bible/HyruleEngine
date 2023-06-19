@@ -12,21 +12,21 @@ namespace Hyrule
 		~HyruleEngine();
 
 	public:
-		void Initialize();
-		void Finalize();
-		void Update();
-		void PhysicsUpdate();
-		void Render();
+		int			Initialize(int _hwnd);
+		void		Finalize();
+		void		Update();
+		void		PhysicsUpdate();
+		void		Render();
 
-		void OnResize();
+		int			OnResize();
 
-		bool IsStop();
+		bool		IsStop();
 
 	private:
-		IRenderer* renderer;
-		IPhysics* physics;
+		IRenderer*	renderer;
+		IPhysics*	physics;
 	
-		bool isStop;
+		bool		isStop;
 	};
 }
 

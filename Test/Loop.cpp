@@ -10,42 +10,60 @@ namespace Hyrule
 
 	Loop::Loop(HINSTANCE hinstance) : 
 		m_hInstance(hinstance), m_hWnd(),
-		m_pEngine()
+		m_engine()
 	{
 
 	}
 
-	void Loop::Initialize()
+	HRESULT Loop::Initialize()
 	{
-		if (!SetWindows())
+		HRESULT hr = S_OK;
+
+		hr = SetWindows();
+		if (FAILED(hr))
 		{
-			return;
+			return hr;
 		}
 
-		m_pEngine = new HyruleEngine;
-		if (m_pEngine != nullptr)
+		m_engine = new HyruleEngine;
+		if (m_engine == nullptr)
 		{
-			m_pEngine->Initialize();
+			return S_FALSE;
 		}
+
+		g_engine = m_engine;
+		hr = m_engine->Initialize((int)m_hWnd);
+		if (FAILED(hr))
+		{
+			return hr;
+		}
+
+		return hr;
 	}
 
 	void Loop::Finalize()
 	{
-		if (m_pEngine != nullptr)
+		if (m_engine != nullptr)
 		{
-			m_pEngine->Finalize();
-			delete m_pEngine;
+			m_engine->Finalize();
+			delete m_engine;
 		}
 	}
 
 	void Loop::Run()
 	{
+		HRESULT hr = S_OK;
+		
 		// 윈도우 생성 함수
-		Initialize();
-	
+		hr = Initialize();
+		if (FAILED(hr))
+		{
+			return;
+		}
+
 		MSG msg;
 	
-		while (m_pEngine->IsStop() == false)
+		while (m_engine->IsStop() == false)
 		{
 			if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
 			{
@@ -93,7 +111,7 @@ namespace Hyrule
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	bool Loop::SetWindows()
+	HRESULT Loop::SetWindows()
 	{
 		WNDCLASSEXW wcex;
 
@@ -128,7 +146,7 @@ namespace Hyrule
 
 		if (!m_hWnd)
 		{
-			return false;
+			return S_FALSE;
 		}
 
 		float dpi = (float)GetDpiForWindow(m_hWnd);
@@ -145,6 +163,6 @@ namespace Hyrule
 		ShowWindow(m_hWnd, SW_SHOWNORMAL);
 		UpdateWindow(m_hWnd);
 
-		return true;
+		return S_OK;
 	}
 }

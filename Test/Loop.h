@@ -19,15 +19,15 @@ namespace Hyrule
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	private:
-		HyruleEngine* m_pEngine;
+		HyruleEngine* m_engine;
 
 		HWND m_hWnd;
 		HINSTANCE m_hInstance;
 
-		void Initialize();
+		HRESULT Initialize();
 		void Finalize();
 
 	private:
-		bool SetWindows();
+		HRESULT SetWindows();
 	};
 }

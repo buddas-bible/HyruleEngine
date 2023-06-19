@@ -5,14 +5,24 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="0. DX11">
+      <UniqueIdentifier>{f712b9b2-e27b-4bd5-b890-2fb593ad7ed7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DX11Graphics.h" />
+    <ClInclude Include="DX11Define.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DX11Graphics.h">
+      <Filter>0. DX11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DX11Graphics.cpp" />
+    <ClCompile Include="DX11Graphics.cpp">
+      <Filter>0. DX11</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

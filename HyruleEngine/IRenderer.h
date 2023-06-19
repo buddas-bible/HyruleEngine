@@ -13,9 +13,9 @@ namespace Hyrule
 
 
 	public:
-		virtual void Initialize() abstract;
+		virtual int Initialize(int _hwnd) abstract;
 		virtual void Finalize() abstract;
-		virtual void OnResize() abstract;
+		virtual int OnResize() abstract;
 		virtual void Update() abstract;
 		virtual void Render() abstract;
 	};
