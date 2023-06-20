@@ -84,6 +84,8 @@ namespace Hyrule
 		HRESULT hr = S_OK;
 		hr = renderer->OnResize();
 		if (FAILED(hr)) return hr;
+
+		return hr;
 	}
 
 	bool HyruleEngine::IsStop()

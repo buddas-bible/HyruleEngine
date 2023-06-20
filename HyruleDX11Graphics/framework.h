@@ -4,3 +4,17 @@
 // Windows 헤더 파일
 #include <windows.h>
 #include "DX11Define.h"
+
+
+
+template <class T>
+void Release(T* ptr)
+{
+	if (ptr == nullptr)
+	{
+		return;
+	}
+
+	ptr->Release();
+	ptr = nullptr;
+}

@@ -161,10 +161,16 @@
   <ItemGroup>
     <ClInclude Include="DX11Graphics.h" />
     <ClInclude Include="DX11Define.h" />
+    <ClInclude Include="DXDevice.h" />
+    <ClInclude Include="DXRasterizerState.h" />
+    <ClInclude Include="DXRenderTarget.h" />
     <ClInclude Include="framework.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX11Graphics.cpp" />
+    <ClCompile Include="DXDevice.cpp" />
+    <ClCompile Include="DXRasterizerState.cpp" />
+    <ClCompile Include="DXRenderTarget.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
