@@ -6,15 +6,14 @@
 #include "DX11Define.h"
 
 
-
 template <class T>
-void Release(T* ptr)
+void Release(T*& ptr)
 {
 	if (ptr == nullptr)
 	{
 		return;
 	}
 
-	ptr->Release();
+	(ptr)->Release();
 	ptr = nullptr;
 }

@@ -74,7 +74,7 @@ namespace Hyrule
 			{
 				// m_engine->Update();
 				// m_engine->PhysicsUpdate();
-				// m_engine->Render();
+				m_engine->Render();
 			}
 		}
 

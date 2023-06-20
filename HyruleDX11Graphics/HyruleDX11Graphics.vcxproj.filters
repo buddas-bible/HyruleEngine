@@ -17,6 +17,9 @@
     <Filter Include="0. DX11\DXRasterizerState">
       <UniqueIdentifier>{762c4d9d-a3e2-4793-b2ec-4ed317843193}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\Color">
+      <UniqueIdentifier>{f237e6b0-5c62-4974-9bed-149b3a91ec08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -36,6 +39,9 @@
     </ClInclude>
     <ClInclude Include="DXRasterizerState.h">
       <Filter>0. DX11\DXRasterizerState</Filter>
+    </ClInclude>
+    <ClInclude Include="DXColor.h">
+      <Filter>헤더 파일\Color</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

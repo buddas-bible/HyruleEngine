@@ -15,5 +15,6 @@ namespace Hyrule
 	public:
 		virtual int Initialize() abstract;
 		virtual void Finalize() abstract;
+		virtual void Update() abstract;
 	};
 }

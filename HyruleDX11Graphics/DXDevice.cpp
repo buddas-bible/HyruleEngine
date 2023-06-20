@@ -10,9 +10,9 @@ DXDevice::DXDevice(HWND _hwnd) :
 
 DXDevice::~DXDevice()
 {
-	Release(m_Device);
-	Release(m_DeviceContext);
 	Release(m_SwapChain);
+	Release(m_DeviceContext);
+	Release(m_Device);
 }
 
 ID3D11Device5* DXDevice::GetDevice()
@@ -114,12 +114,12 @@ HRESULT DXDevice::CreateDevice()
 		return hr;
 	}
 
-	hr = m_Device->CheckMultisampleQualityLevels1(
-		DXGI_FORMAT_B8G8R8A8_UNORM,
-		4,
-		D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_TILED_RESOURCE,
-		&m_msaaQuality
-	);
+	// hr = m_Device->CheckMultisampleQualityLevels1(
+	// 	DXGI_FORMAT_B8G8R8A8_UNORM,
+	// 	4,
+	// 	D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_TILED_RESOURCE,
+	// 	&m_msaaQuality
+	// );
 
 	if (FAILED(hr))
 	{
@@ -161,18 +161,18 @@ HRESULT DXDevice::CreateSwapChain()
 	dxgiSwapChainDesc1.Stereo = false;									// 스테레오 3D 사용 여부
 
 	// 다중 샘플링을 하는 경우엔 스왑 이펙트도 DXGI_SWAP_EFFECT_DISCARD로 해야함.
-	if (m_msaaQuality)
-	{
-		dxgiSwapChainDesc1.SampleDesc.Count = 4;						// 멀티샘플링 샘플 수
-		dxgiSwapChainDesc1.SampleDesc.Quality = m_msaaQuality - 1;		// 멀티샘플링 품질 수준
-		dxgiSwapChainDesc1.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;		// 스왑 이펙트
-	}
-	else
-	{
+	// if (m_msaaQuality)
+	// {
+	// 	dxgiSwapChainDesc1.SampleDesc.Count = 4;						// 멀티샘플링 샘플 수
+	// 	dxgiSwapChainDesc1.SampleDesc.Quality = m_msaaQuality - 1;		// 멀티샘플링 품질 수준
+	// 	dxgiSwapChainDesc1.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;		// 스왑 이펙트
+	// }
+	// else
+	// {
 		dxgiSwapChainDesc1.SampleDesc.Count = 1;						// 멀티샘플링 샘플 수
 		dxgiSwapChainDesc1.SampleDesc.Quality = 0;						// 멀티샘플링 품질 수준
 		dxgiSwapChainDesc1.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;	// 스왑 이펙트	// 이 경우에 format은 B8G8R8A8, R8G8B8A8로 해야함
-	}
+	// }
 
 	dxgiSwapChainDesc1.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// 버퍼 사용 용도
 	dxgiSwapChainDesc1.BufferCount = 2;									// 백버퍼 개수
@@ -221,13 +221,21 @@ HRESULT DXDevice::CreateSwapChain()
 		return hr;
 	}
 
-	hr = swapchain->QueryInterface(__uuidof(IDXGISwapChain2), (void**)&m_SwapChain);
+	hr = swapchain->QueryInterface(
+		__uuidof(IDXGISwapChain2), 
+		(void**)&m_SwapChain
+	);
 
 	if (FAILED(hr))
 	{
 		MessageBox(m_hWnd, L"스왑체인 캐스팅 실패", L"초기화 오류", MB_OK | MB_ICONWARNING);
 		return hr;
 	}
+
+	Release(dxgiDevice3);
+	Release(dxgiAdapter);
+	Release(dxgiAdapter2);
+	Release(dxgiFactory3);
 
 	return hr;
 }

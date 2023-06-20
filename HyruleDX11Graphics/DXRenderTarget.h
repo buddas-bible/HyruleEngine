@@ -18,11 +18,16 @@ private:
 
 public:
 	int CreateRenderTargetAndDepthStencil();
+	int OnResize();
+	
+	void Clear();
 
-	void OnResize();
+	void Bind();
 
 private:
 	int CreateRenderTarget();
 	int CreateDepthStencil();
+
+	void ReleaseAll();
 };
 

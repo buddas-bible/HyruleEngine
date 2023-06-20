@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="DX11Graphics.h" />
     <ClInclude Include="DX11Define.h" />
+    <ClInclude Include="DXColor.h" />
     <ClInclude Include="DXDevice.h" />
     <ClInclude Include="DXRasterizerState.h" />
     <ClInclude Include="DXRenderTarget.h" />

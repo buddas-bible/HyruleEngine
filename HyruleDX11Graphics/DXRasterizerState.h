@@ -19,7 +19,9 @@ private:
 public:
 	int CreateRasterizerState();
 
-	ID3D11RasterizerState2* GetRasterizerState();
+	ID3D11RasterizerState2* GetCurrRasterizerState();
+	ID3D11RasterizerState2* GetSolidRasterizerState();
+	ID3D11RasterizerState2* GetWireRasterizerState();
 	void SetSolidState();
 	void SetWireState();
 };

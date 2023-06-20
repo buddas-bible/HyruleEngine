@@ -1,4 +1,5 @@
 #include "DXRenderTarget.h"
+
 #include "framework.h"
 #include "DXDevice.h"
 
@@ -11,8 +12,7 @@ DXRenderTarget::DXRenderTarget(DXDevice* _device)
 
 DXRenderTarget::~DXRenderTarget()
 {
-	Release(m_renderTargetView);
-	Release(m_depthStencilView);
+	ReleaseAll();
 }
 
 int DXRenderTarget::CreateRenderTargetAndDepthStencil()
@@ -36,9 +36,13 @@ int DXRenderTarget::CreateRenderTargetAndDepthStencil()
 	return (int)hr;
 }
 
-void DXRenderTarget::OnResize()
+int DXRenderTarget::OnResize()
 {
-	m_dxDevice->GetSwapChain()->ResizeBuffers(
+	HRESULT hr = S_OK;
+
+	ReleaseAll();
+
+	hr = m_dxDevice->GetSwapChain()->ResizeBuffers(
 		NULL,
 		NULL,
 		NULL,
@@ -46,7 +50,53 @@ void DXRenderTarget::OnResize()
 		0
 	);
 
-	CreateRenderTargetAndDepthStencil();
+	if (FAILED(hr))
+	{
+		return (int)hr;
+	}
+
+	hr = CreateRenderTargetAndDepthStencil();
+
+	if (FAILED(hr))
+	{
+		return (int)hr;
+	}
+
+	return (int)hr;
+}
+
+void DXRenderTarget::Clear()
+{
+	m_dxDevice->GetDeviceContext()->ClearRenderTargetView(
+		m_renderTargetView, 
+		DXColor::Bisque
+	);
+
+	m_dxDevice->GetDeviceContext()->ClearDepthStencilView(
+		m_depthStencilView, 
+		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
+		1.0f,
+		0
+	);
+}
+
+/// <summary>
+/// 렌더 타켓을 파이프 라인에 바인딩 함.
+/// </summary>
+void DXRenderTarget::Bind()
+{
+	// m_dxDevice->GetDeviceContext()->OMSetRenderTargets(
+	// 	1,
+	// 	&(ID3D11RenderTargetView*)m_renderTargetView,
+	// 	m_depthStencilView
+	// );
+	ID3D11RenderTargetView* ppRenderTargetViews[] = { m_renderTargetView };
+
+	m_dxDevice->GetDeviceContext()->OMSetRenderTargets(
+		1,
+		ppRenderTargetViews,
+		m_depthStencilView
+	);
 }
 
 int DXRenderTarget::CreateRenderTarget()
@@ -77,17 +127,8 @@ int DXRenderTarget::CreateRenderTarget()
 	}
 
 	D3D11_TEXTURE2D_DESC bufferDesc;
-	ZeroMemory(&backBuffer, sizeof(D3D11_TEXTURE2D_DESC));
+	ZeroMemory(&bufferDesc, sizeof(D3D11_TEXTURE2D_DESC));
 	backBuffer->GetDesc(&bufferDesc);
-
-	D3D11_VIEWPORT viewport;
-	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
-	viewport.TopLeftX;
-	viewport.TopLeftY;
-	viewport.Width;
-	viewport.Height;
-	viewport.MaxDepth;
-	viewport.MinDepth;
 
 	Release(backBuffer);
 
@@ -158,5 +199,14 @@ int DXRenderTarget::CreateDepthStencil()
 		return (int)hr;
 	}
 
+	Release(backBuffer);
+	Release(depthStencil);
+
 	return (int)hr;
+}
+
+void DXRenderTarget::ReleaseAll()
+{
+	Release(m_depthStencilView);
+	Release(m_renderTargetView);
 }

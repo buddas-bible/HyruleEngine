@@ -24,23 +24,29 @@ namespace Hyrule
 		HRESULT hr = S_OK;
 
 		renderer = new DX11Graphics;
+
 		if (renderer != nullptr)
 		{
 			hr = renderer->Initialize(_hwnd);
+
 			if (FAILED(hr))
 			{
 				isStop = true;
+
 				return hr;
 			}
 		}
 
 		// physics = new IPhysics;
+
 		if (physics != nullptr)
 		{
 			// physics->Initialize();
+
 			if (FAILED(hr))
 			{
 				isStop = true;
+
 				return hr;
 			}
 		}
@@ -76,16 +82,21 @@ namespace Hyrule
 
 	void HyruleEngine::Render()
 	{
-
+		renderer->Render();
 	}
 
 	int HyruleEngine::OnResize()
 	{
 		HRESULT hr = S_OK;
-		hr = renderer->OnResize();
-		if (FAILED(hr)) return hr;
 
-		return hr;
+		hr = renderer->OnResize();
+
+		if (FAILED(hr))
+		{
+			return (int)hr;
+		}
+
+		return (int)hr;
 	}
 
 	bool HyruleEngine::IsStop()

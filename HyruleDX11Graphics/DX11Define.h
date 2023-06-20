@@ -12,3 +12,5 @@
 #include <dxgi1_2.h>
 #include <dxgi1_3.h>
 #pragma comment(lib, "dxgi.lib")
+
+#include "DXColor.h"
