@@ -32,6 +32,18 @@
     <Filter Include="2. Component">
       <UniqueIdentifier>{89517313-c650-453a-b56f-2cff7b85a7bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Component\Renderer">
+      <UniqueIdentifier>{cbe8f34f-2b53-44c3-aed2-c7276c1d6eec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Component\Physics">
+      <UniqueIdentifier>{0c7af66b-0122-4ea5-b457-6e7c65adba42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Component\UI">
+      <UniqueIdentifier>{b45a5e3e-45bf-43e6-ae17-2e589dab3d8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Component\Effect">
+      <UniqueIdentifier>{ab1065eb-6c82-42ae-ba60-b51cbbdc25b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -52,14 +64,23 @@
     <ClInclude Include="Component.h">
       <Filter>2. Component</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderer.h">
-      <Filter>1. Interface</Filter>
-    </ClInclude>
     <ClInclude Include="IPhysics.h">
       <Filter>1. Interface</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>2. Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>2. Component\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>2. Component\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +101,18 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>2. Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>2. Component\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>2. Component\Physics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

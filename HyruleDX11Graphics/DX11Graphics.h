@@ -19,7 +19,7 @@ namespace Hyrule
 	class DX11Graphics : public IRenderer
 	{
 	public:
-		DX11Graphics() = default;
+		DX11Graphics();
 		virtual ~DX11Graphics();
 
 	private:

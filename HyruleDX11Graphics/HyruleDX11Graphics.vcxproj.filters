@@ -5,22 +5,22 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="0. DX11">
-      <UniqueIdentifier>{f712b9b2-e27b-4bd5-b890-2fb593ad7ed7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0. DX11\DXDevice">
-      <UniqueIdentifier>{e7216a51-255c-44e4-8845-f0d6cb3f49ff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0. DX11\DXRenderTarget">
-      <UniqueIdentifier>{cee8d0e7-cc59-481c-9d86-0abd4345ad8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0. DX11\DXRasterizerState">
-      <UniqueIdentifier>{762c4d9d-a3e2-4793-b2ec-4ed317843193}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\Color">
       <UniqueIdentifier>{f237e6b0-5c62-4974-9bed-149b3a91ec08}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0. DX11\DXShader">
+    <Filter Include="DX11">
+      <UniqueIdentifier>{f712b9b2-e27b-4bd5-b890-2fb593ad7ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX11\0. DXDevice">
+      <UniqueIdentifier>{e7216a51-255c-44e4-8845-f0d6cb3f49ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX11\1. DXRenderTarget">
+      <UniqueIdentifier>{cee8d0e7-cc59-481c-9d86-0abd4345ad8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX11\2. DXRasterizerState">
+      <UniqueIdentifier>{762c4d9d-a3e2-4793-b2ec-4ed317843193}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX11\3. DXShader">
       <UniqueIdentifier>{6545b2d2-e704-48ee-bf2d-24b5ef9a408e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -31,40 +31,41 @@
     <ClInclude Include="DX11Define.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DX11Graphics.h">
-      <Filter>0. DX11</Filter>
-    </ClInclude>
     <ClInclude Include="DXDevice.h">
-      <Filter>0. DX11\DXDevice</Filter>
+      <Filter>DX11\0. DXDevice</Filter>
     </ClInclude>
     <ClInclude Include="DXRenderTarget.h">
-      <Filter>0. DX11\DXRenderTarget</Filter>
+      <Filter>DX11\1. DXRenderTarget</Filter>
     </ClInclude>
     <ClInclude Include="DXRasterizerState.h">
-      <Filter>0. DX11\DXRasterizerState</Filter>
+      <Filter>DX11\2. DXRasterizerState</Filter>
     </ClInclude>
     <ClInclude Include="DXColor.h">
       <Filter>헤더 파일\Color</Filter>
     </ClInclude>
     <ClInclude Include="DXShader.h">
-      <Filter>0. DX11\DXShader</Filter>
+      <Filter>DX11\3. DXShader</Filter>
     </ClInclude>
+    <ClInclude Include="DX11Graphics.h">
+      <Filter>DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DX11Graphics.cpp">
-      <Filter>0. DX11</Filter>
-    </ClCompile>
     <ClCompile Include="DXDevice.cpp">
-      <Filter>0. DX11\DXDevice</Filter>
+      <Filter>DX11\0. DXDevice</Filter>
     </ClCompile>
     <ClCompile Include="DXRenderTarget.cpp">
-      <Filter>0. DX11\DXRenderTarget</Filter>
+      <Filter>DX11\1. DXRenderTarget</Filter>
     </ClCompile>
     <ClCompile Include="DXRasterizerState.cpp">
-      <Filter>0. DX11\DXRasterizerState</Filter>
+      <Filter>DX11\2. DXRasterizerState</Filter>
     </ClCompile>
     <ClCompile Include="DXShader.cpp">
-      <Filter>0. DX11\DXShader</Filter>
+      <Filter>DX11\3. DXShader</Filter>
+    </ClCompile>
+    <ClCompile Include="DX11Graphics.cpp">
+      <Filter>DX11</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

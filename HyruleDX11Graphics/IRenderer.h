@@ -18,4 +18,7 @@ namespace Hyrule
 		virtual void Render() abstract;
 		virtual int OnResize() abstract;
 	};
+
+	IRenderer* CreateRenderer();
+	void ReleaseRenderer(IRenderer*& renderer);
 }

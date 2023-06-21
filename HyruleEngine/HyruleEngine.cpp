@@ -23,7 +23,7 @@ namespace Hyrule
 	{
 		HRESULT hr = S_OK;
 
-		renderer = new DX11Graphics;
+		renderer = Hyrule::CreateRenderer();
 
 		if (renderer != nullptr)
 		{
@@ -59,7 +59,7 @@ namespace Hyrule
 		if (renderer != nullptr)
 		{
 			renderer->Finalize();
-			delete renderer;
+			Hyrule::ReleaseRenderer(renderer);
 			renderer = nullptr;
 		}
 		if (physics != nullptr)

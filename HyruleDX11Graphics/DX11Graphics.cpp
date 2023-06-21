@@ -8,6 +8,14 @@
 
 namespace Hyrule
 {
+
+	DX11Graphics::DX11Graphics()
+		: m_hWnd(),
+		m_Device(), m_RenderTarget(), m_RasterizerState()
+	{
+
+	}
+
 	DX11Graphics::~DX11Graphics()
 	{
 
@@ -135,4 +143,17 @@ namespace Hyrule
 		return (int)hr;
 	}
 
+
+	IRenderer* CreateRenderer()
+	{
+		return new DX11Graphics;
+	}
+
+	void ReleaseRenderer(IRenderer*& renderer)
+	{
+		if (renderer != nullptr)
+		{
+			delete renderer;
+		}
+	}
 }
