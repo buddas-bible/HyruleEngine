@@ -5,16 +5,9 @@
 
 namespace Hyrule
 {
-	Vector4D::Vector4D() noexcept
-		: x(), y(), z(), w()
-		// : e{}
-	{
-
-	}
-
 	Vector4D::Vector4D(float _x, float _y, float _z, float _w) noexcept
-		: x(_x), y(_y), z(_z), w(_w)
-		// : e{ _x, _y, _z, _w }
+		// : x(_x), y(_y), z(_z), w(_w)
+		: e{ _x, _y, _z, _w }
 	{
 
 	}

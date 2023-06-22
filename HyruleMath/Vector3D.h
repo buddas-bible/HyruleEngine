@@ -11,7 +11,7 @@ namespace Hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		Vector3D() noexcept;
+		Vector3D() noexcept = default;
 		Vector3D(float, float, float) noexcept;
 		Vector3D(const Vector3D& other) noexcept = default;
 		Vector3D(Vector3D&& other) noexcept = default;
@@ -24,7 +24,14 @@ namespace Hyrule
 		/// <summary>
 		/// ¸â¹ö º¯¼ö
 		/// </summary>
-		float x, y, z;
+		union
+		{
+			struct
+			{
+				float x, y, z;
+			};
+			float e[3];
+		};
 
 		/// <summary>
 		/// º¤ÅÍ ÇÔ¼ö

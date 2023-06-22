@@ -5,15 +5,8 @@
 
 namespace Hyrule
 {
-	Vector3D::Vector3D() noexcept 
-		: x(), y(), z()
-		// : e
-	{
-
-	}
-
 	Vector3D::Vector3D(float _x, float _y, float _z) noexcept 
-		: x(_x), y(_y), z(_z)
+		: e{ _x, _y, _z }
 	{
 
 	}

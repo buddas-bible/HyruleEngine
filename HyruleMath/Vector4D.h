@@ -10,7 +10,7 @@ namespace Hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		Vector4D() noexcept;
+		Vector4D() noexcept = default;
 		Vector4D(float, float, float, float) noexcept;
 		Vector4D(const Vector4D& other) noexcept = default;
 		Vector4D(Vector4D&& other) noexcept = default;
@@ -23,14 +23,14 @@ namespace Hyrule
 		/// <summary>
 		/// ¸â¹ö º¯¼ö
 		/// </summary>
-		// union
-		// {
-		// 	float e[4];
-		// 	struct  
-		// 	{
+		union
+		{
+			struct
+			{
 				float x, y, z, w;
-		// 	};
-		// };;
+			};
+			float e[4];
+		};;
 
 		/// <summary>
 		/// º¤ÅÍ ÇÔ¼ö
