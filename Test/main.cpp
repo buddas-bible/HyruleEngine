@@ -38,12 +38,12 @@
 #include "Loop.h"
 
 int APIENTRY WinMain(
-	_In_ HINSTANCE hInstance, 
-	_In_opt_ HINSTANCE hPrevInstance, 
-	_In_ LPSTR lpCmdLine, 
-	_In_ int nShowCmd)
+	_In_ HINSTANCE _hInstance, 
+	_In_opt_ HINSTANCE _hPrevInstance, 
+	_In_ LPSTR _lpCmdLine, 
+	_In_ int _nShowCmd)
 {
-	Hyrule::Loop loop(hInstance);
+	Hyrule::Loop loop(_hInstance);
 
 	loop.Run();
 

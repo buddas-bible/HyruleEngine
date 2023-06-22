@@ -11,11 +11,11 @@ namespace Hyrule
 		Component() = default;
 		virtual ~Component() = default;
 
-	private:
-		GameObject* m_pGameObject;
+	protected:
+		GameObject* gameObject;
 
 	public:
-		GameObject* GetGameObject();
+		virtual GameObject* GetGameObject();
 	};
 }
 

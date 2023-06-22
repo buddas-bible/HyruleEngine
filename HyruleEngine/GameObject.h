@@ -17,7 +17,7 @@ namespace Hyrule
 		GameObject* parent;		// 부모
 
 		// std::wstring tag;		// 태그
-
+		// std::wstring name;
 
 	public:
 		GameObject* GetParent();

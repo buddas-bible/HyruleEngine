@@ -20,5 +20,5 @@ namespace Hyrule
 	};
 
 	IRenderer* CreateRenderer();
-	void ReleaseRenderer(IRenderer*& renderer);
+	void ReleaseRenderer(IRenderer*& _renderer);
 }

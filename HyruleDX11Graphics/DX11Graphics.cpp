@@ -8,6 +8,18 @@
 
 namespace Hyrule
 {
+	IRenderer* CreateRenderer()
+	{
+		return new DX11Graphics;
+	}
+
+	void ReleaseRenderer(IRenderer*& _renderer)
+	{
+		if (_renderer != nullptr)
+		{
+			delete _renderer;
+		}
+	}
 
 	DX11Graphics::DX11Graphics()
 		: m_hWnd(),
@@ -144,16 +156,4 @@ namespace Hyrule
 	}
 
 
-	IRenderer* CreateRenderer()
-	{
-		return new DX11Graphics;
-	}
-
-	void ReleaseRenderer(IRenderer*& renderer)
-	{
-		if (renderer != nullptr)
-		{
-			delete renderer;
-		}
-	}
 }

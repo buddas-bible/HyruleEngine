@@ -8,9 +8,9 @@ namespace Hyrule
 {
 	HyruleEngine* Loop::g_engine = nullptr;
 
-	Loop::Loop(HINSTANCE hinstance) : 
-		m_hInstance(hinstance), m_hWnd(),
-		m_engine()
+	Loop::Loop(HINSTANCE _hinstance) : 
+		hInstance(_hinstance), hWnd(),
+		engine()
 	{
 
 	}
@@ -25,14 +25,14 @@ namespace Hyrule
 			return hr;
 		}
 
-		m_engine = new HyruleEngine;
-		if (m_engine == nullptr)
+		engine = new HyruleEngine;
+		if (engine == nullptr)
 		{
 			return S_FALSE;
 		}
 
-		g_engine = m_engine;
-		hr = m_engine->Initialize((int)m_hWnd);
+		g_engine = engine;
+		hr = engine->Initialize((int)hWnd);
 		if (FAILED(hr))
 		{
 			return hr;
@@ -43,10 +43,10 @@ namespace Hyrule
 
 	void Loop::Finalize()
 	{
-		if (m_engine != nullptr)
+		if (engine != nullptr)
 		{
-			m_engine->Finalize();
-			delete m_engine;
+			engine->Finalize();
+			delete engine;
 		}
 	}
 
@@ -63,7 +63,7 @@ namespace Hyrule
 
 		MSG msg;
 	
-		while (m_engine->IsStop() == false)
+		while (engine->IsStop() == false)
 		{
 			if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
 			{
@@ -74,16 +74,16 @@ namespace Hyrule
 			{
 				// m_engine->Update();
 				// m_engine->PhysicsUpdate();
-				m_engine->Render();
+				engine->Render();
 			}
 		}
 
 		Finalize();
 	}
 
-	LRESULT CALLBACK Loop::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK Loop::WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam)
 	{
-		switch (msg)
+		switch (_msg)
 		{
 			case WM_ACTIVATE:
 			{
@@ -108,7 +108,7 @@ namespace Hyrule
 			break;
 		}
 
-		return DefWindowProc(hWnd, msg, wParam, lParam);
+		return DefWindowProc(_hWnd, _msg, _wParam, _lParam);
 	}
 
 	HRESULT Loop::SetWindows()
@@ -121,8 +121,8 @@ namespace Hyrule
 		wcex.lpfnWndProc = Hyrule::Loop::WndProc; // 프로시저
 		wcex.cbClsExtra = 0;
 		wcex.cbWndExtra = 0;
-		wcex.hInstance = m_hInstance;
-		wcex.hIcon = LoadIcon(m_hInstance, IDI_APPLICATION);
+		wcex.hInstance = hInstance;
+		wcex.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
 		wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 0);
 		wcex.lpszMenuName = NULL;
@@ -131,7 +131,7 @@ namespace Hyrule
 
 		RegisterClassExW(&wcex);
 
-		m_hWnd = CreateWindowW(
+		hWnd = CreateWindowW(
 			wcex.lpszClassName,
 			L"KH_Engine",
 			WS_OVERLAPPEDWINDOW | WS_BORDER | WS_SYSMENU,
@@ -141,18 +141,18 @@ namespace Hyrule
 			0,							// 윈도우 세로 방향 해상도
 			NULL,
 			NULL,
-			m_hInstance,
+			hInstance,
 			NULL);
 
-		if (!m_hWnd)
+		if (!hWnd)
 		{
 			return S_FALSE;
 		}
 
-		float dpi = (float)GetDpiForWindow(m_hWnd);
+		float dpi = (float)GetDpiForWindow(hWnd);
 
 		SetWindowPos(
-			m_hWnd,
+			hWnd,
 			NULL,
 			NULL,
 			NULL,
@@ -160,8 +160,8 @@ namespace Hyrule
 			static_cast<int>(ceil(900.f * dpi / 96.f)),
 			SWP_NOMOVE);
 
-		ShowWindow(m_hWnd, SW_SHOWNORMAL);
-		UpdateWindow(m_hWnd);
+		ShowWindow(hWnd, SW_SHOWNORMAL);
+		UpdateWindow(hWnd);
 
 		return S_OK;
 	}

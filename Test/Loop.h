@@ -8,7 +8,7 @@ namespace Hyrule
 	class Loop
 	{
 	public:
-		Loop(HINSTANCE hinstance);
+		Loop(HINSTANCE _hinstance);
 		~Loop() = default;
 
 	public:
@@ -16,13 +16,13 @@ namespace Hyrule
 
 		void Run();
 
-		static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam);
 
 	private:
-		HyruleEngine* m_engine;
+		HyruleEngine* engine;
 
-		HWND m_hWnd;
-		HINSTANCE m_hInstance;
+		HWND hWnd;
+		HINSTANCE hInstance;
 
 		HRESULT Initialize();
 		void Finalize();

@@ -12,5 +12,4 @@ namespace Hyrule
 	{
 		parent = _gameObject;
 	}
-
 }

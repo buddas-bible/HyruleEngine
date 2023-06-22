@@ -5,9 +5,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="0. HyruleEngine">
-      <UniqueIdentifier>{4fb8b48d-9e7c-4383-81df-75237c8ae158}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject">
       <UniqueIdentifier>{29c0e620-b47a-4e1b-90f0-33046ab9dc12}</UniqueIdentifier>
     </Filter>
@@ -26,9 +23,6 @@
     <Filter Include="Struct\Face">
       <UniqueIdentifier>{4d236fbe-4ccb-4041-8311-8ff51d155c9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1. Interface">
-      <UniqueIdentifier>{5b90fb56-149a-4563-82f9-4e1b558e187b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2. Component">
       <UniqueIdentifier>{89517313-c650-453a-b56f-2cff7b85a7bb}</UniqueIdentifier>
     </Filter>
@@ -44,13 +38,19 @@
     <Filter Include="2. Component\Effect">
       <UniqueIdentifier>{ab1065eb-6c82-42ae-ba60-b51cbbdc25b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0. Interface">
+      <UniqueIdentifier>{5b90fb56-149a-4563-82f9-4e1b558e187b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. HyruleEngine">
+      <UniqueIdentifier>{4fb8b48d-9e7c-4383-81df-75237c8ae158}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="HyruleEngine.h">
-      <Filter>0. HyruleEngine</Filter>
+      <Filter>1. HyruleEngine</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Struct\Mesh</Filter>
@@ -63,9 +63,6 @@
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>2. Component</Filter>
-    </ClInclude>
-    <ClInclude Include="IPhysics.h">
-      <Filter>1. Interface</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>GameObject</Filter>
@@ -85,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
-      <Filter>0. HyruleEngine</Filter>
+      <Filter>1. HyruleEngine</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Struct\Mesh</Filter>
