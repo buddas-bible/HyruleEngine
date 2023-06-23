@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Vector4D.h"
+// #include "Vector4D.h"
 
 namespace Hyrule
 {
 	struct Vector4D;
+	struct Matrix1x3;
 
 	struct Vector3D
 	{
@@ -16,7 +17,8 @@ namespace Hyrule
 		Vector3D(const Vector3D& other) noexcept = default;
 		Vector3D(Vector3D&& other) noexcept = default;
 		~Vector3D() noexcept = default;
-		explicit operator Vector4D();
+		// explicit operator Vector4D() noexcept;
+		explicit operator Matrix1x3() noexcept;
 
 		Vector3D& operator= (const Vector3D&) noexcept = default;
 		Vector3D& operator= (Vector3D&&) noexcept = default;

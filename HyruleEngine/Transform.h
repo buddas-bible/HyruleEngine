@@ -14,12 +14,13 @@ namespace Hyrule
 
 	private:
 		Vector3D position;
-		Vector3D rotation;
+		Vector4D quaternion;
 		Vector3D scale;
 
 	public:
 		Vector3D GetLocalPosition();
 		Vector3D GetLocalRotation();
+		Vector4D GetLocalQuaternion();
 		Vector3D GetLocalScale();
 
 		Matrix4x4 GetLocalMatrix();

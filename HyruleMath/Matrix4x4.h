@@ -32,21 +32,17 @@ namespace Hyrule
 		};
 
 		/// <summary>
-		/// 
+		/// 전역 함수
 		/// </summary>
-		// static Matrix4x4&& IdentityMatrix();
-		// 
-		// static Matrix4x4 TransformMatrix(											// 변환행렬
-		// 	float moveX, float moveY, float moveZ,
-		// 	float thetaX, float thetaY, float thetaZ,
-		// 	float scaleX, float scaleY, float scaleZ);
-		// static Matrix4x4 TranslateMatrix(float moveX, float moveY, float moveZ);	// 이동 변환 행렬
-		// static Matrix4x4 RotateMatrix(float thetaX, float thetaY, float thetaZ);	// 회전 변환 행렬
-		// // static Matrix4x4 RotateMatrix(const Quaternion& q);	// 회전 변환 행렬
-		// static Matrix4x4 ScaleMatrix(float scaleX, float scaleY, float scaleZ);		// 축척 변환 행렬
-		// static Matrix4x4 ScaleRotate(
-		// 	float scaleX, float scaleY, float scaleZ,
-		// 	float thetaX, float thetaY, float thetaZ);
+		static inline Matrix4x4 Identity() noexcept;
+		
+		/// <summary>
+		/// 멤버 함수
+		/// </summary>
+		float Determinant() noexcept;
+		float Determinant3x3() noexcept;
+		Matrix4x4 Transpose() noexcept;
+		Matrix4x4 Inverse() noexcept;
 
 		/// <summary>
 		/// 연산자 오버로딩
@@ -54,7 +50,7 @@ namespace Hyrule
 		Matrix4x4 operator+ (const Matrix4x4& other) const noexcept;
 		Matrix4x4& operator+= (const Matrix4x4& other) noexcept;
 		Matrix4x4 operator- (const Matrix4x4& other) const noexcept;
-		Matrix4x4& operator- (const Matrix4x4& other) noexcept;
+		Matrix4x4& operator-= (const Matrix4x4& other) noexcept;
 		Matrix4x4 operator* (const Matrix4x4& other) const noexcept;
 		Matrix4x4& operator*= (const Matrix4x4& other) noexcept;
 		Matrix4x4 operator/ (const Matrix4x4& other) const noexcept;

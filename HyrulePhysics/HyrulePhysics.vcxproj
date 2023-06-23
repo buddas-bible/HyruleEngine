@@ -171,14 +171,20 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="HyrulePhysics.h" />
     <ClInclude Include="ICollider.h" />
     <ClInclude Include="IPhysics.h" />
     <ClInclude Include="IRigidBody.h" />
+    <ClInclude Include="Manifold.h" />
+    <ClInclude Include="RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="HyrulePhysics.cpp" />
+    <ClCompile Include="Manifold.cpp" />
+    <ClCompile Include="RigidBody.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,8 +5,8 @@ namespace Hyrule
 	class IPhysics
 	{
 	public:
-		IPhysics() {};
-		virtual ~IPhysics() {};
+		IPhysics() noexcept {};
+		virtual ~IPhysics() noexcept {};
 
 	public:
 		virtual int Initialize() abstract;

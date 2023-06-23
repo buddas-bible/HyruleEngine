@@ -3,6 +3,9 @@
 #include <cmath>
 #include <utility>
 
+#include "Vector4D.h"
+#include "Matrix1x3.h"
+
 namespace Hyrule
 {
 	Vector3D::Vector3D(float _x, float _y, float _z) noexcept 
@@ -11,10 +14,16 @@ namespace Hyrule
 
 	}
 
-	Vector3D::operator Vector4D()
+
+	Vector3D::operator Matrix1x3() noexcept
 	{
-		return Vector4D(this->x, this->y, this->z, 0.f);
+		return Matrix1x3{ x, y, z };
 	}
+
+	// Vector3D::operator Vector4D() noexcept
+	// {
+	// 	return Vector4D(this->x, this->y, this->z, 0.f);
+	// }
 
 	float Vector3D::Length() const noexcept
 	{

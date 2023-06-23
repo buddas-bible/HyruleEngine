@@ -16,6 +16,11 @@ namespace Hyrule
 
 	}
 
+	Vector4D Transform::GetLocalQuaternion()
+	{
+		return quaternion;
+	}
+
 	Vector3D Transform::GetLocalScale()
 	{
 		return scale;

@@ -11,12 +11,6 @@
     <Filter Include="Struct">
       <UniqueIdentifier>{84c12626-4f1f-40c5-8874-7514b156bdaf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Struct\Mesh">
-      <UniqueIdentifier>{9ea27d11-f3a5-4c50-a16d-9773c8876f64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Struct\Texture">
-      <UniqueIdentifier>{5ef73a00-72d4-4981-aab1-ac5b1eae09fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Struct\Vertex">
       <UniqueIdentifier>{d8593aa2-44b2-4635-977c-bd1cf33cc9ff}</UniqueIdentifier>
     </Filter>
@@ -44,6 +38,15 @@
     <Filter Include="1. HyruleEngine">
       <UniqueIdentifier>{4fb8b48d-9e7c-4383-81df-75237c8ae158}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. Resource">
+      <UniqueIdentifier>{8a259e07-4103-4c86-a7ed-f2c85a97330d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Resource\Texture">
+      <UniqueIdentifier>{5ef73a00-72d4-4981-aab1-ac5b1eae09fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Resource\Mesh">
+      <UniqueIdentifier>{9ea27d11-f3a5-4c50-a16d-9773c8876f64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -53,10 +56,10 @@
       <Filter>1. HyruleEngine</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Struct\Mesh</Filter>
+      <Filter>3. Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>Struct\Texture</Filter>
+      <Filter>3. Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Struct\Vertex</Filter>
@@ -85,10 +88,10 @@
       <Filter>1. HyruleEngine</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Struct\Mesh</Filter>
+      <Filter>3. Resource\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Struct\Texture</Filter>
+      <Filter>3. Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Vertex.cpp">
       <Filter>Struct\Vertex</Filter>

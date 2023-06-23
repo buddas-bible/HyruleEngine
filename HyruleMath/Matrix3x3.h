@@ -2,7 +2,7 @@
 
 namespace Hyrule
 {
-	class Vector3D;
+	struct Vector3D;
 
 	struct Matrix3x3
 	{
@@ -34,21 +34,16 @@ namespace Hyrule
 		};
 
 		/// <summary>
-		/// 행렬 함수
+		/// 전역 함수
 		/// </summary>
-// 		static Matrix3x3 IdentityMatrix();
-// 		static Matrix3x3 TransformMatrix(								// 변환행렬
-// 			float moveX, float moveY,
-// 			float theta, float scaleX,
-// 			float scaleY);
-// 
-// 
-// 		static Matrix3x3 TranslateMatrix(float moveX, float moveY);		// 이동 변환 행렬
-// 		static Matrix3x3 RotateMatrix(float theta);						// 회전 변환 행렬
-// 		static Matrix3x3 ScaleMatrix(float scaleX, float scaleY);		// 축척 변환 행렬
-// 		static Matrix3x3 ScaleRotate(float scaleX, float scaleY, float theta);
+		static inline Matrix3x3 Identity() noexcept;
 
-		float Determinant();
+		/// <summary>
+		/// 멤버 함수
+		/// </summary>
+		float Determinant() noexcept;
+		Matrix3x3 Transpose() noexcept;
+		Matrix3x3 Inverse() noexcept;
 
 		/// <summary>
 		/// 연산자 오버로딩
@@ -63,5 +58,5 @@ namespace Hyrule
 		Matrix3x3& operator/= (const Matrix3x3&) noexcept;
 	};
 
-	Matrix3x3 AxisAndAngleRotation(const Vector3D& vec, float angle);
+	// Matrix3x3 AxisAndAngleRotation(const Vector3D& vec, float angle);
 }

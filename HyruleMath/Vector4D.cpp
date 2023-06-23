@@ -3,6 +3,10 @@
 #include <cmath>
 #include <utility>
 
+// #include "Vector3D.h"
+#include "Matrix1x4.h"
+#include "Quaternion.h"
+
 namespace Hyrule
 {
 	Vector4D::Vector4D(float _x, float _y, float _z, float _w) noexcept
@@ -12,10 +16,22 @@ namespace Hyrule
 
 	}
 
-	Vector4D::operator Vector3D()
+
+	Vector4D::operator Matrix1x4() noexcept
 	{
-		return Vector3D(this->x, this->y, this->z);
+		return Matrix1x4{ e[0], e[1] , e[2] , e[3] };
 	}
+
+
+	Vector4D::operator Quaternion() noexcept
+	{
+		return Quaternion{ x, y, z, w };
+	}
+
+	// Vector4D::operator Vector3D() noexcept
+	// {
+	// 	return Vector3D(this->x, this->y, this->z);
+	// }
 
 	float Vector4D::Length() const noexcept
 	{
@@ -163,12 +179,35 @@ namespace Hyrule
 
 	Vector4D Vector4D::operator+(const Vector4D& other) const noexcept
 	{
-		return Vector4D(this->x + other.x, this->y + other.y, this->z + other.z, this->w + other.w);
+		return Vector4D
+		(
+			this->x + other.x, 
+			this->y + other.y, 
+			this->z + other.z, 
+			this->w + other.w
+		);
 	}
 
 	Vector4D Vector4D::operator-(const Vector4D& other) const noexcept
 	{
-		return Vector4D(this->x - other.x, this->y - other.y, this->z - other.z, this->w - other.w);
+		return Vector4D
+		(
+			this->x - other.x, 
+			this->y - other.y, 
+			this->z - other.z, 
+			this->w - other.w
+		);
+	}
+
+	Vector4D Vector4D::operator-() const noexcept
+	{
+		return Vector4D
+		(
+			-this->x,
+			-this->y,
+			-this->z,
+			-this->w
+		);
 	}
 
 	Vector4D& Vector4D::operator*=(const float n) noexcept
