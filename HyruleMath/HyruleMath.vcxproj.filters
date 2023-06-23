@@ -11,6 +11,9 @@
     <Filter Include="Vector">
       <UniqueIdentifier>{e7422eca-5e6e-41af-8f3b-1ec4dcaec5a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quaternion">
+      <UniqueIdentifier>{b7456e41-8b1e-4eca-8a98-5ac730a9a170}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HRVector.h">
@@ -40,6 +43,9 @@
     <ClInclude Include="Matrix1x4.h">
       <Filter>Matrix</Filter>
     </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Quaternion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vector3D.cpp">
@@ -59,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="Matrix1x4.cpp">
       <Filter>Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Quaternion</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
