@@ -11,7 +11,7 @@ namespace Hyrule
 		/// </summary>
 		Matrix1x3() noexcept = default;
 		Matrix1x3(
-			float _e00, float _e01, float _e02) noexcept;
+			float, float, float) noexcept;
 		Matrix1x3(const Matrix1x3&) noexcept = default;
 		Matrix1x3(Matrix1x3&&) noexcept = default;
 		~Matrix1x3() noexcept = default;

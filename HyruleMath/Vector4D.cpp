@@ -10,28 +10,20 @@
 namespace Hyrule
 {
 	Vector4D::Vector4D(float _x, float _y, float _z, float _w) noexcept
-		// : x(_x), y(_y), z(_z), w(_w)
 		: e{ _x, _y, _z, _w }
 	{
 
 	}
-
 
 	Vector4D::operator Matrix1x4() noexcept
 	{
 		return Matrix1x4{ e[0], e[1] , e[2] , e[3] };
 	}
 
-
 	Vector4D::operator Quaternion() noexcept
 	{
-		return Quaternion{ x, y, z, w };
+		return Quaternion{ w, x, y, z };
 	}
-
-	// Vector4D::operator Vector3D() noexcept
-	// {
-	// 	return Vector3D(this->x, this->y, this->z);
-	// }
 
 	float Vector4D::Length() const noexcept
 	{
@@ -86,6 +78,7 @@ namespace Hyrule
 		}
 
 		float invSqrt = FastInvSqrt(temp);
+
 		x *= invSqrt;
 		y *= invSqrt;
 		z *= invSqrt;
@@ -103,14 +96,19 @@ namespace Hyrule
 			// 원래는 영벡터를 반환했었지만
 			// Normalize가 정규화 되지 않은 자기 자신을 반환하는 경우가 있으니
 			// 자신을 복사해서 반환하는 것으로 함.
-
 			return Vector4D(*this);		
 			// return Vector4D(0.f, 0.f, 0.f, 0.f);
 		}
 
 		float invSqrt = FastInvSqrt(temp);
 
-		return Vector4D(x * invSqrt, y * invSqrt, z * invSqrt, w * invSqrt);
+		return Vector4D
+		(
+			x * invSqrt, 
+			y * invSqrt, 
+			z * invSqrt, 
+			w * invSqrt
+		);
 	}
 
 	float Vector4D::Dot3(const Vector4D& other) const noexcept

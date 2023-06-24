@@ -18,7 +18,6 @@ namespace Hyrule
 
 	}
 
-
 	Matrix3x3 Matrix3x3::Transpose() noexcept
 	{
 		return Matrix3x3
@@ -29,7 +28,6 @@ namespace Hyrule
 		};
 	}
 
-
 	Matrix3x3 Matrix3x3::Inverse() noexcept
 	{
 		Matrix3x3 result{};
@@ -38,8 +36,7 @@ namespace Hyrule
 
 		if (det == 0.0f)
 		{
-			// Matrix is not invertible
-			// Handle the error or exception accordingly
+			// 행렬식이 0인 경우엔 역행렬이 존재하지 않음.
 			return result;
 		}
 
@@ -57,7 +54,6 @@ namespace Hyrule
 
 		return result;
 	}
-
 
 	Matrix3x3 Matrix3x3::Identity() noexcept
 	{

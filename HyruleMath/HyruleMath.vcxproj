@@ -167,6 +167,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="HRConstant.h" />
+    <ClInclude Include="HRMathFunc.h" />
     <ClInclude Include="HRMatrix.h" />
     <ClInclude Include="HRVector.h" />
     <ClInclude Include="HyruleMath.h" />

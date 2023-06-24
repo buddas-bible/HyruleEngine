@@ -14,16 +14,10 @@ namespace Hyrule
 
 	}
 
-
 	Vector3D::operator Matrix1x3() noexcept
 	{
 		return Matrix1x3{ x, y, z };
 	}
-
-	// Vector3D::operator Vector4D() noexcept
-	// {
-	// 	return Vector4D(this->x, this->y, this->z, 0.f);
-	// }
 
 	float Vector3D::Length() const noexcept
 	{

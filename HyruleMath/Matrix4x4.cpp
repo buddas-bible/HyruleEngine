@@ -18,7 +18,7 @@ namespace Hyrule
 
 	}
 
-	Matrix4x4 Matrix4x4::Transpose()
+	Matrix4x4 Matrix4x4::Transpose() noexcept
 	{
 		return Matrix4x4
 		{
@@ -29,8 +29,7 @@ namespace Hyrule
 		};
 	}
 
-
-	Matrix4x4 Matrix4x4::Inverse()
+	Matrix4x4 Matrix4x4::Inverse() noexcept
 	{
 		Matrix4x4 result{};
 
@@ -38,8 +37,7 @@ namespace Hyrule
 
 		if (det == 0.0f)
 		{
-			// Matrix is not invertible
-			// Handle the error or exception accordingly
+			// 행렬식이 0인 경우엔 역행렬이 존재하지 않음.
 			return result;
 		}
 
@@ -64,7 +62,6 @@ namespace Hyrule
 
 		return result;
 	}
-
 
 	Matrix4x4 Matrix4x4::Identity() noexcept
 	{

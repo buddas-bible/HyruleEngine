@@ -11,9 +11,9 @@ namespace Hyrule
 		/// </summary>
 		Matrix3x3() noexcept = default;
 		Matrix3x3(
-			float _e00, float _e01, float _e02,
-			float _e10, float _e11, float _e12,
-			float _e20, float _e21, float _e22) noexcept;
+			float, float, float,
+			float, float, float,
+			float, float, float) noexcept;
 		Matrix3x3(const Matrix3x3&) noexcept = default;
 		Matrix3x3(Matrix3x3&&) noexcept = default;
 		~Matrix3x3() noexcept = default;
@@ -54,9 +54,7 @@ namespace Hyrule
 		Matrix3x3& operator-= (const Matrix3x3&) noexcept;
 		Matrix3x3 operator* (const Matrix3x3&) const noexcept;
 		Matrix3x3& operator*= (const Matrix3x3&) noexcept;
-		Matrix3x3 operator/ (const Matrix3x3&) const noexcept;
-		Matrix3x3& operator/= (const Matrix3x3&) noexcept;
+		// Matrix3x3 operator/ (const Matrix3x3&) const noexcept;
+		// Matrix3x3& operator/= (const Matrix3x3&) noexcept;
 	};
-
-	// Matrix3x3 AxisAndAngleRotation(const Vector3D& vec, float angle);
 }

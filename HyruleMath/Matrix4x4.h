@@ -2,6 +2,8 @@
 
 namespace Hyrule
 {
+	class Quaternion;
+
 	struct Matrix4x4
 	{
 		/// <summary>
@@ -9,18 +11,17 @@ namespace Hyrule
 		/// </summary>
 		Matrix4x4() noexcept = default;
 		Matrix4x4(
-			float e00, float e01, float e02, float e03,
-			float e10, float e11, float e12, float e13,
-			float e20, float e21, float e22, float e23,
-			float e30, float e31, float e32, float e33
+			float, float, float, float,
+			float, float, float, float,
+			float, float, float, float,
+			float, float, float, float
 		) noexcept;
-		// Matrix4x4(const Matrix3x3& mat) noexcept;
-		Matrix4x4(const Matrix4x4& mat) noexcept = default;
-		Matrix4x4(Matrix4x4&& mat) noexcept = default;
+		Matrix4x4(const Matrix4x4&) noexcept = default;
+		Matrix4x4(Matrix4x4&&) noexcept = default;
 		~Matrix4x4() noexcept = default;
 
-		Matrix4x4& operator = (const Matrix4x4& other) noexcept = default;
-		Matrix4x4& operator = (Matrix4x4&& other) noexcept = default;
+		Matrix4x4& operator = (const Matrix4x4&) noexcept = default;
+		Matrix4x4& operator = (Matrix4x4&&) noexcept = default;
 
 		union
 		{
@@ -47,13 +48,13 @@ namespace Hyrule
 		/// <summary>
 		/// 연산자 오버로딩
 		/// </summary>
-		Matrix4x4 operator+ (const Matrix4x4& other) const noexcept;
-		Matrix4x4& operator+= (const Matrix4x4& other) noexcept;
-		Matrix4x4 operator- (const Matrix4x4& other) const noexcept;
-		Matrix4x4& operator-= (const Matrix4x4& other) noexcept;
-		Matrix4x4 operator* (const Matrix4x4& other) const noexcept;
-		Matrix4x4& operator*= (const Matrix4x4& other) noexcept;
-		Matrix4x4 operator/ (const Matrix4x4& other) const noexcept;
-		Matrix4x4& operator/= (const Matrix4x4& other) noexcept;
+		Matrix4x4 operator+ (const Matrix4x4&) const noexcept;
+		Matrix4x4& operator+= (const Matrix4x4&) noexcept;
+		Matrix4x4 operator- (const Matrix4x4&) const noexcept;
+		Matrix4x4& operator-= (const Matrix4x4&) noexcept;
+		Matrix4x4 operator* (const Matrix4x4&) const noexcept;
+		Matrix4x4& operator*= (const Matrix4x4&) noexcept;
+		// Matrix4x4 operator/ (const Matrix4x4&) const noexcept;
+		// Matrix4x4& operator/= (const Matrix4x4&) noexcept;
 	};
 }

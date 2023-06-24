@@ -18,7 +18,6 @@ namespace Hyrule
 		Vector4D(const Vector4D& other) noexcept = default;
 		Vector4D(Vector4D&& other) noexcept = default;
 		~Vector4D() noexcept = default;
-		// explicit operator Vector3D() noexcept;
 		explicit operator Matrix1x4() noexcept;
 		explicit operator Quaternion() noexcept;
 
@@ -44,7 +43,7 @@ namespace Hyrule
 		float LengthSquare() const noexcept;
 		Vector4D Cross(const Vector4D&) const noexcept;
 		float Dot(const Vector4D&) const noexcept;
-		float FastInvSqrt(float number) const noexcept;
+		float FastInvSqrt(float) const noexcept;
 		Vector4D& Normalize() noexcept;
 		Vector4D Normalized() const noexcept;
 		
@@ -71,7 +70,4 @@ namespace Hyrule
 
 		bool operator == (const Vector4D&) const noexcept;
 	};
-
-	// Vector3D TripleProduct(const Vector3D& a, const Vector3D& b, const Vector3D& c);
-	// Vector3D AxisAndAngleToEuler(const Vector3D& axis, float angle);
 }
