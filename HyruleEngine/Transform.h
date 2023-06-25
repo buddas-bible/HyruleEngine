@@ -79,7 +79,7 @@ namespace Hyrule
 		virtual void OnCollisionStay(Collider*) override {}
 		virtual void OnCollisionExit(Collider*) override {}
 
-		virtual void OnDestroy() override {}
+		virtual void OnDestroy() override;
 	};
 }
 

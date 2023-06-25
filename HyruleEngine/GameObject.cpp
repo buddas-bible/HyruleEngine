@@ -16,6 +16,7 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
+			e->OnDestroy();
 			delete e;
 		}
 

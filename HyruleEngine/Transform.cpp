@@ -16,13 +16,7 @@ namespace Hyrule
 
 	Transform::~Transform() noexcept
 	{
-		parent->RemoveChild(this);
-		parent = nullptr;
 
-		for (auto& e : child)
-		{
-			e->RemoveParent();
-		}
 	}
 
 	Vector3D Transform::GetLocalPosition() noexcept
@@ -178,5 +172,16 @@ namespace Hyrule
 		}
 
 		return nullptr;
+	}
+
+	void Transform::OnDestroy()
+	{
+		parent->RemoveChild(this);
+		parent = nullptr;
+
+		for (auto& e : child)
+		{
+			e->RemoveParent();
+		}
 	}
 }

@@ -181,6 +181,7 @@
     <ClInclude Include="Vector4D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HRMathFunc.cpp" />
     <ClCompile Include="Matrix1x4.cpp" />
     <ClCompile Include="Matrix1x3.cpp" />
     <ClCompile Include="Matrix3x3.cpp" />

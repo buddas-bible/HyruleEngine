@@ -85,6 +85,9 @@
     <ClInclude Include="Serialize.h">
       <Filter>0. Interface</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>3. Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -116,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>2. Component\1. Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>3. Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
