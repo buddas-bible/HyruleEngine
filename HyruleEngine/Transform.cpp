@@ -1,7 +1,7 @@
 #include "Transform.h"
 
 #include "GameObject.h"
-
+#include "HRMathFunc.h"
 
 namespace Hyrule
 {
@@ -152,9 +152,9 @@ namespace Hyrule
 		child.erase(remove(child.begin(), child.end(), _child));
 	}
 
-	Transform* Transform::GetChild(const int _index) noexcept
+	Transform* Transform::GetChild(const size_t _index) noexcept
 	{
-		if (_index < 0 || _index > child.size())
+		if ((_index < 0) || (_index > child.size()))
 		{
 			return nullptr;
 		}

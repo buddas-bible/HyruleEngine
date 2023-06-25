@@ -36,7 +36,15 @@ namespace Hyrule
 		/// <summary>
 		/// 전역 함수
 		/// </summary>
-		static inline Matrix3x3 Identity() noexcept;
+		static inline Matrix3x3 Identity() noexcept
+		{
+			return Matrix3x3
+			{
+				1.f, 0.f, 0.f,
+				0.f, 1.f, 0.f,
+				0.f, 0.f, 1.f,
+			};
+		}
 
 		/// <summary>
 		/// 멤버 함수

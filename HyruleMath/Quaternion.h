@@ -36,7 +36,10 @@ namespace Hyrule
 			float e[4];
 		};
 
-		static inline Quaternion Identity() noexcept;
+		static inline Quaternion Identity() noexcept
+		{
+			return Quaternion{ 1.f, 0.f, 0.f, 0.f };
+		}
 
 		/// <summary>
 		/// 쿼터니언 함수

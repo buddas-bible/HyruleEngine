@@ -55,15 +55,15 @@ namespace Hyrule
 		return result;
 	}
 
-	Matrix3x3 Matrix3x3::Identity() noexcept
-	{
-		return Matrix3x3
-		{
-			1.f, 0.f, 0.f,
-			0.f, 1.f, 0.f,
-			0.f, 0.f, 1.f,
-		};
-	}
+// 	Matrix3x3 Matrix3x3::Identity() noexcept
+// 	{
+// 		return Matrix3x3
+// 		{
+// 			1.f, 0.f, 0.f,
+// 			0.f, 1.f, 0.f,
+// 			0.f, 0.f, 1.f,
+// 		};
+// 	}
 
 	float Matrix3x3::Determinant() noexcept
 	{

@@ -1,7 +1,5 @@
 #include "Manifold.h"
 
-#include "HyruleMath.h"
-
 #include <vector>
 
 namespace Hyrule
@@ -9,8 +7,9 @@ namespace Hyrule
 	Manifold::Manifold(const Collider*& _A, const Collider*& _B) noexcept
 		: A(_A), B(_B), 
 		normal{}, tangent{}, depth{}, 
-		// contactPoints{},
-		contactNormal{}
+		contactPoints{},
+		contactNormal{},
+		collided{false}
 	{
 		
 	}
@@ -58,6 +57,16 @@ namespace Hyrule
 	void Manifold::SetDepth(float _depth) noexcept
 	{
 		this->depth = _depth;
+	}
+
+	const std::vector<Hyrule::Vector3D>& Manifold::GetContactPoints() const
+	{
+		return contactPoints;
+	}
+
+	void Manifold::AddContactPoint(const Vector3D& point)
+	{
+		contactPoints.push_back(point);
 	}
 
 	/// <summary>

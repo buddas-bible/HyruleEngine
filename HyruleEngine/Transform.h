@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "HyruleMath.h"
+#include "Quaternion.h"
+#include "HRVector.h"
+#include "HRMatrix.h"
 
 namespace Hyrule
 {
@@ -55,7 +57,7 @@ namespace Hyrule
 		void AddChild(Transform*) noexcept;
 		void RemoveChild(Transform*) noexcept;
 
-		Transform* GetChild(const int) noexcept;
+		Transform* GetChild(const size_t) noexcept;
 		size_t GetChildCount() noexcept;
 		Transform* FindChild(const std::wstring&) noexcept;
 

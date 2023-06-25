@@ -63,16 +63,16 @@ namespace Hyrule
 		return result;
 	}
 
-	Matrix4x4 Matrix4x4::Identity() noexcept
-	{
-		return Matrix4x4
-		{
-			1.f, 0.f, 0.f, 0.f,
-			0.f, 1.f, 0.f, 0.f,
-			0.f, 0.f, 1.f, 0.f,
-			0.f, 0.f, 0.f, 1.f,
-		};
-	}
+// 	Matrix4x4 Matrix4x4::Identity() noexcept
+// 	{
+// 		return Matrix4x4
+// 		{
+// 			1.f, 0.f, 0.f, 0.f,
+// 			0.f, 1.f, 0.f, 0.f,
+// 			0.f, 0.f, 1.f, 0.f,
+// 			0.f, 0.f, 0.f, 1.f,
+// 		};
+// 	}
 
 	float Matrix4x4::Determinant() noexcept
 	{

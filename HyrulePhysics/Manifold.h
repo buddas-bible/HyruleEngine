@@ -1,6 +1,7 @@
 #pragma once
-#include "HRVector.h"
+#include <vector>
 
+#include "HRVector.h"
 
 namespace Hyrule
 {
@@ -26,7 +27,7 @@ namespace Hyrule
 		Vector3D tangent;			// 충돌의 탄젠트 벡터
 									// 충돌의 이선 벡터
 		float depth;				// 충돌의 깊이
-		// std::vector<Vector3D> contactPoints;	// 충돌 접점				// vector로 저장하면 vector의 size로 접점 개수 얻을 수 있음
+		std::vector<Vector3D> contactPoints;	// 충돌 접점				// vector로 저장하면 vector의 size로 접점 개수 얻을 수 있음
 		Vector3D contactNormal;		// 접점의 노말 벡터
 
 		bool collided;
@@ -46,8 +47,8 @@ namespace Hyrule
 		float GetDepth() const noexcept;
 		void SetDepth(float _depth) noexcept;
 
-		// const std::vector<Vector3D>& GetContactPoints() const;
-		// void AddContactPoint(const Vector3& point);
+		const std::vector<Vector3D>& GetContactPoints() const;
+		void AddContactPoint(const Vector3& point);
 
 	private:
 		/// <summary>

@@ -27,10 +27,10 @@ namespace Hyrule
 		return Vector4D{ x, y, z, w };
 	}
 
-	Quaternion Quaternion::Identity() noexcept
-	{
-		return Quaternion{ 1.f, 0.f, 0.f, 0.f };
-	}
+// 	Quaternion Quaternion::Identity() noexcept
+// 	{
+// 		return Quaternion{ 1.f, 0.f, 0.f, 0.f };
+// 	}
 
 	float Quaternion::Length() const noexcept
 	{

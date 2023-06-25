@@ -2,7 +2,7 @@
 
 namespace Hyrule
 {
-	class Quaternion;
+	struct Quaternion;
 
 	struct Matrix4x4
 	{
@@ -35,7 +35,16 @@ namespace Hyrule
 		/// <summary>
 		/// 전역 함수
 		/// </summary>
-		static inline Matrix4x4 Identity() noexcept;
+		static inline Matrix4x4 Identity() noexcept
+		{
+			return Matrix4x4
+			{
+				1.f, 0.f, 0.f, 0.f,
+				0.f, 1.f, 0.f, 0.f,
+				0.f, 0.f, 1.f, 0.f,
+				0.f, 0.f, 0.f, 1.f,
+			};
+		}
 		
 		/// <summary>
 		/// 멤버 함수
