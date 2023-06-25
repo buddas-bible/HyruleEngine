@@ -48,7 +48,7 @@ namespace Hyrule
 		void SetDepth(float _depth) noexcept;
 
 		const std::vector<Vector3D>& GetContactPoints() const;
-		void AddContactPoint(const Vector3& point);
+		void AddContactPoint(const Vector3D& point);
 
 	private:
 		/// <summary>
