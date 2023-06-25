@@ -4,6 +4,7 @@
 namespace Hyrule
 {
 	class Vector3D;
+	class Vector4D;
 
 	class IRigidBody
 	{
@@ -25,13 +26,13 @@ namespace Hyrule
 		virtual float GetAngularDampping() const noexcept abstract;
 
 		virtual void SetVelocity(const Vector3D&) noexcept abstract;
-		virtual Vector3D& GetVelocity() const noexcept abstract;
+		virtual Vector3D GetVelocity() const noexcept abstract;
 
-		virtual void SetAccelerator(const Vector3D&) noexcept abstract;
-		virtual Vector3D& GetAccelerator() const noexcept abstract;
+		virtual void SetAccleration(const Vector3D&) noexcept abstract;
+		virtual Vector3D GetAccleration() const noexcept abstract;
 
-		virtual void SetAngularVelocity(const Vector3D&) noexcept abstract;
-		virtual Vector3D& GetAngularVelocity() const noexcept abstract;
+		virtual void SetAngularVelocity(const Vector4D&) noexcept abstract;
+		virtual Vector4D GetAngularVelocity() const noexcept abstract;
 
 		virtual void AddForce(const Vector3D&) noexcept abstract;
 		virtual void AddTorque(const Vector3D&) noexcept abstract;

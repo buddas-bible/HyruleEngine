@@ -78,8 +78,8 @@ namespace Hyrule
 		Quaternion operator * (const float) const noexcept;
 		Quaternion operator / (const float) const noexcept;
 
-		friend Quaternion& operator *= (const float, const Quaternion&) noexcept;
-		friend Quaternion& operator /= (const float, const Quaternion&) noexcept;
+		friend Quaternion operator *= (const float, const Quaternion&) noexcept;
+		friend Quaternion operator /= (const float, const Quaternion&) noexcept;
 
 		friend Quaternion operator * (const float, const Quaternion&) noexcept;
 		friend Quaternion operator / (const float, const Quaternion&) noexcept;
@@ -87,17 +87,9 @@ namespace Hyrule
 		bool operator == (const Quaternion&) const noexcept;
 	};
 
-	Quaternion& operator *= (const float, const Quaternion&) noexcept;
-	Quaternion& operator /= (const float, const Quaternion&) noexcept;
+	Quaternion operator *= (const float, const Quaternion&) noexcept;
+	Quaternion operator /= (const float, const Quaternion&) noexcept;
 	Quaternion operator * (const float, const Quaternion&) noexcept;
 	Quaternion operator / (const float, const Quaternion&) noexcept;
-
-	// 사원수 보간 함수
-// 	Quaternion Lerp(const Quaternion&, const Quaternion&, float) noexcept;
-// 	Quaternion Slerp(const Quaternion&, const Quaternion&, float) noexcept;
-// 
-// 	Quaternion ToQuaternion(const Vector3D&) noexcept;
-// 	Quaternion ToQuaternion(const Vector4D&) noexcept;
-// 	Quaternion ToQuaternion(const Matrix4x4&) noexcept;
 }
 

@@ -3,11 +3,19 @@
 
 namespace Hyrule
 {
+	class GameObject;
+	class IRigidBody;
+
 	class RigidBody : public Component
 	{
 	public:
-		RigidBody() = default;
+		RigidBody() = delete;
+		RigidBody(GameObject*) noexcept;
 		virtual ~RigidBody() = default;
+
+		/// 그저 물리엔진에서의 강체와 이벤트를 연결해주는 무언가.
+		/// 강체에 이벤트가... 있던가...?
+		IRigidBody* rigidbody;
 	};
 }
 

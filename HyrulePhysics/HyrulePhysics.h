@@ -12,8 +12,9 @@ namespace Hyrule
 
 	public:
 		virtual int Initialize() override;
-		virtual void Update() override;
 		virtual void FixedUpdate() override;
+		virtual void Update() override;
+		virtual void LastUpdate() override;
 		virtual void Finalize() override;
 
 	};
@@ -29,4 +30,8 @@ namespace Hyrule
 또한 디버깅만을 위한 UI를 만들어야 겠다.
 물리 관련 디버깅 정보를 그래프로 표시를 한다든가.
 충돌 이벤트가 발생한 위치에 무언가로 표시를 해둔다던가...
+*/
+
+/*
+
 */

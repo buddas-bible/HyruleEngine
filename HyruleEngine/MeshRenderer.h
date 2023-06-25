@@ -3,12 +3,17 @@
 
 namespace Hyrule
 {
+	class GameObject;
+	class Mesh;
+
 	class MeshRenderer : public Component
 	{
 	public:
-		MeshRenderer() = default;
-		virtual ~MeshRenderer() = default;
+		MeshRenderer() = delete;
+		MeshRenderer(GameObject*) noexcept;
+		virtual ~MeshRenderer() noexcept;
 
-
+	private:
+		Mesh* meshData;
 	};
 }

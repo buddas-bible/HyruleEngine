@@ -17,6 +17,11 @@ namespace Hyrule
 
 	int HyrulePhysics::Initialize()
 	{
+		return (int)0L;
+	}
+
+	void HyrulePhysics::FixedUpdate()
+	{
 
 	}
 
@@ -25,7 +30,7 @@ namespace Hyrule
 
 	}
 
-	void HyrulePhysics::FixedUpdate()
+	void HyrulePhysics::LastUpdate()
 	{
 
 	}
@@ -34,5 +39,4 @@ namespace Hyrule
 	{
 
 	}
-
 }

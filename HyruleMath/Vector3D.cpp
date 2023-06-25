@@ -5,6 +5,7 @@
 
 #include "Vector4D.h"
 #include "Matrix1x3.h"
+#include "Quaternion.h"
 
 namespace Hyrule
 {
@@ -166,5 +167,12 @@ namespace Hyrule
 	bool Vector3D::operator==(const Vector3D& other) const noexcept
 	{
 		return (this->x == other.x && this->y == other.y && this->z == other.z);
+	}
+
+	Vector3D operator*(const Quaternion& q, const Vector3D& v) noexcept
+	{
+		Quaternion conjugate = q.Conjugate();
+		Quaternion result = q * Quaternion(0.f, v.x, v.y, v.z) * conjugate;
+		return Vector3D(result.x, result.y, result.z);
 	}
 }

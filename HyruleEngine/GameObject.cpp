@@ -1,15 +1,44 @@
 #include "GameObject.h"
 
+#include "Transform.h"
 
 namespace Hyrule
 {
-	Hyrule::GameObject* GameObject::GetParent()
+	GameObject::GameObject() :
+		tag(), name(),
+		components(), transform()
 	{
-		return parent;
+		// 게임 오브젝트는 트랜스폼을 가지고 태어남
+		this->transform = this->AddComponent<Transform>();
 	}
 
-	void GameObject::SetParent(GameObject* _gameObject)
+	GameObject::~GameObject()
 	{
-		parent = _gameObject;
+		for (auto& e : components)
+		{
+			delete e;
+		}
+
+		// 벡터는 알아서 사라질테니까 따로 클리어 안함.
+	}
+
+	const std::wstring& GameObject::GetName()
+	{
+		return this->name;
+	}
+
+	void GameObject::SetName(const std::wstring& _name)
+	{
+		this->name = _name;
+	}
+
+	const std::wstring& GameObject::GetTag()
+	{
+		return this->tag;
+	}
+
+	void GameObject::SetTag(const std::wstring& _tag)
+	{
+		this->tag = _tag;
 	}
 }

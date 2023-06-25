@@ -10,8 +10,9 @@ namespace Hyrule
 
 	public:
 		virtual int Initialize() abstract;
-		virtual void Update() abstract;
 		virtual void FixedUpdate() abstract;
+		virtual void Update() abstract;
+		virtual void LastUpdate() abstract;
 		virtual void Finalize() abstract;
 	};
 

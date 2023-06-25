@@ -1,21 +1,53 @@
 #pragma once
 
-
 namespace Hyrule
 {
 	class GameObject;
+	class Collider;
 
-	class Component abstract
+	class Component
 	{
 	public:
-		Component() = default;
+		// GetComponent에서 dynamic_cast를 쓰는걸 해결하고 싶어서
+		// 고민해보다가 포기함.
+		// enum class ComponentType
+		// {
+		// 	NONE,
+		// 	TRANSFORM,
+		// 	COLLIDER,
+		// 	RIGIDBODY,
+		// 	MESHRENDERER,
+		// };
+		// 
+		// using Type = ComponentType;
+
+	public:
+		Component() = delete;
+		Component(GameObject*) noexcept;
 		virtual ~Component() = default;
 
 	protected:
 		GameObject* gameObject;
+		// Type type;
 
 	public:
-		virtual GameObject* GetGameObject();
+		virtual void Awake() abstract;
+		virtual void OnEnable() abstract;
+		virtual void Start() abstract;
+		virtual void FixedUpdate() abstract;
+		virtual void Update() abstract;
+		virtual void LastUpdate() abstract;
+		virtual void Render() abstract;
+
+		virtual void OnTriggerEnter(Collider*) abstract;
+		virtual void OnTriggerStay(Collider*) abstract;
+		virtual void OnTriggerExit(Collider*) abstract;
+
+		virtual void OnCollisionEnter(Collider*) abstract;
+		virtual void OnCollisionStay(Collider*) abstract;
+		virtual void OnCollisionExit(Collider*) abstract;
+
+		virtual void OnDestroy() abstract;
 	};
 }
 

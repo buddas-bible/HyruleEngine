@@ -29,7 +29,11 @@ namespace Hyrule
 		// std::vector<Vector3D> contactPoints;	// 충돌 접점				// vector로 저장하면 vector의 size로 접점 개수 얻을 수 있음
 		Vector3D contactNormal;		// 접점의 노말 벡터
 
+		bool collided;
+
 	public:
+		bool IsColliding();
+
 		Vector3D GetNormal() const noexcept;
 		void SetNormal(const Vector3D& _normal) noexcept;
 
@@ -45,5 +49,14 @@ namespace Hyrule
 		// const std::vector<Vector3D>& GetContactPoints() const;
 		// void AddContactPoint(const Vector3& point);
 
+	private:
+		/// <summary>
+		/// 매니폴드가 GJK를 가지고 있는 것이 아닌
+		/// GJK의 반환이 매니폴드가 되어야할 것 같음.
+		/// 충돌하면 매니폴드를 반환
+		/// 충돌하지 않으면 nullptr을 반환하는 방식으로 해서
+		/// 
+		/// </summary>
+		void CheckCollision();
 	};
 }

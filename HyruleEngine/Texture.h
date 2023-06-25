@@ -1,6 +1,10 @@
 #pragma once
+#include <string>
 
-struct Texture
+namespace Hyrule
 {
-};
-
+	struct Texture
+	{
+		std::wstring path;
+	};
+}

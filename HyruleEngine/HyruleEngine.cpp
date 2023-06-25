@@ -2,9 +2,11 @@
 
 #include "framework.h"
 
-#include "DX11Graphics.h"
+#include "IRenderer.h"
 #pragma comment(lib, "HyruleDX11Graphics.lib")
 
+#include "IPhysics.h"
+#pragma comment(lib, "HyrulePhysics.lib")
 
 namespace Hyrule
 {

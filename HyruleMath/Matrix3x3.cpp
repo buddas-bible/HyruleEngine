@@ -179,4 +179,5 @@ namespace Hyrule
 
 		return *this;
 	}
+
 }

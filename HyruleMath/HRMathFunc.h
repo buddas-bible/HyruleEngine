@@ -1,15 +1,17 @@
 #pragma once
-#include "HRConstant.h"
+
+#include <cmath>
+#include "HRVector.h"
 #include "Quaternion.h"
 #include "HRMatrix.h"
-#include "HRVector.h"
+#include "HRConstant.h"
 
 namespace Hyrule
 {
 	/// <summary>
 	/// 라디안을 각도로 바꿈
 	/// </summary>
-	inline float ToDegree(const float _rad)
+	inline float ToDegree(const float _rad) noexcept
 	{
 		return _rad * (180.0f / PI<float>);
 	}
@@ -17,9 +19,36 @@ namespace Hyrule
 	/// <summary>
 	/// 각도를 라디안으로 바꿈
 	/// </summary>
-	inline float ToRadian(const float _deg)
+	inline float ToRadian(const float _deg) noexcept
 	{
 		return _deg * (PI<float> / 180.f);
+	}
+
+	Matrix4x4 ToTranslate(const Vector3D& _vec) noexcept
+	{
+		return Matrix4x4
+		{
+			1.f,	0.f,	0.f,	0.f,
+			0.f,	1.f,	0.f,	0.f,
+			0.f,	0.f,	1.f,	0.f,
+			_vec.x, _vec.y, _vec.z, 1.f
+		};
+	}
+
+	Matrix4x4 ToScale(const Vector3D& _vec) noexcept
+	{
+		return Matrix4x4
+		{
+			_vec.x,	0.f,	0.f,	0.f,
+			0.f,	_vec.y,	0.f,	0.f,
+			0.f,	0.f,	_vec.z,	0.f,
+			0.f,	0.f,	0.f,	1.f
+		};
+	}
+
+	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept
+	{
+		return ToScale(_scl) * _rot.ToMatrix() * ToTranslate(_pos);
 	}
 
 	/// <summary>
@@ -98,7 +127,6 @@ namespace Hyrule
 		// return result.Normalized();
 		return ((factorA * q1N) + (factorB * q2N)).Normalized();
 	}
-
 
 	/// <summary>
 	/// 오일러 각을 쿼터니언으로 바꿈
