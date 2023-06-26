@@ -66,6 +66,9 @@ namespace Hyrule
 
 		float invDet = 1.0f / det;
 
+		/// SIMD를 활용한 역행렬 구하는 방법을 찾아봤는데
+		/// 어셈블리어 밖에 없어서 포기함.
+
 		result.e00 = (e12 * e23 * e31 - e13 * e22 * e31 + e13 * e21 * e32 - e11 * e23 * e32 - e12 * e21 * e33 + e11 * e22 * e33) * invDet;
 		result.e01 = (e03 * e22 * e31 - e02 * e23 * e31 - e03 * e21 * e32 + e01 * e23 * e32 + e02 * e21 * e33 - e01 * e22 * e33) * invDet;
 		result.e02 = (e02 * e13 * e31 - e03 * e12 * e31 + e03 * e11 * e32 - e01 * e13 * e32 - e02 * e11 * e33 + e01 * e12 * e33) * invDet;
@@ -125,6 +128,7 @@ namespace Hyrule
 			e03 * e11 * e22 * e30 - 
 			e03 * e12 * e20 * e31;
 
+
 		return det;
 	}
 
@@ -172,56 +176,77 @@ namespace Hyrule
 
 	Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other) const noexcept
 	{
-#if defined _XM_NO_INTRINSICS_
-		return Matrix4x4(
-			(this->e[0][0] * other.e[0][0] + this->e[0][1] * other.e[1][0] + this->e[0][2] * other.e[2][0] + this->e[0][3] * other.e[3][0]),
-			(this->e[0][0] * other.e[0][1] + this->e[0][1] * other.e[1][1] + this->e[0][2] * other.e[2][1] + this->e[0][3] * other.e[3][1]),
-			(this->e[0][0] * other.e[0][2] + this->e[0][1] * other.e[1][2] + this->e[0][2] * other.e[2][2] + this->e[0][3] * other.e[3][2]),
-			(this->e[0][0] * other.e[0][3] + this->e[0][1] * other.e[1][3] + this->e[0][2] * other.e[2][3] + this->e[0][3] * other.e[3][3]),
+		Matrix4x4 temp(*this);
 
-			(this->e[1][0] * other.e[0][0] + this->e[1][1] * other.e[1][0] + this->e[1][2] * other.e[2][0] + this->e[1][3] * other.e[3][0]),
-			(this->e[1][0] * other.e[0][1] + this->e[1][1] * other.e[1][1] + this->e[1][2] * other.e[2][1] + this->e[1][3] * other.e[3][1]),
-			(this->e[1][0] * other.e[0][2] + this->e[1][1] * other.e[1][2] + this->e[1][2] * other.e[2][2] + this->e[1][3] * other.e[3][2]),
-			(this->e[1][0] * other.e[0][3] + this->e[1][1] * other.e[1][3] + this->e[1][2] * other.e[2][3] + this->e[1][3] * other.e[3][3]),
-
-			(this->e[2][0] * other.e[0][0] + this->e[2][1] * other.e[1][0] + this->e[2][2] * other.e[2][0] + this->e[2][3] * other.e[3][0]),
-			(this->e[2][0] * other.e[0][1] + this->e[2][1] * other.e[1][1] + this->e[2][2] * other.e[2][1] + this->e[2][3] * other.e[3][1]),
-			(this->e[2][0] * other.e[0][2] + this->e[2][1] * other.e[1][2] + this->e[2][2] * other.e[2][2] + this->e[2][3] * other.e[3][2]),
-			(this->e[2][0] * other.e[0][3] + this->e[2][1] * other.e[1][3] + this->e[2][2] * other.e[2][3] + this->e[2][3] * other.e[3][3]),
-
-			(this->e[3][0] * other.e[0][0] + this->e[3][1] * other.e[1][0] + this->e[3][2] * other.e[2][0] + this->e[3][3] * other.e[3][0]),
-			(this->e[3][0] * other.e[0][1] + this->e[3][1] * other.e[1][1] + this->e[3][2] * other.e[2][1] + this->e[3][3] * other.e[3][1]),
-			(this->e[3][0] * other.e[0][2] + this->e[3][1] * other.e[1][2] + this->e[3][2] * other.e[2][2] + this->e[3][3] * other.e[3][2]),
-			(this->e[3][0] * other.e[0][3] + this->e[3][1] * other.e[1][3] + this->e[3][2] * other.e[2][3] + this->e[3][3] * other.e[3][3])
-		);
-#elif defined _XM_ARM_NEON_INTRINSICS_
-#elif defined _XM_AVX2_INTRINSICS_
-#endif
+		return temp *= other;
 	}
 
 	Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& other) noexcept
 	{
-		Matrix4x4 temp = *this;
+		// Matrix4x4 temp = other.Transpose();
+		// Matrix4x4 temp;
 
-		this->e00 = temp.e[0][0] * other.e[0][0] + temp.e[0][1] * other.e[1][0] + temp.e[0][2] * other.e[2][0] + temp.e[0][3] * other.e[3][0];
-		this->e01 = temp.e[0][0] * other.e[0][1] + temp.e[0][1] * other.e[1][1] + temp.e[0][2] * other.e[2][1] + temp.e[0][3] * other.e[3][1];
-		this->e02 = temp.e[0][0] * other.e[0][2] + temp.e[0][1] * other.e[1][2] + temp.e[0][2] * other.e[2][2] + temp.e[0][3] * other.e[3][2];
-		this->e03 = temp.e[0][0] * other.e[0][3] + temp.e[0][1] * other.e[1][3] + temp.e[0][2] * other.e[2][3] + temp.e[0][3] * other.e[3][3];
+		Matrix4x4 temp
+		(
+			other.e00, other.e10, other.e20, other.e30,
+			other.e01, other.e11, other.e21, other.e31,
+			other.e02, other.e12, other.e22, other.e32,
+			other.e03, other.e13, other.e23, other.e33
+		);
+
+		// __m128 tmp3, tmp2, tmp1, tmp0;
+		// 
+		// tmp0 = _mm_shuffle_ps(other.m[0].m, other.m[1].m, 0x44);
+		// tmp2 = _mm_shuffle_ps(other.m[0].m, other.m[1].m, 0xEE);
+		// tmp1 = _mm_shuffle_ps(other.m[2].m, other.m[3].m, 0x44);
+		// tmp3 = _mm_shuffle_ps(other.m[2].m, other.m[3].m, 0xEE);
+		// 
+		// temp.m[0].m = _mm_shuffle_ps(tmp0, tmp1, 0x88);
+		// temp.m[1].m = _mm_shuffle_ps(tmp0, tmp1, 0xDD);
+		// temp.m[2].m = _mm_shuffle_ps(tmp2, tmp3, 0x88);
+		// temp.m[3].m = _mm_shuffle_ps(tmp2, tmp3, 0xDD);
+
+
+		// 행렬 연산은 내적과 비슷하다...
+		this->e00 = _mm_cvtss_f32(_mm_dp_ps(this->m[0].m, temp.m[0].m, 0xff));
+		this->e01 = _mm_cvtss_f32(_mm_dp_ps(this->m[0].m, temp.m[0].m, 0xff));
+		this->e02 = _mm_cvtss_f32(_mm_dp_ps(this->m[0].m, temp.m[0].m, 0xff));
+		this->e03 = _mm_cvtss_f32(_mm_dp_ps(this->m[0].m, temp.m[0].m, 0xff));
 		
-		this->e10 = temp.e[1][0] * other.e[0][0] + temp.e[1][1] * other.e[1][0] + temp.e[1][2] * other.e[2][0] + temp.e[1][3] * other.e[3][0];
-		this->e11 = temp.e[1][0] * other.e[0][1] + temp.e[1][1] * other.e[1][1] + temp.e[1][2] * other.e[2][1] + temp.e[1][3] * other.e[3][1];
-		this->e12 = temp.e[1][0] * other.e[0][2] + temp.e[1][1] * other.e[1][2] + temp.e[1][2] * other.e[2][2] + temp.e[1][3] * other.e[3][2];
-		this->e13 = temp.e[1][0] * other.e[0][3] + temp.e[1][1] * other.e[1][3] + temp.e[1][2] * other.e[2][3] + temp.e[1][3] * other.e[3][3];
+		this->e10 = _mm_cvtss_f32(_mm_dp_ps(this->m[1].m, temp.m[1].m, 0xff));
+		this->e11 = _mm_cvtss_f32(_mm_dp_ps(this->m[1].m, temp.m[1].m, 0xff));
+		this->e12 = _mm_cvtss_f32(_mm_dp_ps(this->m[1].m, temp.m[1].m, 0xff));
+		this->e13 = _mm_cvtss_f32(_mm_dp_ps(this->m[1].m, temp.m[1].m, 0xff));
 		
-		this->e20 = temp.e[2][0] * other.e[0][0] + temp.e[2][1] * other.e[1][0] + temp.e[2][2] * other.e[2][0] + temp.e[2][3] * other.e[3][0];
-		this->e21 = temp.e[2][0] * other.e[0][1] + temp.e[2][1] * other.e[1][1] + temp.e[2][2] * other.e[2][1] + temp.e[2][3] * other.e[3][1];
-		this->e22 = temp.e[2][0] * other.e[0][2] + temp.e[2][1] * other.e[1][2] + temp.e[2][2] * other.e[2][2] + temp.e[2][3] * other.e[3][2];
-		this->e23 = temp.e[2][0] * other.e[0][3] + temp.e[2][1] * other.e[1][3] + temp.e[2][2] * other.e[2][3] + temp.e[2][3] * other.e[3][3];
+		this->e20 = _mm_cvtss_f32(_mm_dp_ps(this->m[2].m, temp.m[2].m, 0xff));
+		this->e21 = _mm_cvtss_f32(_mm_dp_ps(this->m[2].m, temp.m[2].m, 0xff));
+		this->e22 = _mm_cvtss_f32(_mm_dp_ps(this->m[2].m, temp.m[2].m, 0xff));
+		this->e23 = _mm_cvtss_f32(_mm_dp_ps(this->m[2].m, temp.m[2].m, 0xff));
 		
-		this->e30 = temp.e[3][0] * other.e[0][0] + temp.e[3][1] * other.e[1][0] + temp.e[3][2] * other.e[2][0] + temp.e[3][3] * other.e[3][0];
-		this->e31 = temp.e[3][0] * other.e[0][1] + temp.e[3][1] * other.e[1][1] + temp.e[3][2] * other.e[2][1] + temp.e[3][3] * other.e[3][1];
-		this->e32 = temp.e[3][0] * other.e[0][2] + temp.e[3][1] * other.e[1][2] + temp.e[3][2] * other.e[2][2] + temp.e[3][3] * other.e[3][2];
-		this->e33 = temp.e[3][0] * other.e[0][3] + temp.e[3][1] * other.e[1][3] + temp.e[3][2] * other.e[2][3] + temp.e[3][3] * other.e[3][3];
+		this->e30 = _mm_cvtss_f32(_mm_dp_ps(this->m[3].m, temp.m[3].m, 0xff));
+		this->e31 = _mm_cvtss_f32(_mm_dp_ps(this->m[3].m, temp.m[3].m, 0xff));
+		this->e32 = _mm_cvtss_f32(_mm_dp_ps(this->m[3].m, temp.m[3].m, 0xff));
+		this->e33 = _mm_cvtss_f32(_mm_dp_ps(this->m[3].m, temp.m[3].m, 0xff));
+
+		// this->e00 = temp.e[0][0] * other.e[0][0] + temp.e[0][1] * other.e[1][0] + temp.e[0][2] * other.e[2][0] + temp.e[0][3] * other.e[3][0];
+		// this->e01 = temp.e[0][0] * other.e[0][1] + temp.e[0][1] * other.e[1][1] + temp.e[0][2] * other.e[2][1] + temp.e[0][3] * other.e[3][1];
+		// this->e02 = temp.e[0][0] * other.e[0][2] + temp.e[0][1] * other.e[1][2] + temp.e[0][2] * other.e[2][2] + temp.e[0][3] * other.e[3][2];
+		// this->e03 = temp.e[0][0] * other.e[0][3] + temp.e[0][1] * other.e[1][3] + temp.e[0][2] * other.e[2][3] + temp.e[0][3] * other.e[3][3];
+		// 
+		// this->e10 = temp.e[1][0] * other.e[0][0] + temp.e[1][1] * other.e[1][0] + temp.e[1][2] * other.e[2][0] + temp.e[1][3] * other.e[3][0];
+		// this->e11 = temp.e[1][0] * other.e[0][1] + temp.e[1][1] * other.e[1][1] + temp.e[1][2] * other.e[2][1] + temp.e[1][3] * other.e[3][1];
+		// this->e12 = temp.e[1][0] * other.e[0][2] + temp.e[1][1] * other.e[1][2] + temp.e[1][2] * other.e[2][2] + temp.e[1][3] * other.e[3][2];
+		// this->e13 = temp.e[1][0] * other.e[0][3] + temp.e[1][1] * other.e[1][3] + temp.e[1][2] * other.e[2][3] + temp.e[1][3] * other.e[3][3];
+		// 
+		// this->e20 = temp.e[2][0] * other.e[0][0] + temp.e[2][1] * other.e[1][0] + temp.e[2][2] * other.e[2][0] + temp.e[2][3] * other.e[3][0];
+		// this->e21 = temp.e[2][0] * other.e[0][1] + temp.e[2][1] * other.e[1][1] + temp.e[2][2] * other.e[2][1] + temp.e[2][3] * other.e[3][1];
+		// this->e22 = temp.e[2][0] * other.e[0][2] + temp.e[2][1] * other.e[1][2] + temp.e[2][2] * other.e[2][2] + temp.e[2][3] * other.e[3][2];
+		// this->e23 = temp.e[2][0] * other.e[0][3] + temp.e[2][1] * other.e[1][3] + temp.e[2][2] * other.e[2][3] + temp.e[2][3] * other.e[3][3];
+		// 
+		// this->e30 = temp.e[3][0] * other.e[0][0] + temp.e[3][1] * other.e[1][0] + temp.e[3][2] * other.e[2][0] + temp.e[3][3] * other.e[3][0];
+		// this->e31 = temp.e[3][0] * other.e[0][1] + temp.e[3][1] * other.e[1][1] + temp.e[3][2] * other.e[2][1] + temp.e[3][3] * other.e[3][1];
+		// this->e32 = temp.e[3][0] * other.e[0][2] + temp.e[3][1] * other.e[1][2] + temp.e[3][2] * other.e[2][2] + temp.e[3][3] * other.e[3][2];
+		// this->e33 = temp.e[3][0] * other.e[0][3] + temp.e[3][1] * other.e[1][3] + temp.e[3][2] * other.e[2][3] + temp.e[3][3] * other.e[3][3];
 
 		return *this;
 	}

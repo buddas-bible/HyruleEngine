@@ -46,7 +46,7 @@ namespace Hyrule
 		float LengthSquare() const noexcept;
 		Vector4D Cross(const Vector4D&) const noexcept;
 		float Dot(const Vector4D&) const noexcept;
-		float FastInvSqrt(float) const noexcept;
+		float FastInvSqrt(float) const noexcept;			// 사실 이 함수는 여기에 없어야할 거 같은데..
 		Vector4D& Normalize() noexcept;
 		Vector4D Normalized() const noexcept;
 		

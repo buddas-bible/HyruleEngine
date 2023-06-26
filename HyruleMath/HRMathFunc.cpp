@@ -133,14 +133,14 @@ namespace Hyrule
 	/// </summary>
 	Quaternion ToQuaternion(const Vector3D& _euler) noexcept
 	{
-		Vector3D eulerRad = _euler * (PI<float> / 180.0f);
+		Vector3D eulerRad = ( _euler * (PI<float> / 180.0f) ) * 0.5f;
 
-		float cosX = std::cos(eulerRad.x * 0.5f);
-		float sinX = std::sin(eulerRad.x * 0.5f);
-		float cosY = std::cos(eulerRad.y * 0.5f);
-		float sinY = std::sin(eulerRad.y * 0.5f);
-		float cosZ = std::cos(eulerRad.z * 0.5f);
-		float sinZ = std::sin(eulerRad.z * 0.5f);
+		float cosX = std::cos(eulerRad.x);
+		float sinX = std::sin(eulerRad.x);
+		float cosY = std::cos(eulerRad.y);
+		float sinY = std::sin(eulerRad.y);
+		float cosZ = std::cos(eulerRad.z);
+		float sinZ = std::sin(eulerRad.z);
 
 		float cosYcosZ = cosY * cosZ;
 		float sinYsinZ = sinY * sinZ;
@@ -148,6 +148,7 @@ namespace Hyrule
 		float sinYcosZ = sinY * cosZ;
 
 		Quaternion q;
+
 		q.w = cosX * cosYcosZ + sinX * sinYsinZ;
 		q.x = sinX * cosYcosZ - cosX * sinYsinZ;
 		q.y = cosX * sinYcosZ + sinX * cosYsinZ;

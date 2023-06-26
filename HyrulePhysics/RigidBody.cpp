@@ -29,7 +29,7 @@ namespace Hyrule
 		// dL = Ia * dt = I * dw
 		// dw = dL / I
 		// dw = (r X dP) / I
-		Vector3D dw = Vector4D(_contact.Cross(_impulse) * inertiaTensor);
+		Vector3D dw = _contact.Cross(_impulse) * inertiaTensor;
 		angularVelocity = angularVelocity + dw;
 	}
 
