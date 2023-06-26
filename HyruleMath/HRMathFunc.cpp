@@ -24,25 +24,25 @@ namespace Hyrule
 		return _deg * (PI<float> / 180.f);
 	}
 
-	Matrix4x4 ToTranslateMatrix(const Vector3D& _vec) noexcept
+	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler) noexcept
 	{
 		return Matrix4x4
 		{
-			1.f,	0.f,	0.f,	0.f,
-			0.f,	1.f,	0.f,	0.f,
-			0.f,	0.f,	1.f,	0.f,
-			_vec.x, _vec.y, _vec.z, 1.f
+			1.f,		0.f,		0.f,		0.f,
+			0.f,		1.f,		0.f,		0.f,
+			0.f,		0.f,		1.f,		0.f,
+			_euler.x,	_euler.y,	_euler.z,	1.f
 		};
 	}
 
-	Matrix4x4 ToScaleMatrix(const Vector3D& _vec) noexcept
+	Matrix4x4 ToScaleMatrix(const Vector3D& _euler) noexcept
 	{
 		return Matrix4x4
 		{
-			_vec.x,	0.f,	0.f,	0.f,
-			0.f,	_vec.y,	0.f,	0.f,
-			0.f,	0.f,	_vec.z,	0.f,
-			0.f,	0.f,	0.f,	1.f
+			_euler.x,	0.f,		0.f,		0.f,
+			0.f,		_euler.y,	0.f,		0.f,
+			0.f,		0.f,		_euler.z,	0.f,
+			0.f,		0.f,		0.f,		1.f
 		};
 	}
 

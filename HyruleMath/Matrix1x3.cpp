@@ -4,14 +4,18 @@
 
 namespace Hyrule
 {
+	constexpr Matrix1x3::Matrix1x3() noexcept : e{}
+	{
 
-	Matrix1x3::Matrix1x3(float _e00, float _e01, float _e02) noexcept
+	}
+
+	constexpr Matrix1x3::Matrix1x3(float _e00, float _e01, float _e02) noexcept
 		: e{ _e00, _e01, _e02 }
 	{
 
 	}
 
-	Matrix1x3::operator Vector3D() noexcept
+	constexpr Matrix1x3::operator Vector3D() noexcept
 	{
 		return Vector3D{ e00, e01, e02 };
 	}

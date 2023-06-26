@@ -10,19 +10,24 @@
 
 namespace Hyrule
 {
-	Quaternion::Quaternion(float _w, float _x, float _y, float _z) noexcept
+	constexpr Quaternion::Quaternion() noexcept : e{}
+	{
+
+	}
+
+	constexpr Quaternion::Quaternion(float _w, float _x, float _y, float _z) noexcept
 		:
 		e{ _w, _x, _y, _z }
 	{
 
 	}
 
-	Quaternion::operator Matrix1x4() noexcept
+	constexpr Quaternion::operator Matrix1x4() noexcept
 	{
 		return Matrix1x4{ x, y, z, w };
 	}
 
-	Quaternion::operator Vector4D() noexcept
+	constexpr Quaternion::operator Vector4D() noexcept
 	{
 		return Vector4D{ x, y, z, w };
 	}

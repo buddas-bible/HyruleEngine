@@ -3,23 +3,29 @@
 namespace Hyrule
 {
 	struct Vector3D;
+	struct Matrix1x3;
 
 	struct Matrix3x3
 	{
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		Matrix3x3() noexcept = default;
-		Matrix3x3(
+		constexpr Matrix3x3() noexcept;
+		constexpr Matrix3x3(
 			float, float, float,
 			float, float, float,
 			float, float, float) noexcept;
-		Matrix3x3(const Matrix3x3&) noexcept = default;
-		Matrix3x3(Matrix3x3&&) noexcept = default;
+		constexpr Matrix3x3(
+			const Matrix1x3&,
+			const Matrix1x3&,
+			const Matrix1x3&
+		) noexcept;
+		constexpr Matrix3x3(const Matrix3x3&) noexcept = default;
+		constexpr Matrix3x3(Matrix3x3&&) noexcept = default;
 		~Matrix3x3() noexcept = default;
 
-		Matrix3x3& operator= (const Matrix3x3&) noexcept = default;
-		Matrix3x3& operator= (Matrix3x3&&) noexcept = default;
+		constexpr Matrix3x3& operator= (const Matrix3x3&) noexcept = default;
+		constexpr Matrix3x3& operator= (Matrix3x3&&) noexcept = default;
 
 		/// <summary>
 		/// ¸â¹ö º¯¼ö

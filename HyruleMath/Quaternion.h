@@ -1,4 +1,5 @@
 #pragma once
+#include <emmintrin.h>
 
 namespace Hyrule
 {
@@ -12,17 +13,17 @@ namespace Hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		Quaternion() noexcept = default;
-		Quaternion(float, float, float, float) noexcept;
-		Quaternion(const Quaternion&) noexcept = default;
-		Quaternion(Quaternion&&) noexcept = default;
+		constexpr Quaternion() noexcept;
+		constexpr Quaternion(float, float, float, float) noexcept;
+		constexpr Quaternion(const Quaternion&) noexcept = default;
+		constexpr Quaternion(Quaternion&&) noexcept = default;
 		~Quaternion() noexcept = default;
 
-		Quaternion& operator= (const Quaternion&) noexcept = default;
-		Quaternion& operator= (Quaternion&&) noexcept = default;
+		constexpr Quaternion& operator= (const Quaternion&) noexcept = default;
+		constexpr Quaternion& operator= (Quaternion&&) noexcept = default;
 
-		explicit operator Matrix1x4() noexcept;
-		explicit operator Vector4D() noexcept;
+		constexpr explicit operator Matrix1x4() noexcept;
+		constexpr explicit operator Vector4D() noexcept;
 
 		/// <summary>
 		/// ¸â¹ö º¯¼ö
@@ -34,6 +35,7 @@ namespace Hyrule
 				float w, x, y, z;
 			};
 			float e[4];
+			__m128 m;
 		};
 
 		static inline Quaternion Identity() noexcept

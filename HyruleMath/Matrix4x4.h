@@ -1,7 +1,10 @@
 #pragma once
+#include "Matrix1x4.h"
+#include "Vector4D.h"
 
 namespace Hyrule
 {
+	struct Matrix1x4;
 	struct Quaternion;
 
 	struct Matrix4x4
@@ -9,19 +12,25 @@ namespace Hyrule
 		/// <summary>
 		/// 특수 멤버 함수
 		/// </summary>
-		Matrix4x4() noexcept = default;
-		Matrix4x4(
+		constexpr Matrix4x4() noexcept;
+		constexpr Matrix4x4(
 			float, float, float, float,
 			float, float, float, float,
 			float, float, float, float,
 			float, float, float, float
 		) noexcept;
-		Matrix4x4(const Matrix4x4&) noexcept = default;
-		Matrix4x4(Matrix4x4&&) noexcept = default;
+		constexpr Matrix4x4(
+			const Matrix1x4&,
+			const Matrix1x4&,
+			const Matrix1x4&,
+			const Matrix1x4&
+		) noexcept;
+		constexpr Matrix4x4(const Matrix4x4&) noexcept = default;
+		constexpr Matrix4x4(Matrix4x4&&) noexcept = default;
 		~Matrix4x4() noexcept = default;
 
-		Matrix4x4& operator = (const Matrix4x4&) noexcept = default;
-		Matrix4x4& operator = (Matrix4x4&&) noexcept = default;
+		constexpr Matrix4x4& operator = (const Matrix4x4&) noexcept = default;
+		constexpr Matrix4x4& operator = (Matrix4x4&&) noexcept = default;
 
 		union
 		{
@@ -30,6 +39,7 @@ namespace Hyrule
 				float e00, e01, e02, e03, e10, e11, e12, e13, e20, e21, e22, e23, e30, e31, e32, e33;
 			};
 			float e[4][4];
+			Matrix1x4 m[4];
 		};
 
 		/// <summary>

@@ -4,18 +4,24 @@
 #include <utility>
 
 #include "Vector4D.h"
+#include "Matrix3x3.h"
 #include "Matrix1x3.h"
 #include "Quaternion.h"
 
 namespace Hyrule
 {
-	Vector3D::Vector3D(float _x, float _y, float _z) noexcept 
+	constexpr Vector3D::Vector3D() noexcept : e{}
+	{
+
+	}
+
+	constexpr Vector3D::Vector3D(float _x, float _y, float _z) noexcept
 		: e{ _x, _y, _z }
 	{
 
 	}
 
-	Vector3D::operator Matrix1x3() noexcept
+	constexpr Vector3D::operator Matrix1x3() noexcept
 	{
 		return Matrix1x3{ x, y, z };
 	}
@@ -147,21 +153,31 @@ namespace Hyrule
 	Vector3D Vector3D::operator*(const float n) const noexcept
 	{
 		Vector3D temp;
-		temp.x = n * this->x;
-		temp.y = n * this->y;
-		temp.z = n * this->z;
-
-		return temp;
+		
+		return temp *= n;
 	}
 
 	Vector3D Vector3D::operator/(const float n) const noexcept
 	{
 		Vector3D temp;
-		temp.x = this->x / n;
-		temp.y = this->y / n;
-		temp.z = this->z / n;
 
-		return temp;
+		return temp /= n;
+	}
+
+	Vector3D& Vector3D::operator*=(const Matrix3x3& other) noexcept
+	{
+		this->x = this->x * other.e00 + this->y * other.e10 + this->z * other.e20;
+		this->y = this->x * other.e01 + this->y * other.e11 + this->z * other.e21;
+		this->z = this->x * other.e02 + this->y * other.e12 + this->z * other.e22;
+
+		return *this;
+	}
+
+	Vector3D Vector3D::operator*(const Matrix3x3& other) const noexcept
+	{
+		Vector3D temp(*this);
+
+		return temp *= other;
 	}
 
 	bool Vector3D::operator==(const Vector3D& other) const noexcept

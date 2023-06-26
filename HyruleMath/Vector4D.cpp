@@ -3,30 +3,44 @@
 #include <cmath>
 #include <utility>
 
+#include "Vector3D.h"
 #include "Matrix1x4.h"
 #include "Quaternion.h"
 
 namespace Hyrule
 {
-	Vector4D::Vector4D(float _x, float _y, float _z, float _w) noexcept
+	constexpr Vector4D::Vector4D() noexcept : e{}
+	{
+
+	}
+
+	constexpr Vector4D::Vector4D(float _x, float _y, float _z, float _w) noexcept
 		: e{ _x, _y, _z, _w }
 	{
 
 	}
 
-	Vector4D::operator Matrix1x4() noexcept
+
+	constexpr Vector4D::Vector4D(const Vector3D& _other, float _w) noexcept
+		: x{ _other.x }, y{ _other.y }, z{ _other.z }, w{ _w }
+	{
+
+	}
+
+	constexpr Vector4D::operator Matrix1x4() noexcept
 	{
 		return Matrix1x4{ e[0], e[1] , e[2] , e[3] };
 	}
 
-	Vector4D::operator Quaternion() noexcept
+	constexpr Vector4D::operator Quaternion() noexcept
 	{
 		return Quaternion{ w, x, y, z };
 	}
 
 	float Vector4D::Length() const noexcept
 	{
-		return powf(x * x + y * y + z * z + w * w, 0.5f);
+		// _mm_sqrt_ps(_mm_set_ps1());
+		return std::powf(x * x + y * y + z * z + w * w, 0.5f);
 	}
 
 	float Vector4D::LengthSquare() const noexcept
@@ -36,17 +50,44 @@ namespace Hyrule
 
 	Vector4D Vector4D::Cross(const Vector4D& other) const noexcept
 	{
-		return Vector4D(
-			(this->y * other.z - this->z * other.y),
-			(this->z * other.x - this->x * other.z),
-			(this->x * other.y - this->y * other.x),
-			0.f
+		__m128 m1 = _mm_mul_ps(
+			this->m, 
+			_mm_shuffle_ps(
+				other.m, 
+				other.m, 
+				_MM_SHUFFLE(3, 0, 2, 1)
+			)
 		);
+
+		__m128 m2 = _mm_mul_ps(
+			_mm_shuffle_ps(
+				this->m, 
+				this->m,
+				_MM_SHUFFLE(3, 0, 2, 1)
+			), 
+			other.m
+		);
+
+		Vector4D temp;
+		temp.m = _mm_sub_ps(m1, m2);
+
+		return temp;
+
+// 		return Vector4D(
+// 			(this->y * other.z - this->z * other.y),
+// 			(this->z * other.x - this->x * other.z),
+// 			(this->x * other.y - this->y * other.x),
+// 			0.f
+// 		);
 	}
 
 	float Vector4D::Dot(const Vector4D& other) const noexcept
 	{
-		return this->x * other.x + this->y * other.y + this->z * other.z + this->w * other.w;
+		Vector4D temp(*this);
+
+		temp.m = _mm_dp_ps(this->m, other.m, 0xFF);
+
+		return temp.m.m128_f32[0];
 	}
 
 	float Vector4D::FastInvSqrt(float number) const noexcept
@@ -78,10 +119,7 @@ namespace Hyrule
 
 		float invSqrt = FastInvSqrt(temp);
 
-		x *= invSqrt;
-		y *= invSqrt;
-		z *= invSqrt;
-		w *= invSqrt;
+		this->m = _mm_mul_ps(this->m, _mm_set_ps1(invSqrt));
 
 		return *this;
 	}
@@ -101,13 +139,10 @@ namespace Hyrule
 
 		float invSqrt = FastInvSqrt(temp);
 
-		return Vector4D
-		(
-			x * invSqrt, 
-			y * invSqrt, 
-			z * invSqrt, 
-			w * invSqrt
-		);
+		Vector4D vec(*this);
+		vec.m = _mm_mul_ps(this->m, _mm_set_ps1(invSqrt));
+
+		return vec;
 	}
 
 	float Vector4D::Dot3(const Vector4D& other) const noexcept
@@ -125,9 +160,8 @@ namespace Hyrule
 		}
 
 		float invSqrt = FastInvSqrt(temp);
-		x *= invSqrt;
-		y *= invSqrt;
-		z *= invSqrt;
+
+		this->m = _mm_mul_ps(this->m, _mm_set_ps1(invSqrt));
 		w = 0.f;
 
 		return *this;
@@ -146,109 +180,71 @@ namespace Hyrule
 			v.w = 0.f;
 
 			return v;
-			// return Vector4D(0.f, 0.f, 0.f, 0.f);
 		}
 
 		float invSqrt = FastInvSqrt(temp);
 
-		return Vector4D(x * invSqrt, y * invSqrt, z * invSqrt, 0.f);
+		Vector4D vec(*this);
+		vec.m = _mm_mul_ps(this->m, _mm_set_ps1(invSqrt));
+
+		return vec;
 	}
 
 	Vector4D& Vector4D::operator+=(const Vector4D& other) noexcept
 	{
-		this->x += other.x;
-		this->y += other.y;
-		this->z += other.z;
-		this->w += other.w;
+		this->m = _mm_add_ps(this->m, other.m);
 
 		return *this;
 	}
 
 	Vector4D& Vector4D::operator-=(const Vector4D& other) noexcept
 	{
-		this->x -= other.x;
-		this->y -= other.y;
-		this->z -= other.z;
-		this->w -= other.w;
+		this->m = _mm_sub_ps(this->m, other.m);
 
 		return *this;
 	}
 
 	Vector4D Vector4D::operator+(const Vector4D& other) const noexcept
 	{
-		return Vector4D
-		(
-			this->x + other.x, 
-			this->y + other.y, 
-			this->z + other.z, 
-			this->w + other.w
-		);
+		Vector4D temp(*this);
+		return temp += other;
 	}
 
 	Vector4D Vector4D::operator-(const Vector4D& other) const noexcept
 	{
-		return Vector4D
-		(
-			this->x - other.x, 
-			this->y - other.y, 
-			this->z - other.z, 
-			this->w - other.w
-		);
+		Vector4D temp(*this);
+		return temp -= other;
 	}
 
 	Vector4D Vector4D::operator-() const noexcept
 	{
-		return Vector4D
-		(
-			-this->x,
-			-this->y,
-			-this->z,
-			-this->w
-		);
+		Vector4D temp;
+		temp.m = _mm_mul_ps(this->m, _mm_set_ps1(-1.f));
+		return temp;
 	}
 
 	Vector4D& Vector4D::operator*=(const float n) noexcept
 	{
-		this->x *= n;
-		this->y *= n;
-		this->z *= n;
-
+		this->m = _mm_mul_ps(this->m, _mm_set_ps1(n));
 		return *this;
 	}
 
 	Vector4D& Vector4D::operator/=(const float n) noexcept
 	{
-		float invN = 1.f / n;
-		this->x *= invN;
-		this->y *= invN;
-		this->z *= invN;
-		this->w *= invN;
-
+		this->m = _mm_div_ps(this->m, _mm_set_ps1(n));
 		return *this;
 	}
 
 	Vector4D Vector4D::operator*(const float n) const noexcept
 	{
-		Vector4D temp;
-		temp.x = this->x * n;
-		temp.y = this->y * n;
-		temp.z = this->z * n;
-		temp.w = this->w * n;
-
-		return temp;
+		Vector4D temp(*this);
+		return temp *= n;
 	}
 
 	Vector4D Vector4D::operator/(const float n) const noexcept
 	{
-		float invN = 1.f / n;
-
-		Vector4D temp;
-		temp.x = this->x * invN;
-		temp.y = this->y * invN;
-		temp.z = this->z * invN;
-		temp.w = this->w * invN;
-
-		return temp;
+		Vector4D temp(*this);
+		return temp /= n;
 	}
 
 	bool Vector4D::operator==(const Vector4D& other) const noexcept

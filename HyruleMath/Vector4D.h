@@ -1,5 +1,6 @@
 #pragma once
-
+// #include <xmmintrin.h>
+#include <smmintrin.h>
 // #include "Vector3D.h"
 
 namespace Hyrule
@@ -13,16 +14,17 @@ namespace Hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		Vector4D() noexcept = default;
-		Vector4D(float, float, float, float) noexcept;
-		Vector4D(const Vector4D& other) noexcept = default;
-		Vector4D(Vector4D&& other) noexcept = default;
+		constexpr Vector4D() noexcept;
+		constexpr Vector4D(float, float, float, float) noexcept;
+		constexpr Vector4D(const Vector4D& other) noexcept = default;
+		constexpr Vector4D(Vector4D&& other) noexcept = default;
+		constexpr Vector4D(const Vector3D&, float) noexcept;
 		~Vector4D() noexcept = default;
-		explicit operator Matrix1x4() noexcept;
-		explicit operator Quaternion() noexcept;
+		constexpr explicit operator Matrix1x4() noexcept;
+		constexpr explicit operator Quaternion() noexcept;
 
-		Vector4D& operator= (const Vector4D&) noexcept = default;
-		Vector4D& operator= (Vector4D&&) noexcept = default;
+		constexpr Vector4D& operator= (const Vector4D&) noexcept = default;
+		constexpr Vector4D& operator= (Vector4D&&) noexcept = default;
 
 		/// <summary>
 		/// ¸â¹ö º¯¼ö
@@ -34,6 +36,7 @@ namespace Hyrule
 				float x, y, z, w;
 			};
 			float e[4];
+			__m128 m;
 		};;
 
 		/// <summary>

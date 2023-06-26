@@ -17,53 +17,35 @@ namespace Hyrule
 	/// </summary>
 	inline float ToRadian(const float _deg) noexcept;
 
-	Matrix4x4 ToTranslateMatrix(const Vector3D& _vec) noexcept
-	{
-		return Matrix4x4
-		{
-			1.f,	0.f,	0.f,	0.f,
-			0.f,	1.f,	0.f,	0.f,
-			0.f,	0.f,	1.f,	0.f,
-			_vec.x, _vec.y, _vec.z, 1.f
-		};
-	}
+	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler) noexcept;
 
-	Matrix4x4 ToScaleMatrix(const Vector3D& _vec) noexcept
-	{
-		return Matrix4x4
-		{
-			_vec.x,	0.f,	0.f,	0.f,
-			0.f,	_vec.y,	0.f,	0.f,
-			0.f,	0.f,	_vec.z,	0.f,
-			0.f,	0.f,	0.f,	1.f
-		};
-	}
+	Matrix4x4 ToScaleMatrix(const Vector3D& _euler) noexcept;
 
-	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl);
+	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept;
 
 	/// <summary>
 	/// 사원수 선형 보간
 	/// 정규화된 두 쿼터니언을 받아 보간함.
 	/// t는 1.f ~ 0.f
 	/// </summary>
-	Quaternion Lerp(const Quaternion& q1, const Quaternion& q2, float t);
+	Quaternion Lerp(const Quaternion& q1, const Quaternion& q2, float t) noexcept;
 
 	/// <summary>
 	/// 사원수 구형 보간
 	/// 정규화된 두 쿼터니언을 받아 보간함.
 	/// t는 1.f ~ 0.f
 	/// </summary>
-	Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, float t);
+	Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, float t) noexcept;
 
 	/// <summary>
 	/// 오일러 각을 쿼터니언으로 바꿈
 	/// </summary>
-	Quaternion ToQuaternion(const Vector3D& _euler);
+	Quaternion ToQuaternion(const Vector3D& _euler) noexcept;
 
 	/// <summary>
 	/// 축각을 쿼터니언으로 바꿈
 	/// </summary>
-	Quaternion ToQuaternion(const Vector4D& _axisAngle);
+	Quaternion ToQuaternion(const Vector4D& _axisAngle) noexcept;
 
 	/// <summary>
 	/// 회전 행렬을 쿼터니언으로 바꿈

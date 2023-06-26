@@ -6,6 +6,7 @@ namespace Hyrule
 {
 	struct Vector4D;
 	struct Matrix1x3;
+	struct Matrix3x3;
 	struct Quaternion;
 
 	struct Vector3D
@@ -13,16 +14,16 @@ namespace Hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		Vector3D() noexcept = default;
-		Vector3D(float, float, float) noexcept;
-		Vector3D(const Vector3D&) noexcept = default;
-		Vector3D(Vector3D&&) noexcept = default;
+		constexpr Vector3D() noexcept;
+		constexpr Vector3D(float, float, float) noexcept;
+		constexpr Vector3D(const Vector3D&) noexcept = default;
+		constexpr Vector3D(Vector3D&&) noexcept = default;
 		~Vector3D() noexcept = default;
 		// explicit operator Vector4D() noexcept;
-		explicit operator Matrix1x3() noexcept;
+		constexpr explicit operator Matrix1x3() noexcept;
 
-		Vector3D& operator= (const Vector3D&) noexcept = default;
-		Vector3D& operator= (Vector3D&&) noexcept = default;
+		constexpr Vector3D& operator= (const Vector3D&) noexcept = default;
+		constexpr Vector3D& operator= (Vector3D&&) noexcept = default;
 
 		/// <summary>
 		/// ¸â¹ö º¯¼ö
@@ -62,6 +63,9 @@ namespace Hyrule
 
 		Vector3D operator * (const float) const noexcept;
 		Vector3D operator / (const float) const noexcept;
+
+		Vector3D& operator*= (const Matrix3x3&) noexcept;
+		Vector3D operator* (const Matrix3x3&) const noexcept;
 
 		bool operator == (const Vector3D&) const noexcept;
 

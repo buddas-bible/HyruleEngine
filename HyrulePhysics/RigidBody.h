@@ -25,6 +25,7 @@ namespace Hyrule
 		/// 참조로 받아오는건...?
 		/// </summary>
 		float mess;							// 질량
+		float invMess;						// 역 질량
 		Vector3D position;					// 위치
 		Vector3D velocity;					// 속도
 		Vector3D accleration;				// 가속도
@@ -34,6 +35,9 @@ namespace Hyrule
 		// float friction;						// 마찰
 		// float damping						// 감쇠
 		float restitution;					// 반발계수
+		Matrix3x3 inertiaTensor;			// 관성텐서
+		Matrix3x3 invInertiaTensor;			// 역관성텐서
+
 		bool sleep;							// 잠지고 있는 상태인가?
 		bool kinematic;
 		bool gravityEnabled;
@@ -43,6 +47,7 @@ namespace Hyrule
 		Vector3D torque;					// 토크
 
 	public:
+		void AddImpulse(const Vector3D&, const Vector3D&) noexcept;
 		virtual void AddForce(const Vector3D&) noexcept override;
 		virtual void AddTorque(const Vector3D&) noexcept override;
 
