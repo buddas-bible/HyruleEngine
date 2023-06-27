@@ -5,6 +5,7 @@
 namespace Hyrule
 {
 	class Collider;
+	class Transform;
 
 	class RigidBody : public IRigidBody
 	{
@@ -13,7 +14,8 @@ namespace Hyrule
 		virtual ~RigidBody() noexcept = default;
 
 	private:
-		Collider* collider;
+		// Collider* collider;
+		Transform* transform;
 
 	private:
 		/// <summary>
@@ -26,14 +28,10 @@ namespace Hyrule
 		/// </summary>
 		float mess;							// 질량
 		float invMess;						// 역 질량
-		Vector3D position;					// 위치
 		Vector3D velocity;					// 속도
-		Vector3D accleration;				// 가속도
-		Quaternion rotation;				// 각도
-		Vector4D angularVelocity;			// 각속도
-		Vector4D angularAcceleration;		// 각가속도
-		// float friction;						// 마찰
-		// float damping						// 감쇠
+		Vector3D angularVelocity;			// 각속도
+		float dfriction;					// 마찰
+		float sfriction;					// 마찰
 		float restitution;					// 반발계수
 		Matrix3x3 inertiaTensor;			// 관성텐서
 		Matrix3x3 invInertiaTensor;			// 역관성텐서
@@ -56,20 +54,11 @@ namespace Hyrule
 		virtual void SetMess(const float) noexcept override;
 		virtual float GetMess() const noexcept override;
 
-		virtual void SetLinerDampping(const float) noexcept override;
-		virtual float GetLinerDampping() const noexcept override;
-
-		virtual void SetAngularDampping(const float) noexcept override;
-		virtual float GetAngularDampping() const noexcept override;
-
 		virtual void SetVelocity(const Vector3D&) noexcept override;
 		virtual Vector3D GetVelocity() const noexcept override;
 
-		virtual void SetAccleration(const Vector3D&) noexcept override;
-		virtual Vector3D GetAccleration() const noexcept override;
-
-		virtual void SetAngularVelocity(const Vector4D&) noexcept override;
-		virtual Vector4D GetAngularVelocity() const noexcept override;
+		virtual void SetAngularVelocity(const Vector3D&) noexcept override;
+		virtual Vector3D GetAngularVelocity() const noexcept override;
 
 		virtual bool isSleeping() const noexcept override;
 		virtual void isSleeping(const bool) noexcept override;

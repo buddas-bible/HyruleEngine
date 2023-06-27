@@ -46,6 +46,15 @@ namespace Hyrule
 #pragma region GetSet
 	void RigidBody::SetMess(const float _mess) noexcept
 	{
+		if (_mess == 0.f)
+		{
+			this->invMess = 0.f;
+		}
+		else
+		{
+			this->invMess = 1 / _mess;
+		}
+		
 		this->mess = _mess;
 	}
 
@@ -64,24 +73,14 @@ namespace Hyrule
 		return this->velocity;
 	}
 
-	void RigidBody::SetAccleration(const Vector3D& _accel) noexcept
+	void RigidBody::SetAngularVelocity(const Vector3D& _angular) noexcept
 	{
-		this->accleration = _accel;
+		this->angularVelocity = _angular;
 	}
 
-	Vector3D RigidBody::GetAccleration() const noexcept
+	Vector3D RigidBody::GetAngularVelocity() const noexcept
 	{
-		return this->accleration;
-	}
-
-	void RigidBody::SetAngularVelocity(const Vector4D& _angularVelo) noexcept
-	{
-		this->angularVelocity = _angularVelo;
-	}
-
-	Vector4D RigidBody::GetAngularVelocity() const noexcept
-	{
-		return this->angularVelocity;
+		return angularVelocity;
 	}
 
 	bool RigidBody::isSleeping() const noexcept

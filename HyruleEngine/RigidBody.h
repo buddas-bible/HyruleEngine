@@ -15,7 +15,10 @@ namespace Hyrule
 
 		/// 그저 물리엔진에서의 강체와 이벤트를 연결해주는 무언가.
 		/// 강체에 이벤트가... 있던가...?
+	private:
 		IRigidBody* rigidbody;
+
+		void LinkRigidBody();
 	};
 }
 

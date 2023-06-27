@@ -102,7 +102,6 @@ namespace Hyrule
 		// 	y = *(float*)&i;
 		// 	y = y * (threehalfs - (x2 * y * y));
 		// 	//	y = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
-
 		return _mm_cvtss_f32(_mm_rsqrt_ps(_mm_set_ps1(number)));
 	}
 

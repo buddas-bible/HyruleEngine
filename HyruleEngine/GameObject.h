@@ -7,12 +7,14 @@ namespace Hyrule
 {
 	class Component;
 	class Transform;
+	class Scene;
 
 	class GameObject
 	{
 	public:
-		GameObject();
-		~GameObject();
+		GameObject() = delete;
+		GameObject(const std::wstring& _name, Scene* _scene);
+		~GameObject() = default;
 
 	private:
 		std::wstring tag;					// 태그
@@ -20,13 +22,17 @@ namespace Hyrule
 
 		std::vector<Component*> components;	// 컴포넌트 리스트
 		Transform* transform;				// 트랜스폼
+		
 		// 유니티에서는 게임 오브젝트가 씬에 접근할 수 있었는데...
+		Scene* scene;						// 내가 포함된 씬..
+											// 컴포넌트들이 게임 오브젝트를 통해서 씬 정보를 접근하나..?
 
 	public:
 		const std::wstring& GetName();
 		void SetName(const std::wstring&);
 		const std::wstring& GetTag();
 		void SetTag(const std::wstring&);
+		Scene* GetScene();
 
 		template <typename component>
 		component* CreateComponent();
@@ -61,7 +67,7 @@ namespace Hyrule
 			// 이 방법 밖에 없는걸까?
 			auto pointer = dynamic_cast<component*>(e);
 
-			if (pointer == nullptr)
+			if (pointer != nullptr)
 			{
 				return e;
 			}

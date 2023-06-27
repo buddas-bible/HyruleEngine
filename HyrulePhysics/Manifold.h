@@ -15,7 +15,7 @@ namespace Hyrule
 	public:
 		// Manifold() noexcept = default;
 		Manifold(const Collider*& _A, const Collider*& _B) noexcept;
-		// ~Manifold() noexcept = default;
+		~Manifold() noexcept = default;
 
 	private:
 		// 충돌 검사하는 두 콜라이더

@@ -7,6 +7,9 @@
     <Filter Include="Timer">
       <UniqueIdentifier>{735f0cb7-a9f9-40f1-87c7-2d92559d90a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Random">
+      <UniqueIdentifier>{12b157be-563e-4f63-bf12-a44b23161378}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
@@ -15,6 +18,7 @@
     <ClCompile Include="Input.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="Random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Timer.h">
@@ -24,5 +28,6 @@
     <ClInclude Include="Input.h">
       <Filter>Input</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h" />
   </ItemGroup>
 </Project>

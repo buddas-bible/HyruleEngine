@@ -175,16 +175,23 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="HyrulePhysics.h" />
     <ClInclude Include="ICollider.h" />
+    <ClInclude Include="IPFactory.h" />
     <ClInclude Include="IPhysics.h" />
     <ClInclude Include="IRigidBody.h" />
     <ClInclude Include="Manifold.h" />
+    <ClInclude Include="OctTree.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="TreeNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="HyrulePhysics.cpp" />
     <ClCompile Include="Manifold.cpp" />
+    <ClCompile Include="OctTree.cpp" />
     <ClCompile Include="RigidBody.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="TreeNode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

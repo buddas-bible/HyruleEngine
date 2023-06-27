@@ -47,6 +47,9 @@
     <Filter Include="3. Struct\Face">
       <UniqueIdentifier>{4d236fbe-4ccb-4041-8311-8ff51d155c9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{6a013cd1-6a6e-44bc-a592-e89edcec45fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -88,6 +91,12 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>3. Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -122,6 +131,12 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>3. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -12,6 +12,12 @@ namespace Hyrule
 		this->transform = this->AddComponent<Transform>();
 	}
 
+	GameObject::GameObject(const std::wstring& _name, Scene* _scene) :
+		name(_name), scene(_scene)
+	{
+
+	}
+
 	GameObject::~GameObject()
 	{
 		for (auto& e : components)
@@ -41,5 +47,10 @@ namespace Hyrule
 	void GameObject::SetTag(const std::wstring& _tag)
 	{
 		this->tag = _tag;
+	}
+
+	Scene* GameObject::GetScene()
+	{
+		return scene;
 	}
 }
