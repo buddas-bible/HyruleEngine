@@ -32,21 +32,29 @@ namespace Hyrule
 
 	public:
 		virtual void Awake() abstract;
-		virtual void OnEnable() abstract;
 		virtual void Start() abstract;
 		virtual void FixedUpdate() abstract;
 		virtual void Update() abstract;
 		virtual void LastUpdate() abstract;
 		virtual void Render() abstract;
 
-		virtual void OnTriggerEnter(Collider*) abstract;
-		virtual void OnTriggerStay(Collider*) abstract;
-		virtual void OnTriggerExit(Collider*) abstract;
+		// 		virtual void OnTriggerEnter(Collider*) abstract;
+		// 		virtual void OnTriggerStay(Collider*) abstract;
+		// 		virtual void OnTriggerExit(Collider*) abstract;
+		// 
+		// 		virtual void OnTriggerEnter() abstract;
+		// 		virtual void OnTriggerStay() abstract;
+		// 		virtual void OnTriggerExit() abstract;
 
 		virtual void OnCollisionEnter(Collider*) abstract;
 		virtual void OnCollisionStay(Collider*) abstract;
 		virtual void OnCollisionExit(Collider*) abstract;
 
+		virtual void OnCollisionEnter() abstract;
+		virtual void OnCollisionStay() abstract;
+		virtual void OnCollisionExit() abstract;
+
+		virtual void OnEnable() abstract;
 		virtual void OnDestroy() abstract;
 	};
 }

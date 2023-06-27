@@ -1,6 +1,8 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+#include "GameObject.h"
+
 namespace Hyrule
 {
 	SceneManager::~SceneManager() noexcept
@@ -8,19 +10,14 @@ namespace Hyrule
 
 	}
 
-	SceneManager* SceneManager::GetInstance()
+	SceneManager& SceneManager::GetInstance() noexcept
 	{
-		static SceneManager* instance = nullptr;
-
-		if (instance == nullptr)
-		{
-			instance = new SceneManager;
-		}
+		static SceneManager instance;
 
 		return instance;
 	}
 
-	void SceneManager::AddScene(const std::wstring& _name, Scene*& _scene)
+	void SceneManager::AddScene(const std::wstring& _name, Scene*& _scene) noexcept
 	{
 		sceneMap[_name] = _scene;
 	}
@@ -56,5 +53,42 @@ namespace Hyrule
 		// ÇØ´ç ¾ÀÀ» È°¼ºÈ­ ½ÃÅ°°í ÇöÀç ¾ÀÀ» ¹Ù²Þ
 		// sceneMap[_name]
 		// currentScene = sceneMap[_name];
+	}
+
+	void SceneManager::ClearScene()
+	{
+		currentScene->ClearScene();
+	}
+
+	void SceneManager::Start()
+	{
+		for (auto& e : currentScene->GetGameObjectList())
+		{
+			e.second->Start();
+		}
+	}
+
+	void SceneManager::FixedUpdate()
+	{
+		for (auto& e : currentScene->GetGameObjectList())
+		{
+			e.second->FixedUpdate();
+		}
+	}
+
+	void SceneManager::Update()
+	{
+		for (auto& e : currentScene->GetGameObjectList())
+		{
+			e.second->Update();
+		}
+	}
+
+	void SceneManager::LastUpdate()
+	{
+		for (auto& e : currentScene->GetGameObjectList())
+		{
+			e.second->LastUpdate();
+		}
 	}
 }

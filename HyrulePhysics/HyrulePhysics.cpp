@@ -4,7 +4,8 @@ namespace Hyrule
 {
 	IPhysics* CreatePhysics()
 	{
-		return new HyrulePhysics;
+		// return new HyrulePhysics;
+		return nullptr;
 	}
 
 	void ReleasePhysics(IPhysics*& _physics)
@@ -20,17 +21,26 @@ namespace Hyrule
 		return (int)0L;
 	}
 
-	void HyrulePhysics::FixedUpdate()
+	/// <summary>
+	/// 콜리전 체크
+	/// </summary>
+	void HyrulePhysics::CollisionCheck()
 	{
 
 	}
 
-	void HyrulePhysics::Update()
+	/// <summary>
+	/// 강체 시뮬레이션
+	/// </summary>
+	void HyrulePhysics::RigidSimulation()
 	{
 
 	}
 
-	void HyrulePhysics::LastUpdate()
+	/// <summary>
+	/// 월드 안에 있는 강체를 전부 삭제함
+	/// </summary>
+	void HyrulePhysics::WorldReset()
 	{
 
 	}
@@ -39,4 +49,15 @@ namespace Hyrule
 	{
 
 	}
+
+	void HyrulePhysics::SetGravity(float)
+	{
+
+	}
+
+// 	void HyrulePhysics::SetDetectionType(DetectionType)
+// 	{
+// 
+// 	}
+
 }

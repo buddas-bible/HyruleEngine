@@ -10,12 +10,9 @@ namespace Hyrule
 
 	public:
 		virtual int Initialize() abstract;
-		virtual void FixedUpdate() abstract;
-		virtual void Update() abstract;
-		virtual void LastUpdate() abstract;
+		virtual void CollisionCheck() abstract;
+		virtual void RigidSimulation() abstract;
+		virtual void WorldReset() abstract;
 		virtual void Finalize() abstract;
 	};
-
-	IPhysics* CreatePhysics();
-	void ReleasePhysics(IPhysics*& _physics);
 }

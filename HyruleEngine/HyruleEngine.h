@@ -14,6 +14,7 @@ namespace Hyrule
 	public:
 		int			Initialize(int _hwnd);
 		void		Finalize();
+
 		void		Update();
 		void		PhysicsUpdate();
 		void		Render();

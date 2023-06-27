@@ -5,11 +5,6 @@
 
 namespace Hyrule
 {
-
-
-
-
-
 	Scene::Scene(const std::wstring& _name) noexcept : 
 		name(_name), gameObjectList()
 	{
@@ -37,6 +32,22 @@ namespace Hyrule
 		gameObjectList[_name] = e;
 
 		return e;
+	}
+
+	std::map<std::wstring, GameObject*>& Scene::GetGameObjectList()
+	{
+		return gameObjectList;
+	}
+
+	void Scene::ClearScene()
+	{
+		for (auto& e : gameObjectList)
+		{
+			gameObjectList.erase(e.second->GetName());
+			delete e.second;
+		}
+
+		gameObjectList.clear();
 	}
 
 	Hyrule::GameObject* Scene::CreateGameObject(const std::wstring& _name)

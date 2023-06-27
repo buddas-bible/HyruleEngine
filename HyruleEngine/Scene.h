@@ -22,6 +22,9 @@ namespace Hyrule
 		std::wstring GetName() noexcept;
 		GameObject* AddGameObject(const std::wstring&);
 		GameObject* AddGameObject(const std::wstring&, GameObject*);
+		std::map<std::wstring, GameObject*>& GetGameObjectList();
+
+		void ClearScene();
 
 
 	};

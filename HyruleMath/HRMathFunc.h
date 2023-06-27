@@ -2,10 +2,10 @@
 
 namespace Hyrule
 {
-	class Vector3D;
-	class Vector4D;
-	class Matrix4x4;
-	class Quaternion;
+	struct Vector3D;
+	struct Vector4D;
+	struct Matrix4x4;
+	struct Quaternion;
 
 	/// <summary>
 	/// 라디안을 각도로 바꿈

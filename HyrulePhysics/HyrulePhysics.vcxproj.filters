@@ -14,7 +14,7 @@
     <Filter Include="Struct">
       <UniqueIdentifier>{b18d9165-96dc-4de9-b2c8-6ea989b34c69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. OctTree">
+    <Filter Include="2. Octree">
       <UniqueIdentifier>{b6aa14e9-d9e1-4bb6-a865-3655c98c5a52}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -43,17 +43,20 @@
     <ClInclude Include="Manifold.h">
       <Filter>Struct</Filter>
     </ClInclude>
-    <ClInclude Include="OctTree.h">
-      <Filter>2. OctTree</Filter>
+    <ClInclude Include="Octree.h">
+      <Filter>2. Octree</Filter>
     </ClInclude>
     <ClInclude Include="TreeNode.h">
-      <Filter>2. OctTree</Filter>
+      <Filter>2. Octree</Filter>
     </ClInclude>
     <ClInclude Include="IPFactory.h">
       <Filter>0. Interface</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsFactory.h">
+      <Filter>1. HyrulePhysics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -69,14 +72,17 @@
     <ClCompile Include="Manifold.cpp">
       <Filter>Struct</Filter>
     </ClCompile>
-    <ClCompile Include="OctTree.cpp">
-      <Filter>2. OctTree</Filter>
+    <ClCompile Include="Octree.cpp">
+      <Filter>2. Octree</Filter>
     </ClCompile>
     <ClCompile Include="TreeNode.cpp">
-      <Filter>2. OctTree</Filter>
+      <Filter>2. Octree</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsFactory.cpp">
+      <Filter>1. HyrulePhysics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

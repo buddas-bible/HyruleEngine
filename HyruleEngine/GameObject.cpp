@@ -4,29 +4,11 @@
 
 namespace Hyrule
 {
-	GameObject::GameObject() :
-		tag(), name(),
-		components(), transform()
-	{
-		// 게임 오브젝트는 트랜스폼을 가지고 태어남
-		this->transform = this->AddComponent<Transform>();
-	}
-
 	GameObject::GameObject(const std::wstring& _name, Scene* _scene) :
 		name(_name), scene(_scene)
 	{
-
-	}
-
-	GameObject::~GameObject()
-	{
-		for (auto& e : components)
-		{
-			e->OnDestroy();
-			delete e;
-		}
-
-		// 벡터는 알아서 사라질테니까 따로 클리어 안함.
+		// 게임 오브젝트는 트랜스폼을 가지고 태어남
+		this->transform = this->AddComponent<Transform>();
 	}
 
 	const std::wstring& GameObject::GetName()
@@ -52,5 +34,78 @@ namespace Hyrule
 	Scene* GameObject::GetScene()
 	{
 		return scene;
+	}
+
+	void GameObject::Start()
+	{
+		for (auto& e : components)
+		{
+			e->Start();
+		}
+	}
+
+	void GameObject::Update()
+	{
+		for (auto& e : components)
+		{
+			e->Update();
+		}
+	}
+
+	void GameObject::FixedUpdate()
+	{
+		for (auto& e : components)
+		{
+			e->FixedUpdate();
+		}
+	}
+
+	void GameObject::LastUpdate()
+	{
+		for (auto& e : components)
+		{
+			e->LastUpdate();
+		}
+	}
+
+	void GameObject::Render()
+	{
+		for (auto& e : components)
+		{
+			e->Render();
+		}
+	}
+
+	void GameObject::OnCollisionEnter()
+	{
+		for (auto& e : components)
+		{
+			e->OnCollisionEnter();
+		}
+	}
+
+	void GameObject::OnCollisionStay()
+	{
+		for (auto& e : components)
+		{
+			e->OnCollisionStay();
+		}
+	}
+
+	void GameObject::OnCollisionExit()
+	{
+		for (auto& e : components)
+		{
+			e->OnCollisionExit();
+		}
+	}
+
+	void GameObject::OnDestroy()
+	{
+		for (auto& e : components)
+		{
+			e->OnDestroy();
+			delete e;
+		}
 	}
 }

@@ -1,4 +1,4 @@
-#include "OctTree.h"
+#include "Octree.h"
 
 
 namespace Hyrule

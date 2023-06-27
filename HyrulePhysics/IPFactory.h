@@ -3,9 +3,16 @@
 
 namespace Hyrule
 {
+	class IPhysics;
 	class ICollider;
 	class IRigidBody;
 	class Vector3D;
+
+	// enum CollisionDetectionType
+	// {
+	// 	OBB,
+	// 	GJK,
+	// };
 
 	class IPFactory
 	{
@@ -13,21 +20,22 @@ namespace Hyrule
 		IPFactory() noexcept = default;
 		virtual ~IPFactory() noexcept = default;
 
+		// class PhsicsWorldSetting
+		// {
+		// public:
+		// 	PhsicsWorldSetting() noexcept = default;
+		// 	~PhsicsWorldSetting() noexcept = default;
+		// 
+		// 
+		// public:
+		// 	bool useOctree;
+		// 	float gravity;
+		// };
+
 	public:
-		virtual ICollider* CreateCollider(
-			const Vector3D*& vArr, 
-			const size_t vArrSize, 
-			const int*& iArr, 
-			const size_t iArrSize
-		) abstract;
-
-		virtual ICollider* AddCollider();
-		virtual void RemoveCollider(ICollider*& _collider) abstract;
-
-		virtual IRigidBody* CreateRigidBody() abstract;
-		virtual IRigidBody* AddRigidBody() abstract;
-		virtual void RemoveRigidBody() abstract;
+		// virtual IPhysics* CreatePhysicsWorld(const PhsicsWorldSetting&) abstract;
 	};
-}
 
-// 콜라이더, 강체 만들어주고 반환해주는 클래스
+	IPFactory* CreatePhysicsFactory();
+	void ReleasePhysicsFactory(IPFactory*& _physics);
+}

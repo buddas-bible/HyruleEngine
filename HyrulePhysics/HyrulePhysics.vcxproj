@@ -179,7 +179,8 @@
     <ClInclude Include="IPhysics.h" />
     <ClInclude Include="IRigidBody.h" />
     <ClInclude Include="Manifold.h" />
-    <ClInclude Include="OctTree.h" />
+    <ClInclude Include="Octree.h" />
+    <ClInclude Include="PhysicsFactory.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TreeNode.h" />
@@ -188,7 +189,8 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="HyrulePhysics.cpp" />
     <ClCompile Include="Manifold.cpp" />
-    <ClCompile Include="OctTree.cpp" />
+    <ClCompile Include="Octree.cpp" />
+    <ClCompile Include="PhysicsFactory.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TreeNode.cpp" />

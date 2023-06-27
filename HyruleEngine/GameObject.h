@@ -25,7 +25,7 @@ namespace Hyrule
 		
 		// 유니티에서는 게임 오브젝트가 씬에 접근할 수 있었는데...
 		Scene* scene;						// 내가 포함된 씬..
-											// 컴포넌트들이 게임 오브젝트를 통해서 씬 정보를 접근하나..?
+											// 컴포넌트들이 게임 오브젝트를 통해서 씬 이름 같은걸 알아내나?
 
 	public:
 		const std::wstring& GetName();
@@ -34,6 +34,20 @@ namespace Hyrule
 		void SetTag(const std::wstring&);
 		Scene* GetScene();
 
+	public:
+		void Start();
+		void Update();
+		void FixedUpdate();
+		void LastUpdate();
+		void Render();
+
+		void OnCollisionEnter();
+		void OnCollisionStay();
+		void OnCollisionExit();
+
+		void OnDestroy();
+
+	public:
 		template <typename component>
 		component* CreateComponent();
 

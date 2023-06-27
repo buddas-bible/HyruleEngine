@@ -17,13 +17,20 @@ namespace Hyrule
 		std::map<std::wstring, Scene*> sceneMap;
 
 	public:
-		static SceneManager* GetInstance() noexcept;
+		static SceneManager& GetInstance() noexcept;
 
 		void AddScene(const std::wstring&, Scene*&) noexcept;
 		void RemoveScene(const std::wstring&) noexcept;
 		void RemoveScene(Scene*&) noexcept;
 
-		void LoadScene(const std::wstring&);
-		void LoadScene(Scene*&);
+		void LoadScene(const std::wstring&) noexcept;
+		void LoadScene(Scene*&) noexcept;
+		void ClearScene();
+
+	public:
+		void Start();
+		void FixedUpdate();
+		void Update();
+		void LastUpdate();
 	};
 }

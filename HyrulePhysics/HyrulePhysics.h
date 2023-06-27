@@ -7,16 +7,24 @@ namespace Hyrule
 	class HyrulePhysics : public IPhysics
 	{
 	public:
-		HyrulePhysics() = default;
+		HyrulePhysics() noexcept = delete;
+		HyrulePhysics(float) noexcept;
 		virtual ~HyrulePhysics() = default;
 
 	public:
 		virtual int Initialize() override;
-		virtual void FixedUpdate() override;
-		virtual void Update() override;
-		virtual void LastUpdate() override;
+		virtual void CollisionCheck() override;
+		virtual void RigidSimulation() override;
+		virtual void WorldReset() override;
 		virtual void Finalize() override;
 
+	private:
+		float gravity;
+		// using DetectionType = CollisionDetectionType;
+		// DetectionType type;
+
+		void SetGravity(float);
+		// void SetDetectionType(DetectionType);
 	};
 }
 

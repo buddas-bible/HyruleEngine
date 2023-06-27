@@ -97,6 +97,9 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>2. Component\3. Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -137,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>2. Component\3. Effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
