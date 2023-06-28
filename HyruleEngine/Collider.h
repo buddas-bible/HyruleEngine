@@ -1,10 +1,16 @@
 #pragma once
 #include "Component.h"
 
+#include <vector>
+
 namespace Hyrule
 {
+	namespace Physics
+	{
+		class ICollider;
+	}
+
 	class GameObject;
-	class ICollider;
 
 	class Collider : public Component
 	{
@@ -30,7 +36,7 @@ namespace Hyrule
 		// 물리 엔진의 Collider도 태그를 가지고 있어야 할까?
 		// 유니티에서의 태그는 어디서 관리하는 걸까
 
-		ICollider* collider;
+		std::vector<Physics::ICollider*> colliderList;
 		bool collided;
 
 	public:

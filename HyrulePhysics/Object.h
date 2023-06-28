@@ -1,10 +1,13 @@
-#include "TreeNode.h"
+#pragma once
 
 
 namespace Hyrule
 {
 	namespace Physics
 	{
-
+		class Object
+		{
+		};
 	}
 }
+

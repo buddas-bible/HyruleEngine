@@ -3,12 +3,15 @@
 
 namespace Hyrule
 {
-
-
-
-	void Collider::GetWorldTransform()
+	namespace Physics
 	{
 
-	}
 
+
+		void Collider::GetWorldTransform()
+		{
+
+		}
+
+	}
 }

@@ -1,33 +1,46 @@
 #pragma once
+#include "framework.h"
+#include <string>
+
 
 namespace Hyrule
 {
 	class IRenderer;
-	class IPhysicsWorld;
+	class IPhysics;
 
 	class HyruleEngine
 	{
-	public:
 		HyruleEngine();
 		~HyruleEngine();
 
 	public:
-		int			Initialize(int _hwnd);
-		void		Finalize();
+		static HyruleEngine* GetInstance();
+		
+		void Initialize(HWND& _hwnd, HINSTANCE hInstance, const std::wstring& _name);
+		void Run();
+		void Finalize();
 
-		void		Update();
-		void		PhysicsUpdate();
-		void		Render();
-
-		int			OnResize();
-
-		bool		IsStop();
+		void GraphicsDLLLoad(const std::wstring&);
+		void PhysicsDLLLoad(const std::wstring&);
 
 	private:
-		IRenderer*	renderer;
-		IPhysicsWorld*	physics;
+		// void Update();
+		// void PhysicsUpdate();
+		// void Render();
+		long	OnResize();
+
+		long CreateEngineWindow(HWND& _hwnd, HINSTANCE& hInstance, const std::wstring& _name);
+
+	private:
+		HWND hwnd;
+		bool		isRunning;
+
+		HyruleEngine* m_gameEngine;
+		IRenderer*	rendererEngine;
+		IPhysics*	physicsEngine;
 	
-		bool		isStop;
+
+		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam);
 	};
 }
 

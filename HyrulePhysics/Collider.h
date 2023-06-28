@@ -6,26 +6,28 @@
 
 namespace Hyrule
 {
-	class Transform;
-	class RigidBody;
-
-	class Collider
+	namespace Physics
 	{
-	public:
-		Collider() noexcept = default;
-		~Collider() noexcept = default;
+		class Transform;
+		class RigidBody;
 
-	private:
-		RigidBody* rigidbody;
-		Transform* transform;
+		class Collider : public ICollider
+		{
+		public:
+			Collider() noexcept = default;
+			~Collider() noexcept = default;
 
-		// 메쉬 정보를 어떻게 할까...
-		std::vector<Vector3D> vertex;
-		std::vector<int> index;
+		private:
+			RigidBody* rigidbody;
+			Transform* transform;
 
-		void GetWorldTransform();
-	};
+			// 메쉬 정보를 어떻게 할까...
+			std::vector<Vector3D> vertex;
+			std::vector<int> index;
 
+			void GetWorldTransform();
+		};
+	}
 }
 
 

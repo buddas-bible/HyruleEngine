@@ -4,16 +4,19 @@
 
 namespace Hyrule
 {
-	class Transform
+	namespace Physics
 	{
-	public:
-		Transform() noexcept = default;
-		Transform(Vector3D&, Quaternion&, Vector3D&) noexcept;
-		~Transform() noexcept = default;
+		class Transform
+		{
+		public:
+			Transform() noexcept = default;
+			Transform(Vector3D&, Quaternion&, Vector3D&) noexcept;
+			~Transform() noexcept = default;
 
-		Vector3D& position;
-		Quaternion& rotation;
-		Vector3D& scale;
-	};
+			Vector3D& position;
+			Quaternion& rotation;
+			Vector3D& scale;
+		};
+	}
 }
 

@@ -4,7 +4,7 @@ namespace Hyrule
 {
 	Collider::Collider(GameObject* _gameObject) noexcept :
 		Component(_gameObject),
-		collided(), collider()
+		collided(), colliderList()
 	{
 
 	}

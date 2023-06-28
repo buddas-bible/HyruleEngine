@@ -2,14 +2,17 @@
 
 namespace Hyrule
 {
-	class ICollider
+	namespace Physics
 	{
-	public:
-		ICollider() noexcept = default;
-		virtual ~ICollider() noexcept = default;
+		class ICollider
+		{
+		public:
+			ICollider() noexcept = default;
+			virtual ~ICollider() noexcept = default;
 
-	public:
-		virtual bool GetCollided() abstract;
+		public:
+			virtual bool GetCollided() abstract;
 
-	};
+		};
+	}
 }

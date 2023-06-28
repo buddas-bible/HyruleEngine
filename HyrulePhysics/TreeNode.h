@@ -2,10 +2,13 @@
 
 namespace Hyrule
 {
-
-	class TreeNode
+	namespace Physics 
 	{
-	};
+
+		class TreeNode
+		{
+		};
 
 
+	}
 }

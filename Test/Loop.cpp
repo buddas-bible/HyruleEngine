@@ -52,63 +52,7 @@ namespace Hyrule
 
 	void Loop::Run()
 	{
-		HRESULT hr = S_OK;
-		
-		// 윈도우 생성 함수
-		hr = Initialize();
-		if (FAILED(hr))
-		{
-			return;
-		}
 
-		MSG msg;
-	
-		while (engine->IsStop() == false)
-		{
-			if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
-			{
-				if (msg.message == WM_QUIT) break;
-				DispatchMessage(&msg);
-			}
-			else
-			{
-				// m_engine->Update();
-				// m_engine->PhysicsUpdate();
-				engine->Render();
-			}
-		}
-
-		Finalize();
-	}
-
-	LRESULT CALLBACK Loop::WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam)
-	{
-		switch (_msg)
-		{
-			case WM_ACTIVATE:
-			{
-
-			}
-			break;
-
-			case WM_SIZE:
-			{
-				if (g_engine != nullptr)
-				{
-					g_engine->OnResize();
-				}
-			}
-			break;
-
-			case WM_DESTROY:
-			{
-				PostQuitMessage(0);
-				return 0;
-			}
-			break;
-		}
-
-		return DefWindowProc(_hWnd, _msg, _wParam, _lParam);
 	}
 
 	HRESULT Loop::SetWindows()

@@ -3,7 +3,7 @@
 
 namespace Hyrule
 {
-	class IPhysicsWorld;
+	class IPhysics;
 	class ICollider;
 	class IRigidBody;
 	class Vector3D;

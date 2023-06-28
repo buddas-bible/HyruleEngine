@@ -3,12 +3,14 @@
 
 namespace Hyrule
 {
-
-	class Octree
+	namespace Physics
 	{
-	public:
-		Octree() noexcept = default;
-		~Octree() noexcept = default;
-	};
 
+		class Octree
+		{
+		public:
+			Octree() noexcept = default;
+			~Octree() noexcept = default;
+		};
+	}
 }

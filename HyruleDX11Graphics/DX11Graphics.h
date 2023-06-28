@@ -1,6 +1,7 @@
 #pragma once
-#include "IRenderer.h"
+#include "framework.h"
 
+#include "IRenderer.h"
 
 // class ID3D11Device5;
 // class ID3D11DeviceContext4;
@@ -23,7 +24,7 @@ namespace Hyrule
 		virtual ~DX11Graphics();
 
 	private:
-		int							m_hWnd;
+		HWND							m_hWnd;
 		// unsigned int				m_msaaQuality;
 
 		DXDevice*					m_Device;
@@ -31,19 +32,19 @@ namespace Hyrule
 		DXRasterizerState*			m_RasterizerState;
 
 	public:
-		virtual int Initialize(int _hwnd) override;
+		virtual long Initialize(int _hwnd) override;
 		virtual void Finalize() override;
 		virtual void Render() override;
-		virtual int OnResize() override;
+		virtual long OnResize() override;
 
 	private:
 		/// <summary>
 		/// 초기화 함수
 		/// </summary>
 		/// <returns>RESULT</returns>
-		int CreateDeviceAndSwapChain();
-		int CreateRenderTargetAndDepthStencil();
-		int CreateRasterState();
+		long CreateDeviceAndSwapChain();
+		long CreateRenderTargetAndDepthStencil();
+		long CreateRasterState();
 
 	private:
 		void SetCamera();

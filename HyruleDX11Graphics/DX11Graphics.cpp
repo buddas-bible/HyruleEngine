@@ -1,14 +1,12 @@
 ﻿#include "DX11Graphics.h"
 // 아마 그래픽스 구현 부
 
-#include "framework.h"
 #include "DXDevice.h"
 #include "DXRenderTarget.h"
 #include "DXRasterizerState.h"
 
 namespace Hyrule
 {
-
 	extern "C"
 	{
 		__declspec(dllexport) IRenderer* CreateRenderer()
@@ -22,7 +20,7 @@ namespace Hyrule
 			{
 				delete _renderer;
 			}
-	}
+		}
 	}
 
 	DX11Graphics::DX11Graphics()
@@ -37,9 +35,9 @@ namespace Hyrule
 
 	}
 
-	int DX11Graphics::Initialize(int _hwnd)
+	long DX11Graphics::Initialize(int _hwnd)
 	{
-		m_hWnd = _hwnd;
+		m_hWnd = (HWND)_hwnd;
 
 		HRESULT hr = S_OK;
 
@@ -47,42 +45,42 @@ namespace Hyrule
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
 		hr = CreateRenderTargetAndDepthStencil();
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
 		hr = CreateRasterState();
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
-		return (int)hr;
+		return hr;
 	}
 
 	void DX11Graphics::Finalize()
 	{
-		if (m_Device)
+		if (m_RasterizerState)
 		{
-			delete m_Device;
-			m_Device = nullptr;
+			delete m_RasterizerState;
+			m_RasterizerState = nullptr;
 		}
 		if (m_RenderTarget)
 		{
 			delete m_RenderTarget;
 			m_RenderTarget = nullptr;
 		}
-		if (m_RasterizerState)
+		if (m_Device)
 		{
-			delete m_RasterizerState;
-			m_RasterizerState = nullptr;
+			delete m_Device;
+			m_Device = nullptr;
 		}
 	}
 
@@ -97,7 +95,7 @@ namespace Hyrule
 		m_Device->Present();
 	}
 
-	int DX11Graphics::OnResize()
+	long DX11Graphics::OnResize()
 	{
 		HRESULT hr = S_OK;
 
@@ -105,16 +103,16 @@ namespace Hyrule
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
-		return (int)hr;
+		return hr;
 	}
 
-	int DX11Graphics::CreateDeviceAndSwapChain()
+	long DX11Graphics::CreateDeviceAndSwapChain()
 	{
 		HRESULT hr = S_OK;
-		m_Device = new DXDevice((HWND)m_hWnd);
+		m_Device = new DXDevice(m_hWnd);
 
 		hr = m_Device->CreateDeviceAndSwapChain();
 
@@ -123,10 +121,10 @@ namespace Hyrule
 			return hr;
 		}
 
-		return (int)hr;
+		return hr;
 	}
 
-	int DX11Graphics::CreateRenderTargetAndDepthStencil()
+	long DX11Graphics::CreateRenderTargetAndDepthStencil()
 	{
 		HRESULT hr = S_OK;
 
@@ -141,10 +139,10 @@ namespace Hyrule
 
 		m_RenderTarget->Bind();
 
-		return (int)hr;
+		return hr;
 	}
 
-	int DX11Graphics::CreateRasterState()
+	long DX11Graphics::CreateRasterState()
 	{
 		HRESULT hr = S_OK;
 		m_RasterizerState = new DXRasterizerState(m_Device);
@@ -156,7 +154,7 @@ namespace Hyrule
 			return hr;
 		}
 
-		return (int)hr;
+		return hr;
 	}
 
 

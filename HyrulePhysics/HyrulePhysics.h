@@ -1,39 +1,50 @@
 #pragma once
-#include "IPhysicsWorld.h"
+#include "IPhysics.h"
 
 #include <string>
+#include <vector>
 #include <map>
 
 namespace Hyrule
 {
-	class HyrulePhysics : public IPhysicsWorld
+	namespace Physics
 	{
-	public:
-		HyrulePhysics() noexcept = delete;
-		HyrulePhysics(float) noexcept;
-		virtual ~HyrulePhysics() = default;
+		class ICollider;
 
-	public:
-		virtual ICollider* AddCollider() override;
-		virtual IRigidBody* AddRigidBody() override;
+		class HyrulePhysics : public IPhysics
+		{
+		public:
+			HyrulePhysics() noexcept = default;
+			virtual ~HyrulePhysics() = default;
 
-	public:
-		virtual int Initialize() override;
-		virtual void CollisionCheck() override;
-		virtual void RigidSimulation(float) override;
-		virtual void WorldReset() override;
-		virtual void Finalize() override;
-		virtual void SetGravity(float) override;
+		public:
+			virtual ICollider* AddCollider(const std::wstring&) override;
+			virtual IRigidBody* AddRigidBody(const std::wstring&) override;
 
-	private:
-		std::map<std::wstring, std::vector<ICollider*>> colliderMap;
-		std::map<std::wstring, IRigidBody*> rigidbodyMap;
+		public:
+			virtual long Initialize() override;
+			virtual void CollisionCheck() override;
+			virtual void RigidSimulation(float) override;
+			virtual void WorldReset() override;
+			virtual void Finalize() override;
+			virtual void SetGravity(float) override;
 
-		ICollider* CreateCollider(const std::wstring&);
-		IRigidBody* CreateRigidBody(const std::wstring&);
-		float gravity;
+		private:
+			std::map< std::wstring, std::vector< Physics::ICollider* > > colliderMap;
+			std::map<std::wstring, IRigidBody*> rigidbodyMap;
 
-	};
+			Physics::ICollider* CreateCollider(const std::wstring&);
+			IRigidBody* CreateRigidBody(const std::wstring&);
+			float gravity;
+
+		};
+
+		extern "C"
+		{
+			__declspec(dllexport) IPhysics* CreatePhysics();
+			__declspec(dllexport) void ReleasePhysics(IPhysics*&);
+		}
+	}
 }
 
 /*

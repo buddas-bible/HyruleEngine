@@ -28,6 +28,6 @@ namespace Hyrule
 		void Finalize();
 
 	private:
-		HRESULT SetWindows();
+		HRESULT SetWindows(HWND& _hwnd, HINSTANCE& hInstance, const std::wstring& _name);
 	};
 }

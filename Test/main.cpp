@@ -35,7 +35,8 @@
 // 
 
 #include "framework.h"
-#include "Loop.h"
+#pragma comment(lib, "HyruleEngine.lib")
+#include "HyruleEngine.h"
 
 int APIENTRY WinMain(
 	_In_ HINSTANCE _hInstance, 
@@ -43,9 +44,18 @@ int APIENTRY WinMain(
 	_In_ LPSTR _lpCmdLine, 
 	_In_ int _nShowCmd)
 {
-	Hyrule::Loop loop(_hInstance);
 
-	loop.Run();
+	HWND hwnd{};
+	auto gameEngine{ Hyrule::HyruleEngine::GetInstance() };
+	gameEngine->Initialize(hwnd, _hInstance, L"Hyrule Engine");
+#ifdef DEBUG
+	gameEngine->GraphicsDLLLoad(L"HyruleDX11Graphics.dll");
+#else
+	gameEngine->GraphicsDLLLoad(L"../x64/Debug/HyruleDX11Graphics.dll");
+#endif // DEBUG
+	gameEngine->PhysicsDLLLoad(L"");
+	gameEngine->Run();
+	gameEngine->Finalize();
 
 	return 0;
 }

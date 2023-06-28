@@ -11,18 +11,21 @@
     <Filter Include="1. HyrulePhysics">
       <UniqueIdentifier>{76d2936b-eb43-444d-ad20-c0e4340367c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Struct">
+    <Filter Include="2. DataStruct">
+      <UniqueIdentifier>{b6aa14e9-d9e1-4bb6-a865-3655c98c5a52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. PhysicalyObject">
       <UniqueIdentifier>{b18d9165-96dc-4de9-b2c8-6ea989b34c69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. Octree">
-      <UniqueIdentifier>{b6aa14e9-d9e1-4bb6-a865-3655c98c5a52}</UniqueIdentifier>
+    <Filter Include="Struct">
+      <UniqueIdentifier>{72546e8b-3b75-45e3-8455-3dc2254d751f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IPhysicsWorld.h">
+    <ClInclude Include="IPhysics.h">
       <Filter>0. Interface</Filter>
     </ClInclude>
     <ClInclude Include="HyrulePhysics.h">
@@ -35,28 +38,25 @@
       <Filter>0. Interface</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
-      <Filter>Struct</Filter>
+      <Filter>3. PhysicalyObject</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
-      <Filter>Struct</Filter>
+      <Filter>3. PhysicalyObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>2. DataStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeNode.h">
+      <Filter>2. DataStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>3. PhysicalyObject</Filter>
     </ClInclude>
     <ClInclude Include="Manifold.h">
       <Filter>Struct</Filter>
     </ClInclude>
-    <ClInclude Include="Octree.h">
-      <Filter>2. Octree</Filter>
-    </ClInclude>
-    <ClInclude Include="TreeNode.h">
-      <Filter>2. Octree</Filter>
-    </ClInclude>
-    <ClInclude Include="IPFactory.h">
-      <Filter>0. Interface</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsFactory.h">
-      <Filter>1. HyrulePhysics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,25 +64,25 @@
       <Filter>1. HyrulePhysics</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
-      <Filter>Struct</Filter>
+      <Filter>3. PhysicalyObject</Filter>
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
-      <Filter>Struct</Filter>
+      <Filter>3. PhysicalyObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>2. DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeNode.cpp">
+      <Filter>2. DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>3. PhysicalyObject</Filter>
     </ClCompile>
     <ClCompile Include="Manifold.cpp">
       <Filter>Struct</Filter>
     </ClCompile>
-    <ClCompile Include="Octree.cpp">
-      <Filter>2. Octree</Filter>
-    </ClCompile>
-    <ClCompile Include="TreeNode.cpp">
-      <Filter>2. Octree</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Struct</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsFactory.cpp">
-      <Filter>1. HyrulePhysics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

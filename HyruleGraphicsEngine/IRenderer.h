@@ -12,10 +12,10 @@ namespace Hyrule
 
 
 	public:
-		virtual int Initialize(int _hwnd) abstract;
+		virtual long Initialize(int _hwnd) abstract;
 		virtual void Render() abstract;
 		virtual void Finalize() abstract;
 
-		virtual int OnResize() abstract;
+		virtual long OnResize() abstract;
 	};
 }
