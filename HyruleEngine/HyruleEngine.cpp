@@ -5,7 +5,7 @@
 #include "IRenderer.h"
 #pragma comment(lib, "HyruleDX11Graphics.lib")
 
-#include "IPhysics.h"
+#include "IPhysicsWorld.h"
 #pragma comment(lib, "HyrulePhysics.lib")
 
 namespace Hyrule

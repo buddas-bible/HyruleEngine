@@ -7,6 +7,7 @@
 namespace Hyrule
 {
 	class Transform;
+	class RigidBody;
 
 	class Collider
 	{
@@ -15,6 +16,7 @@ namespace Hyrule
 		~Collider() noexcept = default;
 
 	private:
+		RigidBody* rigidbody;
 		Transform* transform;
 
 		// 메쉬 정보를 어떻게 할까...

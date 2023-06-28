@@ -14,7 +14,7 @@ namespace Hyrule
 		virtual ~RigidBody() noexcept = default;
 
 	private:
-		// Collider* collider;
+		Collider* collider;
 		Transform* transform;
 
 	private:

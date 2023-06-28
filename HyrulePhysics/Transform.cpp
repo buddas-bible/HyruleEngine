@@ -4,7 +4,7 @@
 namespace Hyrule
 {
 	Transform::Transform(
-		Vector3D*& _pos, Quaternion*& _rot, Vector3D*& _scl) noexcept : 
+		Vector3D& _pos, Quaternion& _rot, Vector3D& _scl) noexcept : 
 		position(_pos), rotation(_rot), scale(_scl)
 	{
 

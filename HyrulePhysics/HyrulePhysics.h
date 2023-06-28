@@ -1,10 +1,12 @@
 #pragma once
-#include "IPhysics.h"
+#include "IPhysicsWorld.h"
 
+#include <string>
+#include <map>
 
 namespace Hyrule
 {
-	class HyrulePhysics : public IPhysics
+	class HyrulePhysics : public IPhysicsWorld
 	{
 	public:
 		HyrulePhysics() noexcept = delete;
@@ -12,19 +14,25 @@ namespace Hyrule
 		virtual ~HyrulePhysics() = default;
 
 	public:
+		virtual ICollider* AddCollider() override;
+		virtual IRigidBody* AddRigidBody() override;
+
+	public:
 		virtual int Initialize() override;
 		virtual void CollisionCheck() override;
-		virtual void RigidSimulation() override;
+		virtual void RigidSimulation(float) override;
 		virtual void WorldReset() override;
 		virtual void Finalize() override;
+		virtual void SetGravity(float) override;
 
 	private:
-		float gravity;
-		// using DetectionType = CollisionDetectionType;
-		// DetectionType type;
+		std::map<std::wstring, std::vector<ICollider*>> colliderMap;
+		std::map<std::wstring, IRigidBody*> rigidbodyMap;
 
-		void SetGravity(float);
-		// void SetDetectionType(DetectionType);
+		ICollider* CreateCollider(const std::wstring&);
+		IRigidBody* CreateRigidBody(const std::wstring&);
+		float gravity;
+
 	};
 }
 

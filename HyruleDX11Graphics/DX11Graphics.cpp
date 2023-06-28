@@ -8,17 +8,21 @@
 
 namespace Hyrule
 {
-	IRenderer* CreateRenderer()
-	{
-		return new DX11Graphics;
-	}
 
-	void ReleaseRenderer(IRenderer*& _renderer)
+	extern "C"
 	{
-		if (_renderer != nullptr)
+		__declspec(dllexport) IRenderer* CreateRenderer()
 		{
-			delete _renderer;
+			return new DX11Graphics;
 		}
+
+		__declspec(dllexport) void ReleaseRenderer(IRenderer*& _renderer)
+		{
+			if (_renderer != nullptr)
+			{
+				delete _renderer;
+			}
+	}
 	}
 
 	DX11Graphics::DX11Graphics()

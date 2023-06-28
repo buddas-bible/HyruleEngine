@@ -48,4 +48,11 @@ namespace Hyrule
 	private:
 		void SetCamera();
 	};
+
+	extern "C"
+	{
+		__declspec(dllexport) IRenderer* CreateRenderer();
+		__declspec(dllexport) void ReleaseRenderer(IRenderer*& _renderer);
+	}
+
 }

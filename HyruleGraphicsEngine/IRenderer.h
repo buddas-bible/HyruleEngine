@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace Hyrule
 {
 	class IRenderer
@@ -19,7 +18,4 @@ namespace Hyrule
 
 		virtual int OnResize() abstract;
 	};
-
-	IRenderer* CreateRenderer();
-	void ReleaseRenderer(IRenderer*& _renderer);
 }

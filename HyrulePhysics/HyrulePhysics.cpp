@@ -1,14 +1,17 @@
 #include "HyrulePhysics.h"
 
+#include "Collider.h"
+#include "RigidBody.h"
+
 namespace Hyrule
 {
-	IPhysics* CreatePhysics()
+	IPhysicsWorld* CreatePhysics()
 	{
 		// return new HyrulePhysics;
 		return nullptr;
 	}
 
-	void ReleasePhysics(IPhysics*& _physics)
+	void ReleasePhysics(IPhysicsWorld*& _physics)
 	{
 		if (_physics != nullptr)
 		{
@@ -16,9 +19,27 @@ namespace Hyrule
 		}
 	}
 
+
+	HyrulePhysics::HyrulePhysics(float _gravity) noexcept : gravity(_gravity)
+	{
+
+	}
+
 	int HyrulePhysics::Initialize()
 	{
 		return (int)0L;
+	}
+
+
+	ICollider* HyrulePhysics::AddCollider()
+	{
+		// return new Collider();
+	}
+
+
+	IRigidBody* HyrulePhysics::AddRigidBody()
+	{
+
 	}
 
 	/// <summary>
@@ -32,7 +53,7 @@ namespace Hyrule
 	/// <summary>
 	/// 강체 시뮬레이션
 	/// </summary>
-	void HyrulePhysics::RigidSimulation()
+	void HyrulePhysics::RigidSimulation(const float _deltaTime)
 	{
 
 	}
@@ -51,6 +72,21 @@ namespace Hyrule
 	}
 
 	void HyrulePhysics::SetGravity(float)
+	{
+
+	}
+
+
+	ICollider* HyrulePhysics::CreateCollider(const std::wstring& _name)
+	{
+		// auto e = colliderMap[_name];
+
+
+
+	}
+
+
+	IRigidBody* HyrulePhysics::CreateRigidBody(const std::wstring& _name)
 	{
 
 	}

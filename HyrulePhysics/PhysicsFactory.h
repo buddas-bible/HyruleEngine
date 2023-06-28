@@ -8,13 +8,11 @@ namespace Hyrule
 	{
 	public:
 		PhysicsFactory() noexcept = delete;
-		// PhysicsFactory(const PhsicsWorldSetting&) noexcept;
 		~PhysicsFactory() noexcept = default;
 
 	friend class HyrulePhysics;
 
 	public:
-		// virtual IPhysics* CreatePhysicsWorld(const PhsicsWorldSetting&) override;
 
 	};
 }

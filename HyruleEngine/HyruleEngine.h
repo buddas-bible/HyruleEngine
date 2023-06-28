@@ -3,7 +3,7 @@
 namespace Hyrule
 {
 	class IRenderer;
-	class IPhysics;
+	class IPhysicsWorld;
 
 	class HyruleEngine
 	{
@@ -25,7 +25,7 @@ namespace Hyrule
 
 	private:
 		IRenderer*	renderer;
-		IPhysics*	physics;
+		IPhysicsWorld*	physics;
 	
 		bool		isStop;
 	};
