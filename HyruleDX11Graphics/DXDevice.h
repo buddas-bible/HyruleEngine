@@ -8,7 +8,7 @@ public:
 	~DXDevice();
 
 private:
-	HWND					m_hWnd;
+	HWND&					m_hWnd;
 	UINT					m_msaaQuality;
 
 	ID3D11Device5*			m_Device;					// 디바이스
