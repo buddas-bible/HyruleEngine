@@ -22,7 +22,7 @@
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IPhysics.h">
+    <ClInclude Include="IPhysicsWorld.h">
       <Filter>0. Interface</Filter>
     </ClInclude>
     <ClInclude Include="HyrulePhysics.h">
