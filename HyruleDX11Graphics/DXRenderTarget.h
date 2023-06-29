@@ -1,33 +1,36 @@
 #pragma once
 
-class DXDevice;
 struct ID3D11RenderTargetView1;
 struct ID3D11DepthStencilView;
 
-class DXRenderTarget
+namespace Hyrule
 {
-public:
-	DXRenderTarget(DXDevice* _device);
-	~DXRenderTarget();
+	class DXDevice;
 
-private:
-	DXDevice* m_dxDevice;
+	class DXRenderTarget
+	{
+	public:
+		DXRenderTarget(DXDevice* _device);
+		~DXRenderTarget();
 
-	ID3D11RenderTargetView1* m_renderTargetView;
-	ID3D11DepthStencilView* m_depthStencilView;
+	private:
+		DXDevice* m_dxDevice;
 
-public:
-	int CreateRenderTargetAndDepthStencil();
-	int OnResize();
-	
-	void Clear();
+		ID3D11RenderTargetView1* m_renderTargetView;
+		ID3D11DepthStencilView* m_depthStencilView;
 
-	void Bind();
+	public:
+		int CreateRenderTargetAndDepthStencil();
+		int OnResize();
 
-private:
-	int CreateRenderTarget();
-	int CreateDepthStencil();
+		void Clear();
 
-	void ReleaseAll();
-};
+		void Bind();
 
+	private:
+		int CreateRenderTarget();
+		int CreateDepthStencil();
+
+		void ReleaseAll();
+	};
+}

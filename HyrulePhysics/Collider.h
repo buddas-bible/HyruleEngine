@@ -8,8 +8,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		class Transform;
-		class RigidBody;
+		class Object;
 
 		class Collider : public ICollider
 		{
@@ -18,14 +17,11 @@ namespace Hyrule
 			~Collider() noexcept = default;
 
 		private:
-			RigidBody* rigidbody;
-			Transform* transform;
+			Object* object;
 
 			// 메쉬 정보를 어떻게 할까...
-			std::vector<Vector3D> vertex;
+			std::vector<Hyrule::Vector3D> vertex;
 			std::vector<int> index;
-
-			void GetWorldTransform();
 		};
 	}
 }

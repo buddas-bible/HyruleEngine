@@ -171,6 +171,7 @@
     <ClInclude Include="DXRenderTarget.h" />
     <ClInclude Include="DXShader.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="RenderableObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX11Graphics.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="DXRasterizerState.cpp" />
     <ClCompile Include="DXRenderTarget.cpp" />
     <ClCompile Include="DXShader.cpp" />
+    <ClCompile Include="RenderableObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

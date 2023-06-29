@@ -23,6 +23,8 @@ namespace Hyrule
 
 	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept;
 
+	void Decompose(Vector3D& _pos, Quaternion& _rot, Vector3D& _scl) noexcept;
+
 	/// <summary>
 	/// 사원수 선형 보간
 	/// 정규화된 두 쿼터니언을 받아 보간함.

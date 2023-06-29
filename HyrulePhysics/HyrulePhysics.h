@@ -5,8 +5,13 @@
 #include <vector>
 #include <map>
 
+#pragma comment(lib, "HyruleMath.lib")
+#include "HyruleMath.h"
+
 namespace Hyrule
 {
+	struct Vector3D;
+
 	namespace Physics
 	{
 		class RigidBody;
@@ -25,9 +30,9 @@ namespace Hyrule
 			virtual ICollider* AddCollider(const std::wstring&) override;
 			virtual IRigidBody* AddRigidBody(const std::wstring&) override;
 
-			virtual ICollider* RemoveCollider(const std::wstring&, ICollider*) override;
-			virtual ICollider* RemoveCollider(const std::wstring&, int) override;
-			virtual IRigidBody* RemoveRigidBody(const std::wstring&) override;
+			virtual void RemoveCollider(const std::wstring&, ICollider*) override;
+			virtual void RemoveCollider(const std::wstring&, int) override;
+			virtual void RemoveRigidBody(const std::wstring&) override;
 
 		public:
 			virtual long Initialize() override;
@@ -35,7 +40,7 @@ namespace Hyrule
 			virtual void RigidSimulation(float) override;
 			virtual void WorldReset() override;
 			virtual void Finalize() override;
-			virtual void SetGravity(float) override;
+			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;
 
 		private:
 			std::map<std::wstring, Object*> objectList;
@@ -43,8 +48,8 @@ namespace Hyrule
 			Object* GetObject(const std::wstring&);
 			Collider* CreateCollider(Object*);
 			RigidBody* CreateRigidBody(Object*);
-			float gravity;
 
+			Hyrule::Vector3D gravity;
 		};
 
 		extern "C"

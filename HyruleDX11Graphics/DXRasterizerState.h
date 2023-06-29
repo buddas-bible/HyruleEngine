@@ -1,28 +1,31 @@
 #pragma once
 
-class DXDevice;
 struct ID3D11RasterizerState2;
 
-class DXRasterizerState
+namespace Hyrule
 {
-public:
-	DXRasterizerState(DXDevice* _device);
-	~DXRasterizerState();
+	class DXDevice;
 
-private:
-	DXDevice* m_device;
+	class DXRasterizerState
+	{
+	public:
+		DXRasterizerState(DXDevice* _device);
+		~DXRasterizerState();
 
-	ID3D11RasterizerState2* m_currRasterizerState;			// 현재 레스터 상태
-	ID3D11RasterizerState2* m_solidRasterizerState;			// 채우는 레스터 상태
-	ID3D11RasterizerState2* m_wireRasterizerState;			// 선 레스터라이즈 상태
+	private:
+		DXDevice* m_device;
 
-public:
-	int CreateRasterizerState();
+		ID3D11RasterizerState2* m_currRasterizerState;			// 현재 레스터 상태
+		ID3D11RasterizerState2* m_solidRasterizerState;			// 채우는 레스터 상태
+		ID3D11RasterizerState2* m_wireRasterizerState;			// 선 레스터라이즈 상태
 
-	ID3D11RasterizerState2* GetCurrRasterizerState();
-	ID3D11RasterizerState2* GetSolidRasterizerState();
-	ID3D11RasterizerState2* GetWireRasterizerState();
-	void SetSolidState();
-	void SetWireState();
-};
+	public:
+		int CreateRasterizerState();
 
+		ID3D11RasterizerState2* GetCurrRasterizerState();
+		ID3D11RasterizerState2* GetSolidRasterizerState();
+		ID3D11RasterizerState2* GetWireRasterizerState();
+		void SetSolidState();
+		void SetWireState();
+	};
+}

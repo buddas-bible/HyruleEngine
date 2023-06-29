@@ -2,11 +2,12 @@
 
 #include "GameObject.h"
 #include "Transform.h"
+#include "Camera.h"
 
 namespace Hyrule
 {
 	Scene::Scene(const std::wstring& _name) noexcept : 
-		name(_name), gameObjectList()
+		name(_name), gameObjectList(), mainCamera()
 	{
 
 	}
@@ -50,7 +51,12 @@ namespace Hyrule
 		gameObjectList.clear();
 	}
 
-	Hyrule::GameObject* Scene::CreateGameObject(const std::wstring& _name)
+	Camera* Scene::GetMainCamera()
+	{
+		return this->mainCamera;
+	}
+
+	GameObject* Scene::CreateGameObject(const std::wstring& _name)
 	{
 		auto e = gameObjectList[_name];
 
@@ -61,5 +67,4 @@ namespace Hyrule
 
 		return e;
 	}
-
 }

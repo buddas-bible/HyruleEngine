@@ -44,16 +44,15 @@ int APIENTRY WinMain(
 	_In_ LPSTR _lpCmdLine, 
 	_In_ int _nShowCmd)
 {
-
-	HWND hwnd{};
 	auto gameEngine{ Hyrule::HyruleEngine::GetInstance() };
-	gameEngine->Initialize(hwnd, _hInstance, L"Hyrule Engine");
+	gameEngine->Initialize(_hInstance, L"Hyrule Engine");
 #ifdef DEBUG
 	gameEngine->GraphicsDLLLoad(L"HyruleDX11Graphics.dll");
+	gameEngine->PhysicsDLLLoad(L"HyrulePhysics.dll");
 #else
 	gameEngine->GraphicsDLLLoad(L"../x64/Debug/HyruleDX11Graphics.dll");
-#endif // DEBUG
 	gameEngine->PhysicsDLLLoad(L"");
+#endif // DEBUG
 	gameEngine->Run();
 	gameEngine->Finalize();
 

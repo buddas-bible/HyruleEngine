@@ -1,11 +1,14 @@
 #pragma once
 
+
 namespace Hyrule
 {
-	namespace Physics 
+	namespace Physics
 	{
-		class TreeNode
+		class IBuilder
 		{
+
 		};
 	}
 }
+

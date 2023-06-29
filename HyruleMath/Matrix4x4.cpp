@@ -183,9 +183,6 @@ namespace Hyrule
 
 	Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& other) noexcept
 	{
-		// Matrix4x4 temp = other.Transpose();
-		// Matrix4x4 temp;
-
 		Matrix4x4 temp
 		(
 			other.e00, other.e10, other.e20, other.e30,
@@ -194,39 +191,31 @@ namespace Hyrule
 			other.e03, other.e13, other.e23, other.e33
 		);
 
-		// __m128 tmp3, tmp2, tmp1, tmp0;
-		// 
-		// tmp0 = _mm_shuffle_ps(other.m[0].m, other.m[1].m, 0x44);
-		// tmp2 = _mm_shuffle_ps(other.m[0].m, other.m[1].m, 0xEE);
-		// tmp1 = _mm_shuffle_ps(other.m[2].m, other.m[3].m, 0x44);
-		// tmp3 = _mm_shuffle_ps(other.m[2].m, other.m[3].m, 0xEE);
-		// 
-		// temp.m[0].m = _mm_shuffle_ps(tmp0, tmp1, 0x88);
-		// temp.m[1].m = _mm_shuffle_ps(tmp0, tmp1, 0xDD);
-		// temp.m[2].m = _mm_shuffle_ps(tmp2, tmp3, 0x88);
-		// temp.m[3].m = _mm_shuffle_ps(tmp2, tmp3, 0xDD);
-
+		__m128 m0{ this->m[0].m };
+		__m128 m1{ this->m[1].m };
+		__m128 m2{ this->m[2].m };
+		__m128 m3{ this->m[3].m };
 
 		// 행렬 연산은 내적과 비슷하다...
-		this->e00 = _mm_cvtss_f32(_mm_dp_ps(this->m[0].m, temp.m[0].m, 0xff));
-		this->e01 = _mm_cvtss_f32(_mm_dp_ps(this->m[0].m, temp.m[0].m, 0xff));
-		this->e02 = _mm_cvtss_f32(_mm_dp_ps(this->m[0].m, temp.m[0].m, 0xff));
-		this->e03 = _mm_cvtss_f32(_mm_dp_ps(this->m[0].m, temp.m[0].m, 0xff));
+		this->e00 = _mm_cvtss_f32(_mm_dp_ps(m0, temp.m[0].m, 0xff));
+		this->e01 = _mm_cvtss_f32(_mm_dp_ps(m0, temp.m[1].m, 0xff));
+		this->e02 = _mm_cvtss_f32(_mm_dp_ps(m0, temp.m[2].m, 0xff));
+		this->e03 = _mm_cvtss_f32(_mm_dp_ps(m0, temp.m[3].m, 0xff));
 		
-		this->e10 = _mm_cvtss_f32(_mm_dp_ps(this->m[1].m, temp.m[1].m, 0xff));
-		this->e11 = _mm_cvtss_f32(_mm_dp_ps(this->m[1].m, temp.m[1].m, 0xff));
-		this->e12 = _mm_cvtss_f32(_mm_dp_ps(this->m[1].m, temp.m[1].m, 0xff));
-		this->e13 = _mm_cvtss_f32(_mm_dp_ps(this->m[1].m, temp.m[1].m, 0xff));
+		this->e10 = _mm_cvtss_f32(_mm_dp_ps(m1, temp.m[0].m, 0xff));
+		this->e11 = _mm_cvtss_f32(_mm_dp_ps(m1, temp.m[1].m, 0xff));
+		this->e12 = _mm_cvtss_f32(_mm_dp_ps(m1, temp.m[2].m, 0xff));
+		this->e13 = _mm_cvtss_f32(_mm_dp_ps(m1, temp.m[3].m, 0xff));
 		
-		this->e20 = _mm_cvtss_f32(_mm_dp_ps(this->m[2].m, temp.m[2].m, 0xff));
-		this->e21 = _mm_cvtss_f32(_mm_dp_ps(this->m[2].m, temp.m[2].m, 0xff));
-		this->e22 = _mm_cvtss_f32(_mm_dp_ps(this->m[2].m, temp.m[2].m, 0xff));
-		this->e23 = _mm_cvtss_f32(_mm_dp_ps(this->m[2].m, temp.m[2].m, 0xff));
+		this->e20 = _mm_cvtss_f32(_mm_dp_ps(m2, temp.m[0].m, 0xff));
+		this->e21 = _mm_cvtss_f32(_mm_dp_ps(m2, temp.m[1].m, 0xff));
+		this->e22 = _mm_cvtss_f32(_mm_dp_ps(m2, temp.m[2].m, 0xff));
+		this->e23 = _mm_cvtss_f32(_mm_dp_ps(m2, temp.m[3].m, 0xff));
 		
-		this->e30 = _mm_cvtss_f32(_mm_dp_ps(this->m[3].m, temp.m[3].m, 0xff));
-		this->e31 = _mm_cvtss_f32(_mm_dp_ps(this->m[3].m, temp.m[3].m, 0xff));
-		this->e32 = _mm_cvtss_f32(_mm_dp_ps(this->m[3].m, temp.m[3].m, 0xff));
-		this->e33 = _mm_cvtss_f32(_mm_dp_ps(this->m[3].m, temp.m[3].m, 0xff));
+		this->e30 = _mm_cvtss_f32(_mm_dp_ps(m3, temp.m[0].m, 0xff));
+		this->e31 = _mm_cvtss_f32(_mm_dp_ps(m3, temp.m[1].m, 0xff));
+		this->e32 = _mm_cvtss_f32(_mm_dp_ps(m3, temp.m[2].m, 0xff));
+		this->e33 = _mm_cvtss_f32(_mm_dp_ps(m3, temp.m[3].m, 0xff));
 
 		// this->e00 = temp.e[0][0] * other.e[0][0] + temp.e[0][1] * other.e[1][0] + temp.e[0][2] * other.e[2][0] + temp.e[0][3] * other.e[3][0];
 		// this->e01 = temp.e[0][0] * other.e[0][1] + temp.e[0][1] * other.e[1][1] + temp.e[0][2] * other.e[2][1] + temp.e[0][3] * other.e[3][1];

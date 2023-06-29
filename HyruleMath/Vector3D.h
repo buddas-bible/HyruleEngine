@@ -44,6 +44,8 @@ namespace Hyrule
 		float LengthSquare() const noexcept;
 		Vector3D Cross(const Vector3D&) const noexcept;
 		float Dot(const Vector3D&) const noexcept;
+		float ScalarTriple(const Vector3D&, const Vector3D&) const noexcept;
+		Vector3D VectorTriple(const Vector3D&, const Vector3D&) const noexcept;
 		float FastInvSqrt(float) const noexcept;
 		Vector3D& Normalize() noexcept;				// 벡터를 정규화하고 반환
 		Vector3D Normalized() const noexcept;		// 정규화된 새로운 벡터를 반환

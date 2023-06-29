@@ -49,6 +49,18 @@ namespace Hyrule
 		return this->x * other.x + this->y * other.y + this->z * other.z;
 	}
 
+
+	float Vector3D::ScalarTriple(const Vector3D& v1, const Vector3D& v2) const noexcept
+	{
+		return this->Dot(v1.Cross(v2));
+	}
+
+
+	Vector3D Vector3D::VectorTriple(const Vector3D& v1, const Vector3D& v2) const noexcept
+	{
+		return this->Cross(v1.Cross(v2));
+	}
+
 	float Vector3D::FastInvSqrt(float number) const noexcept
 	{
 		long i;

@@ -5,9 +5,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="0. Interface">
-      <UniqueIdentifier>{d92a19fb-041b-46ff-8937-82e0e370abad}</UniqueIdentifier>
-    </Filter>
     <Filter Include="1. HyrulePhysics">
       <UniqueIdentifier>{76d2936b-eb43-444d-ad20-c0e4340367c0}</UniqueIdentifier>
     </Filter>
@@ -25,17 +22,8 @@
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IPhysics.h">
-      <Filter>0. Interface</Filter>
-    </ClInclude>
     <ClInclude Include="HyrulePhysics.h">
       <Filter>1. HyrulePhysics</Filter>
-    </ClInclude>
-    <ClInclude Include="IRigidBody.h">
-      <Filter>0. Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="ICollider.h">
-      <Filter>0. Interface</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>3. PhysicalyObject</Filter>

@@ -49,36 +49,33 @@ namespace Hyrule
 
 	Vector4D Vector4D::Cross(const Vector4D& other) const noexcept
 	{
-		// 시간 비교 해보니까 말도 안되게 시간이 오래걸려서 주석.
-		// 		__m128 m1 = _mm_mul_ps(
-		// 			this->m, 
-		// 			_mm_shuffle_ps(
-		// 				other.m, 
-		// 				other.m, 
-		// 				_MM_SHUFFLE(3, 0, 2, 1)
-		// 			)
-		// 		);
-		// 
-		// 		__m128 m2 = _mm_mul_ps(
-		// 			_mm_shuffle_ps(
-		// 				this->m, 
-		// 				this->m,
-		// 				_MM_SHUFFLE(3, 0, 2, 1)
-		// 			), 
-		// 			other.m
-		// 		);
-		// 
-		// 		Vector4D temp;
-		// 		temp.m = _mm_sub_ps(m1, m2);
-		// 
-		// 		return temp;
+		__m128 m1 = _mm_shuffle_ps(
+			this->m,
+			this->m,
+			_MM_SHUFFLE(3, 0, 2, 1)		// Y Z X 0
+		);
 
-		return Vector4D(
-			(this->y * other.z - this->z * other.y),
-			(this->z * other.x - this->x * other.z),
-			(this->x * other.y - this->y * other.x),
-			0.f
- 		);
+		__m128 m2 = _mm_shuffle_ps(
+			other.m,
+			other.m,
+			_MM_SHUFFLE(3, 0, 2, 1)
+		);
+
+		m1 = _mm_mul_ps(m2, this->m);
+		m2 = _mm_mul_ps(m1, other.m);
+		m1 = _mm_sub_ps(m1, m2);
+
+		Vector4D temp;
+		temp.m = _mm_shuffle_ps(m1, m1, _MM_SHUFFLE(3, 0, 2, 1));
+
+		return temp;
+
+		// return Vector4D(
+		// 	(this->y * other.z - this->z * other.y),
+		// 	(this->z * other.x - this->x * other.z),
+		// 	(this->x * other.y - this->y * other.x),
+		// 	0.f
+		// );
 	}
 
 	float Vector4D::Dot(const Vector4D& other) const noexcept

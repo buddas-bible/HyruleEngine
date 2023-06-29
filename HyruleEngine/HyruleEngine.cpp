@@ -5,6 +5,8 @@
 #include "IRenderer.h"
 // #include "IPhysics.h"
 
+// #include <functional>
+
 namespace Hyrule
 {
 	HyruleEngine::HyruleEngine() : hwnd(), isRunning(true), rendererEngine(), physicsEngine()
@@ -50,7 +52,7 @@ namespace Hyrule
 			else
 			{
 				/// 여기가 Core를 실행시킬 곳일까?
-				// m_engine->Update();
+				rendererEngine->Render();
 				// m_engine->PhysicsUpdate();
 				// engine->Render();
 			}
@@ -60,13 +62,10 @@ namespace Hyrule
 	/// <summary>
 	/// 초기화 (윈도우 창 설정)
 	/// </summary>
-	void HyruleEngine::Initialize(HWND& _hwnd, HINSTANCE hInstance, const std::wstring& _name)
+	void HyruleEngine::Initialize(HINSTANCE hInstance, const std::wstring& _name)
 	{
-		// DLL 링킹 오류로 메세지 박스를 띄우기 위해서 가지고 있을 예정
-		hwnd = _hwnd;
-
 		// 윈도우 창 설정
-		this->CreateEngineWindow(_hwnd, hInstance, _name);
+		this->CreateEngineWindow(hInstance, _name);
 
 		// 여기서 아마 시스템 관련 친구들을 생성 및 초기화 하지 않을까?
 	}
@@ -91,7 +90,7 @@ namespace Hyrule
 	/// <summary>
 	/// 윈도우 창 생성
 	/// </summary>
-	long HyruleEngine::CreateEngineWindow(HWND& _hwnd, HINSTANCE& hInstance, const std::wstring& _name)
+	long HyruleEngine::CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name)
 	{
 		WNDCLASSEXW wcex;
 
@@ -111,7 +110,7 @@ namespace Hyrule
 
 		RegisterClassExW(&wcex);
 
-		_hwnd = CreateWindowW(
+		hwnd = CreateWindowW(
 			wcex.lpszClassName,
 			_name.c_str(),
 			WS_OVERLAPPEDWINDOW | WS_BORDER | WS_SYSMENU,
@@ -124,15 +123,15 @@ namespace Hyrule
 			hInstance,
 			NULL);
 
-		if (!_hwnd)
+		if (!hwnd)
 		{
 			return S_FALSE;
 		}
 
-		float dpi = (float)GetDpiForWindow(_hwnd);
+		float dpi = (float)GetDpiForWindow(hwnd);
 
 		SetWindowPos(
-			_hwnd,
+			hwnd,
 			NULL,
 			NULL,
 			NULL,
@@ -140,8 +139,8 @@ namespace Hyrule
 			static_cast<int>(ceil(900.f * dpi / 96.f)),
 			SWP_NOMOVE);
 
-		ShowWindow(_hwnd, SW_SHOWNORMAL);
-		UpdateWindow(_hwnd);
+		ShowWindow(hwnd, SW_SHOWNORMAL);
+		UpdateWindow(hwnd);
 
 		return S_OK;
 	}
@@ -182,16 +181,17 @@ namespace Hyrule
 		}
 
 		using ImportFunction = IRenderer* (*) ();
-		ImportFunction CreateInstance{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
+		// std::function function{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
+		ImportFunction function{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
 
-		if (CreateInstance == nullptr)
+		if (function == nullptr)
 		{
 			MessageBox(hwnd, L"Graphics DLL에서 함수 포인터를 받아오지 못했습니다.", L"DLL 오류", NULL);
 			isRunning = false;
 			return;
 		}
 
-		rendererEngine = CreateInstance();
+		rendererEngine = function();
 		if (FAILED(rendererEngine->Initialize((int)hwnd)))
 		{
 			isRunning = false;
@@ -234,33 +234,32 @@ namespace Hyrule
 			case WM_ACTIVATE:
 			{
 				// 윈도우가 활성화 될 때
+				// 타임 스케일이 1.f로 게임을 시작함
 			}
 			break;
 
 			case WA_INACTIVE:
 			{
 				// 윈도우가 비활성화 될 때
+				// 타임 스케일이 0.f로 게임을 정지시킴
 			}
 			break;
 
 			case WM_SIZE:
 			{
-				if (HyruleEngine::GetInstance() != nullptr)
-				{
-					HyruleEngine::GetInstance()->OnResize();
-				}
-
 				if (_wParam == SIZE_MINIMIZED)
 				{
 					// 윈도우가 최소화될 때
+					// 타임 스케일이 0.f로 게임을 정지시킴
 				}
-				else if (_wParam == SIZE_MAXIMIZED)
+				else if (_wParam == SIZE_MAXIMIZED || _wParam == SIZE_RESTORED)
 				{
 					// 윈도우가 최대화될 때
-				}
-				else if (_wParam == SIZE_RESTORED)
-				{
 					// 윈도우 크기가 변경될 때
+					if (HyruleEngine::GetInstance() != nullptr)
+					{
+						HyruleEngine::GetInstance()->OnResize();
+					}
 				}
 			}
 			break;

@@ -51,6 +51,17 @@ namespace Hyrule
 		return ToScaleMatrix(_scl) * _rot.ToMatrix() * ToTranslateMatrix(_pos);
 	}
 
+
+	void Decompose(Vector4D& _pos, Vector4D& _rot, Vector4D& _scl, const Matrix4x4& _matrix) noexcept
+	{
+		// _pos.m = _matrix.m[3].m;
+		// 
+		// _scl.x = Vector3D{_matrix.m[0].e[0], _matrix.m[1].e[0], _matrix};
+		// _scl.y;
+		// _scl.z;
+		// _scl.w = 0.f;
+	}
+
 	/// <summary>
 	/// 사원수 선형 보간
 	/// 정규화된 두 쿼터니언을 받아 보간함.

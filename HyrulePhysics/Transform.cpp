@@ -12,5 +12,11 @@ namespace Hyrule
 		{
 
 		}
+
+		Hyrule::Matrix4x4& Transform::GetWorldTransform()
+		{
+
+		}
+
 	}
 }

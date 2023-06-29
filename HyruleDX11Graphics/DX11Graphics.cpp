@@ -37,7 +37,7 @@ namespace Hyrule
 
 	long DX11Graphics::Initialize(int _hwnd)
 	{
-		m_hWnd = (HWND)_hwnd;
+		m_hWnd = _hwnd;
 
 		HRESULT hr = S_OK;
 
@@ -112,7 +112,7 @@ namespace Hyrule
 	long DX11Graphics::CreateDeviceAndSwapChain()
 	{
 		HRESULT hr = S_OK;
-		m_Device = new DXDevice(m_hWnd);
+		m_Device = new DXDevice((HWND)m_hWnd);
 
 		hr = m_Device->CreateDeviceAndSwapChain();
 

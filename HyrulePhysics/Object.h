@@ -19,6 +19,9 @@ namespace Hyrule
 
 		public:
 			std::wstring name;
+			Transform* transform;
+			
+		public:
 			RigidBody* rigidbody;
 			std::vector<Collider*> colliders;
 		};

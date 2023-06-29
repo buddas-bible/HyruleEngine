@@ -10,7 +10,7 @@ namespace Hyrule
 	{
 		__declspec(dllexport) IPhysics* CreatePhysics()
 		{
-			return new Physics::HyrulePhysics;
+			return new Hyrule::Physics::HyrulePhysics;
 		}
 
 		__declspec(dllexport) void ReleasePhysics(IPhysics*& _physics)
@@ -105,7 +105,7 @@ namespace Hyrule
 
 		long HyrulePhysics::Initialize()
 		{
-			gravity = 9.81f;
+			gravity = Hyrule::Vector3D(0.f, -9.81f, 0.f);
 
 			return (long)0L;
 		}
@@ -115,6 +115,11 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::CollisionCheck()
 		{
+			// 한 오브젝트가 복수의 콜라이더를 같는 경우
+			// 자식 오브젝트가 콜라이더를 갖는 경우
+			// 서로는 충돌 감지를 안함
+			// Collision
+
 
 		}
 
@@ -123,7 +128,12 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RigidSimulation(const float _deltaTime)
 		{
-
+			/*
+			계층 구조를 가지는 강체는 트랜스폼 정보를 어떻게 가지고 어떻게 업데이트를 해야할까?
+			물리 업데이트를 받기 전, 우선 월드 트랜스폼을 전달 받는다.
+			강체 시뮬레이션을 통해서 월드 트랜스폼 정보가 변경이 된다.
+			부모의 월드 트랜스폼 정보를 기반으로 로컬 트랜스폼 정보를 업데이트 한다.
+			*/
 		}
 
 		/// <summary>
@@ -131,17 +141,34 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::WorldReset()
 		{
+			/*
+			게임 엔진에서 씬 단위로 관리를 한다고 했을 때.
+			씬 전환 시, 월드 리셋 함수를 호출하는 것으로 물리 엔진에 있는 오브젝트를 정리한다.
+			
+			물리 엔진도 씬 단위로 오브젝트를 관리하는 것을 고민 해보았지만
+			이러는 편이 오히려 직관적으로 이용할 수 있을 듯 싶어서 이렇게 하기로 했다.
 
+			만약 물리 엔진도 씬 단위로 만든다고 했을 때,
+			씬 인터페이스를 만들어서 외부에서 씬을 생성하고 해당 씬에
+			*/
 		}
 
 		void HyrulePhysics::Finalize()
 		{
-
+			/*
+			
+			*/
 		}
 
-		void HyrulePhysics::SetGravity(float)
+		/// <summary>
+		/// 중력 가속도 설정
+		/// </summary>
+		void HyrulePhysics::SetWorldGravity(const Hyrule::Vector3D& _gravity)
 		{
-
+			/*
+			물리 시뮬레이션이 이뤄지는 세계의 중력 설정
+			*/
+			gravity = _gravity;
 		}
 
 		/// <summary>
@@ -166,18 +193,22 @@ namespace Hyrule
 		/// </summary>
 		Collider* HyrulePhysics::CreateCollider(Object* _obj)
 		{
-			Collider* newCollider = new Collider;
+			/*
+			우선 충돌 감지 때는 오브젝트 단위로 충돌 감지를 하려고 함.
+			오브젝트
+			*/
+			// Collider* newCollider = new Collider;
 
-			_obj->colliders.push_back(newCollider);
+			// _obj->colliders.push_back(newCollider);
 
-			return newCollider;
+			// return newCollider;
+
+			return nullptr;
 		}
 
 		/// <summary>
 		/// 오브젝트에 강체를 만듬
 		/// </summary>
-		/// <param name="_obj"></param>
-		/// <returns></returns>
 		RigidBody* HyrulePhysics::CreateRigidBody(Object* _obj)
 		{
 			RigidBody* newRigidbody = new RigidBody;

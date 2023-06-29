@@ -160,6 +160,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="IBuilder.h" />
+    <ClInclude Include="ICollider.h" />
+    <ClInclude Include="IPhysics.h" />
+    <ClInclude Include="IRigidBody.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

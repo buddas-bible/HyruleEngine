@@ -16,7 +16,7 @@ namespace Hyrule
 	public:
 		static HyruleEngine* GetInstance();
 		
-		void Initialize(HWND& _hwnd, HINSTANCE hInstance, const std::wstring& _name);
+		void Initialize(HINSTANCE hInstance, const std::wstring& _name);
 		void Run();
 		void Finalize();
 
@@ -29,16 +29,15 @@ namespace Hyrule
 		// void Render();
 		long	OnResize();
 
-		long CreateEngineWindow(HWND& _hwnd, HINSTANCE& hInstance, const std::wstring& _name);
+		long CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name);
 
 	private:
 		HWND hwnd;
-		bool		isRunning;
+		bool isRunning;
 
 		HyruleEngine* m_gameEngine;
 		IRenderer*	rendererEngine;
 		IPhysics*	physicsEngine;
-	
 
 		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam);
 	};

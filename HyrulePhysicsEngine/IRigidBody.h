@@ -8,7 +8,6 @@ namespace Hyrule
 
 	namespace Physics
 	{
-
 		class IRigidBody
 		{
 		public:

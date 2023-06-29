@@ -2,7 +2,7 @@
 #include <vector>
 
 #pragma comment(lib, "HyruleMath.lib")
-#include "../HyruleMath/HRVector.h"
+#include "../HyruleMath/HyruleMath.h"
 
 namespace Hyrule
 {
@@ -17,21 +17,23 @@ namespace Hyrule
 		{
 		public:
 			// Manifold() noexcept = default;
-			Manifold(const Collider*& _A, const Collider*& _B) noexcept;
+			Manifold(Collider*& _A, Collider*& _B) noexcept;
 			~Manifold() noexcept = default;
 
 		private:
 			// 충돌 검사하는 두 콜라이더
-			Collider const* A;
-			Collider const* B;
+			Collider* A;
+			Collider* B;
 
 			// 충돌 정보
-			Vector3D normal;			// 충돌의 노말 벡터
-			Vector3D tangent;			// 충돌의 탄젠트 벡터
-										// 충돌의 이선 벡터
-			float depth;				// 충돌의 깊이
-			std::vector<Vector3D> contactPoints;	// 충돌 접점				// vector로 저장하면 vector의 size로 접점 개수 얻을 수 있음
-			Vector3D contactNormal;		// 접점의 노말 벡터
+			Hyrule::Vector3D normal;						// 충돌의 노말 벡터
+			Hyrule::Vector3D tangent;						// 충돌의 탄젠트 벡터
+															// 충돌의 이선 벡터
+			float depth;									// 충돌의 깊이
+			std::vector<Hyrule::Vector3D> contactPoints;	// 충돌 접점				// vector로 저장하면 vector의 size로 접점 개수 얻을 수 있음
+			Hyrule::Vector3D contactNormal;					// 접점의 노말 벡터
+
+			float friction;
 
 			bool collided;
 
@@ -62,6 +64,9 @@ namespace Hyrule
 			/// 
 			/// </summary>
 			void CheckCollision();
+
+			void CollisionEvent();
+
 		};
 	}
 }

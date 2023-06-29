@@ -13,5 +13,17 @@
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="IBuilder.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IPhysics.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollider.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IRigidBody.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,13 +1,13 @@
 #pragma once
 #include "IRigidBody.h"
+
 #include "HyruleMath.h"
 
 namespace Hyrule
 {
 	namespace Physics
 	{
-		class Collider;
-		class Transform;
+		class Object;
 
 		class RigidBody : public IRigidBody
 		{
@@ -16,8 +16,7 @@ namespace Hyrule
 			virtual ~RigidBody() noexcept = default;
 
 		private:
-			Collider* collider;
-			Transform* transform;
+			Object* object;
 
 		private:
 			/// <summary>
@@ -30,37 +29,37 @@ namespace Hyrule
 			/// </summary>
 			float mess;							// 질량
 			float invMess;						// 역 질량
-			Vector3D velocity;					// 속도
-			Vector3D angularVelocity;			// 각속도
+			Hyrule::Vector3D velocity;					// 속도
+			Hyrule::Vector3D angularVelocity;			// 각속도
 			float dfriction;					// 마찰
 			float sfriction;					// 마찰
 			float restitution;					// 반발계수
-			Matrix3x3 inertiaTensor;			// 관성텐서
-			Matrix3x3 invInertiaTensor;			// 역관성텐서
+			Hyrule::Matrix3x3 inertiaTensor;			// 관성텐서
+			Hyrule::Matrix3x3 invInertiaTensor;			// 역관성텐서
 
 			bool sleep;							// 잠지고 있는 상태인가?
 			bool kinematic;
 			bool gravityEnabled;
 
 		private:
-			Vector3D force;						// 힘
-			Vector3D torque;					// 토크
+			Hyrule::Vector3D force;						// 힘
+			Hyrule::Vector3D torque;					// 토크
 
 		public:
-			void AddImpulse(const Vector3D&, const Vector3D&) noexcept;
-			virtual void AddForce(const Vector3D&) noexcept override;
-			virtual void AddTorque(const Vector3D&) noexcept override;
+			void AddImpulse(const Hyrule::Vector3D&, const Hyrule::Vector3D&) noexcept;
+			virtual void AddForce(const Hyrule::Vector3D&) noexcept override;
+			virtual void AddTorque(const Hyrule::Vector3D&) noexcept override;
 
 #pragma region GetSet
 		public:
 			virtual void SetMess(const float) noexcept override;
 			virtual float GetMess() const noexcept override;
 
-			virtual void SetVelocity(const Vector3D&) noexcept override;
-			virtual Vector3D GetVelocity() const noexcept override;
+			virtual void SetVelocity(const Hyrule::Vector3D&) noexcept override;
+			virtual Hyrule::Vector3D GetVelocity() const noexcept override;
 
-			virtual void SetAngularVelocity(const Vector3D&) noexcept override;
-			virtual Vector3D GetAngularVelocity() const noexcept override;
+			virtual void SetAngularVelocity(const Hyrule::Vector3D&) noexcept override;
+			virtual Hyrule::Vector3D GetAngularVelocity() const noexcept override;
 
 			virtual bool isSleeping() const noexcept override;
 			virtual void isSleeping(const bool) noexcept override;

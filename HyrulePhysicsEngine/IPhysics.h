@@ -5,7 +5,7 @@
 namespace Hyrule
 {
 	struct Vector3D;
-	
+
 	namespace Physics
 	{
 		class ICollider;

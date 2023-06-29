@@ -14,4 +14,9 @@ namespace Hyrule
 		return this->collided;
 	}
 
+
+	/*
+	
+	
+	*/
 }

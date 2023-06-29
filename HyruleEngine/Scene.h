@@ -5,6 +5,7 @@
 namespace Hyrule
 {
 	class GameObject;
+	class Camera;
 
 	class Scene
 	{
@@ -26,7 +27,10 @@ namespace Hyrule
 
 		void ClearScene();
 
+		Camera* GetMainCamera();
 
+	private:
+		Camera* mainCamera;
 	};
 }
 
