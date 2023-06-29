@@ -9,7 +9,11 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		class RigidBody;
+		class IRigidBody;
+		class Collider;
 		class ICollider;
+		class Object;
 
 		class HyrulePhysics : public IPhysics
 		{
@@ -21,6 +25,10 @@ namespace Hyrule
 			virtual ICollider* AddCollider(const std::wstring&) override;
 			virtual IRigidBody* AddRigidBody(const std::wstring&) override;
 
+			virtual ICollider* RemoveCollider(const std::wstring&, ICollider*) override;
+			virtual ICollider* RemoveCollider(const std::wstring&, int) override;
+			virtual IRigidBody* RemoveRigidBody(const std::wstring&) override;
+
 		public:
 			virtual long Initialize() override;
 			virtual void CollisionCheck() override;
@@ -30,11 +38,11 @@ namespace Hyrule
 			virtual void SetGravity(float) override;
 
 		private:
-			std::map< std::wstring, std::vector< Physics::ICollider* > > colliderMap;
-			std::map<std::wstring, IRigidBody*> rigidbodyMap;
+			std::map<std::wstring, Object*> objectList;
 
-			Physics::ICollider* CreateCollider(const std::wstring&);
-			IRigidBody* CreateRigidBody(const std::wstring&);
+			Object* GetObject(const std::wstring&);
+			Collider* CreateCollider(Object*);
+			RigidBody* CreateRigidBody(Object*);
 			float gravity;
 
 		};

@@ -19,6 +19,10 @@ namespace Hyrule
 			virtual ICollider* AddCollider(const std::wstring&) abstract;
 			virtual IRigidBody* AddRigidBody(const std::wstring&) abstract;
 
+			virtual void RemoveCollider(const std::wstring&, ICollider*) abstract;
+			virtual void RemoveCollider(const std::wstring&, int) abstract;
+			virtual void RemoveRigidBody(const std::wstring&) abstract;
+
 		public:
 			virtual long Initialize() abstract;
 			virtual void CollisionCheck() abstract;
