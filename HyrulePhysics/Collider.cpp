@@ -8,10 +8,5 @@ namespace Hyrule
 
 
 
-		void Collider::GetWorldTransform()
-		{
-
-		}
-
 	}
 }

@@ -62,6 +62,7 @@ namespace Hyrule
 			/// 충돌하면 매니폴드를 반환
 			/// 충돌하지 않으면 nullptr을 반환하는 방식으로 해서
 			/// 
+			/// 아니면 그냥 GJK랑 EPA를 함수 객체로 만들어볼까
 			/// </summary>
 			void CheckCollision();
 

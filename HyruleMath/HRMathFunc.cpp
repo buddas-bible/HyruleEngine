@@ -51,15 +51,31 @@ namespace Hyrule
 		return ToScaleMatrix(_scl) * _rot.ToMatrix() * ToTranslateMatrix(_pos);
 	}
 
-
-	void Decompose(Vector4D& _pos, Vector4D& _rot, Vector4D& _scl, const Matrix4x4& _matrix) noexcept
+	/// <summary>
+	/// 트랜스폼 행렬 분해?
+	/// </summary>
+	void Decompose(Vector4D& _pos, Quaternion& _rot, Vector4D& _scl, const Matrix4x4& _matrix) noexcept
 	{
-		// _pos.m = _matrix.m[3].m;
-		// 
-		// _scl.x = Vector3D{_matrix.m[0].e[0], _matrix.m[1].e[0], _matrix};
-		// _scl.y;
-		// _scl.z;
-		// _scl.w = 0.f;
+		// transformTM = S * R * T
+		Matrix4x4 temp{ _matrix };
+
+		// 이동값 먼저 뺌
+		_pos.m = _matrix.m[3].m;
+		temp.m[3] = { 0.f, 0.f, 0.f, 1.f };
+		
+		// 스케일 값은 각 기저의 크기로 하면 됨
+		// temp = temp.Transpose();				// 이부분도 전치하면 보기 더 깔끔해질듯
+		_scl.x = Vector3D{ _matrix.m[0].e[0], _matrix.m[1].e[0], _matrix.m[2].e[0] }.Length();
+		_scl.y = Vector3D{ _matrix.m[0].e[1], _matrix.m[1].e[1], _matrix.m[2].e[1] }.Length();
+		_scl.z = Vector3D{ _matrix.m[0].e[2], _matrix.m[1].e[2], _matrix.m[2].e[2] }.Length();
+		_scl.w = 0.f;
+
+		// 회전 행렬만 남기기 위해 스케일 값 나눠줌
+		temp.m[0] /= _scl.x;
+		temp.m[1] /= _scl.y;
+		temp.m[2] /= _scl.z;
+
+		_rot = ToQuaternion(temp);
 	}
 
 	/// <summary>
@@ -197,7 +213,47 @@ namespace Hyrule
 	/// </summary>
 	Quaternion ToQuaternion(const Matrix4x4& _rotMatrix) noexcept
 	{
-		return Quaternion();
+		Quaternion quaternion;
+
+		// 	float trace = _rotMatrix.e[0][0] + _rotMatrix.e[1][1] + _rotMatrix.e[2][2];
+		// 
+		// 	if (trace > 0.0f)
+		// 	{
+		// 		float s = 0.5f / sqrtf(trace + 1.0f);
+		// 		quaternion.w = 0.25f / s;
+		// 		quaternion.x = (_rotMatrix.e[2][1] - _rotMatrix.e[1][2]) * s;
+		// 		quaternion.y = (_rotMatrix.e[0][2] - _rotMatrix.e[2][0]) * s;
+		// 		quaternion.z = (_rotMatrix.e[1][0] - _rotMatrix.e[0][1]) * s;
+		// 	}
+		// 	else
+		// 	{
+		// 		if (_rotMatrix.e[0][0] > _rotMatrix.e[1][1] && _rotMatrix.e[0][0] > _rotMatrix.e[2][2])
+		// 		{
+		// 			float s = 2.0f * sqrtf(1.0f + _rotMatrix.e[0][0] - _rotMatrix.e[1][1] - _rotMatrix.e[2][2]);
+		// 			quaternion.w = (_rotMatrix.e[2][1] - _rotMatrix.e[1][2]) / s;
+		// 			quaternion.x = 0.25f * s;
+		// 			quaternion.y = (_rotMatrix.e[0][1] + _rotMatrix.e[1][0]) / s;
+		// 			quaternion.z = (_rotMatrix.e[0][2] + _rotMatrix.e[2][0]) / s;
+		// 		}
+		// 		else if (_rotMatrix.e[1][1] > _rotMatrix.e[2][2])
+		// 		{
+		// 			float s = 2.0f * sqrtf(1.0f + _rotMatrix.e[1][1] - _rotMatrix.e[0][0] - _rotMatrix.e[2][2]);
+		// 			quaternion.w = (_rotMatrix.e[0][2] - _rotMatrix.e[2][0]) / s;
+		// 			quaternion.x = (_rotMatrix.e[0][1] + _rotMatrix.e[1][0]) / s;
+		// 			quaternion.y = 0.25f * s;
+		// 			quaternion.z = (_rotMatrix.e[1][2] + _rotMatrix.e[2][1]) / s;
+		// 		}
+		// 		else
+		// 		{
+		// 			float s = 2.0f * sqrtf(1.0f + _rotMatrix.e[2][2] - _rotMatrix.e[0][0] - _rotMatrix.e[1][1]);
+		// 			quaternion.w = (_rotMatrix.e[1][0] - _rotMatrix.e[0][1]) / s;
+		// 			quaternion.x = (_rotMatrix.e[0][2] + _rotMatrix.e[2][0]) / s;
+		// 			quaternion.y = (_rotMatrix.e[1][2] + _rotMatrix.e[2][1]) / s;
+		// 			quaternion.z = 0.25f * s;
+		// 		}
+		// 	}
+
+		return quaternion;
 	}
 
 	// ToEuler (축각)

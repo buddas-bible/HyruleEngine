@@ -1,23 +1,28 @@
 #pragma once
 #include <vector>
 
-struct Vertex;
-
-struct Mesh
+namespace Hyrule
 {
-public:
-	Mesh() = default;
-	~Mesh() = default;
+	struct Vertex;
+	struct Vector3D;
 
-private:
-	/// 버텍스와 인덱스를 가지고 있겠지?
-	std::vector<Vertex> vertex;
-	std::vector<size_t> index;
+	struct Mesh
+	{
+	public:
+		Mesh() = default;
+		~Mesh() = default;
 
-	/// fbx 파일을 로드하면 Mesh* 형태로 반환하도록 해야하지 않을까?
-	/// 텍스쳐는 어떻게 해야할까..
-	/// 메쉬 렌더러에서 그래픽스에 렌더링을 요청하는 형태니
-	/// 아니면 메쉬 렌더러가 리소스를 들고 있다가
-	/// 그래픽스의
-};
+	private:
+		/// 렌더러블 메쉬 정보가 되는 버텍스와 인덱스 정보
+		std::vector<Vertex> vertices;
+		std::vector<size_t> index;
 
+		/// 콜라이더 정보가 될 수도 있는 점구름
+		std::vector<Vector3D> pointCloud;
+
+		/// fbx 파일을 로드하면 로드 정보를 여기다가 담아두려고 한다.
+		/// 이게 맞을까?
+		/// 둘이 인덱스 정보를 공유하지도 않을 것이다.
+		/// 콜라이더 정보를 위해 인덱스 정보를 하나 더 가지고 있는다?
+	};
+}

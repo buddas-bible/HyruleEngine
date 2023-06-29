@@ -170,7 +170,7 @@ namespace Hyrule
 	/// <summary>
 	/// Graphics DLL 동적 링킹
 	/// </summary>
-	void HyruleEngine::GraphicsDLLLoad(const std::wstring& _path)
+	void HyruleEngine::LoadGraphicsDLL(const std::wstring& _path)
 	{
 		HMODULE graphicsDLL{ LoadLibrary(_path.c_str()) };
 		if (graphicsDLL == nullptr)
@@ -182,16 +182,24 @@ namespace Hyrule
 
 		using ImportFunction = IRenderer* (*) ();
 		// std::function function{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
-		ImportFunction function{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
+		ImportFunction CreateInstance{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
 
-		if (function == nullptr)
+		if (CreateInstance == nullptr)
 		{
 			MessageBox(hwnd, L"Graphics DLL에서 함수 포인터를 받아오지 못했습니다.", L"DLL 오류", NULL);
 			isRunning = false;
 			return;
 		}
 
-		rendererEngine = function();
+		rendererEngine = CreateInstance();
+
+		if (rendererEngine == nullptr)
+		{
+			MessageBox(hwnd, L"Graphics Engine 객체 생성 실패", L"DLL 오류", NULL);
+			isRunning = false;
+			return;
+		}
+
 		if (FAILED(rendererEngine->Initialize((int)hwnd)))
 		{
 			isRunning = false;
@@ -201,7 +209,7 @@ namespace Hyrule
 	/// <summary>
 	/// Physics DLL 동적 링킹
 	/// </summary>
-	void HyruleEngine::PhysicsDLLLoad(const std::wstring& _path)
+	void HyruleEngine::LoadPhysicsDLL(const std::wstring& _path)
 	{
 		// HMODULE physicsDLL{ LoadLibrary(_path.c_str()) };
 		// if (!physicsDLL)
@@ -217,6 +225,13 @@ namespace Hyrule
 		// if (!CreateInstance)
 		// {
 		// 	MessageBox(hwnd, L"Physics DLL에서 함수 포인터를 받아오지 못했습니다.", L"DLL 오류", MB_OK | MB_ICONWARNING);
+		// 	isRunning = false;
+		// 	return;
+		// }
+		// 
+		// 	if (rendererEngine == nullptr)
+		// {
+		// 	MessageBox(hwnd, L"Graphics Engine 객체 생성 실패", L"DLL 오류", NULL);
 		// 	isRunning = false;
 		// 	return;
 		// }

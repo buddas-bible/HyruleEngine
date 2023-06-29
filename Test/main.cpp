@@ -35,6 +35,7 @@
 // 
 
 #include "framework.h"
+
 #pragma comment(lib, "HyruleEngine.lib")
 #include "HyruleEngine.h"
 
@@ -46,13 +47,25 @@ int APIENTRY WinMain(
 {
 	auto gameEngine{ Hyrule::HyruleEngine::GetInstance() };
 	gameEngine->Initialize(_hInstance, L"Hyrule Engine");
-#ifdef DEBUG
-	gameEngine->GraphicsDLLLoad(L"HyruleDX11Graphics.dll");
-	gameEngine->PhysicsDLLLoad(L"HyrulePhysics.dll");
-#else
-	gameEngine->GraphicsDLLLoad(L"../x64/Debug/HyruleDX11Graphics.dll");
-	gameEngine->PhysicsDLLLoad(L"");
-#endif // DEBUG
+
+#if _DEBUG		// Debug
+#if _WIN64		// x64
+	gameEngine->LoadGraphicsDLL(L"../x64/Debug/HyruleDX11Graphics.dll");
+	gameEngine->LoadPhysicsDLL(L"");
+#else			// x86
+	gameEngine->LoadGraphicsDLL(L"../x86/Debug/HyruleDX11Graphics.dll");
+	gameEngine->LoadPhysicsDLL(L"");
+#endif
+#else			// Release
+#if _WIN64		// x64
+	gameEngine->LoadGraphicsDLL(L"HyruleDX11Graphics.dll");
+	gameEngine->LoadPhysicsDLL(L"HyrulePhysics.dll");
+#else			// x86
+	gameEngine->LoadGraphicsDLL(L"HyruleDX11Graphics.dll");
+	gameEngine->LoadPhysicsDLL(L"HyrulePhysics.dll");
+#endif	
+#endif
+
 	gameEngine->Run();
 	gameEngine->Finalize();
 

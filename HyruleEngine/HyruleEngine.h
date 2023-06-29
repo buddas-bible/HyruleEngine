@@ -20,14 +20,11 @@ namespace Hyrule
 		void Run();
 		void Finalize();
 
-		void GraphicsDLLLoad(const std::wstring&);
-		void PhysicsDLLLoad(const std::wstring&);
+		void LoadGraphicsDLL(const std::wstring&);
+		void LoadPhysicsDLL(const std::wstring&);
 
 	private:
-		// void Update();
-		// void PhysicsUpdate();
-		// void Render();
-		long	OnResize();
+		long OnResize();
 
 		long CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name);
 
