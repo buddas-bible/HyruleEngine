@@ -7,7 +7,7 @@ namespace Hyrule
 	{
 		class IBuilder
 		{
-
+			IBuilder* 
 		};
 	}
 }

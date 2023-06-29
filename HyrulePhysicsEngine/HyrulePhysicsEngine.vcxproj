@@ -159,11 +159,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ColliderBuilder.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IBuilder.h" />
     <ClInclude Include="ICollider.h" />
     <ClInclude Include="IPhysics.h" />
     <ClInclude Include="IRigidBody.h" />
+    <ClInclude Include="RigidBodyBuilder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
