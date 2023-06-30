@@ -34,9 +34,6 @@
     <ClInclude Include="Octree.h">
       <Filter>2. DataStruct</Filter>
     </ClInclude>
-    <ClInclude Include="TreeNode.h">
-      <Filter>2. DataStruct</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>3. PhysicalyObject</Filter>
     </ClInclude>
@@ -58,9 +55,6 @@
       <Filter>3. PhysicalyObject</Filter>
     </ClCompile>
     <ClCompile Include="Octree.cpp">
-      <Filter>2. DataStruct</Filter>
-    </ClCompile>
-    <ClCompile Include="TreeNode.cpp">
       <Filter>2. DataStruct</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
