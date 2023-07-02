@@ -50,6 +50,9 @@ namespace Hyrule
 			virtual void AddForce(const Hyrule::Vector3D&) noexcept override;
 			virtual void AddTorque(const Hyrule::Vector3D&) noexcept override;
 
+		private:
+			void CalculateInertiaTensor();
+
 #pragma region GetSet
 		public:
 			virtual void SetMess(const float) noexcept override;

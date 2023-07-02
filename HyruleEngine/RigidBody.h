@@ -4,7 +4,9 @@
 namespace Hyrule
 {
 	class GameObject;
-	class IRigidBody;
+	class Vector3D;
+
+	class Physics::IRigidBody;
 
 	class RigidBody : public Component
 	{
@@ -16,9 +18,33 @@ namespace Hyrule
 		/// 그저 물리엔진에서의 강체와 이벤트를 연결해주는 무언가.
 		/// 강체에 이벤트가... 있던가...?
 	private:
-		IRigidBody* rigidbody;
+		Physics::IRigidBody* rigidbody;
 
 		void LinkRigidBody();
+
+	public:
+		void AddForce(const Vector3D&) const noexcept;
+		void AddTorque(const Vector3D&) const noexcept;
+
+	public:
+		/// <summary>
+		/// 물리량 조절
+		/// </summary>
+		void SetMess(const float) noexcept;
+		float GetMess() const noexcept;
+
+		void SetVelocity(const Hyrule::Vector3D&) noexcept;
+		Hyrule::Vector3D GetVelocity() const noexcept;
+
+		void SetAngularVelocity(const Hyrule::Vector3D&) noexcept;
+		Hyrule::Vector3D GetAngularVelocity() const noexcept;
+
+		bool isSleeping() const noexcept;
+		void isSleeping(const bool) noexcept;
+
+		bool isKinematic() const noexcept;
+		void isKinematic(const bool) noexcept;
+
 
 	public:
 		virtual void Awake() override {}

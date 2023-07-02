@@ -1,5 +1,8 @@
 #include "RigidBody.h"
 
+#include "Object.h"
+#include "Collider.h"
+
 namespace Hyrule
 {
 	namespace Physics
@@ -26,7 +29,7 @@ namespace Hyrule
 			// dL = Ia * dt = I * dw
 			// dw = dL / I
 			// dw = (r X dP) / I
-			Vector3D dw = _contact.Cross(_impulse) * inertiaTensor;
+			Vector3D dw = _contact.Cross(_impulse) * invInertiaTensor;
 			angularVelocity = angularVelocity + dw;
 		}
 
@@ -40,6 +43,29 @@ namespace Hyrule
 			this->torque += _torque;
 		}
 
+		/// <summary>
+		/// 관성 텐서 계산
+		/// </summary>
+		void RigidBody::CalculateInertiaTensor()
+		{
+			object->colliders[0];
+			// 일단 콜라이더 1개만이라도 관성 텐서를 구해보도록 하자...
+			// 그리고 강체가 복수의 콜라이더를 가진다고 했을 땐
+			// 또 고민해볼 점이 많다.....
+			// 질량 중심을 옮겨야 한다는 점.
+			// 관성 텐서를 계산하는 부분이 막막하다...
+			// 대략 예상이 가는 점은..
+			// 다면체의 면의 노말 방향을 보고 그 사면체의 부피에서 뺼지 더할지를 판단하고?
+			// (질량 중심이 외각에 있기 때문에)
+			// 
+			// 이런다고 될까?
+			// 
+			// for (auto& e : object->colliders)
+			// {
+			// 	
+			// }
+		}
+
 #pragma region GetSet
 		void RigidBody::SetMess(const float _mess) noexcept
 		{
@@ -51,6 +77,9 @@ namespace Hyrule
 			{
 				this->invMess = 1 / _mess;
 			}
+
+			/// SetMess를 시도하면
+			/// inertia Tensor를 새로 구하도록 해야함.
 
 			this->mess = _mess;
 		}

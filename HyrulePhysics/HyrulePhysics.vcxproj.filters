@@ -17,11 +17,11 @@
     <Filter Include="Struct">
       <UniqueIdentifier>{72546e8b-3b75-45e3-8455-3dc2254d751f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. PhysicalyObject\Shape">
+      <UniqueIdentifier>{80fc47c1-5302-41fe-a7c4-47810554ecc4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="HyrulePhysics.h">
       <Filter>1. HyrulePhysics</Filter>
     </ClInclude>
@@ -45,6 +45,18 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>3. PhysicalyObject\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Polyhedron.h">
+      <Filter>3. PhysicalyObject\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB.h">
+      <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>3. PhysicalyObject\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Polyhedron.cpp">
+      <Filter>3. PhysicalyObject\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="AABB.cpp">
+      <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
