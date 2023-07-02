@@ -24,9 +24,11 @@ namespace Hyrule
 			AABB(const Vector3D& _min, const Vector3D& _max) noexcept;
 			~AABB() noexcept = default;
 
-		private:
-			Vector3D min;
-			Vector3D max;
+		public:
+			const Vector3D center;
+			const Vector3D min;
+			const Vector3D max;
+			const float length;
 
 		public:
 			bool ContainsPoint(const Vector3D&) const noexcept;

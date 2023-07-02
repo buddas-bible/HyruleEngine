@@ -2,9 +2,14 @@
 #include <vector>
 
 #include "Vector3D.h"
+#include "AABB.h"
+
 
 namespace Hyrule
 {
+	class Collider;
+
+
 	namespace Physics
 	{
 		/// <summary>
@@ -16,43 +21,45 @@ namespace Hyrule
 		{
 		public:
 
+			/// <summary>
+			/// 노드에 들어갈 데이터
+			/// </summary>
 			struct Data
 			{
 			public:
 				// 콜라이더 중심으로부터 가장 먼 점과의 길이를 넘기자
-				Data(Vector3D* _data, const Vector3D& _centre, float _halfLength) : 
+				Data(Collider* _data, const Vector3D& _centre, float _length) :
 					data(_data), 
-					min(_centre.x - _halfLength, _centre.y - _halfLength, _centre.z - _halfLength),
-					max(_centre.x + _halfLength, _centre.y + _halfLength, _centre.z + _halfLength)
+					aabb(_centre, _length)
 				{}
 				~Data() {}
 
 			public:
-				bool operator== (const Vector3D* _rawData) noexcept
+				bool operator== (const Collider* _rawData) noexcept
 				{
 					return data == _rawData;
 				}
 
-				Vector3D* data;				// 데이터
-				Vector3D min;				// 데이터의 부피
-				Vector3D max;
+				Collider* data;				// 데이터
+				AABB aabb;
 			};
 
+			/// <summary>
+			/// 트리 노드
+			/// </summary>
 			struct Node
 			{
 			public:
 				Node() noexcept = delete;
-				Node(const Vector3D& _centre, float _halfLength, size_t _depth) :
-					min(_centre.x - _halfLength, _centre.y - _halfLength, _centre.z - _halfLength), 
-					max(_centre.x + _halfLength, _centre.y + _halfLength, _centre.z + _halfLength),
+				Node(const Vector3D& _centre, float _length, size_t _depth) :
+					aabb(_centre, _length),
 					depth(_depth), child(), dataList()
 				{}
 				~Node() noexcept {}
 
 			private:
 				const size_t depth;				// 현재 깊이
-				Vector3D min;					// 노드가 할당받은 공간
-				Vector3D max;
+				AABB aabb;
 				Node* child[8];					// 자식 노드
 				std::vector<Data*> dataList;
 
@@ -69,6 +76,9 @@ namespace Hyrule
 					return dataList;
 				}
 
+				/// <summary>
+				/// 노드에 데이터를 넣고 다음 노드를 생성할지 판단.
+				/// </summary>
 				void AddData(Node* _node, Data* _data, size_t _depth)
 				{
 					// AABB 다 체크하고 AddData를 호출하기 때문에
@@ -83,16 +93,25 @@ namespace Hyrule
 					for (size_t i = 0; i < 8; ++i)
 					{
 						Vector3D tempCenter;
-						Vector3D tempLength;
-						this->GetChildCenter(i, tempCenter, tempLength);
-						if (AABB(tempCenter - tempLength, tempCenter + tempLength, _data))
+						Vector3D tempHalfLength;
+
+						this->GetChildCenter(i, tempCenter, tempHalfLength);
+
+						// 자식 노드의 AABB를 계산해서 데이터의 AABB와 충돌 하는지 체크
+						if (AABB(tempCenter - tempHalfLength, tempCenter + tempHalfLength).CollidingAABB(_data->aabb))
 						{
-							child[i] = new Node(tempCenter, ((max.x - min.x) * 0.25f), _depth - 1);
+							// 충돌하면 노드를 생성함.
+							child[i] = new Node(tempCenter - tempHalfLength, aabb.length * 0.5f, _depth - 1);
+
+							// 해당 노드의 AddData를 호출함.
 							child[i]->AddData(child[i], _data, _depth - 1);
 						}
 					}
 				}
 
+				/// <summary>
+				/// 노드에 있는 데이터를 삭제함.
+				/// </summary>
 				void RemoveData(Data* _data)
 				{
 					// 현재 노드에서 데이터를 삭제
@@ -112,10 +131,15 @@ namespace Hyrule
 					}
 				}
 
+				/// <summary>
+				/// 자식 노드의 센터와 한 변의 길이를 구함.
+				/// 
+				/// 자식 노드를 만들기 전에 먼저 체크하고 싶어서 그러함.
+				/// </summary>
 				void GetChildCenter(size_t _id, Vector3D& _outCenter, Vector3D& _outLength)
 				{
-					Vector3D center = (max + min) * 0.5f;
-					Vector3D length = (max - min) * 0.25f;
+					Vector3D center = aabb.center;
+					Vector3D length = Vector3D(aabb.length, aabb.length, aabb.length) * 0.25f;
 
 					// 3차원 배열로 생각하고
 					// 비트 연산으로
@@ -134,15 +158,6 @@ namespace Hyrule
 
 					_outCenter = center - length;
 					_outLength = length;
-				}
-
-				bool AABB(const Vector3D& _childMin, const Vector3D& _childMax, Data* _data) const
-				{
-					// 현재 노드와 AABB 체크함.
-					return 
-						_data->max.x >= _childMin.x && _data->min.x <= _childMax.x &&
-						_data->max.y >= _childMin.y && _data->min.y <= _childMax.y &&
-						_data->max.z >= _childMin.z && _data->min.z <= _childMax.z;
 				}
 			};
 
@@ -163,7 +178,6 @@ namespace Hyrule
 			void Insert(Data* _data)
 			{
 				// root의 AABB와 Data의 AABB를 비교하고 공간 안에 있으면 넣음.
-				// 
 				root->AddData(root, _data, depthLimit);
 			}
 

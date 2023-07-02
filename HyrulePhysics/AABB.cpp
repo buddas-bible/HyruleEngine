@@ -10,8 +10,10 @@ namespace Hyrule
 		/// 중심과 한 변의 길이를 받아서 AABB를 만듬
 		/// </summary>
 		AABB::AABB(const Vector3D& _center, float _length) noexcept :
+			center(_center),
 			min(_center.x - _length / 2, _center.y - _length / 2, _center.z - _length / 2),
-			max(_center.x + _length / 2, _center.y + _length / 2, _center.z + _length / 2)
+			max(_center.x + _length / 2, _center.y + _length / 2, _center.z + _length / 2),
+			length(_length)
 		{
 
 		}
@@ -20,8 +22,10 @@ namespace Hyrule
 		/// 최대 최소 값을 받아서 AABB를 만듬
 		/// </summary>
 		AABB::AABB(const Vector3D& _min, const Vector3D& _max) noexcept : 
+			center((_max + _min) * 0.5f),
 			min(_min),
-			max(_max)
+			max(_max),
+			length(_max.x - _min.x)
 		{
 
 		}
