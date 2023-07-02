@@ -186,7 +186,6 @@
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="TreeNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
@@ -199,7 +198,6 @@
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="TreeNode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
