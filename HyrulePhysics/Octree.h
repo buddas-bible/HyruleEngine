@@ -16,7 +16,7 @@ namespace Hyrule
 		/// 물리 엔진에서 공간 분할만을 위한 팔진트리
 		/// 재사용성은 신경쓰지도 않을 예정
 		/// </summary>
-		// template <typename Data, size_t DepthLimit>
+		template <typename DataType, size_t DepthLimit = 4>
 		class Octree
 		{
 		public:
@@ -28,19 +28,19 @@ namespace Hyrule
 			{
 			public:
 				// 콜라이더 중심으로부터 가장 먼 점과의 길이를 넘기자
-				Data(Collider* _data, const Vector3D& _centre, float _length) :
+				Data(DataType* _data, const Vector3D& _centre, float _length) :
 					data(_data), 
 					aabb(_centre, _length)
 				{}
 				~Data() {}
 
 			public:
-				bool operator== (const Collider* _rawData) noexcept
+				bool operator== (const DataType* _rawData) noexcept
 				{
 					return data == _rawData;
 				}
 
-				Collider* data;				// 데이터
+				DataType* data;				// 데이터
 				AABB aabb;
 			};
 
@@ -71,9 +71,27 @@ namespace Hyrule
 				}
 
 				// 콜라이더 체크를 위해서 반환하는 것임.
-				std::vector<Data*> GetDataList()
+				void GetDataList()
 				{
-					return dataList;
+					// 노드에 데이터 개수가 2개 이하면 패스
+					if (dataList.size() < 2)
+					{
+						return;
+					}
+
+					// 노드에 데이터 개수가 6개 이상이면 자식 탐색
+					if (dataList.size() > 5)
+					{
+						for (auto& e : child)
+						{
+							e->GetDataList();
+						}
+					}
+					else
+					{
+						탐색해야할모든노드데이터.push_back(dataList);
+						return;
+					}
 				}
 
 				/// <summary>
@@ -164,40 +182,39 @@ namespace Hyrule
 
 		public:
 			Octree() noexcept = default;
-			Octree(const Vector3D& _centre, float _length, size_t _limit = 4) : depthLimit(_limit), root()
+			Octree(const Vector3D& _centre, float _length) : root()
 			{
-				root = new Node(_centre, _length, _limit);
+				root = new Node(_centre, _length, DepthLimit);
 			}
 			~Octree() noexcept = default;
 
 		private:
-			const size_t depthLimit;
+			// const size_t DepthLimit;
 			Node* root;
-		
+			
+			std::vector<std::vector<Data*>> 탐색해야할모든노드데이터;
+
 		public:
 			void Insert(Data* _data)
 			{
 				// root의 AABB와 Data의 AABB를 비교하고 공간 안에 있으면 넣음.
-				root->AddData(root, _data, depthLimit);
+				root->AddData(root, _data, DepthLimit);
 			}
 
-			void RemoveData(Data* _data)
+			void Remove(Data* _data)
 			{
 				root->RemoveData(_data);
 				// root 노드에 데이터 삭제를 요청
 				// root 노드는 반복문을 돌면서 자식 노드의 데이터 삭제 함수를 호출
 				// 재귀로 자식 노드의 데이터 삭제를 호출함.
 			}
+
+			std::vector<std::vector<Data*>> GetDataList()
+			{
+				root->GetDataList();
+
+				return 탐색해야할모든노드데이터;
+			}
 		};
 	}
 }
-
-
-/*
-공간의 중심과 크기를 기본 설정값으로 받음
-min, max 부피 데이터는 중심과 크기로 채워넣어질 예정 
-
-데이터의 포인터와, 데이터의 중심과 크기를 받아서 데이터의 부피를 설정함
-
-Insert를 하면 우선 
-*/

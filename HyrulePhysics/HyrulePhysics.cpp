@@ -3,6 +3,7 @@
 #include "Collider.h"
 #include "RigidBody.h"
 #include "Object.h"
+#include "Octree.h"
 
 namespace Hyrule
 {
@@ -53,7 +54,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveCollider(const std::wstring& _name, ICollider* _target)
 		{
-			auto& obj = objectList[_name];
+			auto& obj = objectMap[_name];
 
 			if (obj == nullptr || _target == nullptr)
 			{
@@ -70,7 +71,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveCollider(const std::wstring& _name, int _index)
 		{
-			auto obj = objectList[_name];
+			auto obj = objectMap[_name];
 
 			if ( (obj == nullptr) || 
 				 (_index < 0) || 
@@ -91,7 +92,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveRigidBody(const std::wstring& _name)
 		{
-			auto obj = objectList[_name];
+			auto obj = objectMap[_name];
 
 			if (obj == nullptr)
 			{
@@ -120,20 +121,30 @@ namespace Hyrule
 			// 서로는 충돌 감지를 안함
 			// Collision
 
+			/// 우선 엔진이 옥트리를 사용할지 안할지에 따라서
+			/// 배열을 전부 탐색할지 판단함.
+			if (useOctree)
+			{
+				/// 옥트리의 노드를 구분함.
+				/// 노드 안에 데이터가 0~1개면 패스.
+				/// 2개 ~ 4개까지는 그냥 순회하면서 충돌 감지 하려고 함.
+				/// 5개 넘어가면 자식을 탐색.
+				/// 
+				/// 
 
-			// 팔진 트리가 존재한다면 지우고 새로 만듬
-			// 팔진 트리에 오브젝트를 다 꼴아 박았으면
-			// 팔진 트리에서 Collider 배열의 모음을 받아서 하나씩 순회함.
-			
-			// 팔진 트리의 노드에서 반환할 Collider배열의 모음은 0~1은 걸러내고, 5 이상도 걸러낸다.
-			// 한 노드 안에 5개의 콜라이더가 동시에 겹쳐져 있는 경우가 있을까...?
-			// 이건 수치 조정으로 해결될 일이니...
-			// 
-			// 한 노드에 4개까지만 있다고 한다면 자식을 탐색하지 않고 본인의 배열을 뱉어낸다.
-			// 4개끼리의 충돌 체크 정도는 더 파고들 이유가 없다고 생각됨.
-			// 
-			// 또한 콜라이더의 레이어를 나누면 좋겠지만 이건 나중으로 미루자
-
+				static Octree<Object, 4> octree;
+				
+			}
+			else
+			{
+				for (size_t i = 0; i < objectList.size(); ++i)
+				{
+					for (size_t j = i + 1; j < objectList.size(); ++j)
+					{
+						objectList[i];
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -190,12 +201,13 @@ namespace Hyrule
 		/// </summary>
 		Object* HyrulePhysics::GetObject(const std::wstring& _name)
 		{
-			auto obj = objectList[_name];
+			auto obj = objectMap[_name];
 
 			if (obj == nullptr)
 			{
 				obj = new Object(_name);
-				objectList[_name] = obj;
+				objectMap[_name] = obj;
+				objectList.push_back(obj);
 			}
 
 			return obj;

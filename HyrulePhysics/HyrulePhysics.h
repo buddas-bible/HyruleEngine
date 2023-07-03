@@ -43,13 +43,16 @@ namespace Hyrule
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;
 
 		private:
-			std::map<std::wstring, Object*> objectList;
+			std::map<std::wstring, Object*> objectMap;
+			std::vector<Object*> objectList;
 
 			Object* GetObject(const std::wstring&);
 			Collider* CreateCollider(Object*);
 			RigidBody* CreateRigidBody(Object*);
 
 			Hyrule::Vector3D gravity;
+
+			bool useOctree;
 		};
 
 		extern "C"

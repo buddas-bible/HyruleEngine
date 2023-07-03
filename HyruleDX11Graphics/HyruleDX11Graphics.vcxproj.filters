@@ -26,6 +26,9 @@
     <Filter Include="1. Resource">
       <UniqueIdentifier>{50d123db-c327-4f9e-8aa3-8c8a81da5497}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0. DX11\4. DXLayout">
+      <UniqueIdentifier>{19144466-1db0-4a52-9975-e5cdc4ec9379}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -55,6 +58,9 @@
     <ClInclude Include="RenderableObject.h">
       <Filter>1. Resource</Filter>
     </ClInclude>
+    <ClInclude Include="DXLayout.h">
+      <Filter>0. DX11\4. DXLayout</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXDevice.cpp">
@@ -74,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="RenderableObject.cpp">
       <Filter>1. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="DXLayout.cpp">
+      <Filter>0. DX11\4. DXLayout</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
