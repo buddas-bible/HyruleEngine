@@ -29,6 +29,9 @@
     <Filter Include="0. DX11\4. DXLayout">
       <UniqueIdentifier>{19144466-1db0-4a52-9975-e5cdc4ec9379}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0. DX11\3. DXShader\DXFXEffect">
+      <UniqueIdentifier>{87a3b2f2-011d-4b3f-aa53-69bacac87af9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">

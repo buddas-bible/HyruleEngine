@@ -6,7 +6,9 @@ namespace Hyrule
 	class GameObject;
 	class Vector3D;
 
-	class Physics::IRigidBody;
+	namespace Physics {
+		class IRigidBody;
+	}
 
 	class RigidBody : public Component
 	{

@@ -44,15 +44,19 @@ namespace Hyrule
 	/// </summary>
 	Quaternion ToQuaternion(const Vector3D& _euler) noexcept;
 
+	Quaternion RotateVectorToVectorQuaternion(const Vector3D&, const Vector3D&);
+
 	/// <summary>
 	/// 축각을 쿼터니언으로 바꿈
 	/// </summary>
 	Quaternion ToQuaternion(const Vector4D& _axisAngle) noexcept;
 
+	Quaternion ToQuaternion(const Vector3D& _axis, float _angle) noexcept;
+
 	/// <summary>
 	/// 회전 행렬을 쿼터니언으로 바꿈
 	/// </summary>
-	Quaternion ToQuaternion(const Matrix4x4& _rotMatrix) noexcept;
+	Quaternion ToQuaternion(const Matrix3x3& _rotMatrix) noexcept;
 
 	// ToEuler (축각)
 	// ToEuler (행렬)

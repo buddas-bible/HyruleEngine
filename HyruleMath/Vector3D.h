@@ -50,6 +50,10 @@ namespace Hyrule
 		Vector3D& Normalize() noexcept;				// 벡터를 정규화하고 반환
 		Vector3D Normalized() const noexcept;		// 정규화된 새로운 벡터를 반환
 
+		static Vector3D Forward();
+		static Vector3D Up();
+		static Vector3D Right();
+
 		/// <summary>
 		/// 연산자 오버로딩
 		/// </summary>

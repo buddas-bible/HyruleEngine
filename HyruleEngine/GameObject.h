@@ -34,6 +34,8 @@ namespace Hyrule
 		void SetTag(const std::wstring&);
 		Scene* GetScene();
 
+		Transform* GetTransform();
+
 	public:
 		void Start();
 		void Update();

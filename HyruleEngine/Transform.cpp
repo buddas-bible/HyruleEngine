@@ -24,6 +24,12 @@ namespace Hyrule
 		return this->position;
 	}
 
+
+	Vector3D Transform::SetLocalPosition(const Vector3D& _pos) noexcept
+	{
+		this->position = _pos;
+	}
+
 	Vector3D Transform::GetLocalRotation() noexcept
 	{
 		return this->quaternion.ToEuler();
@@ -32,6 +38,11 @@ namespace Hyrule
 	Quaternion Transform::GetLocalQuaternion() noexcept
 	{
 		return this->quaternion;
+	}
+
+	Quaternion Transform::SetLocalQuaternion(const Quaternion& _q) noexcept
+	{
+		this->quaternion = _q;
 	}
 
 	Quaternion Transform::GetWorldQuaternion() noexcept
@@ -49,6 +60,11 @@ namespace Hyrule
 	Vector3D Transform::GetLocalScale() noexcept
 	{
 		return this->scale;
+	}
+
+	Vector3D Transform::SetLocalScale(const Vector3D& _scl) noexcept
+	{
+		this->scale = _scl;
 	}
 
 	Vector3D Transform::GetUp() noexcept
@@ -82,7 +98,8 @@ namespace Hyrule
 
 	void Transform::SetForward(const Vector3D& _vec) noexcept
 	{
-		// this->quaternion =
+		// Vector3D forward = _vec.Normalized();
+		// Quaternion q = 
 	}
 
 	Vector3D Transform::GetRight() noexcept

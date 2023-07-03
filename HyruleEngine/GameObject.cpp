@@ -36,6 +36,12 @@ namespace Hyrule
 		return scene;
 	}
 
+
+	Transform* GameObject::GetTransform()
+	{
+		return transform;
+	}
+
 	void GameObject::Start()
 	{
 		for (auto& e : components)

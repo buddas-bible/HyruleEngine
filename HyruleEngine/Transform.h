@@ -31,10 +31,13 @@ namespace Hyrule
 		/// 트랜스폼 관련 함수
 		/// </summary>
 		Vector3D GetLocalPosition() noexcept;
+		Vector3D SetLocalPosition(const Vector3D&) noexcept;
 		Vector3D GetLocalRotation() noexcept;
 		Quaternion GetLocalQuaternion() noexcept;
+		Quaternion SetLocalQuaternion(const Quaternion&) noexcept;
 		Quaternion GetWorldQuaternion() noexcept;
 		Vector3D GetLocalScale() noexcept;
+		Vector3D SetLocalScale(const Vector3D&) noexcept;
 
 		Vector3D GetUp() noexcept;
 		void SetUp(const Vector3D&) noexcept;

@@ -111,6 +111,24 @@ namespace Hyrule
 		return Vector3D(x * invSqrt, y * invSqrt, z * invSqrt);
 	}
 
+
+	Vector3D Vector3D::Forward()
+	{
+		return Vector3D{ 0.f, 0.f, 1.f };
+	}
+
+
+	Vector3D Vector3D::Up()
+	{
+		return Vector3D{ 0.f, 1.f, 0.f };
+	}
+
+
+	Vector3D Vector3D::Right()
+	{
+		return Vector3D{ 1.f, 0.f, 0.f };
+	}
+
 	Vector3D& Vector3D::operator+=(const Vector3D& other) noexcept
 	{
 		this->x += other.x;

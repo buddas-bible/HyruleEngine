@@ -211,7 +211,7 @@ namespace Hyrule
 	/// <summary>
 	/// 회전 행렬을 쿼터니언으로 바꿈
 	/// </summary>
-	Quaternion ToQuaternion(const Matrix4x4& _rotMatrix) noexcept
+	Quaternion ToQuaternion(const Matrix3x3& _rotMatrix) noexcept
 	{
 		Quaternion quaternion;
 
@@ -254,6 +254,36 @@ namespace Hyrule
 		// 	}
 
 		return quaternion;
+	}
+
+
+	Quaternion ToQuaternion(const Vector3D& _axis, float _angle) noexcept
+	{
+		Vector3D axis = _axis.Normalized();
+		float half = _angle * 0.5f;
+		float sinhalf = std::sinf(half);
+		float coshalf = std::cosf(half);
+
+		return Quaternion
+		(
+			coshalf,
+			axis.x * sinhalf,
+			axis.y * sinhalf,
+			axis.z * sinhalf
+		);
+	}
+
+
+	Quaternion RotateVectorToVectorQuaternion(const Vector3D& _from, const Vector3D& _to)
+	{
+		Vector3D normalizedFrom = _from.Normalized();
+		Vector3D normalizedTo = _to.Normalized();
+
+		Vector3D rotationAxis = normalizedFrom.Cross(normalizedTo);
+
+		float rotationAngle = std::acosf(normalizedFrom.Dot(normalizedTo));
+
+		return ToQuaternion(rotationAxis, rotationAngle);
 	}
 
 	// ToEuler (축각)
