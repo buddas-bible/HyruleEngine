@@ -13,9 +13,6 @@ namespace Hyrule
 		MeshRenderer(GameObject*) noexcept;
 		virtual ~MeshRenderer() noexcept;
 
-	private:
-		Mesh* meshData;
-
 	public:
 		virtual void Awake() override {}
 		virtual void OnEnable() override {}

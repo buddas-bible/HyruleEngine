@@ -106,6 +106,9 @@
     <ClInclude Include="Camera.h">
       <Filter>3. Component\0. GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>3. Component\0. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>3. Component\2. Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
