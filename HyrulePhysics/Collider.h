@@ -9,6 +9,7 @@ namespace Hyrule
 	namespace Physics
 	{
 		class Object;
+		class Shape;
 
 		class Collider : public ICollider
 		{
@@ -18,10 +19,11 @@ namespace Hyrule
 
 		private:
 			Object* object;
+			Shape* shape;
 
-			// 메쉬 정보를 어떻게 할까...
-			std::vector<Hyrule::Vector3D> vertex;
-			std::vector<int> index;
+		public:
+			Matrix3x3 GetInertiaTensor(float) noexcept;
+			Vector3D GetCenterOfMess() noexcept;
 		};
 	}
 }

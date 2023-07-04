@@ -13,7 +13,7 @@
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderer.h">
+    <ClInclude Include="IGraphics.h">
       <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>

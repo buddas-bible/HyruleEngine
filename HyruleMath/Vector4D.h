@@ -39,6 +39,11 @@ namespace Hyrule
 			__m128 m;
 		};;
 
+		static inline Vector4D Zero() noexcept
+		{
+			return Vector4D{};
+		}
+
 		/// <summary>
 		/// บคลอ วิผ๖
 		/// </summary>

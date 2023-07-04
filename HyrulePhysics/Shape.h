@@ -11,6 +11,7 @@ enum class ShapeType : int
 namespace Hyrule
 {
 	struct Matrix3x3;
+	struct Vector3D;
 
 	namespace Physics
 	{
@@ -25,7 +26,9 @@ namespace Hyrule
 
 		public:
 			virtual int GetShapeType() abstract;
-			virtual Matrix3x3 GetInertiaTensor() abstract;
+			virtual Vector3D GetCenterOfMess() abstract;
+			virtual	Matrix3x3 GetInertiaTensor(float) abstract;
+			virtual void CalculateCenterOfMessAndInertiaTensor(float) abstract;
 		};
 	}
 }

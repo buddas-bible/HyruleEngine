@@ -9,12 +9,12 @@ namespace Hyrule
 {
 	extern "C"
 	{
-		__declspec(dllexport) IRenderer* CreateRenderer()
+		__declspec(dllexport) IGraphics* CreateRenderer()
 		{
 			return new DX11Graphics;
 		}
 
-		__declspec(dllexport) void ReleaseRenderer(IRenderer*& _renderer)
+		__declspec(dllexport) void ReleaseRenderer(IGraphics*& _renderer)
 		{
 			if (_renderer != nullptr)
 			{

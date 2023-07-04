@@ -45,10 +45,10 @@ namespace Hyrule
 	public:
 		virtual void Awake() override {}
 		virtual void Start() override {}
-		virtual void FixedUpdate() override {}
+		virtual void FixedUpdate() override;
 		virtual void Update() override {}
 		virtual void LastUpdate() override {}
-		virtual void Render() override {}
+		virtual void Render() override;
 
 		// 		virtual void OnTriggerEnter(Collider*) override {}
 		// 		virtual void OnTriggerStay(Collider*) override {}

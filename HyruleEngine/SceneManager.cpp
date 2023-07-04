@@ -17,9 +17,9 @@ namespace Hyrule
 		return instance;
 	}
 
-	void SceneManager::AddScene(const std::wstring& _name, Scene*& _scene) noexcept
+	void SceneManager::AddScene(Scene*& _scene) noexcept
 	{
-		sceneMap[_name] = _scene;
+		sceneMap[_scene->GetName()] = _scene;
 	}
 
 	void SceneManager::RemoveScene(const std::wstring& _name) noexcept
@@ -38,7 +38,12 @@ namespace Hyrule
 	void SceneManager::LoadScene(const std::wstring& _name) noexcept
 	{
 		// current를 비활성화
-		// currentScene
+		if (currentScene)
+		{
+			currentScene->ClearScene();
+		}
+
+		currentScene = sceneMap[_name];
 
 		// 해당 씬을 활성화 시키고 현재 씬을 바꿈
 		// sceneMap[_name]
@@ -48,8 +53,12 @@ namespace Hyrule
 	void SceneManager::LoadScene(Scene*& _scene) noexcept
 	{
 		// current를 비활성화
-		// currentScene
+		if (currentScene)
+		{
+			currentScene->ClearScene();
+		}
 
+		currentScene = _scene;
 		// 해당 씬을 활성화 시키고 현재 씬을 바꿈
 		// sceneMap[_name]
 		// currentScene = sceneMap[_name];

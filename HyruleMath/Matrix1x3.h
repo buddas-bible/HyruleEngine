@@ -45,5 +45,6 @@ namespace Hyrule
 
 		Matrix1x3 operator * (const float) const noexcept;
 		Matrix1x3 operator / (const float) const noexcept;
+		bool operator == (const Matrix1x3&) const noexcept;
 	};
 }

@@ -200,4 +200,12 @@ namespace Hyrule
 		return *this;
 	}
 
+
+	bool Matrix3x3::operator==(const Matrix3x3& other) const noexcept
+	{
+		return 
+			(this->e00 == other.e00) && (this->e01 == other.e01) && (this->e02 == other.e02) &&
+			(this->e10 == other.e10) && (this->e11 == other.e11) && (this->e12 == other.e12) &&
+			(this->e20 == other.e20) && (this->e21 == other.e21) && (this->e22 == other.e22);
+	}
 }

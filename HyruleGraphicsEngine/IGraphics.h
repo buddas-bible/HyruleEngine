@@ -2,11 +2,11 @@
 
 namespace Hyrule
 {
-	class IRenderer
+	class IGraphics
 	{
 	public:
-		IRenderer() = default;
-		virtual ~IRenderer() = default;
+		IGraphics() = default;
+		virtual ~IGraphics() = default;
 
 	private:
 

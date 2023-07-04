@@ -2,8 +2,10 @@
 
 #include "framework.h"
 
-#include "IRenderer.h"
+#include "IGraphics.h"
 // #include "IPhysics.h"
+
+#include "SceneManager.h"
 
 // #include <functional>
 
@@ -42,6 +44,8 @@ namespace Hyrule
 	{
 		MSG msg;
 
+		auto& sceneManager = Hyrule::SceneManager::GetInstance();
+
 		while (isRunning)
 		{
 			if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
@@ -52,6 +56,8 @@ namespace Hyrule
 			else
 			{
 				/// 여기가 Core를 실행시킬 곳일까?
+
+				sceneManager.
 				rendererEngine->Render();
 				// m_engine->PhysicsUpdate();
 				// engine->Render();
@@ -180,7 +186,7 @@ namespace Hyrule
 			return;
 		}
 
-		using ImportFunction = IRenderer* (*) ();
+		using ImportFunction = IGraphics* (*) ();
 		// std::function function{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
 		ImportFunction CreateInstance{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
 

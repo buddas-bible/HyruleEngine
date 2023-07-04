@@ -28,8 +28,5 @@
     <ClInclude Include="ColliderBuilder.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="RigidBodyBuilder.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

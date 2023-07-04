@@ -19,7 +19,7 @@ namespace Hyrule
 	public:
 		static SceneManager& GetInstance() noexcept;
 
-		void AddScene(const std::wstring&, Scene*&) noexcept;
+		void AddScene(Scene*&) noexcept;
 		void RemoveScene(const std::wstring&) noexcept;
 		void RemoveScene(Scene*&) noexcept;
 

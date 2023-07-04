@@ -5,12 +5,15 @@
 namespace Hyrule
 {
 	struct Matrix4x4;
+	struct Matrix3x3;
+	struct Vector3D;
 
 	namespace Physics
 	{
 		class RigidBody;
 		class Collider;
 		class Transform;
+
 
 		struct Object
 		{
@@ -27,7 +30,10 @@ namespace Hyrule
 			RigidBody* rigidbody;
 			std::vector<Collider*> colliders;
 
+		public:
 			Matrix4x4 GetWorldTM();
+			Matrix3x3 GetInertiaTensor(float);
+			Vector3D GetCenterOfMess();
 		};
 	}
 }

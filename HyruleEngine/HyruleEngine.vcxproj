@@ -174,7 +174,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="Core.h" />
+    <ClInclude Include="CoreSystem.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HyruleEngine.h" />
@@ -194,7 +194,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="Core.cpp" />
+    <ClCompile Include="CoreSystem.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HyruleEngine.cpp" />
     <ClCompile Include="Mesh.cpp" />

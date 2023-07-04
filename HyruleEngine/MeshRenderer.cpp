@@ -5,7 +5,7 @@ namespace Hyrule
 {
 
 	MeshRenderer::MeshRenderer(GameObject* _gameObject) noexcept :
-		Component(_gameObject),
+		Renderer(_gameObject),
 		meshData()
 	{
 

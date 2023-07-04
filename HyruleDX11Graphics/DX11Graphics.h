@@ -1,7 +1,7 @@
 #pragma once
 #include "framework.h"
 
-#include "IRenderer.h"
+#include "IGraphics.h"
 
 
 namespace Hyrule
@@ -10,7 +10,7 @@ namespace Hyrule
 	class DXRenderTarget;
 	class DXRasterizerState;
 
-	class DX11Graphics : public IRenderer
+	class DX11Graphics : public IGraphics
 	{
 	public:
 		DX11Graphics();
@@ -45,7 +45,7 @@ namespace Hyrule
 
 	extern "C"
 	{
-		__declspec(dllexport) IRenderer* CreateRenderer();
-		__declspec(dllexport) void ReleaseRenderer(IRenderer*& _renderer);
+		__declspec(dllexport) IGraphics* CreateRenderer();
+		__declspec(dllexport) void ReleaseRenderer(IGraphics*& _renderer);
 	}
 }

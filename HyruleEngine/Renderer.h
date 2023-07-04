@@ -1,19 +1,21 @@
 #pragma once
-#include "Renderer.h"
+
+#include "Component.h"
+
+
 
 namespace Hyrule
 {
-	class GameObject;
 	class Mesh;
 
-	class MeshRenderer : public Renderer
+	class Renderer : public Component
 	{
 	public:
-		MeshRenderer() = delete;
-		MeshRenderer(GameObject*) noexcept;
-		virtual ~MeshRenderer() noexcept;
+		Renderer() noexcept = delete;
+		Renderer(GameObject*) noexcept;
+		virtual ~Renderer() noexcept = default;
 
-	private:
+	protected:
 		Mesh* meshData;
 
 	public:
@@ -44,3 +46,4 @@ namespace Hyrule
 		virtual void OnDestroy() override {};
 	};
 }
+

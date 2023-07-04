@@ -43,10 +43,10 @@ namespace Hyrule
 
 		viewTM = Matrix4x4
 		{
-			right.x,			up.x,			look.x,			0.f,
-			right.y,			up.y,			look.y,			0.f,
-			right.z,			up.z,			look.z,			0.f,
-			-(pos.Dot(right)), -(pos.Dot(up)), -(pos.Dot(look)), 1.f
+			right.x,			up.x,			look.x,				0.f,
+			right.y,			up.y,			look.y,				0.f,
+			right.z,			up.z,			look.z,				0.f,
+			-(pos.Dot(right)),	-(pos.Dot(up)),	-(pos.Dot(look)),	1.f
 		};
 	}
 

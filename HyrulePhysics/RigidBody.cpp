@@ -44,11 +44,13 @@ namespace Hyrule
 		}
 
 		/// <summary>
-		/// 관성 텐서 계산
+		/// 콜라이더가 가진 Shape으로 관성 텐서 계산
 		/// </summary>
-		void RigidBody::CalculateInertiaTensor()
+		void RigidBody::CalculateInertiaTensor(float _mess)
 		{
-			object->colliders[0];
+			// 일단 콜라이더 1개에 대한 관성 텐서 계산
+			inertiaTensor = object->GetInertiaTensor(_mess);
+			centerOfMess = object->GetCenterOfMess();
 			// 일단 콜라이더 1개만이라도 관성 텐서를 구해보도록 하자...
 			// 그리고 강체가 복수의 콜라이더를 가진다고 했을 땐
 			// 또 고민해볼 점이 많다.....
@@ -59,11 +61,14 @@ namespace Hyrule
 			// (질량 중심이 외각에 있기 때문에)
 			// 
 			// 이런다고 될까?
-			// 
-			// for (auto& e : object->colliders)
-			// {
-			// 	
-			// }
+		}
+
+		/// <summary>
+		/// 텐서 회전
+		/// </summary>
+		Matrix3x3 RigidBody::GetInertia()
+		{
+			return inertiaTensor;
 		}
 
 #pragma region GetSet
@@ -80,6 +85,7 @@ namespace Hyrule
 
 			/// SetMess를 시도하면
 			/// inertia Tensor를 새로 구하도록 해야함.
+			this->CalculateInertiaTensor(_mess);
 
 			this->mess = _mess;
 		}
@@ -117,16 +123,6 @@ namespace Hyrule
 		void RigidBody::isSleeping(const bool _sleep) noexcept
 		{
 			this->sleep = _sleep;
-		}
-
-		bool RigidBody::isKinematic() const noexcept
-		{
-			return this->kinematic;
-		}
-
-		void RigidBody::isKinematic(const bool _kinematic) noexcept
-		{
-			this->kinematic = _kinematic;
 		}
 #pragma endregion GetSet
 	}

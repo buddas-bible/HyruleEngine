@@ -27,6 +27,7 @@ namespace Hyrule
 			/// 계속 업데이트 받는건 불편하고
 			/// 참조로 받아오는건...?
 			/// </summary>
+			Hyrule::Vector3D centerOfMess;
 			float mess;							// 질량
 			float invMess;						// 역 질량
 			Hyrule::Vector3D velocity;					// 속도
@@ -38,8 +39,8 @@ namespace Hyrule
 			Hyrule::Matrix3x3 invInertiaTensor;			// 역관성텐서
 
 			bool sleep;							// 잠지고 있는 상태인가?
-			bool kinematic;
-			bool gravityEnabled;
+			bool kinematic;						// 다른 물체에게 외력을 받을 수 있는가?
+			bool gravityEnabled;				// 중력에 영향을 받는가?
 
 		private:
 			Hyrule::Vector3D force;						// 힘
@@ -51,7 +52,8 @@ namespace Hyrule
 			virtual void AddTorque(const Hyrule::Vector3D&) noexcept override;
 
 		private:
-			void CalculateInertiaTensor();
+			void CalculateInertiaTensor(float);
+			Matrix3x3 GetInertia();
 
 #pragma region GetSet
 		public:
@@ -66,9 +68,6 @@ namespace Hyrule
 
 			virtual bool isSleeping() const noexcept override;
 			virtual void isSleeping(const bool) noexcept override;
-
-			virtual bool isKinematic() const noexcept override;
-			virtual void isKinematic(const bool) noexcept override;
 #pragma endregion GetSet
 		};
 	}

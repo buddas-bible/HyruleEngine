@@ -55,6 +55,11 @@ namespace Hyrule
 				0.f, 0.f, 0.f, 1.f,
 			};
 		}
+
+		static inline Matrix4x4 Zero() noexcept
+		{
+			return Matrix4x4{};
+		}
 		
 		/// <summary>
 		/// ¸â¹ö ÇÔ¼ö

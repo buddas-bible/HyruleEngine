@@ -8,20 +8,6 @@ namespace Hyrule
 	class Component
 	{
 	public:
-		// GetComponent에서 dynamic_cast를 쓰는걸 해결하고 싶어서
-		// 고민해보다가 포기함.
-		// enum class ComponentType
-		// {
-		// 	NONE,
-		// 	TRANSFORM,
-		// 	COLLIDER,
-		// 	RIGIDBODY,
-		// 	MESHRENDERER,
-		// };
-		// 
-		// using Type = ComponentType;
-
-	public:
 		Component() = delete;
 		Component(GameObject*) noexcept;
 		virtual ~Component() = default;

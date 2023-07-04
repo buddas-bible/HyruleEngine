@@ -4,15 +4,24 @@
     <Filter Include="0. EntryPoint">
       <UniqueIdentifier>{25a8e758-a5de-4f10-967a-d828c0f555eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{94256cfe-7fc9-4d99-a20d-6c89f1d32e37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>0. EntryPoint</Filter>
     </ClCompile>
+    <ClCompile Include="Scene01.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
       <Filter>0. EntryPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene01.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

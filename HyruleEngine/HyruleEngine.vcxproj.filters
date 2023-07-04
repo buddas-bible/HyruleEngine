@@ -100,7 +100,7 @@
     <ClInclude Include="Serialize.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Core.h">
+    <ClInclude Include="CoreSystem.h">
       <Filter>1. Core</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
@@ -150,7 +150,7 @@
     <ClCompile Include="Particle.cpp">
       <Filter>3. Component\3. Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Core.cpp">
+    <ClCompile Include="CoreSystem.cpp">
       <Filter>1. Core</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">

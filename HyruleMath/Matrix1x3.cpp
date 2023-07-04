@@ -20,6 +20,11 @@ namespace Hyrule
 		return Vector3D{ e00, e01, e02 };
 	}
 
+	bool Matrix1x3::operator==(const Matrix1x3& other) const noexcept
+	{
+		return (this->e00 == other.e00) && (this->e01 == other.e01) && (this->e02 == other.e02);
+	}
+
 	Matrix1x3& Matrix1x3::operator+=(const Matrix1x3& other) noexcept
 	{
 		this->e00 += other.e00;

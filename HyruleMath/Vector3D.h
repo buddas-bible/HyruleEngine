@@ -37,6 +37,11 @@ namespace Hyrule
 			float e[3];
 		};
 
+		static inline Vector3D Zero() noexcept
+		{
+			return Vector3D{};
+		}
+
 		/// <summary>
 		/// บคลอ วิผ๖
 		/// </summary>

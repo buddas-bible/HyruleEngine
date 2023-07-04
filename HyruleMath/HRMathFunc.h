@@ -4,6 +4,7 @@ namespace Hyrule
 {
 	struct Vector3D;
 	struct Vector4D;
+	struct Matrix3x3;
 	struct Matrix4x4;
 	struct Quaternion;
 

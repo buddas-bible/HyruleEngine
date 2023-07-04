@@ -36,6 +36,10 @@ namespace Hyrule
 			{
 				float e00, e01, e02, e10, e11, e12, e20, e21, e22;
 			};
+			struct 
+			{
+				float Ixx, Ixy, Ixz, Iyx, Iyy, Iyz, Izx, Izy, Izz;
+			};
 			float e[3][3];
 		};
 
@@ -50,6 +54,11 @@ namespace Hyrule
 				0.f, 1.f, 0.f,
 				0.f, 0.f, 1.f,
 			};
+		}
+
+		static inline Matrix3x3 Zero() noexcept
+		{
+			return Matrix3x3{};
 		}
 
 		/// <summary>
@@ -68,6 +77,8 @@ namespace Hyrule
 		Matrix3x3& operator-= (const Matrix3x3&) noexcept;
 		Matrix3x3 operator* (const Matrix3x3&) const noexcept;
 		Matrix3x3& operator*= (const Matrix3x3&) noexcept;
+
+		bool operator== (const Matrix3x3&) const noexcept;
 		// Matrix3x3 operator/ (const Matrix3x3&) const noexcept;
 		// Matrix3x3& operator/= (const Matrix3x3&) noexcept;
 	};

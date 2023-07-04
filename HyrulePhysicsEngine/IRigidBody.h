@@ -32,9 +32,6 @@ namespace Hyrule
 
 			virtual bool isSleeping() const noexcept abstract;
 			virtual void isSleeping(const bool) noexcept abstract;
-
-			virtual bool isKinematic() const noexcept abstract;
-			virtual void isKinematic(const bool) noexcept abstract;
 		};
 	}
 }

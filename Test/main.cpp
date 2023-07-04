@@ -39,6 +39,9 @@
 #pragma comment(lib, "HyruleEngine.lib")
 #include "HyruleEngine.h"
 
+#include "Scene.h"
+#include "SceneManager.h"
+
 int APIENTRY WinMain(
 	_In_ HINSTANCE _hInstance, 
 	_In_opt_ HINSTANCE _hPrevInstance, 
@@ -66,6 +69,17 @@ int APIENTRY WinMain(
 #endif	
 #endif
 
+	auto& sceneManager = Hyrule::SceneManager::GetInstance();
+
+
+	Hyrule::Scene* scene01 = new Hyrule::Scene(L"Scene01");
+	sceneManager.AddScene(scene01);
+
+
+
+
+
+	sceneManager.LoadScene(scene01);
 	gameEngine->Run();
 	gameEngine->Finalize();
 
