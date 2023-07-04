@@ -176,6 +176,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="BoxShape.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="HyrulePhysics.h" />
@@ -185,10 +186,12 @@
     <ClInclude Include="Polyhedron.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="BoxShape.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="HyrulePhysics.cpp" />
     <ClCompile Include="Manifold.cpp" />
@@ -197,6 +200,7 @@
     <ClCompile Include="Polyhedron.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

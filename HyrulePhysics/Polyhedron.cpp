@@ -44,6 +44,8 @@ namespace Hyrule
 
 		/// <summary>
 		/// 질량 중심을 지나는 축을 기준으로 회전하는 관성 텐서를 계산함.
+		/// 
+		/// 
 		/// </summary>
 		void Polyhedron::CalculateCenterOfMessAndInertiaTensor(float _mess)
 		{

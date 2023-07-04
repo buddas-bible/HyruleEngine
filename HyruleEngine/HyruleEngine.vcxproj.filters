@@ -94,9 +94,6 @@
     <ClInclude Include="SceneManager.h">
       <Filter>2. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>3. Component\3. Effect</Filter>
-    </ClInclude>
     <ClInclude Include="Serialize.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -108,6 +105,15 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>3. Component\2. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>3. Component\4. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="IEntity.h">
+      <Filter>3. Component\4. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>3. Component\4. UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -150,9 +156,6 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>2. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>3. Component\3. Effect</Filter>
-    </ClCompile>
     <ClCompile Include="CoreSystem.cpp">
       <Filter>1. Core</Filter>
     </ClCompile>
@@ -161,6 +164,15 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>3. Component\2. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>3. Component\4. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="IEntity.cpp">
+      <Filter>3. Component\4. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentManager.cpp">
+      <Filter>3. Component\4. UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

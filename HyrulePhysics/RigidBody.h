@@ -28,8 +28,8 @@ namespace Hyrule
 			/// 참조로 받아오는건...?
 			/// </summary>
 			Hyrule::Vector3D centerOfMess;
-			float mess;							// 질량
-			float invMess;						// 역 질량
+			float mess{ 10.f };							// 질량
+			float invMess{ 1 / 10.f };						// 역 질량
 			Hyrule::Vector3D velocity;					// 속도
 			Hyrule::Vector3D angularVelocity;			// 각속도
 			float dfriction;					// 마찰
@@ -53,6 +53,7 @@ namespace Hyrule
 
 		private:
 			void CalculateInertiaTensor(float);
+			void CalculateInertiaTensor();
 			Matrix3x3 GetInertia();
 
 #pragma region GetSet
