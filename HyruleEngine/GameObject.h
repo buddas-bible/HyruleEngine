@@ -51,48 +51,48 @@ namespace Hyrule
 		void OnDestroy();
 
 	public:
-		template <typename component>
-		component* CreateComponent();
+		template <typename ComponentType>
+		ComponentType* CreateComponent();
 
-		template <typename component>
-		component* GetComponent();
+		template <typename ComponentType>
+		ComponentType* GetComponent();
 
-		template <typename component>
-		component* AddComponent();
+		template <typename ComponentType>
+		ComponentType* AddComponent();
 	};
 
-	template <typename component>
-	component* GameObject::CreateComponent()
+	template <typename ComponentType>
+	ComponentType* GameObject::CreateComponent()
 	{
-		Component* newComponent = dynamic_cast<Component*>(new component(this));
+		Component* newComponent = dynamic_cast<Component*>(new ComponentType(this));
 
 		if (newComponent == nullptr)
 		{
 			throw("컴포넌트 생성 오류");
 		}
 
-		return (component*)newComponent;
+		return (ComponentType*)newComponent;
 	}
 
-	template <typename component>
-	component* GameObject::GetComponent()
+	template <typename ComponentType>
+	ComponentType* GameObject::GetComponent()
 	{
-		auto id = typeid(component).hash_code();
+		auto id = typeid(ComponentType).hash_code();
 
-		auto pointer = components[id];
+		auto itr = components.find(id);
 
-		if (pointer != nullptr)
+		if (itr == components.end())
 		{
-			return pointer;
+			return nullptr;
 		}
 
-		return nullptr;
+		return static_cast<ComponentType*>(itr->second);
 	}
 
-	template <typename component>
-	component* GameObject::AddComponent()
+	template <typename ComponentType>
+	ComponentType* GameObject::AddComponent()
 	{
-		component* newComponent = CreateComponent<component>();
+		ComponentType* newComponent = CreateComponent<ComponentType>();
 
 		if (newComponent == nullptr)
 		{
