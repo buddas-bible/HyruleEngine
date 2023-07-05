@@ -4,42 +4,43 @@
 #include <string>
 #include <vector>
 
-#include "Quaternion.h"
-#include "HRVector.h"
-#include "HRMatrix.h"
+#pragma comment(lib, "HyruleMath.lib")
+#include "HyruleMath.h"
 
 namespace Hyrule
 {
+	struct Vector3D;
+	struct Quaternion;
+	struct Matrix4x4;
+
 	class Transform : public Component
 	{
 	public:
 		Transform() = delete;
-		Transform(GameObject*) noexcept;
+		Transform(GameObject*);
 		virtual ~Transform() noexcept;
 
 	private:
-		Vector3D position;
-		Quaternion quaternion;
-		Vector3D scale;
+		Hyrule::Vector3D position;
+		Hyrule::Quaternion quaternion;
+		Hyrule::Vector3D scale;
 
 	private:
-		Transform* parent;
-		std::vector<Transform*> child;
-
-		bool isChanged;
+		Hyrule::Transform* parent;
+		std::vector<Hyrule::Transform*> child;
 
 	public:
 		/// <summary>
 		/// 트랜스폼 관련 함수
 		/// </summary>
 		Vector3D GetLocalPosition() noexcept;
-		Vector3D SetLocalPosition(const Vector3D&) noexcept;
+		void SetLocalPosition(const Vector3D&) noexcept;
 		Vector3D GetLocalRotation() noexcept;
 		Quaternion GetLocalQuaternion() noexcept;
-		Quaternion SetLocalQuaternion(const Quaternion&) noexcept;
+		void SetLocalQuaternion(const Quaternion&) noexcept;
 		Quaternion GetWorldQuaternion() noexcept;
 		Vector3D GetLocalScale() noexcept;
-		Vector3D SetLocalScale(const Vector3D&) noexcept;
+		void SetLocalScale(const Vector3D&) noexcept;
 
 		Vector3D GetUp() noexcept;
 		void SetUp(const Vector3D&) noexcept;
@@ -65,9 +66,6 @@ namespace Hyrule
 		Transform* GetChild(const size_t) noexcept;
 		size_t GetChildCount() noexcept;
 		Transform* FindChild(const std::wstring&) noexcept;
-
-		bool IsChanged();
-		void resetChanged();
 
 	public:
 		virtual void Awake() override {}

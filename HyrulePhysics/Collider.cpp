@@ -8,7 +8,7 @@ namespace Hyrule
 	{
 		void Collider::SetTrigger(bool _trigger)
 		{
-			isTrigger = _trigger;
+			this->isTrigger = _trigger;
 		}
 
 		void Collider::SetSize(const Vector3D& _size)
@@ -18,23 +18,23 @@ namespace Hyrule
 
 		void Collider::SetCenter(const Vector3D& _center)
 		{
-			center = _center;
+			this->center = _center;
 		}
 
-		std::vector<Vector3D> Collider::GetPoints()
-		{
-
-		}
-
-		std::vector<size_t> Collider::GetIndex()
-		{
-
-		}
-
-		void Collider::CalculateCenterOfMassAndInertiaTensor()
-		{
-			
-		}
+		// std::vector<Vector3D> Collider::GetPoints()
+		// {
+		// 
+		// }
+		// 
+		// std::vector<size_t> Collider::GetIndex()
+		// {
+		// 
+		// }
+		// 
+		// void Collider::CalculateCenterOfMassAndInertiaTensor()
+		// {
+		// 	
+		// }
 
 	}
 }

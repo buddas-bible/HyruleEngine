@@ -1,7 +1,5 @@
 #pragma once
-// #include <xmmintrin.h>
 #include <smmintrin.h>
-// #include "Vector3D.h"
 
 namespace Hyrule
 {

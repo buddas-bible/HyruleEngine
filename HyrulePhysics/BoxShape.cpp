@@ -5,7 +5,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		BoxShape::BoxShape()
+		BoxShape::BoxShape() : Shape(), length()
 		{
 			this->type = ShapeType::BOX;
 		}
@@ -15,19 +15,9 @@ namespace Hyrule
 			return (int)this->type;
 		}
 
-		Vector3D BoxShape::GetCenterOfMess()
+		float BoxShape::GetLength()
 		{
-			return centerOfMass;
-		}
-
-		Matrix3x3 BoxShape::GetInertiaTensor(float _mess)
-		{
-			return inertia;
-		}
-
-		void BoxShape::CalculateCenterOfMessAndInertiaTensor(float _mess)
-		{
-			// 질량 * 변 길이 제곱 / 6 * 단위 행렬
+			return this->length;
 		}
 	}
 }

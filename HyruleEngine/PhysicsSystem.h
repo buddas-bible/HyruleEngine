@@ -1,8 +1,8 @@
 #pragma once
 #include "System.h"
 
-#include <string>
 #include "framework.h"
+#include <string>
 
 
 namespace Hyrule
@@ -12,14 +12,16 @@ namespace Hyrule
 		class IPhysics;
 		class IRigidBody;
 		class ICollider;
-		struct PHYSICALLYOBJECT_INFO;
+		struct COLLIDER_INFO;
 	}
 
-	class PhysicsSystem : System<PhysicsSystem>
+	class PhysicsSystem : public System<PhysicsSystem>
 	{
 	public:
 		PhysicsSystem() noexcept = default;
 		~PhysicsSystem() noexcept = default;
+		PhysicsSystem(const PhysicsSystem&) = delete;
+		void operator=(const PhysicsSystem&) = delete;
 
 	private:
 		Physics::IPhysics* physicsEngine;
@@ -32,7 +34,7 @@ namespace Hyrule
 		void Finalize();
 
 	public:
-		Physics::ICollider* AddCollider(const std::wstring&, Physics::PHYSICALLYOBJECT_INFO*);
+		Physics::ICollider* AddCollider(const std::wstring&, Physics::COLLIDER_INFO*);
 		Physics::IRigidBody* AddRigidBody(const std::wstring&);
 	};
 }

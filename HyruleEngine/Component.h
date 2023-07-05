@@ -14,7 +14,6 @@ namespace Hyrule
 
 	protected:
 		GameObject* gameObject;
-		// Type type;
 
 	public:
 		virtual void Awake() abstract;

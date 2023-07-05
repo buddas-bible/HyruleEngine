@@ -3,7 +3,6 @@
 #include <cmath>
 #include <utility>
 
-#include "Vector4D.h"
 #include "Matrix3x3.h"
 #include "Matrix1x3.h"
 #include "Quaternion.h"

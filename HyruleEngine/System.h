@@ -1,6 +1,4 @@
 #pragma once
-
-
 namespace Hyrule
 {
 	template <typename T>

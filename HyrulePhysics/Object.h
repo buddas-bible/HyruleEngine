@@ -27,15 +27,13 @@ namespace Hyrule
 
 		private:
 			std::wstring name;
-			bool* isChanged;
-			Matrix4x4 WorldTM;
+			Matrix4x4 worldTM;
 			
 		public:
 			RigidBody* rigidbody;
 			std::vector<Collider*> colliders;
 
 		public:
-			// Transform* GetTransform();
 			Matrix4x4 GetWorldTM();
 			Matrix3x3 GetInertiaTensor(float);
 			Vector3D GetCenterOfMess();

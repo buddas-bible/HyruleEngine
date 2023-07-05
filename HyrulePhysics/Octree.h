@@ -133,10 +133,10 @@ namespace Hyrule
 				void RemoveData(Data* _data)
 				{
 					// 현재 노드에서 데이터를 삭제
-					auto a = dataList.erase(remove(dataList.begin(), dataList.end(), _data));
+					auto itr = dataList.erase(remove(dataList.begin(), dataList.end(), _data));
 					
 					// 없으면 자식 노드도 확인 안함.
-					if (a == dataList.end())
+					if (itr == dataList.end())
 					{
 						return;
 					}

@@ -1,16 +1,15 @@
 #include "Transform.h"
 
 #include "GameObject.h"
-#include "HRMathFunc.h"
+
+
 
 namespace Hyrule
 {
-
-	Transform::Transform(GameObject* _gameObject) noexcept : 
+	Transform::Transform(GameObject* _gameObject) : 
 		Component(_gameObject), 
-		parent(), child(), 
 		position(), quaternion(), scale(),
-		isChanged(false)
+		parent(), child()
 	{
 	
 	}
@@ -19,17 +18,15 @@ namespace Hyrule
 	{
 
 	}
-
+	
 	Vector3D Transform::GetLocalPosition() noexcept
 	{
 		return this->position;
 	}
 
-
-	Vector3D Transform::SetLocalPosition(const Vector3D& _pos) noexcept
+	void Transform::SetLocalPosition(const Vector3D& _pos) noexcept
 	{
 		this->position = _pos;
-		isChanged = true;
 	}
 
 	Vector3D Transform::GetLocalRotation() noexcept
@@ -42,10 +39,9 @@ namespace Hyrule
 		return this->quaternion;
 	}
 
-	Quaternion Transform::SetLocalQuaternion(const Quaternion& _q) noexcept
+	void Transform::SetLocalQuaternion(const Quaternion& _q) noexcept
 	{
 		this->quaternion = _q;
-		isChanged = true;
 	}
 
 	Quaternion Transform::GetWorldQuaternion() noexcept
@@ -65,10 +61,9 @@ namespace Hyrule
 		return this->scale;
 	}
 
-	Vector3D Transform::SetLocalScale(const Vector3D& _scl) noexcept
+	void Transform::SetLocalScale(const Vector3D& _scl) noexcept
 	{
 		this->scale = _scl;
-		isChanged = true;
 	}
 
 	Vector3D Transform::GetUp() noexcept
@@ -79,9 +74,9 @@ namespace Hyrule
 		{
 			q = parent->GetWorldQuaternion();
 		}
+		return /*q * */ Vector3D{ 0.f, 1.f, 0.f };
+	 }
 
-		return q * Vector3D{ 0.f, 1.f, 0.f };
-	}
 
 	void Transform::SetUp(const Vector3D& _vec) noexcept
 	{
@@ -97,14 +92,13 @@ namespace Hyrule
 			q = parent->GetWorldQuaternion();
 		}
 
-		return q * Vector3D{ 0.f, 0.f, 1.f };
-	}
-
+		return /*q * */ Vector3D{ 0.f, 0.f, 1.f };
+	 }
+	
 	void Transform::SetForward(const Vector3D& _vec) noexcept
 	{
 		// Vector3D forward = _vec.Normalized();
 		// Quaternion q = 
-		isChanged = true;
 	}
 
 	Vector3D Transform::GetRight() noexcept
@@ -116,8 +110,10 @@ namespace Hyrule
 			q = parent->GetWorldQuaternion();
 		}
 
-		return q * Vector3D{ 1.f, 0.f, 0.f };
-	}
+
+		return /*q * */ Vector3D{ 1.f, 0.f, 0.f };
+	 }
+	
 
 	void Transform::SetRight(const Vector3D& _vec) noexcept
 	{
@@ -141,6 +137,7 @@ namespace Hyrule
 		return GetLocalMatrix() * w;
 	}
 
+
 	Transform* Transform::GetParent() noexcept
 	{
 		return parent;
@@ -150,7 +147,6 @@ namespace Hyrule
 	{
 		this->parent = _parent;
 		this->parent->AddChild(this);
-		isChanged = true;
 	}
 
 	void Transform::RemoveParent() noexcept
@@ -195,18 +191,6 @@ namespace Hyrule
 		}
 
 		return nullptr;
-	}
-
-
-	bool Transform::IsChanged()
-	{
-		return isChanged;
-	}
-
-
-	void Transform::resetChanged()
-	{
-		this->isChanged = false;
 	}
 
 	void Transform::OnDestroy()

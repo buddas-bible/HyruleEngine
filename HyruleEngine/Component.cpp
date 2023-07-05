@@ -2,9 +2,8 @@
 
 namespace Hyrule
 {
-	Component::Component(GameObject* _gameObject) noexcept 
-		:
-		gameObject(_gameObject)// , type(Type::NONE)
+	Component::Component(GameObject* _gameObject) noexcept : 
+		gameObject(_gameObject)
 	{
 
 	}

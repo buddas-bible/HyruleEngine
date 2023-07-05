@@ -45,7 +45,7 @@ namespace Hyrule
 		Matrix4x4 GetProjTM() const noexcept;
 		Matrix4x4 GetViewProjTM() const noexcept;
 
-		Matrix4x4 CreateViewTM() noexcept;
+		void CreateViewTM() noexcept;
 
 		void CameraLookAtLH(const Vector3D&, const Vector3D&, const Vector3D&);
 		void CameraLookToLH(const Vector3D&, const Vector3D&, const Vector3D&);

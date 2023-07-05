@@ -16,19 +16,19 @@ namespace Hyrule
 
 	}
 
-	void BoxCollider::SetTrigger(bool)
+	void BoxCollider::SetTrigger(bool _trigger)
 	{
-
+		collider->SetTrigger(_trigger);
 	}
 
-	void BoxCollider::SetSize(const Vector3D&)
+	void BoxCollider::SetSize(const Vector3D& _size)
 	{
-
+		collider->SetSize(_size);
 	}
 
-	void BoxCollider::SetCenter(const Vector3D&)
+	void BoxCollider::SetCenter(const Vector3D& _center)
 	{
-
+		collider->SetSize(_center);
 	}
 
 	bool BoxCollider::IsColliding()

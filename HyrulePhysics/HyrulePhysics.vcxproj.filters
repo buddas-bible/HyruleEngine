@@ -20,6 +20,9 @@
     <Filter Include="3. PhysicalyObject\Shape">
       <UniqueIdentifier>{80fc47c1-5302-41fe-a7c4-47810554ecc4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{590817a9-cee1-4035-a1e0-82544767924a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HyrulePhysics.h">
@@ -36,12 +39,6 @@
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>3. PhysicalyObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Manifold.h">
-      <Filter>Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Struct</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
@@ -61,6 +58,15 @@
     <ClInclude Include="BoxShape.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
+    <ClInclude Include="Manifold.h">
+      <Filter>2. DataStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="IManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyrulePhysics.cpp">
@@ -78,12 +84,6 @@
     <ClCompile Include="Object.cpp">
       <Filter>3. PhysicalyObject</Filter>
     </ClCompile>
-    <ClCompile Include="Manifold.cpp">
-      <Filter>Struct</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Struct</Filter>
-    </ClCompile>
     <ClCompile Include="Shape.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
@@ -98,6 +98,15 @@
     </ClCompile>
     <ClCompile Include="BoxShape.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Manifold.cpp">
+      <Filter>2. DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="IManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

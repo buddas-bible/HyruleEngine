@@ -1,10 +1,12 @@
 #include "HRMathFunc.h"
 
 #include <cmath>
-#include "HRVector.h"
-#include "Quaternion.h"
-#include "HRMatrix.h"
 #include "HRConstant.h"
+#include "Quaternion.h"
+#include "Vector3D.h"
+#include "Vector4D.h"
+#include "Matrix3x3.h"
+#include "Matrix4x4.h"
 
 namespace Hyrule
 {
@@ -62,7 +64,7 @@ namespace Hyrule
 		// 이동값 먼저 뺌
 		_pos.m = _matrix.m[3].m;
 		temp.m[3] = { 0.f, 0.f, 0.f, 1.f };
-		
+
 		// 스케일 값은 각 기저의 크기로 하면 됨
 		// temp = temp.Transpose();				// 이부분도 전치하면 보기 더 깔끔해질듯
 		_scl.x = Vector3D{ _matrix.m[0].e[0], _matrix.m[1].e[0], _matrix.m[2].e[0] }.Length();
@@ -75,7 +77,11 @@ namespace Hyrule
 		temp.m[1] /= _scl.y;
 		temp.m[2] /= _scl.z;
 
-		_rot = ToQuaternion(temp);
+		// _rot = ToQuaternion({
+		// 	temp.m[0].e00, temp.m[0].e01, temp.m[0].e02 ,
+		// 	temp.m[1].e00, temp.m[1].e01, temp.m[1].e02,
+		// 	temp.m[2].e00, temp.m[2].e01, temp.m[2].e02
+		// 	});
 	}
 
 	/// <summary>

@@ -3,20 +3,21 @@
 #include <cmath>
 #include <utility>
 
-#include "HRMathFunc.h"
-#include "HRMatrix.h"
-#include "HRVector.h"
+#include "Vector3D.h"
+#include "Vector4D.h"
+#include "Matrix1x4.h"
+#include "Matrix4x4.h"
 #include "HRConstant.h"
 
 namespace Hyrule
 {
-	constexpr Quaternion::Quaternion() noexcept : e{}
+	constexpr Quaternion::Quaternion() noexcept : 
+		w(), x(), y(), z()
 	{
 
 	}
 
-	constexpr Quaternion::Quaternion(float _w, float _x, float _y, float _z) noexcept
-		:
+	constexpr Quaternion::Quaternion(float _w, float _x, float _y, float _z) noexcept :
 		e{ _w, _x, _y, _z }
 	{
 
@@ -31,11 +32,6 @@ namespace Hyrule
 	{
 		return Vector4D{ x, y, z, w };
 	}
-
-// 	Quaternion Quaternion::Identity() noexcept
-// 	{
-// 		return Quaternion{ 1.f, 0.f, 0.f, 0.f };
-// 	}
 
 	float Quaternion::Length() const noexcept
 	{

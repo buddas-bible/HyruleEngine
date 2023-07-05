@@ -3,11 +3,11 @@
 #include "Collider.h"
 #include "RigidBody.h"
 #include "Object.h"
-#include "Transform.h"
 #include "Octree.h"
 
 
 #include "PHYSICALLYOBJECT_INFO.h"
+#include "ObjectManager.h"
 
 namespace Hyrule
 {
@@ -25,7 +25,7 @@ namespace Hyrule
 		/// </summary>
 		ICollider* HyrulePhysics::AddCollider(const std::wstring& _name/*, TRANSFORM_INFO* _trnsinfo*/, COLLIDER_INFO* _colinfo)
 		{
-			auto obj = this->GetObject(_name/*, _trnsinfo*/);
+			auto obj = ObjectManager::GetInstance().GetObject(_name);
 
 			auto collider = this->CreateCollider(obj, _colinfo);
 
@@ -38,7 +38,7 @@ namespace Hyrule
 		/// </summary>
 		IRigidBody* HyrulePhysics::AddRigidBody(const std::wstring& _name/*, TRANSFORM_INFO* _trnsinfo*/)
 		{
-			auto obj = this->GetObject(_name/*, _trnsinfo*/);
+			auto obj = ObjectManager::GetInstance().GetObject(_name);
 
 			if (obj->rigidbody != nullptr)
 			{
@@ -55,7 +55,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveCollider(const std::wstring& _name, ICollider* _target)
 		{
-			auto& obj = objectMap[_name];
+			auto obj = ObjectManager::GetInstance().GetObject(_name);
 
 			if (obj == nullptr || _target == nullptr)
 			{
@@ -143,16 +143,12 @@ namespace Hyrule
 		/// <summary>
 		/// 콜리전 체크
 		/// </summary>
-		void HyrulePhysics::CollisionCheck()
+		void HyrulePhysics::CollisionDetection()
 		{
-			// 한 오브젝트가 복수의 콜라이더를 같는 경우
-			// 자식 오브젝트가 콜라이더를 갖는 경우
-			// 서로는 충돌 감지를 안함
-			// Collision
-			for (auto& e : objectList)
-			{
-				e->
-			}
+			// 이 함수가 호출되기 전에 콜라이더들은 월드TM을 업데이트 받을 것이다.
+			// 이전 TM과 현재 TM을 비교해보고 변경이 되었으면
+			// 트리 안에 있는 오브젝트를 삭제시키고 다시 넣음.
+			// TM은 맵으로 할 예정.
 
 			/// 우선 엔진이 옥트리를 사용할지 안할지에 따라서
 			/// 배열을 전부 탐색할지 판단함.
@@ -162,10 +158,8 @@ namespace Hyrule
 				/// 노드 안에 데이터가 0~1개면 패스.
 				/// 2개 ~ 4개까지는 그냥 순회하면서 충돌 감지 하려고 함.
 				/// 5개 넘어가면 자식을 탐색.
-				/// 
-				/// 
 
-				static Octree<Object, 4> octree;
+				Octree<Object, 4> octree;
 				
 			}
 			else
@@ -174,7 +168,7 @@ namespace Hyrule
 				{
 					for (size_t j = i + 1; j < objectList.size(); ++j)
 					{
-						objectList[i];
+						// objectList[i];
 					}
 				}
 			}
@@ -183,7 +177,7 @@ namespace Hyrule
 		/// <summary>
 		/// 강체 시뮬레이션
 		/// </summary>
-		void HyrulePhysics::RigidSimulation(const float _deltaTime)
+		void HyrulePhysics::CollisionResponse(const float _deltaTime)
 		{
 			/*
 			계층 구조를 가지는 강체는 트랜스폼 정보를 어떻게 가지고 어떻게 업데이트를 해야할까?
@@ -226,24 +220,6 @@ namespace Hyrule
 			물리 시뮬레이션이 이뤄지는 세계의 중력 설정
 			*/
 			gravity = _gravity;
-		}
-
-		/// <summary>
-		/// 오브젝트를 찾아서 반환함
-		/// 없다면 만들어서 반환함
-		/// </summary>
-		Object* HyrulePhysics::GetObject(const std::wstring& _name/*, TRANSFORM_INFO* _info*/)
-		{
-			auto obj = objectMap[_name];
-
-			if (obj == nullptr)
-			{
-				obj = new Object(_name/*, _info*/);
-				objectMap[_name] = obj;
-				objectList.push_back(obj);
-			}
-
-			return obj;
 		}
 
 		/// <summary>

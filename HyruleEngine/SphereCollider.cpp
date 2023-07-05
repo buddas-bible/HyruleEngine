@@ -1,5 +1,6 @@
 #include "SphereCollider.h"
 
+#include "ICollider.h"
 
 namespace Hyrule
 {
@@ -14,23 +15,23 @@ namespace Hyrule
 
 	}
 
-	void SphereCollider::SetTrigger(bool)
+	void SphereCollider::SetTrigger(bool _trigger)
 	{
-
+		collider->SetTrigger(_trigger);
 	}
 
-	void SphereCollider::SetSize(const Vector3D&)
+	void SphereCollider::SetSize(const Vector3D& _size)
 	{
-		collider->SetCenter()
+		collider->SetSize(_size);
 	}
 
-	void SphereCollider::SetCenter(const Vector3D&)
+	void SphereCollider::SetCenter(const Vector3D& _center)
 	{
-
+		collider->SetSize(_center);
 	}
 
 	bool SphereCollider::IsColliding()
 	{
-		return isColliding;
+		return collider->IsColliding();
 	}
 }

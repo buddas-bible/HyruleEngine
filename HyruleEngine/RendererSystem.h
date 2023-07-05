@@ -14,6 +14,8 @@ namespace Hyrule
 	public:
 		RendererSystem() noexcept = default;
 		~RendererSystem() noexcept = default;
+		RendererSystem(const RendererSystem&) = delete;
+		void operator=(const RendererSystem&) = delete;
 
 	private:
 		IGraphics* graphicsEngine;

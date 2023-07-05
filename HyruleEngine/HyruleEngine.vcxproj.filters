@@ -106,12 +106,6 @@
     <ClInclude Include="Renderer.h">
       <Filter>3. Component\2. Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>3. Component\4. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="IEntity.h">
-      <Filter>3. Component\4. UI</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentManager.h">
       <Filter>3. Component\4. UI</Filter>
     </ClInclude>
@@ -182,12 +176,6 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>3. Component\2. Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>3. Component\4. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="IEntity.cpp">
-      <Filter>3. Component\4. UI</Filter>
     </ClCompile>
     <ClCompile Include="ComponentManager.cpp">
       <Filter>3. Component\4. UI</Filter>

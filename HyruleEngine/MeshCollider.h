@@ -56,6 +56,5 @@ namespace Hyrule
 		virtual void OnEnable() abstract;
 		virtual void OnDestroy() abstract;
 	};
-	};
 }
 

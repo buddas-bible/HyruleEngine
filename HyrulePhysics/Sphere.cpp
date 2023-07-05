@@ -6,15 +6,9 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-
-		Sphere::Sphere()
+		Sphere::Sphere() : Shape(), length()
 		{
 			type = ShapeType::SPHERE;
-		}
-
-		Sphere::~Sphere()
-		{
-
 		}
 
 		int Sphere::GetShapeType()
@@ -22,28 +16,9 @@ namespace Hyrule
 			return (int)this->type;
 		}
 
-		Hyrule::Vector3D Sphere::GetCenterOfMess()
+		float Sphere::GetLength()
 		{
-
+			return this->length;
 		}
-
-		Hyrule::Matrix3x3 Sphere::GetInertiaTensor(float _mess)
-		{
-			return Matrix3x3
-			{
-
-			};
-		}
-
-		void Sphere::CalculateCenterOfMessAndInertiaTensor(float _mess)
-		{
-		}
-
-		void Sphere::Subexpressions(float, float, float, float&, float&, float&, float&, float&, float&)
-		{
-
-		}
-
 	}
-
 }

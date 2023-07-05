@@ -14,33 +14,17 @@ namespace Hyrule
 		{
 		public:
 			Polyhedron();
-			~Polyhedron();
-
-			virtual int GetShapeType() override;
-			virtual Vector3D GetCenterOfMess() override;
-			virtual Matrix3x3 GetInertiaTensor(float) override;
-			virtual void CalculateCenterOfMessAndInertiaTensor(float) override;
+			virtual ~Polyhedron() noexcept = default;
 
 		private:
+			float length;						// AABB 크기를 잡기 위해서..
+
 			std::vector<Vector3D> points;
 			std::vector<int> index;
 
-			Matrix3x3 inertia;
-			Vector3D centerOfMass;
-
-			// std::vector<Face*> face;
-									// 삼각형을 이루는 점과 그의 노말을 저장하고 있으면
-									// 관성 텐서를 계산하기 훨씬 수월할 것이다.
-									// 대신 메모리를 오지게 먹게 될듯
-									// 고민해볼 여지가 있다.
-
-
-
-		private:
-			void Subexpressions(
-				float, float, float, 
-				float&, float&, float&, 
-				float&, float&, float&);
+		public:
+			virtual int GetShapeType() override;
+			virtual float GetLength() override;
 		};
 	}
 }

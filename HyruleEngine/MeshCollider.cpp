@@ -16,24 +16,23 @@ namespace Hyrule
 
 	}
 
-	void MeshCollider::SetTrigger(bool)
+	void MeshCollider::SetTrigger(bool _trigger)
 	{
-
+		collider->SetTrigger(_trigger);
 	}
 
-	void MeshCollider::SetSize(const Vector3D&)
+	void MeshCollider::SetSize(const Vector3D& _size)
 	{
-
+		collider->SetSize(_size);
 	}
 
-	void MeshCollider::SetCenter(const Vector3D&)
+	void MeshCollider::SetCenter(const Vector3D& _center)
 	{
-
+		collider->SetSize(_center);
 	}
 
 	bool MeshCollider::IsColliding()
 	{
 		return collider->IsColliding();
 	}
-
 }

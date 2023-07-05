@@ -7,7 +7,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		class Object;
+		struct Object;
 
 		class RigidBody : public IRigidBody
 		{

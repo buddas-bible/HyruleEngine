@@ -1,7 +1,6 @@
 #include "Object.h"
 
 #include "HyruleMath.h"
-#include "Transform.h"
 #include "Collider.h"
 #include "PHYSICALLYOBJECT_INFO.h"
 
@@ -20,6 +19,11 @@ namespace Hyrule
 		// {
 		// 	return this->transform;
 		// }
+
+		Hyrule::Matrix4x4 Object::GetWorldTM()
+		{
+			return this->worldTM;
+		}
 
 		// Matrix4x4 Object::GetLocalTM()
 		// {

@@ -34,6 +34,9 @@ namespace Hyrule
 			virtual bool isSleeping() const noexcept abstract;
 			virtual void isSleeping(const bool) noexcept abstract;
 
+			/// <summary>
+			/// 강체 시뮬레이션으로 변화된 월드 트랜프폼 정보
+			/// </summary>
 			virtual Matrix4x4 Apply() const noexcept abstract;
 		};
 	}

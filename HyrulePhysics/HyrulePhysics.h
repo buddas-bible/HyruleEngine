@@ -37,12 +37,10 @@ namespace Hyrule
 			virtual void RemoveCollider(const std::wstring&, int) override;			// 콜라이더 인덱스를 받아서 삭제
 			virtual void RemoveRigidBody(const std::wstring&) override;				// 강체 삭제
 
-
-
 		public:
 			virtual long Initialize() override;
-			virtual void CollisionCheck() override;									// 콜리전 체크
-			virtual void RigidSimulation(float) override;							// 강체 시뮬레이션
+			virtual void CollisionDetection() override;									// 콜리전 체크
+			virtual void CollisionResponse(float) override;							// 강체 시뮬레이션
 			virtual void WorldReset() override;										// 월드에 있는 콜라이더와 강체를 모두 지움
 			virtual void Finalize() override;
 
@@ -52,7 +50,6 @@ namespace Hyrule
 			std::map<std::wstring, Object*> objectMap;								// 오브젝트랑 이름, 포인터 맵
 			std::vector<Object*> objectList;										// 단순 탐색하고 싶어서.
 
-			Object* GetObject(const std::wstring&/*, TRANSFORM_INFO**/);			// 오브젝트를 찾음
 			Collider* CreateCollider(Object*, COLLIDER_INFO*);						// 콜라이더를 만듬
 			RigidBody* CreateRigidBody(Object*);									// 강체를 만듬
 
@@ -64,7 +61,6 @@ namespace Hyrule
 		extern "C"
 		{
 			__declspec(dllexport) IPhysics* CreatePhysics();
-			// __declspec(dllexport) void ReleasePhysics(IPhysics*&);
 		}
 	}
 }

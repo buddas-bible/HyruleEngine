@@ -37,7 +37,7 @@ namespace Hyrule
 		return GetViewTM() * GetProjTM();
 	}
 
-	Matrix4x4 Camera::CreateViewTM() noexcept
+	void Camera::CreateViewTM() noexcept
 	{
 		auto pos = gameObject->GetTransform()->GetLocalPosition();
 

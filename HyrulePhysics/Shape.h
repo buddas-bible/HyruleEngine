@@ -27,9 +27,7 @@ namespace Hyrule
 
 		public:
 			virtual int GetShapeType() abstract;
-			virtual Vector3D GetCenterOfMess() abstract;
-			virtual	Matrix3x3 GetInertiaTensor(float) abstract;
-			virtual void CalculateCenterOfMessAndInertiaTensor(float) abstract;
+			virtual float GetLength() abstract;
 		};
 	}
 }

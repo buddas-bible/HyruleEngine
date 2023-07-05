@@ -46,7 +46,7 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
-			e->Start();
+			e.second->Start();
 		}
 	}
 
@@ -54,7 +54,7 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
-			e->Update();
+			e.second->Update();
 		}
 	}
 
@@ -62,7 +62,7 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
-			e->FixedUpdate();
+			e.second->FixedUpdate();
 		}
 	}
 
@@ -70,7 +70,7 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
-			e->LastUpdate();
+			e.second->LastUpdate();
 		}
 	}
 
@@ -78,7 +78,7 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
-			e->Render();
+			e.second->Render();
 		}
 	}
 
@@ -86,7 +86,7 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
-			e->OnCollisionEnter();
+			e.second->OnCollisionEnter();
 		}
 	}
 
@@ -94,7 +94,7 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
-			e->OnCollisionStay();
+			e.second->OnCollisionStay();
 		}
 	}
 
@@ -102,7 +102,7 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
-			e->OnCollisionExit();
+			e.second->OnCollisionExit();
 		}
 	}
 
@@ -110,8 +110,9 @@ namespace Hyrule
 	{
 		for (auto& e : components)
 		{
-			e->OnDestroy();
-			delete e;
+			e.second->OnDestroy();
+			delete e.second;
+			components.erase(e.first);
 		}
 	}
 }

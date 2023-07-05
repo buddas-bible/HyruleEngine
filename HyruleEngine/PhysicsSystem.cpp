@@ -10,7 +10,7 @@ namespace Hyrule
 		if (!physicsDLL)
 		{
 			MessageBox(_hwnd, L"해당 경로에 Physics DLL 파일이 존재하지 않습니다.", L"DLL 오류", MB_OK | MB_ICONWARNING);
-			return;
+			return false;
 		}
 		
 		using ImportFunction = Physics::IPhysics* (*) ();
@@ -19,13 +19,13 @@ namespace Hyrule
 		if (!CreateInstance)
 		{
 			MessageBox(_hwnd, L"Physics DLL에서 함수 포인터를 받아오지 못했습니다.", L"DLL 오류", MB_OK | MB_ICONWARNING);
-			return;
+			return false;
 		}
 		
 		if (physicsEngine == nullptr)
 		{
 			MessageBox(_hwnd, L"Graphics Engine 객체 생성 실패", L"DLL 오류", NULL);
-			return;
+			return false;
 		}
 		
 		physicsEngine = CreateInstance();
@@ -48,9 +48,9 @@ namespace Hyrule
 	/// 
 	/// 콜라이더 충돌을 체크함
 	/// </summary>
-	void PhysicsSystem::CollisionDetection()
+	void PhysicsSystem::CollisionDetection() noexcept
 	{
-		physicsEngine->CollisionCheck();
+		physicsEngine->CollisionDetection();
 	}
 
 	/// <summary>
@@ -58,19 +58,31 @@ namespace Hyrule
 	/// 
 	/// 강체 충돌 시뮬레이션
 	/// </summary>
-	void PhysicsSystem::CollisionResponse(float _dt)
+	void PhysicsSystem::CollisionResponse(float _dt) noexcept
 	{
-		physicsEngine->RigidSimulation(_dt);
+		physicsEngine->CollisionResponse(_dt);
 	}
 
-	Physics::ICollider* PhysicsSystem::AddCollider(const std::wstring& _name, Physics::PHYSICALLYOBJECT_INFO* _info)
+	Physics::ICollider* PhysicsSystem::AddCollider(const std::wstring& _name, Physics::COLLIDER_INFO* _info)
 	{
 		auto collider = physicsEngine->AddCollider(_name, _info);
+
+		if (!collider)
+		{
+			return nullptr;
+		}
+
+		return collider;
 	}
 
-	Physics::IRigidBody* PhysicsSystem::AddRigidBody(const std::wstring&)
+	Physics::IRigidBody* PhysicsSystem::AddRigidBody(const std::wstring& _name)
 	{
-
+		auto rigidbody = physicsEngine->AddRigidBody(_name);
+		if (!rigidbody)
+		{
+			return nullptr;
+		}
+		return rigidbody;
 	}
 
 }
