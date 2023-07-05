@@ -25,7 +25,7 @@
     <ClInclude Include="IRigidBody.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="COLLIDER_INFO.h">
+    <ClInclude Include="PHYSICALLYOBJECT_INFO.h">
       <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
