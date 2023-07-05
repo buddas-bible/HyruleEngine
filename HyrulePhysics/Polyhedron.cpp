@@ -9,7 +9,7 @@ namespace Hyrule
 
 		Polyhedron::Polyhedron()
 		{
-			type = ShapeType::CONVEX;
+			type = ShapeType::POLYHEDRON;
 		}
 
 		Polyhedron::~Polyhedron()
@@ -24,12 +24,12 @@ namespace Hyrule
 
 		Vector3D Polyhedron::GetCenterOfMess()
 		{
-			// if (centerOfMess == Vector3D::Zero())
+			// if (centerOfMass == Vector3D::Zero())
 			// {
 			// 	CalculateCenterOfMessAndInertiaTensor();
 			// }
 
-			return this->centerOfMess;
+			return this->centerOfMass;
 		}
 
 		Hyrule::Matrix3x3 Polyhedron::GetInertiaTensor(float _mess)
@@ -119,8 +119,8 @@ namespace Hyrule
 			//  }
 
 			// 질량 중심
-			this->centerOfMess = { intg[1], intg[2], intg[3] };
-			this->centerOfMess /= intg[0];
+			this->centerOfMass = { intg[1], intg[2], intg[3] };
+			this->centerOfMass /= intg[0];
 
 			// 원점에 대한 관성
 			this->inertia.Ixx = intg[5] + intg[6];		// Ixx
@@ -131,13 +131,13 @@ namespace Hyrule
 			this->inertia.Ixz = -intg[9];				// Ixz
 
 			// 질량 중심에 대한 관성
-			this->inertia.Ixx -= mass * (centerOfMess.y * centerOfMess.y + centerOfMess.z * centerOfMess.z);
-			this->inertia.Iyy -= mass * (centerOfMess.x * centerOfMess.x + centerOfMess.z * centerOfMess.z);
-			this->inertia.Izz -= mass * (centerOfMess.x * centerOfMess.x + centerOfMess.y * centerOfMess.y);
+			this->inertia.Ixx -= mass * (centerOfMass.y * centerOfMass.y + centerOfMass.z * centerOfMass.z);
+			this->inertia.Iyy -= mass * (centerOfMass.x * centerOfMass.x + centerOfMass.z * centerOfMass.z);
+			this->inertia.Izz -= mass * (centerOfMass.x * centerOfMass.x + centerOfMass.y * centerOfMass.y);
 
-			this->inertia.Ixy += mass * centerOfMess.x * centerOfMess.y;
-			this->inertia.Iyz += mass * centerOfMess.y * centerOfMess.z;
-			this->inertia.Ixz += mass * centerOfMess.y * centerOfMess.z;
+			this->inertia.Ixy += mass * centerOfMass.x * centerOfMass.y;
+			this->inertia.Iyz += mass * centerOfMass.y * centerOfMass.z;
+			this->inertia.Ixz += mass * centerOfMass.y * centerOfMass.z;
 
 			// 텐서는 대칭 형태
 			this->inertia.Iyx = inertia.Ixy;

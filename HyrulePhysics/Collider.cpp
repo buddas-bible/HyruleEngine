@@ -6,27 +6,37 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-
-
-
-		Matrix3x3 Collider::GetInertiaTensor(float _mess) noexcept
+		void Collider::SetTrigger(bool _trigger)
 		{
-			if (shape)
-			{
-				return shape->GetInertiaTensor(_mess);
-			}
-
-			return Matrix3x3{};
+			isTrigger = _trigger;
 		}
 
-		Hyrule::Vector3D Collider::GetCenterOfMess() noexcept
+		void Collider::SetSize(const Vector3D& _size)
 		{
-			if (shape)
-			{
-				return shape->GetCenterOfMess();
-			}
-
-			return Vector3D{};
+			this->size = _size;
 		}
+
+		void Collider::SetCenter(const Vector3D& _center)
+		{
+			center = _center;
+		}
+
+		std::vector<Vector3D> Collider::GetPoints()
+		{
+
+		}
+
+		std::vector<size_t> Collider::GetIndex()
+		{
+
+		}
+
+		void Collider::CalculateCenterOfMassAndInertiaTensor()
+		{
+			
+		}
+
 	}
 }
+
+//

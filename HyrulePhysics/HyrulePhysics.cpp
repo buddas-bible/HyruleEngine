@@ -3,7 +3,11 @@
 #include "Collider.h"
 #include "RigidBody.h"
 #include "Object.h"
+#include "Transform.h"
 #include "Octree.h"
+
+
+#include "PHYSICALLYOBJECT_INFO.h"
 
 namespace Hyrule
 {
@@ -14,30 +18,27 @@ namespace Hyrule
 			return new Hyrule::Physics::HyrulePhysics;
 		}
 
-		__declspec(dllexport) void ReleasePhysics(IPhysics*& _physics)
+		/// <summary>
+		/// 게임 오브젝트의 이름
+		/// 트랜스폼 정보
+		/// 콜라이더 정보를 받아서 콜라이더를 만든다.
+		/// </summary>
+		ICollider* HyrulePhysics::AddCollider(const std::wstring& _name/*, TRANSFORM_INFO* _trnsinfo*/, COLLIDER_INFO* _colinfo)
 		{
-			if (_physics != nullptr)
-			{
-				delete _physics;
-			}
-		}
+			auto obj = this->GetObject(_name/*, _trnsinfo*/);
 
-		ICollider* HyrulePhysics::AddCollider(const std::wstring& _name)
-		{
-			auto obj = this->GetObject(_name);
-
-			auto collider = this->CreateCollider(obj);
+			auto collider = this->CreateCollider(obj, _colinfo);
 
 			return (ICollider*)collider;
 		}
 
 		/// <summary>
-		/// 오브젝트에 강체를 추가함.
-		/// 오브젝트에 이미 강체가 있다면 강제를 삭제하고 새로 만듬.
+		/// 게임 오브젝트 이름
+		/// 트랜스폼 정보를 받아서 강체를 만든다.
 		/// </summary>
-		IRigidBody* HyrulePhysics::AddRigidBody(const std::wstring& _name)
+		IRigidBody* HyrulePhysics::AddRigidBody(const std::wstring& _name/*, TRANSFORM_INFO* _trnsinfo*/)
 		{
-			auto obj = this->GetObject(_name);
+			auto obj = this->GetObject(_name/*, _trnsinfo*/);
 
 			if (obj->rigidbody != nullptr)
 			{
@@ -64,6 +65,13 @@ namespace Hyrule
 			obj->colliders.erase(remove(obj->colliders.begin(), obj->colliders.end(), _target));
 
 			delete _target;
+
+			// 오브젝트가 가진 콜라이더 개수가 0이라면
+			if (!obj->colliders.size() && obj->rigidbody == nullptr)
+			{
+				objectMap.erase(_name);
+				objectList.erase(remove(objectList.begin(), objectList.end(), obj));
+			}
 		}
 
 		/// <summary>
@@ -85,6 +93,14 @@ namespace Hyrule
 			obj->colliders.erase(obj->colliders.begin() + _index);
 
 			delete collider;
+
+			// 오브젝트가 가진 콜라이더 개수가 0이고, 강체도 없으면 오브젝트를 삭제함.
+			if (!obj->colliders.size() && obj->rigidbody == nullptr)
+			{
+				objectMap.erase(_name);
+				objectList.erase(remove(objectList.begin(), objectList.end(), obj));
+				obj = nullptr;
+			}
 		}
 
 		/// <summary>
@@ -101,7 +117,20 @@ namespace Hyrule
 
 			auto& rigidbody = obj->rigidbody;
 
+			if (rigidbody == nullptr)
+			{
+				return;
+			}
+
 			delete rigidbody;
+
+			// 오브젝트에 강체도 지웠는데 콜라이더도 없으면 오브젝트를 삭제함. 
+			if (!obj->colliders.size())
+			{
+				objectMap.erase(_name);
+				objectList.erase(remove(objectList.begin(), objectList.end(), obj));
+				obj = nullptr;
+			}
 		}
 
 		long HyrulePhysics::Initialize()
@@ -120,6 +149,10 @@ namespace Hyrule
 			// 자식 오브젝트가 콜라이더를 갖는 경우
 			// 서로는 충돌 감지를 안함
 			// Collision
+			for (auto& e : objectList)
+			{
+				e->
+			}
 
 			/// 우선 엔진이 옥트리를 사용할지 안할지에 따라서
 			/// 배열을 전부 탐색할지 판단함.
@@ -199,13 +232,13 @@ namespace Hyrule
 		/// 오브젝트를 찾아서 반환함
 		/// 없다면 만들어서 반환함
 		/// </summary>
-		Object* HyrulePhysics::GetObject(const std::wstring& _name)
+		Object* HyrulePhysics::GetObject(const std::wstring& _name/*, TRANSFORM_INFO* _info*/)
 		{
 			auto obj = objectMap[_name];
 
 			if (obj == nullptr)
 			{
-				obj = new Object(_name);
+				obj = new Object(_name/*, _info*/);
 				objectMap[_name] = obj;
 				objectList.push_back(obj);
 			}
@@ -216,17 +249,24 @@ namespace Hyrule
 		/// <summary>
 		/// 콜라이더를 만들어서 오브젝트가 가진 콜라이더 리스트에 추가함.
 		/// </summary>
-		Collider* HyrulePhysics::CreateCollider(Object* _obj)
+		Collider* HyrulePhysics::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
 		{
-			/*
-			우선 충돌 감지 때는 오브젝트 단위로 충돌 감지를 하려고 함.
-			오브젝트
-			*/
-			// Collider* newCollider = new Collider;
+			switch (_info->colliderType)
+			{
+				case (int)ColliderType::SPHERE:
+					break;
+				case (int)ColliderType::BOX:
+					break;
+				case (int)ColliderType::CAPSULE:
+					break;
+				case (int)ColliderType::POLYHEDRON:
+					break;
+				case (int)ColliderType::MESH:
+					break;
 
-			// _obj->colliders.push_back(newCollider);
-
-			// return newCollider;
+				default:
+					break;
+			}
 
 			return nullptr;
 		}

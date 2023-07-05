@@ -222,17 +222,17 @@ namespace Hyrule
 		const float wz = w * z;
 
 		matrix.e00 = 1.0f - 2.0f * (y2 + z2);
-		matrix.e01 = 2.0f * (xy - wz);
-		matrix.e02 = 2.0f * (xz + wy);
+		matrix.e01 = 2.0f * (xy + wz);
+		matrix.e02 = 2.0f * (xz - wy);
 		matrix.e03 = 0.0f;
 
-		matrix.e10 = 2.0f * (xy + wz);
+		matrix.e10 = 2.0f * (xy - wz);
 		matrix.e11 = 1.0f - 2.0f * (x2 + z2);
-		matrix.e12 = 2.0f * (yz - wx);
+		matrix.e12 = 2.0f * (yz + wx);
 		matrix.e13 = 0.0f;
 
-		matrix.e20 = 2.0f * (xz - wy);
-		matrix.e21 = 2.0f * (yz + wx);
+		matrix.e20 = 2.0f * (xz + wy);
+		matrix.e21 = 2.0f * (yz - wx);
 		matrix.e22 = 1.0f - 2.0f * (x2 + y2);
 		matrix.e23 = 0.0f;
 

@@ -14,13 +14,13 @@ namespace Hyrule
 			return new DX11Graphics;
 		}
 
-		__declspec(dllexport) void ReleaseRenderer(IGraphics*& _renderer)
-		{
-			if (_renderer != nullptr)
-			{
-				delete _renderer;
-			}
-		}
+		// __declspec(dllexport) void ReleaseRenderer(IGraphics*& _renderer)
+		// {
+		// 	if (_renderer != nullptr)
+		// 	{
+		// 		delete _renderer;
+		// 	}
+		// }
 	}
 
 	DX11Graphics::DX11Graphics()

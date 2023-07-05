@@ -1,32 +1,35 @@
 #pragma once
-#include "Component.h"
 
-#include <vector>
+#include "Collider.h"
 
 namespace Hyrule
 {
+	class GameObject;
+
 	namespace Physics
 	{
 		class ICollider;
 	}
 
-	class GameObject;
-	struct Vector3D;
-
-	class Collider : public Component
+	class MeshCollider : public Collider
 	{
 	public:
-		Collider() = delete;
-		Collider(GameObject*) noexcept;
-		virtual ~Collider() noexcept;
+		MeshCollider() = delete;
+		MeshCollider(GameObject*) noexcept;
+		virtual ~MeshCollider() noexcept;
+
+	private:
+		bool isColliding;
+		Physics::ICollider* collider;
 
 	public:
-		virtual void SetTrigger(bool) abstract;
-		virtual void SetSize(const Vector3D&) abstract;
-		virtual void SetCenter(const Vector3D&) abstract;
-		virtual bool IsColliding() abstract;
+		virtual void SetTrigger(bool) override;
+		virtual void SetSize(const Vector3D&) override;
+		virtual void SetCenter(const Vector3D&) override;
+		virtual bool IsColliding() override;
 
 	public:
+
 		virtual void Awake() abstract;
 		virtual void Start() abstract;
 		virtual void FixedUpdate() abstract;
@@ -53,4 +56,6 @@ namespace Hyrule
 		virtual void OnEnable() abstract;
 		virtual void OnDestroy() abstract;
 	};
+	};
 }
+

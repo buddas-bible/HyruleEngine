@@ -2,16 +2,14 @@
 
 #include "framework.h"
 
-#include "IGraphics.h"
-// #include "IPhysics.h"
-
 #include "SceneManager.h"
+#include "RendererSystem.h"
+#include "PhysicsSystem.h"
 
-// #include <functional>
 
 namespace Hyrule
 {
-	HyruleEngine::HyruleEngine() : hwnd(), isRunning(true), rendererEngine(), physicsEngine()
+	HyruleEngine::HyruleEngine() : hwnd(), isRunning(true)
 	{
 		m_gameEngine = this;
 	}
@@ -44,7 +42,7 @@ namespace Hyrule
 	{
 		MSG msg;
 
-		auto& sceneManager = Hyrule::SceneManager::GetInstance();
+		// auto& sceneManager = Hyrule::SceneManager::GetInstance();
 
 		while (isRunning)
 		{
@@ -57,8 +55,8 @@ namespace Hyrule
 			{
 				/// 여기가 Core를 실행시킬 곳일까?
 
-				sceneManager.
-				rendererEngine->Render();
+				// sceneManager.
+				// rendererEngine->Render();
 				// m_engine->PhysicsUpdate();
 				// engine->Render();
 			}
@@ -81,16 +79,16 @@ namespace Hyrule
 	/// </summary>
 	void HyruleEngine::Finalize()
 	{
-		if (rendererEngine != nullptr)
-		{
-			// renderer->Finalize();
-			rendererEngine = nullptr;
-		}
-		if (physicsEngine != nullptr)
-		{
-			// physics->Finalize();
-			physicsEngine = nullptr;
-		}
+		// if (rendererEngine != nullptr)
+		// {
+		// 	// renderer->Finalize();
+		// 	rendererEngine = nullptr;
+		// }
+		// if (physicsEngine != nullptr)
+		// {
+		// 	// physics->Finalize();
+		// 	physicsEngine = nullptr;
+		// }
 	}
 
 	/// <summary>
@@ -158,12 +156,7 @@ namespace Hyrule
 	{
 		HRESULT hr = S_OK;
 
-		if (rendererEngine == nullptr)
-		{
-			return S_FALSE;
-		}
-
-		hr = rendererEngine->OnResize();
+		hr = (HRESULT)(RendererSystem::GetInstance().OnResize());
 
 		if (FAILED(hr))
 		{
@@ -178,35 +171,10 @@ namespace Hyrule
 	/// </summary>
 	void HyruleEngine::LoadGraphicsDLL(const std::wstring& _path)
 	{
-		HMODULE graphicsDLL{ LoadLibrary(_path.c_str()) };
-		if (graphicsDLL == nullptr)
-		{
-			MessageBox(hwnd, L"해당 경로에 Graphics DLL 파일이 존재하지 않습니다.", L"DLL 오류", NULL);
-			isRunning = false;
-			return;
-		}
+		auto& renderer = RendererSystem::GetInstance();
 
-		using ImportFunction = IGraphics* (*) ();
-		// std::function function{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
-		ImportFunction CreateInstance{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
-
-		if (CreateInstance == nullptr)
-		{
-			MessageBox(hwnd, L"Graphics DLL에서 함수 포인터를 받아오지 못했습니다.", L"DLL 오류", NULL);
-			isRunning = false;
-			return;
-		}
-
-		rendererEngine = CreateInstance();
-
-		if (rendererEngine == nullptr)
-		{
-			MessageBox(hwnd, L"Graphics Engine 객체 생성 실패", L"DLL 오류", NULL);
-			isRunning = false;
-			return;
-		}
-
-		if (FAILED(rendererEngine->Initialize((int)hwnd)))
+		auto result = renderer.LoadGraphicsDLL(_path, hwnd);
+		if (!result)
 		{
 			isRunning = false;
 		}
@@ -217,32 +185,13 @@ namespace Hyrule
 	/// </summary>
 	void HyruleEngine::LoadPhysicsDLL(const std::wstring& _path)
 	{
-		// HMODULE physicsDLL{ LoadLibrary(_path.c_str()) };
-		// if (!physicsDLL)
-		// {
-		// 	MessageBox(hwnd, L"해당 경로에 Physics DLL 파일이 존재하지 않습니다.", L"DLL 오류", MB_OK | MB_ICONWARNING);
-		// 	isRunning = false;
-		// 	return;
-		// }
-		// 
-		// using ImportFunction = IPhysics* (*) ();
-		// ImportFunction CreateInstance{ (ImportFunction)GetProcAddress(physicsDLL, "CreatePhysicsWorld") };
-		// 
-		// if (!CreateInstance)
-		// {
-		// 	MessageBox(hwnd, L"Physics DLL에서 함수 포인터를 받아오지 못했습니다.", L"DLL 오류", MB_OK | MB_ICONWARNING);
-		// 	isRunning = false;
-		// 	return;
-		// }
-		// 
-		// 	if (rendererEngine == nullptr)
-		// {
-		// 	MessageBox(hwnd, L"Graphics Engine 객체 생성 실패", L"DLL 오류", NULL);
-		// 	isRunning = false;
-		// 	return;
-		// }
-		// 
-		// physicsEngine = CreateInstance();
+		auto& physics = PhysicsSystem::GetInstance();
+
+		auto result = physics.LoadPhysicsDLL(_path, hwnd);
+		if (!result)
+		{
+			isRunning = false;
+		}
 	}
 
 	/// <summary>

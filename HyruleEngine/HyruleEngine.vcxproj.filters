@@ -8,9 +8,6 @@
     <Filter Include="0. HyruleEngine">
       <UniqueIdentifier>{4fb8b48d-9e7c-4383-81df-75237c8ae158}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1. Core">
-      <UniqueIdentifier>{5b90fb56-149a-4563-82f9-4e1b558e187b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2. Scene">
       <UniqueIdentifier>{6a013cd1-6a6e-44bc-a592-e89edcec45fd}</UniqueIdentifier>
     </Filter>
@@ -50,6 +47,12 @@
     <Filter Include="5. Struct\Face">
       <UniqueIdentifier>{4d236fbe-4ccb-4041-8311-8ff51d155c9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. Component\1. Physics\Collider">
+      <UniqueIdentifier>{5cb0cff2-c5f7-4efd-8426-4483b17d7d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. System">
+      <UniqueIdentifier>{5b90fb56-149a-4563-82f9-4e1b558e187b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -82,9 +85,6 @@
     <ClInclude Include="RigidBody.h">
       <Filter>3. Component\1. Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>3. Component\1. Physics</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>4. Resource</Filter>
     </ClInclude>
@@ -98,7 +98,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="CoreSystem.h">
-      <Filter>1. Core</Filter>
+      <Filter>1. System</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>3. Component\0. GameObject</Filter>
@@ -114,6 +114,27 @@
     </ClInclude>
     <ClInclude Include="ComponentManager.h">
       <Filter>3. Component\4. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshCollider.h">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>1. System</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsSystem.h">
+      <Filter>1. System</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererSystem.h">
+      <Filter>1. System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -144,9 +165,6 @@
     <ClCompile Include="RigidBody.cpp">
       <Filter>3. Component\1. Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>3. Component\1. Physics</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>4. Resource</Filter>
     </ClCompile>
@@ -157,7 +175,7 @@
       <Filter>2. Scene</Filter>
     </ClCompile>
     <ClCompile Include="CoreSystem.cpp">
-      <Filter>1. Core</Filter>
+      <Filter>1. System</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>3. Component\0. GameObject</Filter>
@@ -173,6 +191,27 @@
     </ClCompile>
     <ClCompile Include="ComponentManager.cpp">
       <Filter>3. Component\4. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshCollider.cpp">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="System.cpp">
+      <Filter>1. System</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>1. System</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererSystem.cpp">
+      <Filter>1. System</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

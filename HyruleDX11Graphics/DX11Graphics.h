@@ -46,6 +46,6 @@ namespace Hyrule
 	extern "C"
 	{
 		__declspec(dllexport) IGraphics* CreateRenderer();
-		__declspec(dllexport) void ReleaseRenderer(IGraphics*& _renderer);
+		// __declspec(dllexport) void ReleaseRenderer(IGraphics*& _renderer);
 	}
 }

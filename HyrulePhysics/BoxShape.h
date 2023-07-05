@@ -21,7 +21,7 @@ namespace Hyrule
 
 		private:
 			Matrix3x3 inertia;
-			Vector3D centerOfMess;
+			Vector3D centerOfMass;
 
 			// std::vector<Face*> face;
 									// 삼각형을 이루는 점과 그의 노말을 저장하고 있으면

@@ -5,6 +5,11 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		BoxShape::BoxShape()
+		{
+			this->type = ShapeType::BOX;
+		}
+
 		int BoxShape::GetShapeType()
 		{
 			return (int)this->type;
@@ -12,7 +17,7 @@ namespace Hyrule
 
 		Vector3D BoxShape::GetCenterOfMess()
 		{
-			return centerOfMess;
+			return centerOfMass;
 		}
 
 		Matrix3x3 BoxShape::GetInertiaTensor(float _mess)

@@ -167,7 +167,8 @@
     <ClInclude Include="DX11Define.h" />
     <ClInclude Include="DXColor.h" />
     <ClInclude Include="DXDevice.h" />
-    <ClInclude Include="DXLayout.h" />
+    <ClInclude Include="DXEffect.h" />
+    <ClInclude Include="DXInputLayout.h" />
     <ClInclude Include="DXRasterizerState.h" />
     <ClInclude Include="DXRenderTarget.h" />
     <ClInclude Include="DXShader.h" />
@@ -177,7 +178,8 @@
   <ItemGroup>
     <ClCompile Include="DX11Graphics.cpp" />
     <ClCompile Include="DXDevice.cpp" />
-    <ClCompile Include="DXLayout.cpp" />
+    <ClCompile Include="DXEffect.cpp" />
+    <ClCompile Include="DXInputLayout.cpp" />
     <ClCompile Include="DXRasterizerState.cpp" />
     <ClCompile Include="DXRenderTarget.cpp" />
     <ClCompile Include="DXShader.cpp" />

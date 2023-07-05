@@ -61,8 +61,11 @@
     <ClInclude Include="RenderableObject.h">
       <Filter>1. Resource</Filter>
     </ClInclude>
-    <ClInclude Include="DXLayout.h">
+    <ClInclude Include="DXInputLayout.h">
       <Filter>0. DX11\4. DXLayout</Filter>
+    </ClInclude>
+    <ClInclude Include="DXEffect.h">
+      <Filter>0. DX11\3. DXShader\DXFXEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -84,8 +87,11 @@
     <ClCompile Include="RenderableObject.cpp">
       <Filter>1. Resource</Filter>
     </ClCompile>
-    <ClCompile Include="DXLayout.cpp">
+    <ClCompile Include="DXInputLayout.cpp">
       <Filter>0. DX11\4. DXLayout</Filter>
+    </ClCompile>
+    <ClCompile Include="DXEffect.cpp">
+      <Filter>0. DX11\3. DXShader\DXFXEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

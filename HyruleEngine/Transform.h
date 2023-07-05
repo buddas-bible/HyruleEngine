@@ -26,6 +26,8 @@ namespace Hyrule
 		Transform* parent;
 		std::vector<Transform*> child;
 
+		bool isChanged;
+
 	public:
 		/// <summary>
 		/// 트랜스폼 관련 함수
@@ -63,6 +65,9 @@ namespace Hyrule
 		Transform* GetChild(const size_t) noexcept;
 		size_t GetChildCount() noexcept;
 		Transform* FindChild(const std::wstring&) noexcept;
+
+		bool IsChanged();
+		void resetChanged();
 
 	public:
 		virtual void Awake() override {}

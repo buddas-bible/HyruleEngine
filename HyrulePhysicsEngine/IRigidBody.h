@@ -5,6 +5,7 @@ namespace Hyrule
 {
 	struct Vector3D;
 	struct Vector4D;
+	struct Matrix4x4;
 
 	namespace Physics
 	{
@@ -32,6 +33,8 @@ namespace Hyrule
 
 			virtual bool isSleeping() const noexcept abstract;
 			virtual void isSleeping(const bool) noexcept abstract;
+
+			virtual Matrix4x4 Apply() const noexcept abstract;
 		};
 	}
 }

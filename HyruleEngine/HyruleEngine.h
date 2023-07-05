@@ -5,9 +5,6 @@
 
 namespace Hyrule
 {
-	class IGraphics;
-	class IPhysics;
-
 	class HyruleEngine
 	{
 		HyruleEngine();
@@ -33,8 +30,8 @@ namespace Hyrule
 		bool isRunning;
 
 		HyruleEngine* m_gameEngine;
-		IGraphics*	rendererEngine;
-		IPhysics*	physicsEngine;
+		// IGraphics*	rendererEngine;
+		// IPhysics*	physicsEngine;
 
 		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam);
 	};

@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <map>
+#include <typeinfo>
 
 namespace Hyrule
 {
@@ -17,15 +18,15 @@ namespace Hyrule
 		~GameObject() = default;
 
 	private:
-		std::wstring tag;					// 태그
-		std::wstring name;					// 이름
+		std::wstring tag;								// 태그
+		std::wstring name;								// 이름
 
-		std::vector<Component*> components;	// 컴포넌트 리스트
-		Transform* transform;				// 트랜스폼
+		std::map<unsigned int, Component*> components;	// 컴포넌트 리스트
+		Transform* transform;							// 트랜스폼
 		
 		// 유니티에서는 게임 오브젝트가 씬에 접근할 수 있었는데...
-		Scene* scene;						// 내가 포함된 씬..
-											// 컴포넌트들이 게임 오브젝트를 통해서 씬 이름 같은걸 알아내나?
+		Scene* scene;									// 내가 포함된 씬..
+														// 컴포넌트들이 게임 오브젝트를 통해서 씬 이름 같은걸 알아내나?
 
 	public:
 		const std::wstring& GetName();
@@ -65,8 +66,6 @@ namespace Hyrule
 	{
 		Component* newComponent = dynamic_cast<Component*>(new component(this));
 
-		// newComponent = dynamic_cast<Component>(newComponent);
-
 		if (newComponent == nullptr)
 		{
 			throw("컴포넌트 생성 오류");
@@ -78,15 +77,13 @@ namespace Hyrule
 	template <typename component>
 	component* GameObject::GetComponent()
 	{
-		for (auto e : components)
-		{
-			// 이 방법 밖에 없는걸까?
-			auto pointer = dynamic_cast<component*>(e);
+		auto id = typeid(component).hash_code();
 
-			if (pointer != nullptr)
-			{
-				return e;
-			}
+		auto pointer = components[id];
+
+		if (pointer != nullptr)
+		{
+			return pointer;
 		}
 
 		return nullptr;
@@ -102,7 +99,7 @@ namespace Hyrule
 			return nullptr;
 		}
 
-		components.push_back(newComponent);
+		components[typeid(newComponent).hash_code()] = newComponent;
 		return newComponent;
 	}
 }

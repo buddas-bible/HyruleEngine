@@ -5,7 +5,8 @@ enum class ShapeType : int
 	SPHERE,
 	BOX,
 	CAPSULE,
-	CONVEX,
+	POLYHEDRON,
+	MESH,
 };
 
 namespace Hyrule

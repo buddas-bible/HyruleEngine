@@ -159,7 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ColliderBuilder.h" />
+    <ClInclude Include="COLLIDER_INFO.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IBuilder.h" />
     <ClInclude Include="ICollider.h" />

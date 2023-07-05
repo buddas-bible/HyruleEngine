@@ -48,20 +48,9 @@ namespace Hyrule
 		/// </summary>
 		void RigidBody::CalculateInertiaTensor(float _mess)
 		{
-			// 일단 콜라이더 1개에 대한 관성 텐서 계산
 			inertiaTensor = object->GetInertiaTensor(_mess);
 			invInertiaTensor = inertiaTensor.Inverse();
-			centerOfMess = object->GetCenterOfMess();
-			// 일단 콜라이더 1개만이라도 관성 텐서를 구해보도록 하자...
-			// 그리고 강체가 복수의 콜라이더를 가진다고 했을 땐
-			// 또 고민해볼 점이 많다.....
-			// 질량 중심을 옮겨야 한다는 점.
-			// 관성 텐서를 계산하는 부분이 막막하다...
-			// 대략 예상이 가는 점은..
-			// 다면체의 면의 노말 방향을 보고 그 사면체의 부피에서 뺼지 더할지를 판단하고?
-			// (질량 중심이 외각에 있기 때문에)
-			// 
-			// 이런다고 될까?
+			centerOfMass = object->GetCenterOfMess();
 		}
 
 		void RigidBody::CalculateInertiaTensor()
@@ -130,6 +119,12 @@ namespace Hyrule
 		{
 			this->sleep = _sleep;
 		}
+
+		Hyrule::Matrix4x4 RigidBody::Apply() const noexcept
+		{
+			return this->object->GetWorldTM();
+		}
+
 #pragma endregion GetSet
 	}
 }

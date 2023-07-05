@@ -2,18 +2,21 @@
 #include <string>
 #include <vector>
 
+#include "HyruleMath.h"
+
 namespace Hyrule
 {
 	struct Matrix4x4;
 	struct Matrix3x3;
 	struct Vector3D;
+	struct Quaternion;
 
 	namespace Physics
 	{
+		// struct TRANSFORM_INFO;
+		// class Transform;
 		class RigidBody;
 		class Collider;
-		class Transform;
-
 
 		struct Object
 		{
@@ -24,32 +27,30 @@ namespace Hyrule
 
 		private:
 			std::wstring name;
-			Transform* transform;
+			bool* isChanged;
+			Matrix4x4 WorldTM;
 			
 		public:
 			RigidBody* rigidbody;
 			std::vector<Collider*> colliders;
 
 		public:
+			// Transform* GetTransform();
 			Matrix4x4 GetWorldTM();
 			Matrix3x3 GetInertiaTensor(float);
 			Vector3D GetCenterOfMess();
+
+			void CalculateCenterOfMassAndInertiaTensor(float);
 		};
 	}
 }
 
 /*
-오브젝트?
-콜라이더? 강체? 이것들을 설정할 빌더를 만들어야 하는디...
-이것들을 생성할 때 전달할 매개변수가 너무 많다.
-
-
 게임 오브젝트 이름
-로컬 트랜스폼 정보 (위치, 회전, 스케일)
-월드 트랜스폼 정보 (매트릭스)
-버텍스 정보
-인덱스 정보
+로컬 트랜스폼
+월드 트랜스폼
 
-또 부모자식 관계를 가지고 있는 경우도 있으니 오브젝트끼리도 알고 있어야 할 것이다.
+콜라이더 질량 중심 구하고
+콜라이더 부피 구해서 부피 비율로 질량 중심 구하고
 
 */

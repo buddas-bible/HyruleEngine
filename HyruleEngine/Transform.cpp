@@ -9,7 +9,8 @@ namespace Hyrule
 	Transform::Transform(GameObject* _gameObject) noexcept : 
 		Component(_gameObject), 
 		parent(), child(), 
-		position(), quaternion(), scale()
+		position(), quaternion(), scale(),
+		isChanged(false)
 	{
 	
 	}
@@ -28,6 +29,7 @@ namespace Hyrule
 	Vector3D Transform::SetLocalPosition(const Vector3D& _pos) noexcept
 	{
 		this->position = _pos;
+		isChanged = true;
 	}
 
 	Vector3D Transform::GetLocalRotation() noexcept
@@ -43,6 +45,7 @@ namespace Hyrule
 	Quaternion Transform::SetLocalQuaternion(const Quaternion& _q) noexcept
 	{
 		this->quaternion = _q;
+		isChanged = true;
 	}
 
 	Quaternion Transform::GetWorldQuaternion() noexcept
@@ -65,6 +68,7 @@ namespace Hyrule
 	Vector3D Transform::SetLocalScale(const Vector3D& _scl) noexcept
 	{
 		this->scale = _scl;
+		isChanged = true;
 	}
 
 	Vector3D Transform::GetUp() noexcept
@@ -100,6 +104,7 @@ namespace Hyrule
 	{
 		// Vector3D forward = _vec.Normalized();
 		// Quaternion q = 
+		isChanged = true;
 	}
 
 	Vector3D Transform::GetRight() noexcept
@@ -145,6 +150,7 @@ namespace Hyrule
 	{
 		this->parent = _parent;
 		this->parent->AddChild(this);
+		isChanged = true;
 	}
 
 	void Transform::RemoveParent() noexcept
@@ -189,6 +195,18 @@ namespace Hyrule
 		}
 
 		return nullptr;
+	}
+
+
+	bool Transform::IsChanged()
+	{
+		return isChanged;
+	}
+
+
+	void Transform::resetChanged()
+	{
+		this->isChanged = false;
 	}
 
 	void Transform::OnDestroy()
