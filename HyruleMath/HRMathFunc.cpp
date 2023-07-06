@@ -1,12 +1,13 @@
-#include "HRMathFunc.h"
-
 #include <cmath>
+
 #include "HRConstant.h"
+#include "Vector4D.h"
 #include "Quaternion.h"
 #include "Vector3D.h"
-#include "Vector4D.h"
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
+
+#include "HRMathFunc.h"
 
 namespace Hyrule
 {
@@ -26,6 +27,9 @@ namespace Hyrule
 		return _deg * (PI<float> / 180.f);
 	}
 
+	/// <summary>
+	/// 오일러각을 매트릭스로 반환
+	/// </summary>
 	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler) noexcept
 	{
 		return Matrix4x4
@@ -37,20 +41,26 @@ namespace Hyrule
 		};
 	}
 
-	Matrix4x4 ToScaleMatrix(const Vector3D& _euler) noexcept
+	/// <summary>
+	/// 스케일 매트릭스로 반환
+	/// </summary>
+	Matrix4x4 ToScaleMatrix(const Vector3D& _scl) noexcept
 	{
 		return Matrix4x4
 		{
-			_euler.x,	0.f,		0.f,		0.f,
-			0.f,		_euler.y,	0.f,		0.f,
-			0.f,		0.f,		_euler.z,	0.f,
+			_scl.x,		0.f,		0.f,		0.f,
+			0.f,		_scl.y,		0.f,		0.f,
+			0.f,		0.f,		_scl.z,		0.f,
 			0.f,		0.f,		0.f,		1.f
 		};
 	}
 
+	/// <summary>
+	/// 트랜스폼 매트릭스로 반환
+	/// </summary>
 	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept
 	{
-		return ToScaleMatrix(_scl) * _rot.ToMatrix() * ToTranslateMatrix(_pos);
+		return ToScaleMatrix(_scl) * ToMatrix(_rot) * ToTranslateMatrix(_pos);
 	}
 
 	/// <summary>
@@ -162,6 +172,21 @@ namespace Hyrule
 	}
 
 	/// <summary>
+	/// 벡터를 목표하는 벡터로 변환하기 위한 쿼터니언을 반환
+	/// </summary>
+	Quaternion RotateVectorToVectorQuaternion(const Vector3D& _from, const Vector3D& _to)
+	{
+		Vector3D normalizedFrom = _from.Normalized();
+		Vector3D normalizedTo = _to.Normalized();
+
+		Vector3D rotationAxis = normalizedFrom.Cross(normalizedTo);
+
+		float rotationAngle = std::acosf(normalizedFrom.Dot(normalizedTo));
+
+		return ToQuaternion(rotationAxis, rotationAngle);
+	}
+
+	/// <summary>
 	/// 오일러 각을 쿼터니언으로 바꿈
 	/// </summary>
 	Quaternion ToQuaternion(const Vector3D& _euler) noexcept
@@ -214,6 +239,22 @@ namespace Hyrule
 		return q;
 	}
 
+	Quaternion ToQuaternion(const Vector3D& _axis, float _angle) noexcept
+	{
+		Vector3D axis = _axis.Normalized();
+		float half = _angle * 0.5f;
+		float sinhalf = std::sinf(half);
+		float coshalf = std::cosf(half);
+
+		return Quaternion
+		(
+			coshalf,
+			axis.x * sinhalf,
+			axis.y * sinhalf,
+			axis.z * sinhalf
+		);
+	}
+	
 	/// <summary>
 	/// 회전 행렬을 쿼터니언으로 바꿈
 	/// </summary>
@@ -262,34 +303,88 @@ namespace Hyrule
 		return quaternion;
 	}
 
-
-	Quaternion ToQuaternion(const Vector3D& _axis, float _angle) noexcept
+	/// <summary>
+	/// 쿼터니언을 오일러각으로 바꿈
+	/// </summary>
+	Vector3D ToEuler(const Quaternion& _q) noexcept
 	{
-		Vector3D axis = _axis.Normalized();
-		float half = _angle * 0.5f;
-		float sinhalf = std::sinf(half);
-		float coshalf = std::cosf(half);
+		const float x2 = _q.x * _q.x;
+		const float y2 = _q.y * _q.y;
+		const float z2 = _q.z * _q.z;
+		const float w2 = _q.w * _q.w;
 
-		return Quaternion
-		(
-			coshalf,
-			axis.x * sinhalf,
-			axis.y * sinhalf,
-			axis.z * sinhalf
-		);
+		Vector3D euler;
+
+		// Roll (Z-axis rotation)
+		float sinRoll = 2.0f * (_q.w * _q.x + _q.y * _q.z);
+		float cosRoll = w2 - x2 - y2 + z2;
+		euler.x = std::atan2f(sinRoll, cosRoll);
+
+		// Pitch (X-axis rotation)
+		float sinPitch = 2.0f * (_q.w * _q.y - _q.z * _q.x);
+		euler.y = std::asinf(sinPitch);
+
+		// Yaw (Y-axis rotation)
+		float sinYaw = 2.0f * (_q.w * _q.z + _q.x * _q.y);
+		float cosYaw = w2 + x2 - y2 - z2;
+		euler.z = std::atan2f(sinYaw, cosYaw);
+
+		return euler;
 	}
 
-
-	Quaternion RotateVectorToVectorQuaternion(const Vector3D& _from, const Vector3D& _to)
+	Vector4D ToAxisAngle(const Quaternion& _q) noexcept
 	{
-		Vector3D normalizedFrom = _from.Normalized();
-		Vector3D normalizedTo = _to.Normalized();
+		float squaredLength = _q.LengthSquare();
 
-		Vector3D rotationAxis = normalizedFrom.Cross(normalizedTo);
+		if (squaredLength < Epsilon)
+		{
+			// Quaternion represents no rotation, return zero axis and angle
+			return Vector4D(0.0f, 0.0f, 0.0f, 0.0f);
+		}
 
-		float rotationAngle = std::acosf(normalizedFrom.Dot(normalizedTo));
+		float inverseLength = 1.0f / std::sqrt(squaredLength);
+		float angle = 2.0f * std::acos(_q.w);
+		float sinAngle = std::sqrt(1.0f - _q.w * _q.w) * inverseLength;
 
-		return ToQuaternion(rotationAxis, rotationAngle);
+		return Vector4D(_q.x * inverseLength, _q.y * inverseLength, _q.z * inverseLength, angle);
+	}
+
+	Matrix4x4 ToMatrix(const Quaternion& _q) noexcept
+	{
+		Matrix4x4 matrix;
+
+		const float w2 = _q.w * _q.w;
+		const float x2 = _q.x * _q.x;
+		const float y2 = _q.y * _q.y;
+		const float z2 = _q.z * _q.z;
+		const float xy = _q.x * _q.y;
+		const float xz = _q.x * _q.z;
+		const float yz = _q.y * _q.z;
+		const float wx = _q.w * _q.x;
+		const float wy = _q.w * _q.y;
+		const float wz = _q.w * _q.z;
+
+		matrix.e00 = 1.0f - 2.0f * (y2 + z2);
+		matrix.e01 = 2.0f * (xy + wz);
+		matrix.e02 = 2.0f * (xz - wy);
+		matrix.e03 = 0.0f;
+
+		matrix.e10 = 2.0f * (xy - wz);
+		matrix.e11 = 1.0f - 2.0f * (x2 + z2);
+		matrix.e12 = 2.0f * (yz + wx);
+		matrix.e13 = 0.0f;
+
+		matrix.e20 = 2.0f * (xz + wy);
+		matrix.e21 = 2.0f * (yz - wx);
+		matrix.e22 = 1.0f - 2.0f * (x2 + y2);
+		matrix.e23 = 0.0f;
+
+		matrix.e30 = 0.0f;
+		matrix.e31 = 0.0f;
+		matrix.e32 = 0.0f;
+		matrix.e33 = 1.0f;
+
+		return matrix;
 	}
 
 	// ToEuler (축각)

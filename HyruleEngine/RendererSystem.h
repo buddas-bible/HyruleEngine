@@ -18,7 +18,7 @@ namespace Hyrule
 		void operator=(const RendererSystem&) = delete;
 
 	private:
-		IGraphics* graphicsEngine;
+		IGraphics* graphicsEngine{};
 
 	public:
 		bool LoadGraphicsDLL(const std::wstring&, HWND);

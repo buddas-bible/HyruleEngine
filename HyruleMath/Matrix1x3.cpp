@@ -1,21 +1,21 @@
-#include "Matrix1x3.h"
-
 #include "Vector3D.h"
+
+#include "Matrix1x3.h"
 
 namespace Hyrule
 {
-	constexpr Matrix1x3::Matrix1x3() noexcept : e{}
-	{
+// 	constexpr Matrix1x3::Matrix1x3() noexcept : e{}
+// 	{
+// 
+// 	}
+// 
+// 	constexpr Matrix1x3::Matrix1x3(float _e00, float _e01, float _e02) noexcept
+// 		: e{ _e00, _e01, _e02 }
+// 	{
+// 
+// 	}
 
-	}
-
-	constexpr Matrix1x3::Matrix1x3(float _e00, float _e01, float _e02) noexcept
-		: e{ _e00, _e01, _e02 }
-	{
-
-	}
-
-	constexpr Matrix1x3::operator Vector3D() noexcept
+	Matrix1x3::operator Vector3D() noexcept
 	{
 		return Vector3D{ e00, e01, e02 };
 	}

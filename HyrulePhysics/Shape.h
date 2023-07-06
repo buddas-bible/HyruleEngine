@@ -20,14 +20,14 @@ namespace Hyrule
 		{
 		public:
 			Shape() noexcept = default;
-			virtual ~Shape() noexcept = default;
+			~Shape() noexcept = default;
 
 		protected:
 			ShapeType type;
 
 		public:
-			virtual int GetShapeType() abstract;
-			virtual float GetLength() abstract;
+			int GetShapeType();
+			float GetLength();
 		};
 	}
 }

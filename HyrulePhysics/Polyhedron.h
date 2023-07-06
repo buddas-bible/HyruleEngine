@@ -13,14 +13,14 @@ namespace Hyrule
 		class Polyhedron : public Shape
 		{
 		public:
-			Polyhedron();
+			Polyhedron() noexcept = default;
 			virtual ~Polyhedron() noexcept = default;
 
 		private:
 			float length;						// AABB 크기를 잡기 위해서..
 
 			std::vector<Vector3D> points;
-			std::vector<int> index;
+			std::vector<size_t> index;
 
 		public:
 			virtual int GetShapeType() override;

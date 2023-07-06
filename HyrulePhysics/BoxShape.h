@@ -11,15 +11,18 @@ namespace Hyrule
 		class BoxShape : public Shape
 		{
 		public:
-			BoxShape();
-			virtual ~BoxShape() noexcept = default;
+			BoxShape() noexcept = default;
+			~BoxShape() noexcept = default;
 
 		private:
 			float length;
 
+			std::vector<Vector3D> points;
+			std::vector<size_t> index;
+
 		public:
-			virtual int GetShapeType() override;
-			virtual float GetLength() override;
+			int GetShapeType();
+			float GetLength();
 		};
 	}
 }

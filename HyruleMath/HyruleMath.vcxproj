@@ -169,8 +169,6 @@
   <ItemGroup>
     <ClInclude Include="HRConstant.h" />
     <ClInclude Include="HRMathFunc.h" />
-    <ClInclude Include="HRMatrix.h" />
-    <ClInclude Include="HRVector.h" />
     <ClInclude Include="HyruleMath.h" />
     <ClInclude Include="Matrix1x4.h" />
     <ClInclude Include="Matrix1x3.h" />

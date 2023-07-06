@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 
+#pragma comment(lib, "HyruleMath.lib")
 #include "HyruleMath.h"
 
 namespace Hyrule
@@ -41,6 +42,7 @@ namespace Hyrule
 		float far;
 
 	public:
+		
 		Matrix4x4 GetViewTM() const noexcept;
 		Matrix4x4 GetProjTM() const noexcept;
 		Matrix4x4 GetViewProjTM() const noexcept;
@@ -62,6 +64,7 @@ namespace Hyrule
 		void Pitch(float);
 		void Yaw(float);
 		void Roll(float);
+		
 
 		void SetCameraView(CameraView);
 

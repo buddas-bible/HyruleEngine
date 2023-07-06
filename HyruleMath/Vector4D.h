@@ -1,5 +1,6 @@
 #pragma once
 #include <smmintrin.h>
+// #include <emmintrin.h>
 
 namespace Hyrule
 {
@@ -12,17 +13,22 @@ namespace Hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		constexpr Vector4D() noexcept;
-		constexpr Vector4D(float, float, float, float) noexcept;
+		constexpr Vector4D() noexcept :
+			e{}
+		{}
+		constexpr Vector4D(float _x, float _y, float _z, float _w) noexcept :
+			e{ _x, _y, _z, _w }
+		{}
 		constexpr Vector4D(const Vector4D& other) noexcept = default;
 		constexpr Vector4D(Vector4D&& other) noexcept = default;
-		constexpr Vector4D(const Vector3D&, float) noexcept;
+		Vector4D(const Vector3D&, const float) noexcept;
 		~Vector4D() noexcept = default;
-		constexpr explicit operator Matrix1x4() noexcept;
-		constexpr explicit operator Quaternion() noexcept;
 
 		constexpr Vector4D& operator= (const Vector4D&) noexcept = default;
 		constexpr Vector4D& operator= (Vector4D&&) noexcept = default;
+
+		explicit operator Matrix1x4() noexcept;
+		explicit operator Quaternion() noexcept;
 
 		/// <summary>
 		/// ¸â¹ö º¯¼ö

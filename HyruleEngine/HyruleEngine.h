@@ -7,33 +7,29 @@ namespace Hyrule
 {
 	class HyruleEngine
 	{
-		HyruleEngine();
-		~HyruleEngine();
+		HyruleEngine() noexcept;
+		~HyruleEngine() noexcept;
 
 	public:
-		static HyruleEngine* GetInstance();
+		static HyruleEngine* GetInstance() noexcept;
 		
-		void Initialize(HINSTANCE hInstance, const std::wstring& _name);
-		void Run();
-		void Finalize();
+		void Initialize(HINSTANCE hInstance, const std::wstring& _name) noexcept;
+		void Run() noexcept;
+		void Finalize() noexcept;
 
-		void LoadGraphicsDLL(const std::wstring&);
-		void LoadPhysicsDLL(const std::wstring&);
+		void LoadGraphicsDLL(const std::wstring&) noexcept;
+		void LoadPhysicsDLL(const std::wstring&) noexcept;
 
 	private:
-		long OnResize();
+		long OnResize() noexcept;
 
-		long CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name);
+		long CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name) noexcept;
 
 	private:
 		HWND hwnd;
 		bool isRunning;
 
-		HyruleEngine* m_gameEngine;
-		// IGraphics*	rendererEngine;
-		// IPhysics*	physicsEngine;
-
-		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam);
+		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam) noexcept;
 	};
 }
 

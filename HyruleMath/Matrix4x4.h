@@ -1,6 +1,7 @@
 #pragma once
+#include <smmintrin.h>
+
 #include "Matrix1x4.h"
-#include "Vector4D.h"
 
 namespace Hyrule
 {
@@ -12,19 +13,32 @@ namespace Hyrule
 		/// <summary>
 		/// 특수 멤버 함수
 		/// </summary>
-		constexpr Matrix4x4() noexcept;
+		constexpr Matrix4x4() noexcept :
+			m()
+		{}
 		constexpr Matrix4x4(
-			float, float, float, float,
-			float, float, float, float,
-			float, float, float, float,
-			float, float, float, float
-		) noexcept;
+			float _e00, float _e01, float _e02, float _e03,
+			float _e10, float _e11, float _e12, float _e13,
+			float _e20, float _e21, float _e22, float _e23,
+			float _e30, float _e31, float _e32, float _e33) noexcept :
+			e
+			{
+				_e00, _e01, _e02, _e03,
+				_e10, _e11, _e12, _e13,
+				_e20, _e21, _e22, _e23,
+				_e30, _e31, _e32, _e33
+			}
+		{}
 		constexpr Matrix4x4(
-			const Matrix1x4&,
-			const Matrix1x4&,
-			const Matrix1x4&,
-			const Matrix1x4&
-		) noexcept;
+			const Matrix1x4& _m1,
+			const Matrix1x4& _m2,
+			const Matrix1x4& _m3,
+			const Matrix1x4& _m4) noexcept :
+			m
+			{
+				_m1, _m2, _m3, _m4
+			}
+		{}
 		constexpr Matrix4x4(const Matrix4x4&) noexcept = default;
 		constexpr Matrix4x4(Matrix4x4&&) noexcept = default;
 		~Matrix4x4() noexcept = default;

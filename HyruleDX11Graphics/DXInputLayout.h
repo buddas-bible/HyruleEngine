@@ -1,6 +1,5 @@
 #pragma once
 
-
 class ID3D11InputLayout;
 class DXDevice;
 class DXEffect;

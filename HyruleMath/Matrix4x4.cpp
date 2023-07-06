@@ -1,45 +1,44 @@
-#include "Matrix4x4.h"
+// #include "Vector4D.h"
 
+#include "Matrix4x4.h"
 
 namespace Hyrule
 {
-	constexpr Matrix4x4::Matrix4x4() noexcept : e{}
-	{
+	// 	constexpr Matrix4x4::Matrix4x4() noexcept : 
+	// 		m()
+	// 	{
+	// 
+	// 	}
+ 
+ // 	constexpr Matrix4x4::Matrix4x4(
+ // 		float _e00, float _e01, float _e02, float _e03,
+ // 		float _e10, float _e11, float _e12, float _e13,
+ // 		float _e20, float _e21, float _e22, float _e23,
+ // 		float _e30, float _e31, float _e32, float _e33) noexcept :
+ // 		e
+ // 		{ 
+ // 			_e00, _e01, _e02, _e03,
+ // 			_e10, _e11, _e12, _e13,
+ // 			_e20, _e21, _e22, _e23,
+ // 			_e30, _e31, _e32, _e33
+ // 		}
+ // 	{
+ // 
+ // 	}
 
-	}
 
-	constexpr Matrix4x4::Matrix4x4(
-		float _e00, float _e01, float _e02, float _e03,
-		float _e10, float _e11, float _e12, float _e13,
-		float _e20, float _e21, float _e22, float _e23,
-		float _e30, float _e31, float _e32, float _e33) noexcept
-		:
-		e{ 
-			_e00, _e01, _e02, _e03,
-			_e10, _e11, _e12, _e13,
-			_e20, _e21, _e22, _e23,
-			_e30, _e31, _e32, _e33
-		}
-	{
-
-	}
-
-
-	constexpr Matrix4x4::Matrix4x4(
-		const Matrix1x4& _m1,
-		const Matrix1x4& _m2,
-		const Matrix1x4& _m3,
-		const Matrix1x4& _m4) noexcept
-		:e
-		{
-			_m1.e00, _m1.e01, _m1.e02, _m1.e03,
-			_m2.e00, _m2.e01, _m2.e02, _m2.e03,
-			_m3.e00, _m3.e01, _m3.e02, _m3.e03,
-			_m4.e00, _m4.e01, _m4.e02, _m4.e03,
-		}
-	{
-
-	}
+// 	constexpr Matrix4x4::Matrix4x4(
+// 		const Matrix1x4& _m1,
+// 		const Matrix1x4& _m2,
+// 		const Matrix1x4& _m3,
+// 		const Matrix1x4& _m4) noexcept : 
+// 		m
+// 		{ 
+// 			_m1, _m2, _m3, _m4 
+// 		}
+// 	{
+// 
+// 	}
 
 	Matrix4x4 Matrix4x4::Transpose() noexcept
 	{
@@ -88,17 +87,6 @@ namespace Hyrule
 
 		return result;
 	}
-
-// 	Matrix4x4 Matrix4x4::Identity() noexcept
-// 	{
-// 		return Matrix4x4
-// 		{
-// 			1.f, 0.f, 0.f, 0.f,
-// 			0.f, 1.f, 0.f, 0.f,
-// 			0.f, 0.f, 1.f, 0.f,
-// 			0.f, 0.f, 0.f, 1.f,
-// 		};
-// 	}
 
 	float Matrix4x4::Determinant() noexcept
 	{

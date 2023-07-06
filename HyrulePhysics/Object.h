@@ -28,12 +28,16 @@ namespace Hyrule
 		private:
 			std::wstring name;
 			Matrix4x4 worldTM;
-			
+			bool isColliding;
+
 		public:
 			RigidBody* rigidbody;
 			std::vector<Collider*> colliders;
 
 		public:
+			void SetCollided(bool);
+			bool IsColliding();
+			Matrix4x4 SetWorldTM(const Matrix4x4&);
 			Matrix4x4 GetWorldTM();
 			Matrix3x3 GetInertiaTensor(float);
 			Vector3D GetCenterOfMess();

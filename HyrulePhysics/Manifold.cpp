@@ -80,10 +80,10 @@ namespace Hyrule
 		void Manifold::CheckCollision()
 		{
 			// 임의의 방향 벡터
-			Vector3D directionVec = Vector3D(1.f, 0.f, 0.f);
+			Vector3D directionVec = Vector3D::Right();
 
 			// 방향 벡터로부터 서포트 포인트를 구함
-			std::vector<Vector3D> simplex;
+			// std::vector<Vector3D> simplex;
 
 			// 원점
 			Vector3D origin(0.f, 0.f, 0.f);

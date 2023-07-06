@@ -17,7 +17,7 @@ namespace Hyrule
 			Collider() noexcept = default;
 			virtual ~Collider() noexcept = default;
 
-		private:
+		protected:
 			Object* object;
 			Shape* shape;
 
@@ -29,13 +29,13 @@ namespace Hyrule
 			Vector3D centerOfMass;
 
 		public:
+			virtual void SetWorldTransformMatrix(const Matrix4x4&) override;
+			
 			virtual void SetTrigger(bool) override;
 			virtual void SetSize(const Vector3D&) override;
 			virtual void SetCenter(const Vector3D&) override;
 
-			std::vector<Vector3D> GetPoints();
-			std::vector<size_t> GetIndex();
-			void CalculateCenterOfMassAndInertiaTensor();
+			virtual bool IsColliding() override;
 		};
 	}
 }

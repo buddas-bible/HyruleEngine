@@ -9,9 +9,13 @@ namespace Hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		constexpr Matrix1x3() noexcept;
+		constexpr Matrix1x3() noexcept : 
+			e {}
+		{}
 		constexpr Matrix1x3(
-			float, float, float) noexcept;
+			float _e00, float _e01, float _e02) noexcept : 
+			e{ _e00, _e01, _e02 }
+		{}
 		constexpr Matrix1x3(const Matrix1x3&) noexcept = default;
 		constexpr Matrix1x3(Matrix1x3&&) noexcept = default;
 		~Matrix1x3() noexcept = default;
@@ -19,7 +23,7 @@ namespace Hyrule
 		constexpr Matrix1x3& operator= (const Matrix1x3&) noexcept = default;
 		constexpr Matrix1x3& operator= (Matrix1x3&&) noexcept = default;
 
-		constexpr explicit operator Vector3D() noexcept;
+		explicit operator Vector3D() noexcept;
 
 		/// <summary>
 		/// ¸â¹ö º¯¼ö

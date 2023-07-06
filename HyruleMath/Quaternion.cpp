@@ -1,34 +1,25 @@
-#include "Quaternion.h"
-
 #include <cmath>
 #include <utility>
 
-#include "Vector3D.h"
 #include "Vector4D.h"
-#include "Matrix1x4.h"
-#include "Matrix4x4.h"
-#include "HRConstant.h"
+
+#include "Quaternion.h"
 
 namespace Hyrule
 {
-	constexpr Quaternion::Quaternion() noexcept : 
-		w(), x(), y(), z()
-	{
+// 	Quaternion::Quaternion() :
+// 		x(), y(), z(), w()
+// 	{
+// 	
+// 	}
+// 
+// 	constexpr Quaternion::Quaternion(float _w, float _x, float _y, float _z) noexcept :
+// 		x(_x), y(_y), z(_z), w(_w)
+// 	{
+// 
+// 	}
 
-	}
-
-	constexpr Quaternion::Quaternion(float _w, float _x, float _y, float _z) noexcept :
-		e{ _w, _x, _y, _z }
-	{
-
-	}
-
-	constexpr Quaternion::operator Matrix1x4() noexcept
-	{
-		return Matrix1x4{ x, y, z, w };
-	}
-
-	constexpr Quaternion::operator Vector4D() noexcept
+	Quaternion::operator Vector4D() noexcept
 	{
 		return Vector4D{ x, y, z, w };
 	}
@@ -148,96 +139,6 @@ namespace Hyrule
 		);
 
 		return q;
-	}
-
-	/// <summary>
-	/// 오일러 각으로 변환
-	/// </summary>
-	Vector3D Quaternion::ToEuler() const noexcept
-	{
-		const float x2 = x * x;
-		const float y2 = y * y;
-		const float z2 = z * z;
-		const float w2 = w * w;
-
-		Vector3D euler;
-
-		// Roll (Z-axis rotation)
-		float sinRoll = 2.0f * (w * x + y * z);
-		float cosRoll = w2 - x2 - y2 + z2;
-		euler.x = std::atan2f(sinRoll, cosRoll);
-
-		// Pitch (X-axis rotation)
-		float sinPitch = 2.0f * (w * y - z * x);
-		euler.y = std::asinf(sinPitch);
-
-		// Yaw (Y-axis rotation)
-		float sinYaw = 2.0f * (w * z + x * y);
-		float cosYaw = w2 + x2 - y2 - z2;
-		euler.z = std::atan2f(sinYaw, cosYaw);
-
-		return euler;
-	}
-
-	/// <summary>
-	/// 축각으로 변환
-	/// </summary>
-	Vector4D Quaternion::ToAxisAngle() const noexcept
-	{
-		float squaredLength = LengthSquare();
-
-		if (squaredLength < Epsilon)
-		{
-			// Quaternion represents no rotation, return zero axis and angle
-			return Vector4D(0.0f, 0.0f, 0.0f, 0.0f);
-		}
-
-		float inverseLength = 1.0f / std::sqrt(squaredLength);
-		float angle = 2.0f * std::acos(w);
-		float sinAngle = std::sqrt(1.0f - w * w) * inverseLength;
-
-		return Vector4D(x * inverseLength, y * inverseLength, z * inverseLength, angle);
-	}
-
-	/// <summary>
-	/// 회전 행렬로 변환
-	/// </summary>
-	Matrix4x4 Quaternion::ToMatrix() const noexcept
-	{
-		Matrix4x4 matrix;
-
-		const float w2 = w * w;
-		const float x2 = x * x;
-		const float y2 = y * y;
-		const float z2 = z * z;
-		const float xy = x * y;
-		const float xz = x * z;
-		const float yz = y * z;
-		const float wx = w * x;
-		const float wy = w * y;
-		const float wz = w * z;
-
-		matrix.e00 = 1.0f - 2.0f * (y2 + z2);
-		matrix.e01 = 2.0f * (xy + wz);
-		matrix.e02 = 2.0f * (xz - wy);
-		matrix.e03 = 0.0f;
-
-		matrix.e10 = 2.0f * (xy - wz);
-		matrix.e11 = 1.0f - 2.0f * (x2 + z2);
-		matrix.e12 = 2.0f * (yz + wx);
-		matrix.e13 = 0.0f;
-
-		matrix.e20 = 2.0f * (xz + wy);
-		matrix.e21 = 2.0f * (yz - wx);
-		matrix.e22 = 1.0f - 2.0f * (x2 + y2);
-		matrix.e23 = 0.0f;
-
-		matrix.e30 = 0.0f;
-		matrix.e31 = 0.0f;
-		matrix.e32 = 0.0f;
-		matrix.e33 = 1.0f;
-
-		return matrix;
 	}
 
 	/// <summary>

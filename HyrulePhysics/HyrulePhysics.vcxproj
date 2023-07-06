@@ -180,7 +180,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="HyrulePhysics.h" />
-    <ClInclude Include="IManager.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="Manifold.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
@@ -188,6 +188,7 @@
     <ClInclude Include="Polyhedron.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="Sphere.h" />
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +196,7 @@
     <ClCompile Include="BoxShape.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="HyrulePhysics.cpp" />
-    <ClCompile Include="IManager.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Manifold.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
@@ -203,6 +204,7 @@
     <ClCompile Include="Polyhedron.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="Sphere.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

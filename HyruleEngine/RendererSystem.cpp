@@ -4,23 +4,6 @@
 
 namespace Hyrule
 {
-	void RendererSystem::Render() noexcept
-	{
-		graphicsEngine->Render();
-	}
-
-	void RendererSystem::Finalize() noexcept
-	{
-		graphicsEngine->Finalize();
-
-		if (graphicsEngine)
-		{
-			delete graphicsEngine;
-		}
-
-		graphicsEngine = nullptr;
-	}
-
 	bool RendererSystem::LoadGraphicsDLL(const std::wstring& _path, HWND _hwnd)
 	{
 		HMODULE graphicsDLL{ LoadLibrary(_path.c_str()) };
@@ -31,7 +14,6 @@ namespace Hyrule
 		}
 
 		using ImportFunction = IGraphics * (*) ();
-		// std::function function{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
 		ImportFunction CreateInstance{ (ImportFunction)GetProcAddress(graphicsDLL, "CreateRenderer") };
 
 		if (CreateInstance == nullptr)
@@ -54,6 +36,23 @@ namespace Hyrule
 		}
 
 		return true;
+	}
+
+	void RendererSystem::Render() noexcept
+	{
+		graphicsEngine->Render();
+	}
+
+	void RendererSystem::Finalize() noexcept
+	{
+		graphicsEngine->Finalize();
+
+		if (graphicsEngine)
+		{
+			delete graphicsEngine;
+		}
+
+		graphicsEngine = nullptr;
 	}
 
 	long RendererSystem::OnResize()

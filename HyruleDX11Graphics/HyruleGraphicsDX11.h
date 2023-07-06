@@ -10,11 +10,11 @@ namespace Hyrule
 	class DXRenderTarget;
 	class DXRasterizerState;
 
-	class DX11Graphics : public IGraphics
+	class HyruleGraphicsDX11 : public IGraphics
 	{
 	public:
-		DX11Graphics();
-		virtual ~DX11Graphics();
+		HyruleGraphicsDX11();
+		virtual ~HyruleGraphicsDX11();
 
 	private:
 		int							m_hWnd;

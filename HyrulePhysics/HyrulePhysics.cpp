@@ -5,7 +5,6 @@
 #include "Object.h"
 #include "Octree.h"
 
-
 #include "PHYSICALLYOBJECT_INFO.h"
 #include "ObjectManager.h"
 
@@ -23,9 +22,14 @@ namespace Hyrule
 		/// 트랜스폼 정보
 		/// 콜라이더 정보를 받아서 콜라이더를 만든다.
 		/// </summary>
-		ICollider* HyrulePhysics::AddCollider(const std::wstring& _name/*, TRANSFORM_INFO* _trnsinfo*/, COLLIDER_INFO* _colinfo)
+		ICollider* HyrulePhysics::AddCollider(const std::wstring& _name, COLLIDER_INFO* _colinfo)
 		{
 			auto obj = ObjectManager::GetInstance().GetObject(_name);
+
+			if (obj == nullptr)
+			{
+				obj = ObjectManager::GetInstance().CreateObject(_name);
+			}
 
 			auto collider = this->CreateCollider(obj, _colinfo);
 
@@ -36,9 +40,14 @@ namespace Hyrule
 		/// 게임 오브젝트 이름
 		/// 트랜스폼 정보를 받아서 강체를 만든다.
 		/// </summary>
-		IRigidBody* HyrulePhysics::AddRigidBody(const std::wstring& _name/*, TRANSFORM_INFO* _trnsinfo*/)
+		IRigidBody* HyrulePhysics::AddRigidBody(const std::wstring& _name)
 		{
 			auto obj = ObjectManager::GetInstance().GetObject(_name);
+
+			if (obj == nullptr)
+			{
+				obj = ObjectManager::GetInstance().CreateObject(_name);
+			}
 
 			if (obj->rigidbody != nullptr)
 			{
@@ -79,7 +88,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveCollider(const std::wstring& _name, int _index)
 		{
-			auto obj = objectMap[_name];
+			auto obj = ObjectManager::GetInstance().GetObject(_name);
 
 			if ( (obj == nullptr) || 
 				 (_index < 0) || 
@@ -108,7 +117,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveRigidBody(const std::wstring& _name)
 		{
-			auto obj = objectMap[_name];
+			auto obj = ObjectManager::GetInstance().GetObject(_name);
 
 			if (obj == nullptr)
 			{
@@ -216,10 +225,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::SetWorldGravity(const Hyrule::Vector3D& _gravity)
 		{
-			/*
-			물리 시뮬레이션이 이뤄지는 세계의 중력 설정
-			*/
-			gravity = _gravity;
+			this->gravity = _gravity;
 		}
 
 		/// <summary>
@@ -227,24 +233,11 @@ namespace Hyrule
 		/// </summary>
 		Collider* HyrulePhysics::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
 		{
-			switch (_info->colliderType)
-			{
-				case (int)ColliderType::SPHERE:
-					break;
-				case (int)ColliderType::BOX:
-					break;
-				case (int)ColliderType::CAPSULE:
-					break;
-				case (int)ColliderType::POLYHEDRON:
-					break;
-				case (int)ColliderType::MESH:
-					break;
+			Collider* collider = new Collider(*_info);
+			
+			_obj->colliders.push_back(collider);
 
-				default:
-					break;
-			}
-
-			return nullptr;
+			return collider;
 		}
 
 		/// <summary>

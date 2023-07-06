@@ -8,8 +8,6 @@
 
 namespace Hyrule
 {
-
-
 	DXEffect::DXEffect(DXDevice* _device) : 
 		device(_device), effect()
 	{

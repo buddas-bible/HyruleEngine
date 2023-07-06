@@ -6,7 +6,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Object* ObjectManager::GetObject(const std::wstring& _name)
+		Object*& ObjectManager::GetObject(const std::wstring& _name)
 		{
 			Object* obj = nullptr;
 
@@ -14,7 +14,7 @@ namespace Hyrule
 			
 			if (itr == objectMap.end())
 			{
-				obj = CreateObject(_name);
+				obj = nullptr;
 			}
 			else
 			{
@@ -24,24 +24,11 @@ namespace Hyrule
 			return obj;
 		}
 
-		Object* ObjectManager::CreateObject(const std::wstring& _name)
+		Object*& ObjectManager::CreateObject(const std::wstring& _name)
 		{
 			Object* obj = new Object(_name);
 			objectMap[_name] = obj;
 			return obj;
 		}
-
-		ObjectManager& ObjectManager::GetInstance()
-		{
-			static ObjectManager* instance = nullptr;
-
-			if (!instance)
-			{
-				instance = new ObjectManager;
-			}
-
-			return *instance;
-		}
-
 	}
 }

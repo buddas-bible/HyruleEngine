@@ -1,11 +1,19 @@
 #include "Collider.h"
 
 #include "Shape.h"
+#include "Object.h"
+#include "PHYSICALLYOBJECT_INFO.h"
+
 
 namespace Hyrule
 {
 	namespace Physics
 	{
+		void Collider::SetWorldTransformMatrix(const Matrix4x4& _TM)
+		{
+			object->SetWorldTM(_TM);
+		}
+
 		void Collider::SetTrigger(bool _trigger)
 		{
 			this->isTrigger = _trigger;
@@ -21,21 +29,10 @@ namespace Hyrule
 			this->center = _center;
 		}
 
-		// std::vector<Vector3D> Collider::GetPoints()
-		// {
-		// 
-		// }
-		// 
-		// std::vector<size_t> Collider::GetIndex()
-		// {
-		// 
-		// }
-		// 
-		// void Collider::CalculateCenterOfMassAndInertiaTensor()
-		// {
-		// 	
-		// }
+		bool Collider::IsColliding()
+		{
 
+		}
 	}
 }
 

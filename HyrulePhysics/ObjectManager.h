@@ -1,5 +1,5 @@
 #pragma once
-// #include "IManager.h"
+ #include "Manager.h"
 
 #include <string>
 #include <map>
@@ -13,7 +13,7 @@ namespace Hyrule
 	{
 		class Object;
 
-		class ObjectManager//  : public IManager<ObjectManager>
+		class ObjectManager : public Manager<ObjectManager>
 		{
 		public:
 			ObjectManager() noexcept = default;
@@ -23,13 +23,10 @@ namespace Hyrule
 
 		private:
 			std::map<std::wstring, Object*> objectMap;
-			// std::vector<Object*>			
 
 		public:
-			static ObjectManager& GetInstance();
-
-			Object* GetObject(const std::wstring&);
-			Object* CreateObject(const std::wstring&);
+			Object*& GetObject(const std::wstring&);
+			Object*& CreateObject(const std::wstring&);
 		};
 	}
 }

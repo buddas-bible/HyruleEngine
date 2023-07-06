@@ -15,20 +15,25 @@ namespace Hyrule
 
 		}
 
-		// Hyrule::Physics::Transform* Object::GetTransform()
-		// {
-		// 	return this->transform;
-		// }
+		void Object::SetCollided(bool _co)
+		{
+			this->isColliding = _co;
+		}
+
+		bool Object::IsColliding()
+		{
+			return isColliding;
+		}
+
+		Hyrule::Matrix4x4 Object::SetWorldTM(const Matrix4x4& _TM)
+		{
+			this->worldTM = _TM;
+		}
 
 		Hyrule::Matrix4x4 Object::GetWorldTM()
 		{
 			return this->worldTM;
 		}
-
-		// Matrix4x4 Object::GetLocalTM()
-		// {
-		// 	return transform->GetLocalTransform();
-		// }
 
 		Matrix3x3 Object::GetInertiaTensor(float _mess)
 		{

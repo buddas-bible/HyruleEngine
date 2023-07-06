@@ -5,7 +5,6 @@
 
 namespace Hyrule 
 {
-
 	Camera::Camera(GameObject* _gameObject) noexcept :
 		Component(_gameObject), mode(CameraView::PERSPECTIVE), 
 		up(), look(), right(),
@@ -14,7 +13,7 @@ namespace Hyrule
 	{
 
 	}
-
+	
 	Matrix4x4 Camera::GetViewTM() const noexcept
 	{
 		return this->viewTM;
@@ -238,7 +237,7 @@ namespace Hyrule
 
 	void Camera::Update()
 	{
-		CreateViewTM();
+		// CreateViewTM();
 	}
 
 	void Camera::LastUpdate()

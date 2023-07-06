@@ -24,7 +24,7 @@ namespace Hyrule
 		void operator=(const PhysicsSystem&) = delete;
 
 	private:
-		Physics::IPhysics* physicsEngine;
+		Physics::IPhysics* physicsEngine{};
 
 	public:
 		bool LoadPhysicsDLL(const std::wstring&, HWND);

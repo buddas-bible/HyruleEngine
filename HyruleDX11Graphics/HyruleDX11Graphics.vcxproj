@@ -24,6 +24,7 @@
     <ProjectGuid>{1abb04f8-0a37-4954-8b3b-53c70db9538e}</ProjectGuid>
     <RootNamespace>HyruleDX11Graphics</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>HyruleGraphicsDX11</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -163,7 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DX11Graphics.h" />
+    <ClInclude Include="HyruleGraphicsDX11.h" />
     <ClInclude Include="DX11Define.h" />
     <ClInclude Include="DXColor.h" />
     <ClInclude Include="DXDevice.h" />
@@ -176,7 +177,7 @@
     <ClInclude Include="RenderableObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DX11Graphics.cpp" />
+    <ClCompile Include="HyruleGraphicsDX11.cpp" />
     <ClCompile Include="DXDevice.cpp" />
     <ClCompile Include="DXEffect.cpp" />
     <ClCompile Include="DXInputLayout.cpp" />

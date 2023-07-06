@@ -8,14 +8,8 @@ namespace Hyrule
 	struct Matrix4x4;
 	struct Quaternion;
 
-	/// <summary>
-	/// 라디안을 각도로 바꿈
-	/// </summary>
 	inline float ToDegree(const float _rad) noexcept;
 
-	/// <summary>
-	/// 각도를 라디안으로 바꿈
-	/// </summary>
 	inline float ToRadian(const float _deg) noexcept;
 
 	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler) noexcept;
@@ -26,38 +20,25 @@ namespace Hyrule
 
 	void Decompose(Vector4D& _pos, Quaternion& _rot, Vector4D& _scl, const Matrix4x4& _matrix) noexcept;
 
-	/// <summary>
-	/// 사원수 선형 보간
-	/// 정규화된 두 쿼터니언을 받아 보간함.
-	/// t는 1.f ~ 0.f
-	/// </summary>
 	Quaternion Lerp(const Quaternion& q1, const Quaternion& q2, float t) noexcept;
 
-	/// <summary>
-	/// 사원수 구형 보간
-	/// 정규화된 두 쿼터니언을 받아 보간함.
-	/// t는 1.f ~ 0.f
-	/// </summary>
 	Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, float t) noexcept;
 
-	/// <summary>
-	/// 오일러 각을 쿼터니언으로 바꿈
-	/// </summary>
+	Quaternion RotateVectorToVectorQuaternion(const Vector3D&, const Vector3D&);
+	
 	Quaternion ToQuaternion(const Vector3D& _euler) noexcept;
 
-	Quaternion RotateVectorToVectorQuaternion(const Vector3D&, const Vector3D&);
-
-	/// <summary>
-	/// 축각을 쿼터니언으로 바꿈
-	/// </summary>
 	Quaternion ToQuaternion(const Vector4D& _axisAngle) noexcept;
 
 	Quaternion ToQuaternion(const Vector3D& _axis, float _angle) noexcept;
 
-	/// <summary>
-	/// 회전 행렬을 쿼터니언으로 바꿈
-	/// </summary>
 	Quaternion ToQuaternion(const Matrix3x3& _rotMatrix) noexcept;
+
+	Vector3D ToEuler(const Quaternion&) noexcept;
+
+	Vector4D ToAxisAngle(const Quaternion&) noexcept;
+
+	Matrix4x4 ToMatrix(const Quaternion&) noexcept;
 
 	// ToEuler (축각)
 	// ToEuler (행렬)

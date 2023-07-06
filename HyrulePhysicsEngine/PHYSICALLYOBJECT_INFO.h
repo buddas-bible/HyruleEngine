@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace Hyrule
 {
@@ -7,15 +8,6 @@ namespace Hyrule
 
 	namespace Physics
 	{
-		enum class ColliderType : int
-		{
-			SPHERE,
-			BOX,
-			CAPSULE,
-			POLYHEDRON,
-			MESH,
-		};
-
 		/// <summary>
 		/// 트랜스폼 정보를 포인터로 받음
 		/// 강체 시뮬레이션으로 인해 로컬 트랜스폼 정보가 변경될 수도 있으니 필요하다.
@@ -39,7 +31,7 @@ namespace Hyrule
 		/// </summary>
 		struct COLLIDER_INFO
 		{
-			int colliderType;
+			std::wstring shapeName;
 			Vector3D* pPointArr;
 			size_t pPointArrSize;
 			size_t* pIndexArr;

@@ -1,8 +1,7 @@
 #pragma once
 #include <vector>
 
-#pragma comment(lib, "HyruleMath.lib")
-#include "../HyruleMath/HyruleMath.h"
+#include "HyruleMath.h"
 
 namespace Hyrule
 {
@@ -54,6 +53,9 @@ namespace Hyrule
 
 			const std::vector<Vector3D>& GetContactPoints() const;
 			void AddContactPoint(const Vector3D& point);
+
+			std::vector<Vector3D> simplex;
+			std::vector<size_t> index;
 
 		private:
 			/// <summary>

@@ -16,12 +16,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HRVector.h">
-      <Filter>Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="HRMatrix.h">
-      <Filter>Matrix</Filter>
-    </ClInclude>
     <ClInclude Include="Vector3D.h">
       <Filter>Vector</Filter>
     </ClInclude>

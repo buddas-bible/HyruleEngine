@@ -1,29 +1,26 @@
 #pragma once
-#include "Component.h"
-
 #include <string>
 #include <vector>
 
 #pragma comment(lib, "HyruleMath.lib")
 #include "HyruleMath.h"
+#include "Component.h"
 
 namespace Hyrule
 {
-	struct Vector3D;
-	struct Quaternion;
-	struct Matrix4x4;
+	class GameObject;
 
 	class Transform : public Component
 	{
 	public:
 		Transform() = delete;
-		Transform(GameObject*);
+		Transform(GameObject*) noexcept;
 		virtual ~Transform() noexcept;
 
 	private:
-		Hyrule::Vector3D position;
-		Hyrule::Quaternion quaternion;
-		Hyrule::Vector3D scale;
+		Vector3D position;
+		Quaternion rotation;
+		Vector3D scale;
 
 	private:
 		Hyrule::Transform* parent;
@@ -33,6 +30,7 @@ namespace Hyrule
 		/// <summary>
 		/// 트랜스폼 관련 함수
 		/// </summary>
+		
 		Vector3D GetLocalPosition() noexcept;
 		void SetLocalPosition(const Vector3D&) noexcept;
 		Vector3D GetLocalRotation() noexcept;
@@ -41,16 +39,17 @@ namespace Hyrule
 		Quaternion GetWorldQuaternion() noexcept;
 		Vector3D GetLocalScale() noexcept;
 		void SetLocalScale(const Vector3D&) noexcept;
-
+		
 		Vector3D GetUp() noexcept;
 		void SetUp(const Vector3D&) noexcept;
 		Vector3D GetForward() noexcept;
 		void SetForward(const Vector3D&) noexcept;
 		Vector3D GetRight() noexcept;
 		void SetRight(const Vector3D&) noexcept;
-
+		
 		Matrix4x4 GetLocalMatrix() noexcept;
 		Matrix4x4 GetWorldMatrix() noexcept;
+		
 
 	public:
 		/// <summary>

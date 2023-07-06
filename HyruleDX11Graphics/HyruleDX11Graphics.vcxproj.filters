@@ -55,7 +55,7 @@
     <ClInclude Include="DXShader.h">
       <Filter>0. DX11\3. DXShader</Filter>
     </ClInclude>
-    <ClInclude Include="DX11Graphics.h">
+    <ClInclude Include="HyruleGraphicsDX11.h">
       <Filter>0. DX11</Filter>
     </ClInclude>
     <ClInclude Include="RenderableObject.h">
@@ -81,7 +81,7 @@
     <ClCompile Include="DXShader.cpp">
       <Filter>0. DX11\3. DXShader</Filter>
     </ClCompile>
-    <ClCompile Include="DX11Graphics.cpp">
+    <ClCompile Include="HyruleGraphicsDX11.cpp">
       <Filter>0. DX11</Filter>
     </ClCompile>
     <ClCompile Include="RenderableObject.cpp">

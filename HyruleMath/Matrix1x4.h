@@ -1,5 +1,5 @@
 #pragma once
-#include <emmintrin.h>
+#include <smmintrin.h>
 
 namespace Hyrule
 {
@@ -10,9 +10,13 @@ namespace Hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		constexpr Matrix1x4() noexcept;
+		constexpr Matrix1x4() noexcept :
+			e{}
+		{}
 		constexpr Matrix1x4(
-			float, float, float, float) noexcept;
+			float _e00, float _e01, float _e02, float _e03) noexcept :
+			e{ _e00, _e01, _e02, _e03 }
+		{}
 		constexpr Matrix1x4(const Matrix1x4&) noexcept = default;
 		constexpr Matrix1x4(Matrix1x4&&) noexcept = default;
 		~Matrix1x4() noexcept = default;
@@ -20,7 +24,7 @@ namespace Hyrule
 		constexpr Matrix1x4& operator= (const Matrix1x4&) noexcept = default;
 		constexpr Matrix1x4& operator= (Matrix1x4&&) noexcept = default;
 
-		constexpr explicit operator Vector4D() noexcept;
+		explicit operator Vector4D() noexcept;
 
 		/// <summary>
 		/// ¸â¹ö º¯¼ö

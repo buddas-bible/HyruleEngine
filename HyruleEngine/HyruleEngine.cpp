@@ -9,12 +9,13 @@
 
 namespace Hyrule
 {
-	HyruleEngine::HyruleEngine() : hwnd(), isRunning(true)
+	HyruleEngine::HyruleEngine() noexcept : 
+		hwnd(), isRunning(true)
 	{
-		m_gameEngine = this;
+		// m_gameEngine = this;
 	}
 
-	HyruleEngine::~HyruleEngine()
+	HyruleEngine::~HyruleEngine() noexcept
 	{
 
 	}
@@ -23,7 +24,7 @@ namespace Hyrule
 	/// 그냥 싱글턴으로 객체 반환해주는 함수
 	/// </summary>
 	/// <returns></returns>
-	HyruleEngine* HyruleEngine::GetInstance()
+	HyruleEngine* HyruleEngine::GetInstance() noexcept
 	{
 		static HyruleEngine* gameEngine = nullptr;
 
@@ -38,7 +39,7 @@ namespace Hyrule
 	/// <summary>
 	/// 게임 메인 루프
 	/// </summary>
-	void HyruleEngine::Run()
+	void HyruleEngine::Run() noexcept
 	{
 		MSG msg;
 
@@ -66,7 +67,7 @@ namespace Hyrule
 	/// <summary>
 	/// 초기화 (윈도우 창 설정)
 	/// </summary>
-	void HyruleEngine::Initialize(HINSTANCE hInstance, const std::wstring& _name)
+	void HyruleEngine::Initialize(HINSTANCE hInstance, const std::wstring& _name) noexcept
 	{
 		// 윈도우 창 설정
 		this->CreateEngineWindow(hInstance, _name);
@@ -77,7 +78,7 @@ namespace Hyrule
 	/// <summary>
 	/// 다 할당을 풀어주려고 함.
 	/// </summary>
-	void HyruleEngine::Finalize()
+	void HyruleEngine::Finalize() noexcept
 	{
 		// if (rendererEngine != nullptr)
 		// {
@@ -94,7 +95,7 @@ namespace Hyrule
 	/// <summary>
 	/// 윈도우 창 생성
 	/// </summary>
-	long HyruleEngine::CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name)
+	long HyruleEngine::CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name) noexcept
 	{
 		WNDCLASSEXW wcex;
 
@@ -152,7 +153,7 @@ namespace Hyrule
 	/// <summary>
 	/// 창 크기 재설정
 	/// </summary>
-	long HyruleEngine::OnResize()
+	long HyruleEngine::OnResize() noexcept
 	{
 		HRESULT hr = S_OK;
 
@@ -169,7 +170,7 @@ namespace Hyrule
 	/// <summary>
 	/// Graphics DLL 동적 링킹
 	/// </summary>
-	void HyruleEngine::LoadGraphicsDLL(const std::wstring& _path)
+	void HyruleEngine::LoadGraphicsDLL(const std::wstring& _path) noexcept
 	{
 		auto& renderer = RendererSystem::GetInstance();
 
@@ -183,7 +184,7 @@ namespace Hyrule
 	/// <summary>
 	/// Physics DLL 동적 링킹
 	/// </summary>
-	void HyruleEngine::LoadPhysicsDLL(const std::wstring& _path)
+	void HyruleEngine::LoadPhysicsDLL(const std::wstring& _path) noexcept
 	{
 		auto& physics = PhysicsSystem::GetInstance();
 
@@ -197,7 +198,7 @@ namespace Hyrule
 	/// <summary>
 	/// 윈도우 메세지 함수
 	/// </summary>
-	LRESULT CALLBACK HyruleEngine::WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam)
+	LRESULT CALLBACK HyruleEngine::WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam) noexcept
 	{
 		switch (_msg)
 		{

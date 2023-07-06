@@ -1,22 +1,22 @@
-#include "Matrix1x4.h"
-
 #include "Vector4D.h"
+
+#include "Matrix1x4.h"
 
 namespace Hyrule
 {
-	constexpr Matrix1x4::Matrix1x4() noexcept : e{}
-	{
+// 	constexpr Matrix1x4::Matrix1x4() noexcept :
+// 		e{}
+// 	{
+// 
+// 	}
+// 
+// 	constexpr Matrix1x4::Matrix1x4(float _e00, float _e01, float _e02, float _e03) noexcept : 
+// 		e{ _e00, _e01, _e02, _e03 }
+// 	{
+// 
+// 	}
 
-	}
-
-	constexpr Matrix1x4::Matrix1x4(float _e00, float _e01, float _e02, float _e03) noexcept
-		:
-		e{ _e00, _e01, _e02, _e03 }
-	{
-
-	}
-
-	constexpr Matrix1x4::operator Vector4D() noexcept
+	Matrix1x4::operator Vector4D() noexcept
 	{
 		return Vector4D{ this->e00, this->e01, this->e02, this->e03 };
 	}

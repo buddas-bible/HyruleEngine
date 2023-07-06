@@ -1,14 +1,12 @@
-#include "Transform.h"
-
 #include "GameObject.h"
 
-
+#include "Transform.h"
 
 namespace Hyrule
 {
-	Transform::Transform(GameObject* _gameObject) : 
+	Transform::Transform(GameObject* _gameObject) noexcept :
 		Component(_gameObject), 
-		position(), quaternion(), scale(),
+		position(), /*rotation(),*/ scale(),
 		parent(), child()
 	{
 	
@@ -18,6 +16,7 @@ namespace Hyrule
 	{
 
 	}
+	
 	
 	Vector3D Transform::GetLocalPosition() noexcept
 	{
@@ -31,17 +30,17 @@ namespace Hyrule
 
 	Vector3D Transform::GetLocalRotation() noexcept
 	{
-		return this->quaternion.ToEuler();
+		return ToEuler(this->rotation);
 	}
 
 	Quaternion Transform::GetLocalQuaternion() noexcept
 	{
-		return this->quaternion;
+		return this->rotation;
 	}
 
 	void Transform::SetLocalQuaternion(const Quaternion& _q) noexcept
 	{
-		this->quaternion = _q;
+		this->rotation = _q;
 	}
 
 	Quaternion Transform::GetWorldQuaternion() noexcept
@@ -74,7 +73,7 @@ namespace Hyrule
 		{
 			q = parent->GetWorldQuaternion();
 		}
-		return /*q * */ Vector3D{ 0.f, 1.f, 0.f };
+		return Vector3D{ 0.f, 1.f, 0.f };
 	 }
 
 
@@ -92,7 +91,7 @@ namespace Hyrule
 			q = parent->GetWorldQuaternion();
 		}
 
-		return /*q * */ Vector3D{ 0.f, 0.f, 1.f };
+		return Vector3D{ 0.f, 0.f, 1.f };
 	 }
 	
 	void Transform::SetForward(const Vector3D& _vec) noexcept
@@ -110,8 +109,7 @@ namespace Hyrule
 			q = parent->GetWorldQuaternion();
 		}
 
-
-		return /*q * */ Vector3D{ 1.f, 0.f, 0.f };
+		return Vector3D{ 1.f, 0.f, 0.f };
 	 }
 	
 
@@ -122,7 +120,7 @@ namespace Hyrule
 
 	Matrix4x4 Transform::GetLocalMatrix() noexcept
 	{
-		return ToTransformMatrix(position, quaternion, scale);
+		return ToTransformMatrix(position, rotation, scale);
 	}
 
 	Matrix4x4 Transform::GetWorldMatrix() noexcept
@@ -136,7 +134,7 @@ namespace Hyrule
 
 		return GetLocalMatrix() * w;
 	}
-
+	
 
 	Transform* Transform::GetParent() noexcept
 	{

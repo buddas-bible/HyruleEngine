@@ -1,4 +1,4 @@
-﻿#include "DX11Graphics.h"
+﻿#include "HyruleGraphicsDX11.h"
 // 아마 그래픽스 구현 부
 
 #include "DXDevice.h"
@@ -11,7 +11,7 @@ namespace Hyrule
 	{
 		__declspec(dllexport) IGraphics* CreateRenderer()
 		{
-			return new DX11Graphics;
+			return new HyruleGraphicsDX11;
 		}
 
 		// __declspec(dllexport) void ReleaseRenderer(IGraphics*& _renderer)
@@ -23,19 +23,19 @@ namespace Hyrule
 		// }
 	}
 
-	DX11Graphics::DX11Graphics()
+	HyruleGraphicsDX11::HyruleGraphicsDX11()
 		: m_hWnd(),
 		m_Device(), m_RenderTarget(), m_RasterizerState()
 	{
 
 	}
 
-	DX11Graphics::~DX11Graphics()
+	HyruleGraphicsDX11::~HyruleGraphicsDX11()
 	{
 
 	}
 
-	long DX11Graphics::Initialize(int _hwnd)
+	long HyruleGraphicsDX11::Initialize(int _hwnd)
 	{
 		m_hWnd = _hwnd;
 
@@ -65,7 +65,7 @@ namespace Hyrule
 		return hr;
 	}
 
-	void DX11Graphics::Finalize()
+	void HyruleGraphicsDX11::Finalize()
 	{
 		if (m_RasterizerState)
 		{
@@ -84,7 +84,7 @@ namespace Hyrule
 		}
 	}
 
-	void DX11Graphics::Render()
+	void HyruleGraphicsDX11::Render()
 	{
 		m_RenderTarget->Clear();
 
@@ -95,7 +95,7 @@ namespace Hyrule
 		m_Device->Present();
 	}
 
-	long DX11Graphics::OnResize()
+	long HyruleGraphicsDX11::OnResize()
 	{
 		HRESULT hr = S_OK;
 
@@ -109,7 +109,7 @@ namespace Hyrule
 		return hr;
 	}
 
-	long DX11Graphics::CreateDeviceAndSwapChain()
+	long HyruleGraphicsDX11::CreateDeviceAndSwapChain()
 	{
 		HRESULT hr = S_OK;
 		m_Device = new DXDevice((HWND)m_hWnd);
@@ -124,7 +124,7 @@ namespace Hyrule
 		return hr;
 	}
 
-	long DX11Graphics::CreateRenderTargetAndDepthStencil()
+	long HyruleGraphicsDX11::CreateRenderTargetAndDepthStencil()
 	{
 		HRESULT hr = S_OK;
 
@@ -142,7 +142,7 @@ namespace Hyrule
 		return hr;
 	}
 
-	long DX11Graphics::CreateRasterState()
+	long HyruleGraphicsDX11::CreateRasterState()
 	{
 		HRESULT hr = S_OK;
 		m_RasterizerState = new DXRasterizerState(m_Device);

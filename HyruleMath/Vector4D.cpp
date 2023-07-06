@@ -1,5 +1,3 @@
-#include "Vector4D.h"
-
 #include <cmath>
 #include <utility>
 
@@ -7,32 +5,34 @@
 #include "Matrix1x4.h"
 #include "Quaternion.h"
 
+#include "Vector4D.h"
+
 namespace Hyrule
 {
-	constexpr Vector4D::Vector4D() noexcept : e{}
-	{
+// 	constexpr Vector4D::Vector4D() noexcept :
+// 		e{}
+// 	{
+// 
+// 	}
+// 
+// 	constexpr Vector4D::Vector4D(float _x, float _y, float _z, float _w) noexcept
+// 		: e{ _x, _y, _z, _w }
+// 	{
+// 
+// 	}
 
-	}
-
-	constexpr Vector4D::Vector4D(float _x, float _y, float _z, float _w) noexcept
-		: e{ _x, _y, _z, _w }
-	{
-
-	}
-
-
-	constexpr Vector4D::Vector4D(const Vector3D& _other, float _w) noexcept
+	Vector4D::Vector4D(const Vector3D& _other, const float _w) noexcept
 		: x{ _other.x }, y{ _other.y }, z{ _other.z }, w{ _w }
 	{
 
 	}
 
-	constexpr Vector4D::operator Matrix1x4() noexcept
+	Vector4D::operator Matrix1x4() noexcept
 	{
 		return Matrix1x4{ e[0], e[1] , e[2] , e[3] };
 	}
 
-	constexpr Vector4D::operator Quaternion() noexcept
+	Vector4D::operator Quaternion() noexcept
 	{
 		return Quaternion{ w, x, y, z };
 	}

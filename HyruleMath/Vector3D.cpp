@@ -1,26 +1,25 @@
-#include "Vector3D.h"
-
 #include <cmath>
 #include <utility>
 
-#include "Matrix3x3.h"
 #include "Matrix1x3.h"
+#include "Matrix3x3.h"
 #include "Quaternion.h"
+
+#include "Vector3D.h"
 
 namespace Hyrule
 {
-	constexpr Vector3D::Vector3D() noexcept : e{}
-	{
-
-	}
-
-	constexpr Vector3D::Vector3D(float _x, float _y, float _z) noexcept
-		: e{ _x, _y, _z }
-	{
-
-	}
-
-	constexpr Vector3D::operator Matrix1x3() noexcept
+// 	constexpr Vector3D::Vector3D() noexcept : e{}
+// 	{
+// 
+// 	}
+// 
+// 	constexpr Vector3D::Vector3D(float _x, float _y, float _z) noexcept
+// 		: e{ _x, _y, _z }
+// 	{
+// 
+// 	}
+	Vector3D::operator Matrix1x3() noexcept
 	{
 		return Matrix1x3{ x, y, z };
 	}

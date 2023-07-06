@@ -47,6 +47,9 @@ namespace Hyrule
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;			// 월드 중력을 설정함.
 
 		private:
+			/// <summary>
+			/// 오브젝트 매니저로 뺄 예정.
+			/// </summary>
 			std::map<std::wstring, Object*> objectMap;								// 오브젝트랑 이름, 포인터 맵
 			std::vector<Object*> objectList;										// 단순 탐색하고 싶어서.
 
@@ -55,7 +58,7 @@ namespace Hyrule
 
 			Hyrule::Vector3D gravity;
 
-			bool useOctree;
+			bool useOctree{ true };
 		};
 
 		extern "C"

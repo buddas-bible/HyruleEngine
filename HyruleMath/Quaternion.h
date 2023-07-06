@@ -1,20 +1,22 @@
 #pragma once
-#include <emmintrin.h>
+// #include <emmintrin.h>
+#include <smmintrin.h>
 
 namespace Hyrule
 {
-	struct Vector3D;
 	struct Vector4D;
-	struct Matrix1x4;
-	struct Matrix4x4;
 
 	struct Quaternion
 	{
 		/// <summary>
 		/// 특수 멤버 함수
 		/// </summary>
-		constexpr Quaternion() noexcept;
-		constexpr Quaternion(float, float, float, float) noexcept;
+		constexpr Quaternion() noexcept :
+			x(), y(), z(), w()
+		{}
+		constexpr Quaternion(float _w, float _x, float _y, float _z) noexcept :
+			x(_x), y(_y), z(_z), w(_w)
+		{}
 		constexpr Quaternion(const Quaternion&) noexcept = default;
 		constexpr Quaternion(Quaternion&&) noexcept = default;
 		~Quaternion() noexcept = default;
@@ -22,8 +24,7 @@ namespace Hyrule
 		constexpr Quaternion& operator= (const Quaternion&) noexcept = default;
 		constexpr Quaternion& operator= (Quaternion&&) noexcept = default;
 
-		constexpr explicit operator Matrix1x4() noexcept;
-		constexpr explicit operator Vector4D() noexcept;
+		explicit operator Vector4D() noexcept;
 
 		/// <summary>
 		/// 멤버 변수
@@ -55,11 +56,6 @@ namespace Hyrule
 		Quaternion Inverse() const noexcept;
 		Quaternion& Normalize() noexcept;
 		Quaternion Normalized() const noexcept;
-
-		// 수학 함수 모음으로 올길 예정
-		Vector3D ToEuler() const noexcept;
-		Vector4D ToAxisAngle() const noexcept;
-		Matrix4x4 ToMatrix() const noexcept;
 
 		/// <summary>
 		/// 연산자 오버로딩

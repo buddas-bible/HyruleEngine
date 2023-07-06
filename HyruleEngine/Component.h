@@ -10,7 +10,7 @@ namespace Hyrule
 	public:
 		Component() = delete;
 		Component(GameObject*) noexcept;
-		virtual ~Component() = default;
+		virtual ~Component() noexcept = default;
 
 	protected:
 		GameObject* gameObject;
