@@ -1,12 +1,11 @@
 #pragma once
-
 #include "Collider.h"
 
 namespace Hyrule
 {
 	namespace Physics
 	{
-		class BoxCollider : public Collider
+		class ConvexCollider : public Collider
 		{
 			virtual void SetWorldTransformMatrix(const Matrix4x4&) override;
 

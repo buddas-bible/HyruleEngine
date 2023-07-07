@@ -1,4 +1,4 @@
-#include "Sphere.h"
+#include "SphereShape.h"
 
 #include "HyruleMath.h"
 
@@ -6,17 +6,17 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Sphere::Sphere() : Shape(), length()
+		SphereShape::SphereShape() : Shape(), length()
 		{
 			type = ShapeType::SPHERE;
 		}
 
-		int Sphere::GetShapeType()
+		int SphereShape::GetShapeType()
 		{
 			return (int)this->type;
 		}
 
-		float Sphere::GetLength()
+		float SphereShape::GetLength()
 		{
 			return this->length;
 		}

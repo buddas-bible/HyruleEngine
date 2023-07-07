@@ -8,18 +8,18 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		class Sphere : public Shape
+		class SphereShape : public Shape
 		{
 		public:
-			Sphere() noexcept = default;
-			virtual ~Sphere() noexcept = default;
+			SphereShape() noexcept = default;
+			~SphereShape() noexcept = default;
 
 		private:
 			float length;
 
 		public:
-			virtual int GetShapeType() override;
-			virtual float GetLength() override;
+			int GetShapeType();
+			float GetLength();
 		};
 	}
 }

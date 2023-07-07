@@ -52,9 +52,6 @@ namespace Hyrule
 			// std::map<std::wstring, Object*> objectMap;								// 오브젝트랑 이름, 포인터 맵
 			// std::vector<Object*> objectList;										// 단순 탐색하고 싶어서.
 
-			Collider* CreateCollider(Object*, COLLIDER_INFO*);						// 콜라이더를 만듬
-			RigidBody* CreateRigidBody(Object*);									// 강체를 만듬
-
 			Hyrule::Vector3D gravity;
 
 			bool useOctree{ true };

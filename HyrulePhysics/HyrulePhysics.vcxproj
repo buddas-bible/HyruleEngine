@@ -176,8 +176,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="Box.h" />
     <ClInclude Include="BoxShape.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="HyrulePhysics.h" />
     <ClInclude Include="Manager.h" />
@@ -185,27 +187,38 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Octree.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Polyhedron.h" />
+    <ClInclude Include="ConvexCollider.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shape.h" />
-    <ClInclude Include="ShapeManager.h" />
-    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Simplex.h" />
+    <ClInclude Include="SphereShape.h" />
+    <ClInclude Include="SphereCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="BoxShape.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="HyrulePhysics.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Manifold.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Octree.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Polyhedron.cpp" />
+    <ClCompile Include="ConvexCollider.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="ShapeManager.cpp" />
-    <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="Simplex.cpp" />
+    <ClCompile Include="SphereShape.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

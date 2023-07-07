@@ -35,7 +35,7 @@ namespace Hyrule
 			std::vector<Collider*> colliders;
 
 		public:
-			Collider*& GetCollider(size_t);
+			Collider* GetCollider(size_t);
 			void RemoveCollider(size_t);
 			void RemoveCollider(Collider*&);
 			bool Empty();

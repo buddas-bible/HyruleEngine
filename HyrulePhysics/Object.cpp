@@ -15,24 +15,35 @@ namespace Hyrule
 
 		}
 
-		Collider*& Object::GetCollider(size_t _index)
+		Collider* Object::GetCollider(size_t _index)
 		{
 			if (find(colliders.begin(), colliders.end(), _index) != colliders.end())
 			{
-
+				return nullptr;
 			}
 
-			return nullptr;
+			return colliders[_index];
 		}
 
 		void Object::RemoveCollider(size_t _index)
 		{
-			colliders.erase(colliders.begin() + _index);
+			auto collider = GetCollider(_index);
+
+			if (collider == nullptr)
+			{
+				return;
+			}
+
+			colliders.erase(remove(colliders.begin(), colliders.end(), collider));
+
+			delete collider;
 		}
 
 		void Object::RemoveCollider(Collider*& _target)
 		{
 			colliders.erase(remove(colliders.begin(), colliders.end(), _target));
+
+			delete _target;
 		}
 
 		bool Object::Empty()

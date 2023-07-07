@@ -33,7 +33,7 @@ namespace Hyrule
 		/// </summary>
 		IRigidBody* HyrulePhysics::AddRigidBody(const std::wstring& _name)
 		{
-
+			return ObjectManager::GetInstance().AddRigidBody(_name);
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveCollider(const std::wstring& _name, ICollider* _target)
 		{
-
+			return ObjectManager::GetInstance().RemoveCollider(_name, _target);
 		}
 
 		/// <summary>
@@ -49,7 +49,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveCollider(const std::wstring& _name, int _index)
 		{
-
+			return ObjectManager::GetInstance().RemoveCollider(_name, _index);
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveRigidBody(const std::wstring& _name)
 		{
-
+			return ObjectManager::GetInstance().RemoveRigidBody(_name);
 		}
 
 		long HyrulePhysics::Initialize()
@@ -72,6 +72,8 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::CollisionDetection()
 		{
+			// CollisionSystem::GetInstance()
+			// 
 			// 이 함수가 호출되기 전에 콜라이더들은 월드TM을 업데이트 받을 것이다.
 			// 이전 TM과 현재 TM을 비교해보고 변경이 되었으면
 			// 트리 안에 있는 오브젝트를 삭제시키고 다시 넣음.
@@ -139,22 +141,6 @@ namespace Hyrule
 		void HyrulePhysics::SetWorldGravity(const Hyrule::Vector3D& _gravity)
 		{
 			this->gravity = _gravity;
-		}
-
-		/// <summary>
-		/// 콜라이더를 만들어서 오브젝트가 가진 콜라이더 리스트에 추가함.
-		/// </summary>
-		Collider* HyrulePhysics::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
-		{
-
-		}
-
-		/// <summary>
-		/// 오브젝트에 강체를 만듬
-		/// </summary>
-		RigidBody* HyrulePhysics::CreateRigidBody(Object* _obj)
-		{
-
 		}
 	}
 }
