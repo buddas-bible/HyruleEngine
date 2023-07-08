@@ -5,6 +5,8 @@
 #include <map>
 #include <vector>
 
+#include <HyruleMath.h>
+
 namespace Hyrule
 {
 	struct Matrix4x4;
@@ -23,6 +25,8 @@ namespace Hyrule
 
 		private:
 			std::map<std::wstring, Object*> objectMap;
+			std::map<Object*, Matrix4x4> pre;
+			std::map<Object*, Matrix4x4> curr;
 
 		public:
 			Object*& GetObject(const std::wstring&);
