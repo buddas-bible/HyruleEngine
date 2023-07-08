@@ -9,6 +9,7 @@ namespace Hyrule
 	class DXDevice;
 	class DXRenderTarget;
 	class DXRasterizerState;
+	class DXCamera;
 
 	class HyruleGraphicsDX11 : public IGraphics
 	{
@@ -23,12 +24,14 @@ namespace Hyrule
 		DXDevice*					m_Device;
 		DXRenderTarget*				m_RenderTarget;
 		DXRasterizerState*			m_RasterizerState;
+		DXCamera*					m_camera;
 
 	public:
 		virtual long Initialize(int _hwnd) override;
 		virtual void Finalize() override;
 		virtual void Render() override;
 		virtual long OnResize() override;
+		ICamera* GetCamera();
 
 	private:
 		/// <summary>
@@ -38,14 +41,11 @@ namespace Hyrule
 		long CreateDeviceAndSwapChain();
 		long CreateRenderTargetAndDepthStencil();
 		long CreateRasterState();
-
-	private:
-		void SetCamera();
+		long CreateCamera();
 	};
 
 	extern "C"
 	{
 		__declspec(dllexport) IGraphics* CreateRenderer();
-		// __declspec(dllexport) void ReleaseRenderer(IGraphics*& _renderer);
 	}
 }

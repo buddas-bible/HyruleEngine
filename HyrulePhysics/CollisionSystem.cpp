@@ -172,6 +172,53 @@ namespace Hyrule
 			return;
 		}
 
+		Manifold* CollisionSystem::ComputePenetrationDepth(Collider*, Collider*, Simplex*)
+		{
+			// 		size_t i = 0;
+// 
+// 		while (i < EPA_MAXCOUNT)
+// 		{
+// 			// 가까운 변을 찾는다.
+// 			MinkowskiEdge edge = GetSupportEdge(m_Simplex);
+// 
+// 			// 가장 가까운 변의 노말 벡터를 방향벡터로 삼아 서포트 포인트를 구한다.
+// 			Vector2D p = GetSupportPoint(A, B, edge.normal);
+// 
+// 			// 서포트 포인트를 노말벡터에 투영해서 거리를 구한다.
+// 			float dist = p.Dot(edge.normal);
+// 
+// 			if (dist < 0.01f)
+// 			{
+// 				manifold.Clear();
+// 				manifold.A = A->pRigidBody;
+// 				manifold.B = B->pRigidBody;
+// 				manifold.normalVector = edge.normal;
+// 				manifold.depth = edge.dist;
+// 				return (edge.normal * (edge.dist + 0.001f));
+// 			}
+// 
+// 			// 서포트 포인트를 노말벡터에 투영한 값이
+// 			// 찾은 변의 정보와 유사하다면?
+// 			if ((dist - edge.dist) < 0.01f)
+// 			{
+// 				// 반복 충돌을 방지하기 위해 아주 작은 값은 더해서 반환
+// 				/// 벡터는 구했지만 어느 점에서 어느 변을 향한 벡터인지는 모른다.
+// 				manifold.Clear();
+// 				manifold.normalVector = edge.normal;
+// 				manifold.depth = edge.dist;
+// 				return (edge.normal * (edge.dist + 0.001f));
+// 			}
+// 			else
+// 			{
+// 				// 찾은 점을 심플렉스에 넣고 다시 탐색
+// 				m_Simplex.insert(m_Simplex.begin() + edge.index, p);
+// 				i++;
+// 			}
+// 		}
+// 
+// 		return Vector2D(0, 0);
+		}
+
 		/*
 		3D GJK 메모
 		2D에서는 삼각형을 만들면서 원점을 포함하고 있는지를 판단했다면
@@ -186,9 +233,36 @@ namespace Hyrule
 		
 		*/
 
-		void CollisionSystem::CollisionCheck(Collider* _A, Collider* _B)
-		{
-
-		}
 	}
 }
+
+/*
+* 서포트 포인트
+*
+서포터 포인트는 해당 방향으로부터 가장 먼 점을 찾는 것인데
+콜라이더의 점 개수만큼 내적해서 찾아야한다는 점이 매우 비효율적일듯 싶어 방법을 조금만 바꿔보기로 했다.
+메모리는 조금 잡아 먹겠지만 점과 인덱스를 가지고 Face를 미리 연산을 해둔다.
+노말 방향으로부터 가장 먼 Face의 중점을 찾는다. (Face의 개수만큼 탐색은 할 것이다.)
+그 Face를 이루는 세 점 중에서 가장 먼 점을 찾으면
+모든 점을 탐색하는 것보단 빨라지지 않을까?
+*/
+
+/*
+* 민코프스키 차와 EPA
+*
+EPA에 대해서 한가지 착각을 하고 있던 점이 있었지만
+초천재 킹범준이 바로 잡아주어서 어떻게 해결이 될 수도 있을 것같다.
+*/
+
+/*
+* 충돌지점 찾기
+*
+물리에서 복수의 충돌 지점 찾는 것이 매우 중요하다.
+힘의 분산도 그러하고 지터링을 완화를 시킬 수 있기 때문이다
+(이번에 기회가 된다면 Sleep도 넣어보려고 한다.)
+
+EPA에서 얻은 노말(방향) 벡터로부터 두 도형의 Face를 우선 찾는다.
+EPA에서 얻은 벡터는 특정 면의 수직이기 때문에 내적을 해서 1에 가장 가까운 면을 찾으면 될 것이다.
+충돌과 방향은 알았지만 누가 침투했는지 형상은 모르기에 그것을 해결하기 위해서
+수직인 면을 가진 오브젝트가 침투 당한(?) 오브젝트라 생각하여
+*/

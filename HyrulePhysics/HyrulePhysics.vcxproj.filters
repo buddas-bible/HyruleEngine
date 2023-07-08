@@ -76,17 +76,23 @@
     <ClInclude Include="Collider.h">
       <Filter>3. PhysicalyObject\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>3. PhysicalyObject\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="SphereCollider.h">
       <Filter>3. PhysicalyObject\Collider</Filter>
     </ClInclude>
     <ClInclude Include="ConvexCollider.h">
       <Filter>3. PhysicalyObject\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
+    <ClInclude Include="BoxCollider.h">
       <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneCollider.h">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Edge.h">
+      <Filter>2. DataStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="Face.h">
+      <Filter>2. DataStruct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,17 +141,23 @@
     <ClCompile Include="Collider.cpp">
       <Filter>3. PhysicalyObject\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>3. PhysicalyObject\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
       <Filter>3. PhysicalyObject\Collider</Filter>
     </ClCompile>
     <ClCompile Include="ConvexCollider.cpp">
       <Filter>3. PhysicalyObject\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Plane.cpp">
+    <ClCompile Include="BoxCollider.cpp">
       <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneCollider.cpp">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Edge.cpp">
+      <Filter>2. DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="Face.cpp">
+      <Filter>2. DataStruct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -32,6 +32,9 @@
     <Filter Include="0. DX11\3. DXShader\DXFXEffect">
       <UniqueIdentifier>{87a3b2f2-011d-4b3f-aa53-69bacac87af9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="0. DX11\5. DXCamera">
+      <UniqueIdentifier>{b02bd3f7-4f01-43ca-9824-5bf6f5b3c9f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -67,6 +70,12 @@
     <ClInclude Include="DXEffect.h">
       <Filter>0. DX11\3. DXShader\DXFXEffect</Filter>
     </ClInclude>
+    <ClInclude Include="Interface_.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DXCamera.h">
+      <Filter>0. DX11\5. DXCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXDevice.cpp">
@@ -92,6 +101,10 @@
     </ClCompile>
     <ClCompile Include="DXEffect.cpp">
       <Filter>0. DX11\3. DXShader\DXFXEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface_.cpp" />
+    <ClCompile Include="DXCamera.cpp">
+      <Filter>0. DX11\5. DXCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

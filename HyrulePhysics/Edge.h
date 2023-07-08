@@ -1,5 +1,13 @@
 #pragma once
-class Edge
-{
-};
 
+namespace Hyrule
+{
+	namespace Physics
+	{
+
+		class Edge
+		{
+		};
+
+	}
+}

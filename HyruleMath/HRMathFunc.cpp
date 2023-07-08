@@ -1,6 +1,5 @@
 #include <cmath>
 
-#include "HRConstant.h"
 #include "Vector4D.h"
 #include "Quaternion.h"
 #include "Vector3D.h"
@@ -11,22 +10,6 @@
 
 namespace Hyrule
 {
-	/// <summary>
-	/// 라디안을 각도로 바꿈
-	/// </summary>
-	inline float ToDegree(const float _rad) noexcept
-	{
-		return _rad * (180.0f / PI<float>);
-	}
-
-	/// <summary>
-	/// 각도를 라디안으로 바꿈
-	/// </summary>
-	inline float ToRadian(const float _deg) noexcept
-	{
-		return _deg * (PI<float> / 180.f);
-	}
-
 	/// <summary>
 	/// 오일러각을 매트릭스로 반환
 	/// </summary>
@@ -60,7 +43,7 @@ namespace Hyrule
 	/// </summary>
 	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept
 	{
-		return ToScaleMatrix(_scl) * ToMatrix(_rot) * ToTranslateMatrix(_pos);
+		return ToScaleMatrix(_scl) * ToMatrix4(_rot) * ToTranslateMatrix(_pos);
 	}
 
 	/// <summary>
@@ -349,7 +332,7 @@ namespace Hyrule
 		return Vector4D(_q.x * inverseLength, _q.y * inverseLength, _q.z * inverseLength, angle);
 	}
 
-	Matrix4x4 ToMatrix(const Quaternion& _q) noexcept
+	Matrix4x4 ToMatrix4(const Quaternion& _q) noexcept
 	{
 		Matrix4x4 matrix;
 
@@ -385,6 +368,30 @@ namespace Hyrule
 		matrix.e33 = 1.0f;
 
 		return matrix;
+	}
+
+
+	Hyrule::Matrix3x3 ToMatrix3(const Vector3D& _axis, const float _angle) noexcept
+	{
+		float cos = std::cos(_angle);
+		float sin = std::sin(_angle);
+		float x = _axis.x;
+		float y = _axis.y;
+		float z = _axis.z;
+
+		return Matrix3x3(
+			cos + x * x * (1 - cos),
+			x * y * (1 - cos) - z * sin,
+			x * z * (1 - cos) + y * sin,
+
+			y * x * (1 - cos) + z * sin,
+			cos + y * y * (1 - cos),
+			y * z * (1 - cos) - x * sin,
+
+			z * x * (1 - cos) - y * sin,
+			z * y * (1 - cos) + x * sin,
+			cos + z * z * (1 - cos)
+		);
 	}
 
 	// ToEuler (축각)

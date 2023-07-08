@@ -14,11 +14,6 @@ namespace Hyrule
 
 	}
 
-	DXEffect::~DXEffect()
-	{
-
-	}
-
 	long DXEffect::CreateEffect(const std::wstring& _path)
 	{
 		HRESULT hr = S_OK;
@@ -35,35 +30,39 @@ namespace Hyrule
 		fin.read(&vsCompiledShader[0], size);
 		fin.close();
 
-		// hr = D3DX11CreateEffectFromMemory(
-		// 	&vsCompiledShader[0],
-		// 	size,
-		// 	0,
-		// 	device->GetDevice(),
-		// 	&effect
-		// );
+		hr = D3DX11CreateEffectFromMemory(
+			&vsCompiledShader[0],
+			size,
+			0,
+			device->GetDevice(),
+			&effect
+		);
 
 		return hr;
 	}
 
 	ID3DX11Effect* DXEffect::GetEffect()
 	{
-		return effect;
+		return effect.Get();
 	}
 
-	void DXEffect::SetRawVariable(ID3DX11EffectVariable** _value, const std::wstring& _valueName)
+	void DXEffect::SetTechnique(ID3DX11EffectTechnique** _tech, const std::string& _techName)
 	{
-		// (*_value) = effect->GetVariableByName(_valueName.c_str());
+		(*_tech) = effect->GetTechniqueByName(_techName.c_str());
 	}
 
-	void DXEffect::SetMatrixVariable(ID3DX11EffectMatrixVariable** _matrix, const std::wstring& _valueName)
+	void DXEffect::SetRawVariable(ID3DX11EffectVariable** _value, const std::string& _valueName)
 	{
-		// (*_matrix) = effect->GetVariableByName(_valueName.c_str())->AsMatrix();
+		(*_value) = effect->GetVariableByName(_valueName.c_str());
 	}
 
-	void DXEffect::SetMatrixVariable(ID3DX11EffectShaderResourceVariable** _resource, const std::wstring& _valueName)
+	void DXEffect::SetMatrixVariable(ID3DX11EffectMatrixVariable** _matrix, const std::string& _valueName)
 	{
-		// (*_resource) = effect->GetVariableByName(_valueName.c_str())->AsShaderResource();
+		(*_matrix) = effect->GetVariableByName(_valueName.c_str())->AsMatrix();
 	}
 
+	void DXEffect::SetMatrixVariable(ID3DX11EffectShaderResourceVariable** _resource, const std::string& _valueName)
+	{
+		(*_resource) = effect->GetVariableByName(_valueName.c_str())->AsShaderResource();
+	}
 }

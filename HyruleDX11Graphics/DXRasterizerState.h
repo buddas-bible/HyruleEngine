@@ -1,4 +1,5 @@
 #pragma once
+#include "framework.h"
 
 struct ID3D11RasterizerState2;
 
@@ -13,11 +14,14 @@ namespace Hyrule
 		~DXRasterizerState();
 
 	private:
+		template <typename T>
+		using Comptr = Microsoft::WRL::ComPtr<T>;
+
 		DXDevice* m_device;
 
-		ID3D11RasterizerState2* m_currRasterizerState;			// 현재 레스터 상태
-		ID3D11RasterizerState2* m_solidRasterizerState;			// 채우는 레스터 상태
-		ID3D11RasterizerState2* m_wireRasterizerState;			// 선 레스터라이즈 상태
+		Comptr<ID3D11RasterizerState2> m_currRasterizerState;			// 현재 레스터 상태
+		Comptr<ID3D11RasterizerState2> m_solidRasterizerState;			// 채우는 레스터 상태
+		Comptr<ID3D11RasterizerState2> m_wireRasterizerState;			// 선 레스터라이즈 상태
 
 	public:
 		int CreateRasterizerState();

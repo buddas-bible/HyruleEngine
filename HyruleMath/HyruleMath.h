@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "HRConstant.h"
 // Vecotr3D, 4D
 #include "Vector3D.h"

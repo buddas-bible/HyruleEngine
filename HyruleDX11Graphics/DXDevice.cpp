@@ -1,5 +1,5 @@
 #include "DXDevice.h"
-
+#include "DXCamera.h"
 
 namespace Hyrule
 {
@@ -13,24 +13,22 @@ namespace Hyrule
 
 	DXDevice::~DXDevice()
 	{
-		Release(m_SwapChain);
-		Release(m_DeviceContext);
-		Release(m_Device);
+
 	}
 
 	ID3D11Device5* DXDevice::GetDevice()
 	{
-		return m_Device;
+		return m_Device.Get();
 	}
 
 	ID3D11DeviceContext4* DXDevice::GetDeviceContext()
 	{
-		return m_DeviceContext;
+		return m_DeviceContext.Get();
 	}
 
 	IDXGISwapChain2* DXDevice::GetSwapChain()
 	{
-		return m_SwapChain;
+		return m_SwapChain.Get();
 	}
 
 	void DXDevice::Present()
@@ -83,8 +81,8 @@ namespace Hyrule
 			D3D_FEATURE_LEVEL_9_1
 		};
 
-		ID3D11Device* _device{};
-		ID3D11DeviceContext* _context{};
+		Comptr<ID3D11Device> _device{};
+		Comptr<ID3D11DeviceContext> _context{};
 
 		// 디바이스, 디바이스 컨텍스트 생성
 		hr = D3D11CreateDevice(
@@ -106,10 +104,12 @@ namespace Hyrule
 			return hr;
 		}
 
-		hr = _device->QueryInterface(
-			__uuidof(ID3D11Device5),
-			reinterpret_cast<void**>(&m_Device)
-		);
+		hr = _device.As(&m_Device);
+
+		// hr = _device->QueryInterface(
+		// 	__uuidof(ID3D11Device5),
+		// 	&m_Device
+		// );
 
 		if (FAILED(hr))
 		{
@@ -130,10 +130,12 @@ namespace Hyrule
 			return hr;
 		}
 
-		hr = _context->QueryInterface(
-			__uuidof(ID3D11DeviceContext4),
-			reinterpret_cast<void**>(&m_DeviceContext)
-		);
+		hr = _context.As(&m_DeviceContext);
+
+		// hr = _context->QueryInterface(
+		// 	__uuidof(ID3D11DeviceContext4),
+		// 	&m_DeviceContext
+		// );
 
 		if (FAILED(hr))
 		{
@@ -184,8 +186,9 @@ namespace Hyrule
 		dxgiSwapChainDesc1.Flags = 0;
 
 		/// D11 디바이스에서 DXGI 디바이스를 만듬
-		IDXGIDevice3* dxgiDevice3{};
-		hr = m_Device->QueryInterface(__uuidof(IDXGIDevice3), (void**)&dxgiDevice3);
+		Comptr<IDXGIDevice3> dxgiDevice3{};
+		hr = m_Device.As(&dxgiDevice3);
+		// hr = m_Device->QueryInterface(__uuidof(IDXGIDevice3), (void**)&dxgiDevice3);
 
 		if (FAILED(hr))
 		{
@@ -196,21 +199,22 @@ namespace Hyrule
 		hr = dxgiDevice3->SetMaximumFrameLatency(1);						// 렌더링을 위해 큐에 대기할 수 있는 프레임 수
 
 		/// 디바이스에서 어뎁터를 받아옴
-		IDXGIAdapter* dxgiAdapter{};
+		Comptr<IDXGIAdapter> dxgiAdapter{};
 		dxgiDevice3->GetAdapter(&dxgiAdapter);
 
 		/// 어뎁터 진화~
-		IDXGIAdapter2* dxgiAdapter2{};
-		dxgiAdapter->QueryInterface(__uuidof(IDXGIAdapter2), (void**)&dxgiAdapter2);
+		Comptr<IDXGIAdapter2> dxgiAdapter2{};
+		hr = dxgiAdapter.As(&dxgiAdapter2);
+		// dxgiAdapter->QueryInterface(__uuidof(IDXGIAdapter2), (void**)&dxgiAdapter2);
 
 		/// 어뎁터에서 펙토리도 받음
-		IDXGIFactory3* dxgiFactory3{};
+		Comptr<IDXGIFactory3> dxgiFactory3{};
 		dxgiAdapter2->GetParent(__uuidof(IDXGIFactory3), (void**)&dxgiFactory3);
 
 		/// 팩토리로 스왑체인 만듬
-		IDXGISwapChain1* swapchain{};
+		Comptr<IDXGISwapChain1> swapchain{};
 		hr = dxgiFactory3->CreateSwapChainForHwnd(
-			m_Device,										// 디바이스
+			m_Device.Get(),										// 디바이스
 			m_hWnd,											// 출력창 핸들 
 			&dxgiSwapChainDesc1,							// 스왑체인 설정
 			nullptr,										// 전체화면 설정
@@ -224,10 +228,11 @@ namespace Hyrule
 			return hr;
 		}
 
-		hr = swapchain->QueryInterface(
-			__uuidof(IDXGISwapChain2), 
-			(void**)&m_SwapChain
-		);
+		hr = swapchain.As(&m_SwapChain);
+		// hr = swapchain->QueryInterface(
+		// 	__uuidof(IDXGISwapChain2), 
+		// 	(void**)&m_SwapChain
+		// );
 
 		if (FAILED(hr))
 		{
@@ -242,10 +247,10 @@ namespace Hyrule
 			return hr;
 		}
 
-		Release(dxgiDevice3);
-		Release(dxgiAdapter);
-		Release(dxgiAdapter2);
-		Release(dxgiFactory3);
+		// Release(dxgiDevice3);
+		// Release(dxgiAdapter);
+		// Release(dxgiAdapter2);
+		// Release(dxgiFactory3);
 
 		return hr;
 	}
@@ -254,7 +259,7 @@ namespace Hyrule
 	{
 		HRESULT hr = S_OK;
 
-		ID3D11Texture2D* backbuffer{};
+		Comptr<ID3D11Texture2D> backbuffer{};
 
 		hr = m_SwapChain->GetBuffer(
 			0,
@@ -283,8 +288,43 @@ namespace Hyrule
 
 		m_DeviceContext->RSSetViewports(1, &m_viewport);
 
-		Release(backbuffer);
-
 		return hr;
+	}
+
+	HRESULT DXDevice::SetCamera(DXCamera* _camera)
+	{
+		HRESULT hr = S_OK;
+
+		Comptr<ID3D11Texture2D> backbuffer{};
+
+		hr = m_SwapChain->GetBuffer(
+			0,
+			__uuidof(ID3D11Texture2D),
+			(void**)&backbuffer
+		);
+
+		if (FAILED(hr))
+		{
+			MessageBox(m_hWnd, L"스왑 체인으로부터 백퍼버를 가져오지 못했습니다.", L"뷰포트 오류", MB_OK | MB_ICONWARNING);
+			return hr;
+		}
+
+		D3D11_TEXTURE2D_DESC backBufferDesc;
+
+		ZeroMemory(&backBufferDesc, sizeof(backBufferDesc));
+		backbuffer->GetDesc(&backBufferDesc);
+
+		float aspectRatioX = static_cast<float>(backBufferDesc.Width) / static_cast<float>(backBufferDesc.Height);
+		float aspectRatioY = aspectRatioX < (16.0f / 9.0f) ? aspectRatioX / (16.0f / 9.0f) : 1.0f;
+
+		// 투영 매트릭스
+		_camera->CameraPerspectiveFovLH(
+			2.0f * std::atan(std::tan(ToRadian(70) * 0.5f) / aspectRatioY),
+			aspectRatioX,
+			0.01f,
+			100.0f
+		);
+
+		_camera->CameraOrthographicLH(4.5f, 3.f, 0.01f, 100.f);
 	}
 }

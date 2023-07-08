@@ -164,6 +164,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DXCamera.h" />
     <ClInclude Include="HyruleGraphicsDX11.h" />
     <ClInclude Include="DX11Define.h" />
     <ClInclude Include="DXColor.h" />
@@ -174,9 +175,11 @@
     <ClInclude Include="DXRenderTarget.h" />
     <ClInclude Include="DXShader.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Interface_.h" />
     <ClInclude Include="RenderableObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DXCamera.cpp" />
     <ClCompile Include="HyruleGraphicsDX11.cpp" />
     <ClCompile Include="DXDevice.cpp" />
     <ClCompile Include="DXEffect.cpp" />
@@ -184,6 +187,7 @@
     <ClCompile Include="DXRasterizerState.cpp" />
     <ClCompile Include="DXRenderTarget.cpp" />
     <ClCompile Include="DXShader.cpp" />
+    <ClCompile Include="Interface_.cpp" />
     <ClCompile Include="RenderableObject.cpp" />
   </ItemGroup>
   <ItemGroup>

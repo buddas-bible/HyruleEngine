@@ -14,7 +14,11 @@ namespace Hyrule
 		{
 		public:
 			bool CollisionCheck(Collider*, Collider*, Manifold*);
-			void CollisionCheck(Collider*, Collider*);
+			
+			Manifold* ComputePenetrationDepth(Collider*, Collider*, Simplex*);
+			void GetSupportPoint(Collider*, Collider*, const Vector3D&);
+			void GetSupportEdge(Simplex*);
+			void FindContactPoint(Collider*, Collider*);
 
 		private:
 			std::map<Manifold*, Simplex*> detectionInfo;

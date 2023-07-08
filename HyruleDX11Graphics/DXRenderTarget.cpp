@@ -1,6 +1,5 @@
 #include "DXRenderTarget.h"
 
-#include "framework.h"
 #include "DXDevice.h"
 
 namespace Hyrule
@@ -15,10 +14,10 @@ namespace Hyrule
 
 	DXRenderTarget::~DXRenderTarget()
 	{
-		ReleaseAll();
+		// ReleaseAll();
 	}
 
-	int DXRenderTarget::CreateRenderTargetAndDepthStencil()
+	long DXRenderTarget::CreateRenderTargetAndDepthStencil()
 	{
 		HRESULT hr = S_OK;
 
@@ -26,20 +25,20 @@ namespace Hyrule
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
 		hr = CreateDepthStencil();
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
-		return (int)hr;
+		return hr;
 	}
 
-	int DXRenderTarget::OnResize()
+	long DXRenderTarget::OnResize()
 	{
 		HRESULT hr = S_OK;
 
@@ -55,35 +54,35 @@ namespace Hyrule
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
 		hr = m_dxDevice->SetViewport();
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
 		hr = CreateRenderTargetAndDepthStencil();
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
-		return (int)hr;
+		return hr;
 	}
 
 	void DXRenderTarget::Clear()
 	{
 		m_dxDevice->GetDeviceContext()->ClearRenderTargetView(
-			m_renderTargetView,
+			m_renderTargetView.Get(),
 			DXColor::Bisque
 		);
 
 		m_dxDevice->GetDeviceContext()->ClearDepthStencilView(
-			m_depthStencilView,
+			m_depthStencilView.Get(),
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
 			1.0f,
 			0
@@ -100,20 +99,20 @@ namespace Hyrule
 		// 	&(ID3D11RenderTargetView*)m_renderTargetView,
 		// 	m_depthStencilView
 		// );
-		ID3D11RenderTargetView* ppRenderTargetViews[] = { m_renderTargetView };
+		Comptr<ID3D11RenderTargetView> ppRenderTargetViews[] = { m_renderTargetView };
 
 		m_dxDevice->GetDeviceContext()->OMSetRenderTargets(
 			1,
-			ppRenderTargetViews,
-			m_depthStencilView
+			ppRenderTargetViews->GetAddressOf(),
+			m_depthStencilView.Get()
 		);
 	}
 
-	int DXRenderTarget::CreateRenderTarget()
+	long DXRenderTarget::CreateRenderTarget()
 	{
 		HRESULT hr = S_OK;
 
-		ID3D11Texture2D* backBuffer;
+		Comptr<ID3D11Texture2D> backBuffer;
 		hr = m_dxDevice->GetSwapChain()->GetBuffer(
 			0,
 			__uuidof(ID3D11Texture2D),
@@ -122,34 +121,34 @@ namespace Hyrule
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
 		hr = m_dxDevice->GetDevice()->CreateRenderTargetView1(
-			backBuffer,
+			backBuffer.Get(),
 			nullptr,
 			&m_renderTargetView
 		);
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
 		D3D11_TEXTURE2D_DESC bufferDesc;
 		ZeroMemory(&bufferDesc, sizeof(D3D11_TEXTURE2D_DESC));
 		backBuffer->GetDesc(&bufferDesc);
 
-		Release(backBuffer);
+		// Release(backBuffer);
 
-		return (int)hr;
+		return hr;
 	}
 
-	int DXRenderTarget::CreateDepthStencil()
+	long DXRenderTarget::CreateDepthStencil()
 	{
 		HRESULT hr = S_OK;
 
-		ID3D11Texture2D* backBuffer;
+		Comptr<ID3D11Texture2D> backBuffer;
 		hr = m_dxDevice->GetSwapChain()->GetBuffer(
 			0,
 			__uuidof(ID3D11Texture2D),
@@ -162,7 +161,7 @@ namespace Hyrule
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
 		D3D11_TEXTURE2D_DESC depthStencilDesc;
@@ -179,7 +178,7 @@ namespace Hyrule
 		depthStencilDesc.CPUAccessFlags = 0;
 		depthStencilDesc.MiscFlags = 0;
 
-		ID3D11Texture2D* depthStencil;
+		Comptr<ID3D11Texture2D> depthStencil;
 		hr = m_dxDevice->GetDevice()->CreateTexture2D(
 			&depthStencilDesc,
 			nullptr,
@@ -188,7 +187,7 @@ namespace Hyrule
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
 		D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
@@ -198,27 +197,31 @@ namespace Hyrule
 		depthStencilViewDesc.Flags = 0;
 		depthStencilViewDesc.Texture2D.MipSlice = 0;
 
+		Comptr<ID3D11DepthStencilView> depthStencilView;
 		hr = m_dxDevice->GetDevice()->CreateDepthStencilView(
-			depthStencil,
+			depthStencil.Get(),
 			&depthStencilViewDesc,
-			&m_depthStencilView
+			&depthStencilView
 		);
 
 		if (FAILED(hr))
 		{
-			return (int)hr;
+			return hr;
 		}
 
-		Release(backBuffer);
-		Release(depthStencil);
+
+		depthStencilView.As(&m_depthStencilView);
+
+		// Release(backBuffer);
+		// Release(depthStencil);
 
 		return (int)hr;
 	}
 
 	void DXRenderTarget::ReleaseAll()
 	{
-		Release(m_depthStencilView);
-		Release(m_renderTargetView);
+		// Release(m_depthStencilView);
+		// Release(m_renderTargetView);
 	}
 
 }

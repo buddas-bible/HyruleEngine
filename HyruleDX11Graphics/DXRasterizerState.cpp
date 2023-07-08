@@ -1,5 +1,4 @@
 #include "DXRasterizerState.h"
-#include "framework.h"
 
 #include "DXDevice.h"
 
@@ -14,9 +13,9 @@ namespace Hyrule
 
 	DXRasterizerState::~DXRasterizerState()
 	{
-		Release(m_currRasterizerState);
-		Release(m_wireRasterizerState);
-		Release(m_solidRasterizerState);
+		// Release(m_currRasterizerState);
+		// Release(m_wireRasterizerState);
+		// Release(m_solidRasterizerState);
 	}
 
 	int DXRasterizerState::CreateRasterizerState()
@@ -62,17 +61,17 @@ namespace Hyrule
 
 	ID3D11RasterizerState2* DXRasterizerState::GetCurrRasterizerState()
 	{
-		return m_currRasterizerState;
+		return m_currRasterizerState.Get();
 	}
 
 	ID3D11RasterizerState2* DXRasterizerState::GetSolidRasterizerState()
 	{
-		return m_solidRasterizerState;
+		return m_solidRasterizerState.Get();
 	}
 
 	ID3D11RasterizerState2* DXRasterizerState::GetWireRasterizerState()
 	{
-		return m_wireRasterizerState;
+		return m_wireRasterizerState.Get();
 	}
 
 	void DXRasterizerState::SetSolidState()

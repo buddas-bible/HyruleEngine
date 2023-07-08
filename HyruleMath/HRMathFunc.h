@@ -1,4 +1,5 @@
 #pragma once
+#include "HRConstant.h"
 
 namespace Hyrule
 {
@@ -8,9 +9,21 @@ namespace Hyrule
 	struct Matrix4x4;
 	struct Quaternion;
 
-	inline float ToDegree(const float _rad) noexcept;
+	/// <summary>
+	/// 라디안을 각도로 바꿈
+	/// </summary>
+	constexpr float ToDegree(const float _rad) noexcept
+	{
+		return _rad * (180.0f / PI<float>);
+	}
 
-	inline float ToRadian(const float _deg) noexcept;
+	/// <summary>
+	/// 각도를 라디안으로 바꿈
+	/// </summary>
+	constexpr float ToRadian(const float _deg) noexcept
+	{
+		return _deg * (PI<float> / 180.f);
+	}
 
 	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler) noexcept;
 
@@ -38,7 +51,9 @@ namespace Hyrule
 
 	Vector4D ToAxisAngle(const Quaternion&) noexcept;
 
-	Matrix4x4 ToMatrix(const Quaternion&) noexcept;
+	Matrix4x4 ToMatrix4(const Quaternion&) noexcept;
+
+	Matrix3x3 ToMatrix3(const Vector3D&, const float) noexcept;
 
 	// ToEuler (축각)
 	// ToEuler (행렬)

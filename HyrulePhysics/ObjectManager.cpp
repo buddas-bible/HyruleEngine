@@ -60,7 +60,7 @@ namespace Hyrule
 			auto t = static_cast<Collider*>(_target);
 			obj->RemoveCollider(t);
 
-			// 오브젝트가 비었다면
+			// 오브젝트가 가진 콜라이더 개수가 0이라면
 			if (obj->Empty())
 			{
 				this->RemoveObject(_name);
@@ -68,16 +68,23 @@ namespace Hyrule
 			}
 		}
 
-		void ObjectManager::RemoveCollider(const std::wstring& _name, size_t _index)
+
+		void ObjectManager::RemoveCollider(const std::wstring& _name, int _index)
 		{
 			auto obj = this->GetObject(_name);
 
-			if (obj == nullptr)
+			if ((obj == nullptr) ||
+				(_index < 0) ||
+				((obj->colliders.size() - 1) < _index))
 			{
 				return;
 			}
 
-			obj->RemoveCollider(_index);
+			auto& collider = obj->colliders[_index];
+
+			obj->colliders.erase(obj->colliders.begin() + _index);
+
+			delete collider;
 
 			// 오브젝트가 가진 콜라이더 개수가 0이고, 강체도 없으면 오브젝트를 삭제함.
 			if (!obj->colliders.size() && obj->rigidbody == nullptr)
@@ -116,7 +123,7 @@ namespace Hyrule
 
 		Collider* ObjectManager::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
 		{
-			Collider* collider = new Collider;
+			Collider* collider = new Collider(*_info);
 
 			_obj->colliders.push_back(collider);
 
@@ -137,7 +144,7 @@ namespace Hyrule
 			Object* obj = nullptr;
 
 			auto itr = objectMap.find(_name);
-			
+
 			if (itr == objectMap.end())
 			{
 				obj = nullptr;

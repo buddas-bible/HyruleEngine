@@ -1,5 +1,5 @@
 #pragma once
-
+#include "framework.h"
 #include <string>
 
 class ID3DX11Effect;
@@ -19,20 +19,24 @@ namespace Hyrule
 	{
 	public:
 		DXEffect(DXDevice*);
-		~DXEffect();
+		~DXEffect() = default;
 
 	private:
+		template <typename T>
+		using Comptr = Microsoft::WRL::ComPtr<T>;
 		DXDevice* device;
 
-		ID3DX11Effect* effect;
+		Comptr<ID3DX11Effect> effect;
 
 	public:
 		long CreateEffect(const std::wstring&);
-
 		ID3DX11Effect* GetEffect();
-		void SetRawVariable(ID3DX11EffectVariable**, const std::wstring&);
-		void SetMatrixVariable(ID3DX11EffectMatrixVariable**, const std::wstring&);
-		void SetMatrixVariable(ID3DX11EffectShaderResourceVariable**, const std::wstring&);
+
+	public:
+		void SetTechnique(ID3DX11EffectTechnique**, const std::string&);
+		void SetRawVariable(ID3DX11EffectVariable**, const std::string&);
+		void SetMatrixVariable(ID3DX11EffectMatrixVariable**, const std::string&);
+		void SetMatrixVariable(ID3DX11EffectShaderResourceVariable**, const std::string&);
 	};
 }
 

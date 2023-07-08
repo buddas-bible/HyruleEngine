@@ -4,6 +4,9 @@
 #include "DXDevice.h"
 #include "DXRenderTarget.h"
 #include "DXRasterizerState.h"
+#include "ICamera.h"
+#include "DXCamera.h"
+
 
 namespace Hyrule
 {
@@ -13,14 +16,6 @@ namespace Hyrule
 		{
 			return new HyruleGraphicsDX11;
 		}
-
-		// __declspec(dllexport) void ReleaseRenderer(IGraphics*& _renderer)
-		// {
-		// 	if (_renderer != nullptr)
-		// 	{
-		// 		delete _renderer;
-		// 	}
-		// }
 	}
 
 	HyruleGraphicsDX11::HyruleGraphicsDX11()
@@ -40,6 +35,13 @@ namespace Hyrule
 		m_hWnd = _hwnd;
 
 		HRESULT hr = S_OK;
+
+		hr = CreateCamera();
+
+		if (FAILED(hr))
+		{
+			return hr;
+		}
 
 		hr = CreateDeviceAndSwapChain();
 
@@ -62,11 +64,23 @@ namespace Hyrule
 			return hr;
 		}
 
+		hr = CreateCamera();
+
+		if (FAILED(hr))
+		{
+			return hr;
+		}
+
 		return hr;
 	}
 
 	void HyruleGraphicsDX11::Finalize()
 	{
+		if (m_camera)
+		{
+			delete m_camera;
+			m_camera = nullptr;
+		}
 		if (m_RasterizerState)
 		{
 			delete m_RasterizerState;
@@ -106,7 +120,24 @@ namespace Hyrule
 			return hr;
 		}
 
+		hr = m_Device->SetCamera(m_camera);
+
+		if (FAILED(hr))
+		{
+			return hr;
+		}
+
 		return hr;
+	}
+
+	ICamera* HyruleGraphicsDX11::GetCamera()
+	{
+		if (m_camera != nullptr)
+		{
+			return (ICamera*)m_camera;
+		}
+
+		return nullptr;
 	}
 
 	long HyruleGraphicsDX11::CreateDeviceAndSwapChain()
@@ -157,5 +188,18 @@ namespace Hyrule
 		return hr;
 	}
 
+	long HyruleGraphicsDX11::CreateCamera()
+	{
+		if (m_camera != nullptr)
+		{
+			delete m_camera;
+			m_camera = nullptr;
+		}
 
+		m_camera = new DXCamera;
+
+		m_Device->SetCamera(m_camera);
+		
+		return S_OK;
+	}
 }

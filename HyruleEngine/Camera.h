@@ -13,7 +13,7 @@ namespace Hyrule
 	{
 	public:
 		Camera() noexcept = delete;
-		Camera(GameObject*) noexcept;
+		Camera(GameObject* _gameObject) noexcept;
 		~Camera() noexcept = default;
 
 		enum class CameraView : int
@@ -24,14 +24,6 @@ namespace Hyrule
 
 	private:
 		CameraView mode;
-
-		Vector3D up;
-		Vector3D look;
-		Vector3D right;
-
-		Matrix4x4 viewTM;
-		Matrix4x4 persProjTM;
-		Matrix4x4 orthProjTM;
 
 		float angle;
 		float ratio;
