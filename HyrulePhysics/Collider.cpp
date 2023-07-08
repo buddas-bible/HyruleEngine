@@ -31,7 +31,7 @@ namespace Hyrule
 
 		bool Collider::IsColliding()
 		{
-
+			return false;
 		}
 	}
 }

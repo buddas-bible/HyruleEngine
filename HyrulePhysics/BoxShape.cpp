@@ -5,7 +5,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		BoxShape::BoxShape() : Shape(), length()
+		BoxShape::BoxShape() noexcept : Shape(), length()
 		{
 			this->type = ShapeType::BOX;
 		}

@@ -73,9 +73,6 @@
     <ClInclude Include="Component.h">
       <Filter>3. Component</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>3. Component\2. Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>3. Component\1. Physics</Filter>
     </ClInclude>
@@ -93,9 +90,6 @@
     </ClInclude>
     <ClInclude Include="CoreSystem.h">
       <Filter>1. System</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>3. Component\2. Renderer</Filter>
     </ClInclude>
     <ClInclude Include="ComponentManager.h">
       <Filter>3. Component\4. UI</Filter>
@@ -124,11 +118,17 @@
     <ClInclude Include="GameObject.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>3. Component\2. Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>3. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>3. Component\2. Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +147,6 @@
     <ClCompile Include="Component.cpp">
       <Filter>3. Component</Filter>
     </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
-      <Filter>3. Component\2. Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>3. Component\1. Physics</Filter>
     </ClCompile>
@@ -164,9 +161,6 @@
     </ClCompile>
     <ClCompile Include="CoreSystem.cpp">
       <Filter>1. System</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>3. Component\2. Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ComponentManager.cpp">
       <Filter>3. Component\4. UI</Filter>
@@ -195,11 +189,20 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>3. Component\2. Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>3. Component</Filter>
     </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

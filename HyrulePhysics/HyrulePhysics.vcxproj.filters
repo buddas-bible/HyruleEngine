@@ -23,13 +23,13 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{590817a9-cee1-4035-a1e0-82544767924a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. PhysicalyObject\Collider">
+      <UniqueIdentifier>{2eaa07f4-ded2-4e6b-aa26-29815740d500}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HyrulePhysics.h">
       <Filter>1. HyrulePhysics</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>3. PhysicalyObject</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>3. PhysicalyObject</Filter>
@@ -52,7 +52,7 @@
     <ClInclude Include="AABB.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Sphere.h">
+    <ClInclude Include="SphereShape.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
     <ClInclude Include="BoxShape.h">
@@ -67,16 +67,31 @@
     <ClInclude Include="Manager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeManager.h">
+    <ClInclude Include="CollisionSystem.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Simplex.h">
+      <Filter>2. DataStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvexCollider.h">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>3. PhysicalyObject\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyrulePhysics.cpp">
       <Filter>1. HyrulePhysics</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>3. PhysicalyObject</Filter>
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>3. PhysicalyObject</Filter>
@@ -96,7 +111,7 @@
     <ClCompile Include="AABB.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
-    <ClCompile Include="Sphere.cpp">
+    <ClCompile Include="SphereShape.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
     <ClCompile Include="BoxShape.cpp">
@@ -111,8 +126,29 @@
     <ClCompile Include="ObjectManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="ShapeManager.cpp">
+    <ClCompile Include="CollisionSystem.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Simplex.cpp">
+      <Filter>2. DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvexCollider.cpp">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>3. PhysicalyObject\Collider</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

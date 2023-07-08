@@ -14,7 +14,7 @@ namespace Hyrule
 		{
 		public:
 			Polyhedron() noexcept = default;
-			virtual ~Polyhedron() noexcept = default;
+			~Polyhedron() noexcept = default;
 
 		private:
 			float length;						// AABB 크기를 잡기 위해서..
@@ -23,8 +23,8 @@ namespace Hyrule
 			std::vector<size_t> index;
 
 		public:
-			virtual int GetShapeType() override;
-			virtual float GetLength() override;
+			int GetShapeType();
+			float GetLength();
 		};
 	}
 }

@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Hyrule::HyruleEngine" Collapsed="true">
+    <Position X="7.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAgAQBAQAAAAAAABBAAgIQAAAAAQAgAAAI=</HashCode>
+      <FileName>HyruleEngine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::CoreSystem" Collapsed="true">
+    <Position X="7.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoreSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::PhysicsSystem" Collapsed="true">
+    <Position X="12.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACABECAAAAABAAAAAAAAQAgIAAAAAgAAIAAAA=</HashCode>
+      <FileName>PhysicsSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::IGraphics" Collapsed="true">
+    <Position X="2" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAQAAQAAAAAAAAABAgAAAABAAAAAAAAA=</HashCode>
+      <FileName>D:\자기 공부\HyruleGraphicsEngine\IGraphics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::RendererSystem" Collapsed="true">
+    <Position X="2" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAgAAAAQAAAAAAAAAAAggAAABAgAAAABAA=</HashCode>
+      <FileName>RendererSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::System&lt;T&gt;" Collapsed="true">
+    <Position X="7.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>System.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::Physics::IPhysics" Collapsed="true">
+    <Position X="12.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\자기 공부\HyrulePhysicsEngine\IPhysics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::Physics::IRigidBody" Collapsed="true">
+    <Position X="11.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\자기 공부\HyrulePhysicsEngine\IRigidBody.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::Physics::ICollider" Collapsed="true">
+    <Position X="14" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\자기 공부\HyrulePhysicsEngine\ICollider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::GameObject" Collapsed="true">
+    <Position X="8.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IBQBACQAAiAIAAAAAADABIAQAAIEAAAMCBAAQAIABAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::Camera" Collapsed="true">
+    <Position X="9.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUDIkQAGiQQEAWBQiAAAAEQAAEABAAMQBJgAgBAiFA=</HashCode>
+      <FileName>Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::Scene" Collapsed="true">
+    <Position X="8.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAEAAAAAAAgACAAAgBQAAEEAEAAAAAAAAABAA=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::SceneManager" Collapsed="true">
+    <Position X="6.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAiAAAEgAAACACAAQBAAQAAABAAgAAAAAAAQ=</HashCode>
+      <FileName>SceneManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::Component" Collapsed="true">
+    <Position X="8.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQhAAQAAiAAAAAAAAAAAAAQAAAAAAAMAhBAAAAACEA=</HashCode>
+      <FileName>Component.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::Transform" Collapsed="true">
+    <Position X="7.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARBIASgHiAAEIhACAKAIAQSIQIAAAAMCFAAAoQiiMA=</HashCode>
+      <FileName>Transform.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::MeshRenderer" Collapsed="true">
+    <Position X="4" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAQAAiAAAAAMAAAAAAAQAAAAAAAMABAAAAAACEA=</HashCode>
+      <FileName>MeshRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::Renderer" Collapsed="true">
+    <Position X="6.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQhAAQAAiAAAAAAAAAAAAAQAAAAIAAMABCAAAAACEA=</HashCode>
+      <FileName>Renderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::SphereCollider" Collapsed="true">
+    <Position X="11.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQBAAQAAiAAAAABIAAIAAIQAAABAAAMABAAEAIACEA=</HashCode>
+      <FileName>SphereCollider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyrule::BoxCollider" Collapsed="true">
+    <Position X="11.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQBAAQAAiAAAAAAAAAIAAIQACABAAAMABAAEAIQCEA=</HashCode>
+      <FileName>BoxCollider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Vertex" Collapsed="true">
+    <Position X="8.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

@@ -35,6 +35,12 @@ namespace Hyrule
 			std::vector<Collider*> colliders;
 
 		public:
+			Collider* GetCollider(size_t);
+			void RemoveCollider(size_t);
+			void RemoveCollider(Collider*&);
+			bool Empty();
+
+		public:
 			void SetCollided(bool);
 			bool IsColliding();
 			Matrix4x4 SetWorldTM(const Matrix4x4&);

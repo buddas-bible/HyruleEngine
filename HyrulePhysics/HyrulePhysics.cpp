@@ -24,16 +24,7 @@ namespace Hyrule
 		/// </summary>
 		ICollider* HyrulePhysics::AddCollider(const std::wstring& _name, COLLIDER_INFO* _colinfo)
 		{
-			auto obj = ObjectManager::GetInstance().GetObject(_name);
-
-			if (obj == nullptr)
-			{
-				obj = ObjectManager::GetInstance().CreateObject(_name);
-			}
-
-			auto collider = this->CreateCollider(obj, _colinfo);
-
-			return (ICollider*)collider;
+			return ObjectManager::GetInstance().AddCollider(_name, _colinfo);
 		}
 
 		/// <summary>
@@ -42,21 +33,7 @@ namespace Hyrule
 		/// </summary>
 		IRigidBody* HyrulePhysics::AddRigidBody(const std::wstring& _name)
 		{
-			auto obj = ObjectManager::GetInstance().GetObject(_name);
-
-			if (obj == nullptr)
-			{
-				obj = ObjectManager::GetInstance().CreateObject(_name);
-			}
-
-			if (obj->rigidbody != nullptr)
-			{
-				this->RemoveRigidBody(_name);
-			}
-				
-			auto rigidbody = this->CreateRigidBody(obj);
-
-			return (IRigidBody*)rigidbody;
+			return ObjectManager::GetInstance().AddRigidBody(_name);
 		}
 
 		/// <summary>
@@ -64,23 +41,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveCollider(const std::wstring& _name, ICollider* _target)
 		{
-			auto obj = ObjectManager::GetInstance().GetObject(_name);
-
-			if (obj == nullptr || _target == nullptr)
-			{
-				return;
-			}
-
-			obj->colliders.erase(remove(obj->colliders.begin(), obj->colliders.end(), _target));
-
-			delete _target;
-
-			// 오브젝트가 가진 콜라이더 개수가 0이라면
-			if (!obj->colliders.size() && obj->rigidbody == nullptr)
-			{
-				objectMap.erase(_name);
-				objectList.erase(remove(objectList.begin(), objectList.end(), obj));
-			}
+			return ObjectManager::GetInstance().RemoveCollider(_name, _target);
 		}
 
 		/// <summary>
@@ -88,28 +49,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveCollider(const std::wstring& _name, int _index)
 		{
-			auto obj = ObjectManager::GetInstance().GetObject(_name);
-
-			if ( (obj == nullptr) || 
-				 (_index < 0) || 
-				((obj->colliders.size() -1) < _index))
-			{
-				return;
-			}
-
-			auto& collider = obj->colliders[_index];
-
-			obj->colliders.erase(obj->colliders.begin() + _index);
-
-			delete collider;
-
-			// 오브젝트가 가진 콜라이더 개수가 0이고, 강체도 없으면 오브젝트를 삭제함.
-			if (!obj->colliders.size() && obj->rigidbody == nullptr)
-			{
-				objectMap.erase(_name);
-				objectList.erase(remove(objectList.begin(), objectList.end(), obj));
-				obj = nullptr;
-			}
+			return ObjectManager::GetInstance().RemoveCollider(_name, _index);
 		}
 
 		/// <summary>
@@ -117,29 +57,7 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::RemoveRigidBody(const std::wstring& _name)
 		{
-			auto obj = ObjectManager::GetInstance().GetObject(_name);
-
-			if (obj == nullptr)
-			{
-				return;
-			}
-
-			auto& rigidbody = obj->rigidbody;
-
-			if (rigidbody == nullptr)
-			{
-				return;
-			}
-
-			delete rigidbody;
-
-			// 오브젝트에 강체도 지웠는데 콜라이더도 없으면 오브젝트를 삭제함. 
-			if (!obj->colliders.size())
-			{
-				objectMap.erase(_name);
-				objectList.erase(remove(objectList.begin(), objectList.end(), obj));
-				obj = nullptr;
-			}
+			return ObjectManager::GetInstance().RemoveRigidBody(_name);
 		}
 
 		long HyrulePhysics::Initialize()
@@ -154,6 +72,8 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::CollisionDetection()
 		{
+			// CollisionSystem::GetInstance()
+			// 
 			// 이 함수가 호출되기 전에 콜라이더들은 월드TM을 업데이트 받을 것이다.
 			// 이전 TM과 현재 TM을 비교해보고 변경이 되었으면
 			// 트리 안에 있는 오브젝트를 삭제시키고 다시 넣음.
@@ -173,13 +93,7 @@ namespace Hyrule
 			}
 			else
 			{
-				for (size_t i = 0; i < objectList.size(); ++i)
-				{
-					for (size_t j = i + 1; j < objectList.size(); ++j)
-					{
-						// objectList[i];
-					}
-				}
+
 			}
 		}
 
@@ -211,6 +125,7 @@ namespace Hyrule
 			만약 물리 엔진도 씬 단위로 만든다고 했을 때,
 			씬 인터페이스를 만들어서 외부에서 씬을 생성하고 해당 씬에
 			*/
+			// 트리, 
 		}
 
 		void HyrulePhysics::Finalize()
@@ -226,30 +141,6 @@ namespace Hyrule
 		void HyrulePhysics::SetWorldGravity(const Hyrule::Vector3D& _gravity)
 		{
 			this->gravity = _gravity;
-		}
-
-		/// <summary>
-		/// 콜라이더를 만들어서 오브젝트가 가진 콜라이더 리스트에 추가함.
-		/// </summary>
-		Collider* HyrulePhysics::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
-		{
-			Collider* collider = new Collider(*_info);
-			
-			_obj->colliders.push_back(collider);
-
-			return collider;
-		}
-
-		/// <summary>
-		/// 오브젝트에 강체를 만듬
-		/// </summary>
-		RigidBody* HyrulePhysics::CreateRigidBody(Object* _obj)
-		{
-			RigidBody* newRigidbody = new RigidBody;
-
-			_obj->rigidbody = newRigidbody;
-
-			return newRigidbody;
 		}
 	}
 }

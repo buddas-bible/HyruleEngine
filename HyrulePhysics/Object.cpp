@@ -10,9 +10,45 @@ namespace Hyrule
 	{
 		Object::Object(const std::wstring& _name/*, TRANSFORM_INFO* _info*/) noexcept
 			: name(_name), /*transform(new Transform(_info)),*/
-			rigidbody(), colliders()
+			rigidbody(), colliders(), isColliding()
 		{
 
+		}
+
+		Collider* Object::GetCollider(size_t _index)
+		{
+			if (find(colliders.begin(), colliders.end(), _index) != colliders.end())
+			{
+				return nullptr;
+			}
+
+			return colliders[_index];
+		}
+
+		void Object::RemoveCollider(size_t _index)
+		{
+			auto collider = GetCollider(_index);
+
+			if (collider == nullptr)
+			{
+				return;
+			}
+
+			colliders.erase(remove(colliders.begin(), colliders.end(), collider));
+
+			delete collider;
+		}
+
+		void Object::RemoveCollider(Collider*& _target)
+		{
+			colliders.erase(remove(colliders.begin(), colliders.end(), _target));
+
+			delete _target;
+		}
+
+		bool Object::Empty()
+		{
+			return colliders.empty() && rigidbody == nullptr;
 		}
 
 		void Object::SetCollided(bool _co)
@@ -25,12 +61,12 @@ namespace Hyrule
 			return isColliding;
 		}
 
-		Hyrule::Matrix4x4 Object::SetWorldTM(const Matrix4x4& _TM)
+		Matrix4x4 Object::SetWorldTM(const Matrix4x4& _TM)
 		{
 			this->worldTM = _TM;
 		}
 
-		Hyrule::Matrix4x4 Object::GetWorldTM()
+		Matrix4x4 Object::GetWorldTM()
 		{
 			return this->worldTM;
 		}
