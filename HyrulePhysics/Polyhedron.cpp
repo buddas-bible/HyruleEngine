@@ -6,7 +6,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Polyhedron::Polyhedron() : Shape(), points(), index(), length()
+		Polyhedron::Polyhedron() noexcept : Shape(), points(), index(), length()
 		{
 			type = ShapeType::POLYHEDRON;
 		}

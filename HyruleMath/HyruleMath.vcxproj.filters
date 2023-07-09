@@ -46,6 +46,9 @@
     <ClInclude Include="HRMathFunc.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>Vector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vector3D.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="HRMathFunc.cpp">
       <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>Vector</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

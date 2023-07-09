@@ -17,7 +17,7 @@ namespace Hyrule
 
 		Collider* Object::GetCollider(size_t _index)
 		{
-			if (find(colliders.begin(), colliders.end(), _index) != colliders.end())
+			if ((colliders.size() - 1 < _index) || colliders.empty())
 			{
 				return nullptr;
 			}
@@ -61,7 +61,7 @@ namespace Hyrule
 			return isColliding;
 		}
 
-		Matrix4x4 Object::SetWorldTM(const Matrix4x4& _TM)
+		void Object::SetWorldTM(const Matrix4x4& _TM)
 		{
 			this->worldTM = _TM;
 		}

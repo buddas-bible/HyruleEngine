@@ -12,7 +12,7 @@ namespace Hyrule
 		/// 특수 멤버 함수
 		/// </summary>
 		constexpr Quaternion() noexcept :
-			x(), y(), z(), w()
+			m{}
 		{}
 		constexpr Quaternion(float _w, float _x, float _y, float _z) noexcept :
 			x(_x), y(_y), z(_z), w(_w)

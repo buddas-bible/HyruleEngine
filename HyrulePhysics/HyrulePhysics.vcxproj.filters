@@ -94,6 +94,9 @@
     <ClInclude Include="Face.h">
       <Filter>2. DataStruct</Filter>
     </ClInclude>
+    <ClInclude Include="ShapeManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyrulePhysics.cpp">
@@ -158,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="Face.cpp">
       <Filter>2. DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

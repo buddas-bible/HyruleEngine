@@ -11,7 +11,7 @@ namespace Hyrule
 		class SphereShape : public Shape
 		{
 		public:
-			SphereShape() noexcept = default;
+			SphereShape() noexcept;
 			~SphereShape() noexcept = default;
 
 		private:

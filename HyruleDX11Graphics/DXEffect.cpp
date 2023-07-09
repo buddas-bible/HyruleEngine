@@ -1,22 +1,16 @@
 #include "DXEffect.h"
 
-
-#include "framework.h"
 #include <fstream>
 #include <vector>
 #include "DXDevice.h"
+#include "HyruleMath.h"
 
 namespace Hyrule
 {
-	DXEffect::DXEffect(DXDevice* _device) : 
+	DXEffect::DXEffect(std::shared_ptr<DXDevice> _device, const std::wstring& _path) :
 		device(_device), effect()
 	{
-
-	}
-
-	long DXEffect::CreateEffect(const std::wstring& _path)
-	{
-		HRESULT hr = S_OK;
+		auto Device = device.lock();
 
 		std::ifstream fin;
 
@@ -30,13 +24,30 @@ namespace Hyrule
 		fin.read(&vsCompiledShader[0], size);
 		fin.close();
 
-		hr = D3DX11CreateEffectFromMemory(
+		D3DX11CreateEffectFromMemory(
 			&vsCompiledShader[0],
 			size,
 			0,
-			device->GetDevice(),
+			Device->GetDevice(),
 			&effect
 		);
+	}
+
+	long DXEffect::CreateEffect()
+	{
+		HRESULT hr = S_OK;
+
+		if (!effect)
+		{
+			return S_FALSE;
+		}
+
+		tech0 = effect->GetTechniqueByName("Tech");
+
+		worldViewProj = effect->GetVariableByName("worldViewProj")->AsMatrix();
+		world = effect->GetVariableByName("world")->AsMatrix();
+		worldInvTranspose = effect->GetVariableByName("worldInvTranspose")->AsMatrix();
+		eyePosW = effect->GetVariableByName("eyePosW");
 
 		return hr;
 	}
@@ -46,23 +57,49 @@ namespace Hyrule
 		return effect.Get();
 	}
 
-	void DXEffect::SetTechnique(ID3DX11EffectTechnique** _tech, const std::string& _techName)
+	ID3DX11EffectTechnique* DXEffect::GetTechnique()
 	{
-		(*_tech) = effect->GetTechniqueByName(_techName.c_str());
+		return tech0.Get();
 	}
 
-	void DXEffect::SetRawVariable(ID3DX11EffectVariable** _value, const std::string& _valueName)
+	void DXEffect::SetWorldViewProj(const Matrix4x4& _mat)
 	{
-		(*_value) = effect->GetVariableByName(_valueName.c_str());
+		worldViewProj->SetMatrix(reinterpret_cast<const float*>(&_mat));
 	}
 
-	void DXEffect::SetMatrixVariable(ID3DX11EffectMatrixVariable** _matrix, const std::string& _valueName)
+	void DXEffect::SetWorld(const Matrix4x4& _mat)
 	{
-		(*_matrix) = effect->GetVariableByName(_valueName.c_str())->AsMatrix();
+		world->SetMatrix(reinterpret_cast<const float*>(&_mat));
 	}
 
-	void DXEffect::SetMatrixVariable(ID3DX11EffectShaderResourceVariable** _resource, const std::string& _valueName)
+	void DXEffect::SetWorldInvTranspose(const Matrix4x4& _mat)
 	{
-		(*_resource) = effect->GetVariableByName(_valueName.c_str())->AsShaderResource();
+		worldInvTranspose->SetMatrix(reinterpret_cast<const float*>(&_mat));
+	}
+
+	void DXEffect::SetEyePosW(const Vector3D& _vec)
+	{
+		eyePosW->SetRawValue(&_vec, 0, sizeof(Vector3D));
+	}
+
+	void DXEffect::SetDirectionLight(const Vector3D& _vec)
+	{
+		direction->SetRawValue(&_vec, 0, sizeof(Vector3D));
+	}
+
+	std::shared_ptr<DXEffect> Effects::PCEffect{};
+	std::shared_ptr<DXEffect> Effects::PUNEffect{};
+	std::shared_ptr<DXEffect> Effects::PUNTEffect{};
+
+	void Effects::InitAll(std::shared_ptr<DXDevice> _device)
+	{
+		PCEffect = std::make_shared<DXEffect>(_device, L"../x64/debug/Color.cso");
+		PCEffect->CreateEffect();
+
+		// PUNEffect = std::make_shared<DXEffect>(_device, L"");
+		// PUNEffect->CreateEffect();
+		// 
+		// PUNTEffect = std::make_shared<DXEffect>(_device, L"");
+		// PUNTEffect->CreateEffect();
 	}
 }

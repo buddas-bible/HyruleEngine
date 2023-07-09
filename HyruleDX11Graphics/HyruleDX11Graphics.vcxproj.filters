@@ -20,20 +20,38 @@
     <Filter Include="0. DX11\2. DXRasterizerState">
       <UniqueIdentifier>{762c4d9d-a3e2-4793-b2ec-4ed317843193}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0. DX11\3. DXShader">
-      <UniqueIdentifier>{6545b2d2-e704-48ee-bf2d-24b5ef9a408e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="1. Resource">
       <UniqueIdentifier>{50d123db-c327-4f9e-8aa3-8c8a81da5497}</UniqueIdentifier>
     </Filter>
     <Filter Include="0. DX11\4. DXLayout">
       <UniqueIdentifier>{19144466-1db0-4a52-9975-e5cdc4ec9379}</UniqueIdentifier>
     </Filter>
-    <Filter Include="0. DX11\3. DXShader\DXFXEffect">
-      <UniqueIdentifier>{87a3b2f2-011d-4b3f-aa53-69bacac87af9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0. DX11\5. DXCamera">
       <UniqueIdentifier>{b02bd3f7-4f01-43ca-9824-5bf6f5b3c9f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Resource\Mesh">
+      <UniqueIdentifier>{6d659874-17b7-4a57-859b-8fe9b7adfbed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Resource\Object">
+      <UniqueIdentifier>{a8c001fc-d308-4739-8e9a-92c513bc671c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Resource\Texture">
+      <UniqueIdentifier>{cc521f95-3d13-4f26-966f-a59e58928b15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Resource\DXShader">
+      <UniqueIdentifier>{6545b2d2-e704-48ee-bf2d-24b5ef9a408e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0. DX11\3. DXFXEffect">
+      <UniqueIdentifier>{87a3b2f2-011d-4b3f-aa53-69bacac87af9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Resource\Object\HelperObject">
+      <UniqueIdentifier>{0b8677b3-c0b6-4aff-ac3d-15a79b267cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Resource\Object\NewFilter1">
+      <UniqueIdentifier>{4cab6b8c-9450-4562-a5bf-72b4dd6901af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Resource\Struct">
+      <UniqueIdentifier>{48677460-a120-4192-9617-f91fd687f963}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,25 +74,46 @@
       <Filter>헤더 파일\Color</Filter>
     </ClInclude>
     <ClInclude Include="DXShader.h">
-      <Filter>0. DX11\3. DXShader</Filter>
+      <Filter>1. Resource\DXShader</Filter>
     </ClInclude>
     <ClInclude Include="HyruleGraphicsDX11.h">
       <Filter>0. DX11</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderableObject.h">
-      <Filter>1. Resource</Filter>
     </ClInclude>
     <ClInclude Include="DXInputLayout.h">
       <Filter>0. DX11\4. DXLayout</Filter>
     </ClInclude>
     <ClInclude Include="DXEffect.h">
-      <Filter>0. DX11\3. DXShader\DXFXEffect</Filter>
+      <Filter>0. DX11\3. DXFXEffect</Filter>
     </ClInclude>
     <ClInclude Include="Interface_.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DXCamera.h">
       <Filter>0. DX11\5. DXCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DXMesh.h">
+      <Filter>1. Resource\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="IResource.h">
+      <Filter>1. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>1. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderableObject.h">
+      <Filter>1. Resource\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DXTexture.h">
+      <Filter>1. Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>1. Resource\Object\HelperObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>1. Resource\Struct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,31 +127,51 @@
       <Filter>0. DX11\2. DXRasterizerState</Filter>
     </ClCompile>
     <ClCompile Include="DXShader.cpp">
-      <Filter>0. DX11\3. DXShader</Filter>
+      <Filter>1. Resource\DXShader</Filter>
     </ClCompile>
     <ClCompile Include="HyruleGraphicsDX11.cpp">
       <Filter>0. DX11</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderableObject.cpp">
-      <Filter>1. Resource</Filter>
     </ClCompile>
     <ClCompile Include="DXInputLayout.cpp">
       <Filter>0. DX11\4. DXLayout</Filter>
     </ClCompile>
     <ClCompile Include="DXEffect.cpp">
-      <Filter>0. DX11\3. DXShader\DXFXEffect</Filter>
+      <Filter>0. DX11\3. DXFXEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Interface_.cpp" />
     <ClCompile Include="DXCamera.cpp">
       <Filter>0. DX11\5. DXCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory.cpp">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface_.cpp">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DXMesh.cpp">
+      <Filter>1. Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>1. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableObject.cpp">
+      <Filter>1. Resource\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DXTexture.cpp">
+      <Filter>1. Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
+      <Filter>1. Resource\Object\HelperObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>0. DX11\3. DXShader</Filter>
+      <Filter>1. Resource\DXShader</Filter>
     </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
-      <Filter>0. DX11\3. DXShader</Filter>
+      <Filter>1. Resource\DXShader</Filter>
+    </FxCompile>
+    <FxCompile Include="Color.fx">
+      <Filter>1. Resource\Object\HelperObject</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

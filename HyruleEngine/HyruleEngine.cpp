@@ -57,7 +57,7 @@ namespace Hyrule
 				/// 여기가 Core를 실행시킬 곳일까?
 
 				// sceneManager.
-				// rendererEngine->Render();
+				RendererSystem::GetInstance().Render();
 				// m_engine->PhysicsUpdate();
 				// engine->Render();
 			}

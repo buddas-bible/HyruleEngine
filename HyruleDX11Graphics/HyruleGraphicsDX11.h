@@ -1,6 +1,6 @@
 #pragma once
 #include "framework.h"
-
+#include <memory>
 #include "IGraphics.h"
 
 
@@ -10,21 +10,25 @@ namespace Hyrule
 	class DXRenderTarget;
 	class DXRasterizerState;
 	class DXCamera;
+	class ICamera;
+
+	class Helper;
 
 	class HyruleGraphicsDX11 : public IGraphics
 	{
 	public:
 		HyruleGraphicsDX11();
-		virtual ~HyruleGraphicsDX11();
+		virtual ~HyruleGraphicsDX11() = default;
 
 	private:
 		int							m_hWnd;
 		// unsigned int				m_msaaQuality;
 
-		DXDevice*					m_Device;
-		DXRenderTarget*				m_RenderTarget;
-		DXRasterizerState*			m_RasterizerState;
-		DXCamera*					m_camera;
+		std::shared_ptr<DXDevice>	m_device;
+		std::shared_ptr<DXRenderTarget>	m_renderTarget;
+		std::shared_ptr<DXRasterizerState>	m_rasterizerState;
+
+		std::shared_ptr<DXCamera>	m_camera;
 
 	public:
 		virtual long Initialize(int _hwnd) override;
@@ -42,6 +46,14 @@ namespace Hyrule
 		long CreateRenderTargetAndDepthStencil();
 		long CreateRasterState();
 		long CreateCamera();
+		long CreateEffectAndInputLayout();
+
+#if _DEBUG
+		long CreateHelper();
+
+		Helper* m_axis;
+		Helper* m_grid;
+#endif
 	};
 
 	extern "C"

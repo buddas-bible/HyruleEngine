@@ -5,7 +5,6 @@
 #include <vector>
 #include <map>
 
-#pragma comment(lib, "HyruleMath.lib")
 #include "HyruleMath.h"
 
 namespace Hyrule

@@ -1,38 +1,39 @@
-#pragma once
+//***************************************************************************************
+// GameTimer.h by Frank Luna (C) 2011 All Rights Reserved.
+//***************************************************************************************
 
+#ifndef GAMETIMER_H
+#define GAMETIMER_H
 
 namespace Hyrule
 {
-	class Timer
+	class GameTimer
 	{
 	public:
-		Timer() noexcept;
-		~Timer() = default;
+		GameTimer();
 
-		float fDeltaTime() const noexcept;
-		double DeltaTime() const noexcept;
-		float ScaledfDeltaTime() const noexcept;
-		double ScaledDeltaTime() const noexcept;
+		float TotalTime()const;  // in seconds
+		float DeltaTime()const; // in seconds
+		float ScalingDeltaTime()const; // in seconds
 
-		int GetFramePerSecond() const noexcept;
-
-		void Update() noexcept;
-		void Start() noexcept;
-		void Stop() noexcept;
-
-		float GetTimeScale() const noexcept;
-		void SetTimeScale(float _scale) noexcept;
+		void Reset(); // Call before message loop.
+		void Start(); // Call when unpaused.
+		void Stop();  // Call when paused.
+		void Tick();  // Call every frame.
 
 	private:
-		double deltaTime;		// 델타 타임
-		int fps;				// 초당 호출된 횟수
+		double timeScale{1.f};
+		double mSecondsPerCount;
+		double mDeltaTime;
 
-		__int64 currCount;
-		__int64 prevCount;
-		__int64 frequency;
+		__int64 mBaseTime;
+		__int64 mPausedTime;
+		__int64 mStopTime;
+		__int64 mPrevTime;
+		__int64 mCurrTime;
 
-
-		float timeScale;
-		bool stopped;			// 정지된 상태
+		bool mStopped;
 	};
 }
+
+#endif // GAMETIMER_H

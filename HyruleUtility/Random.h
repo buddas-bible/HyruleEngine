@@ -2,7 +2,6 @@
 
 namespace Hyrule
 {
-
 	class Random
 	{
 	};

@@ -4,18 +4,11 @@
 
 namespace Hyrule
 {
-	DXRasterizerState::DXRasterizerState(DXDevice* _device)
+	DXRasterizerState::DXRasterizerState(std::shared_ptr<DXDevice> _device)
 		: m_device(_device),
 		m_currRasterizerState(), m_solidRasterizerState(), m_wireRasterizerState()
 	{
 
-	}
-
-	DXRasterizerState::~DXRasterizerState()
-	{
-		// Release(m_currRasterizerState);
-		// Release(m_wireRasterizerState);
-		// Release(m_solidRasterizerState);
 	}
 
 	int DXRasterizerState::CreateRasterizerState()

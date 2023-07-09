@@ -5,8 +5,8 @@
 namespace Hyrule
 {
 
-	DXRenderTarget::DXRenderTarget(DXDevice* _device)
-		: m_dxDevice(_device),
+	DXRenderTarget::DXRenderTarget(std::shared_ptr<DXDevice> _device)
+		: m_device(_device),
 		m_renderTargetView(), m_depthStencilView()
 	{
 
@@ -42,9 +42,14 @@ namespace Hyrule
 	{
 		HRESULT hr = S_OK;
 
-		ReleaseAll();
+		// auto m_device = m_device.lock();
+		// 
+		// if (m_device)
+		// {
+		// 	return S_FALSE;
+		// }
 
-		hr = m_dxDevice->GetSwapChain()->ResizeBuffers(
+		hr = m_device->GetSwapChain()->ResizeBuffers(
 			NULL,
 			NULL,
 			NULL,
@@ -57,7 +62,7 @@ namespace Hyrule
 			return hr;
 		}
 
-		hr = m_dxDevice->SetViewport();
+		hr = m_device->SetViewport();
 
 		if (FAILED(hr))
 		{
@@ -76,12 +81,12 @@ namespace Hyrule
 
 	void DXRenderTarget::Clear()
 	{
-		m_dxDevice->GetDeviceContext()->ClearRenderTargetView(
+		m_device->GetDeviceContext()->ClearRenderTargetView(
 			m_renderTargetView.Get(),
-			DXColor::Bisque
+			DXColor::Black
 		);
 
-		m_dxDevice->GetDeviceContext()->ClearDepthStencilView(
+		m_device->GetDeviceContext()->ClearDepthStencilView(
 			m_depthStencilView.Get(),
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
 			1.0f,
@@ -101,7 +106,9 @@ namespace Hyrule
 		// );
 		Comptr<ID3D11RenderTargetView> ppRenderTargetViews[] = { m_renderTargetView };
 
-		m_dxDevice->GetDeviceContext()->OMSetRenderTargets(
+		// auto m_device = m_device.lock();
+
+		m_device->GetDeviceContext()->OMSetRenderTargets(
 			1,
 			ppRenderTargetViews->GetAddressOf(),
 			m_depthStencilView.Get()
@@ -112,8 +119,10 @@ namespace Hyrule
 	{
 		HRESULT hr = S_OK;
 
+		// auto m_device = m_device.lock();
+
 		Comptr<ID3D11Texture2D> backBuffer;
-		hr = m_dxDevice->GetSwapChain()->GetBuffer(
+		hr = m_device->GetSwapChain()->GetBuffer(
 			0,
 			__uuidof(ID3D11Texture2D),
 			(void**)&backBuffer
@@ -124,7 +133,7 @@ namespace Hyrule
 			return hr;
 		}
 
-		hr = m_dxDevice->GetDevice()->CreateRenderTargetView1(
+		hr = m_device->GetDevice()->CreateRenderTargetView1(
 			backBuffer.Get(),
 			nullptr,
 			&m_renderTargetView
@@ -148,8 +157,10 @@ namespace Hyrule
 	{
 		HRESULT hr = S_OK;
 
+		// auto m_device = m_dxDevice.lock();
+
 		Comptr<ID3D11Texture2D> backBuffer;
-		hr = m_dxDevice->GetSwapChain()->GetBuffer(
+		hr = m_device->GetSwapChain()->GetBuffer(
 			0,
 			__uuidof(ID3D11Texture2D),
 			(void**)&backBuffer
@@ -179,7 +190,7 @@ namespace Hyrule
 		depthStencilDesc.MiscFlags = 0;
 
 		Comptr<ID3D11Texture2D> depthStencil;
-		hr = m_dxDevice->GetDevice()->CreateTexture2D(
+		hr = m_device->GetDevice()->CreateTexture2D(
 			&depthStencilDesc,
 			nullptr,
 			&depthStencil
@@ -198,7 +209,7 @@ namespace Hyrule
 		depthStencilViewDesc.Texture2D.MipSlice = 0;
 
 		Comptr<ID3D11DepthStencilView> depthStencilView;
-		hr = m_dxDevice->GetDevice()->CreateDepthStencilView(
+		hr = m_device->GetDevice()->CreateDepthStencilView(
 			depthStencil.Get(),
 			&depthStencilViewDesc,
 			&depthStencilView
@@ -209,19 +220,8 @@ namespace Hyrule
 			return hr;
 		}
 
-
 		depthStencilView.As(&m_depthStencilView);
-
-		// Release(backBuffer);
-		// Release(depthStencil);
 
 		return (int)hr;
 	}
-
-	void DXRenderTarget::ReleaseAll()
-	{
-		// Release(m_depthStencilView);
-		// Release(m_renderTargetView);
-	}
-
 }

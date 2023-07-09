@@ -123,7 +123,7 @@ namespace Hyrule
 
 		Collider* ObjectManager::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
 		{
-			Collider* collider = new Collider(*_info);
+			Collider* collider = new Collider;
 
 			_obj->colliders.push_back(collider);
 
@@ -139,7 +139,7 @@ namespace Hyrule
 			return newRigidbody;
 		}
 
-		Object*& ObjectManager::GetObject(const std::wstring& _name)
+		Object* ObjectManager::GetObject(const std::wstring& _name)
 		{
 			Object* obj = nullptr;
 
@@ -157,7 +157,7 @@ namespace Hyrule
 			return obj;
 		}
 
-		Object*& ObjectManager::CreateObject(const std::wstring& _name)
+		Object* ObjectManager::CreateObject(const std::wstring& _name)
 		{
 			Object* obj = new Object(_name);
 

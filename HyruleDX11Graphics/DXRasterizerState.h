@@ -10,14 +10,14 @@ namespace Hyrule
 	class DXRasterizerState
 	{
 	public:
-		DXRasterizerState(DXDevice* _device);
-		~DXRasterizerState();
+		DXRasterizerState(std::shared_ptr<DXDevice> _device);
+		~DXRasterizerState() = default;
 
 	private:
 		template <typename T>
 		using Comptr = Microsoft::WRL::ComPtr<T>;
 
-		DXDevice* m_device;
+		std::shared_ptr<DXDevice> m_device;
 
 		Comptr<ID3D11RasterizerState2> m_currRasterizerState;			// 현재 레스터 상태
 		Comptr<ID3D11RasterizerState2> m_solidRasterizerState;			// 채우는 레스터 상태

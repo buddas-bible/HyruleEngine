@@ -1,5 +1,6 @@
 #pragma once
 #include <smmintrin.h>
+#include <sal.h>
 // #include <emmintrin.h>
 
 namespace Hyrule
@@ -21,6 +22,9 @@ namespace Hyrule
 		{}
 		constexpr Vector4D(const Vector4D& other) noexcept = default;
 		constexpr Vector4D(Vector4D&& other) noexcept = default;
+		constexpr Vector4D(_In_reads_(4) const float* _arr) noexcept :
+			e{ _arr[0], _arr[1], _arr[2], _arr[3] }
+		{}
 		Vector4D(const Vector3D&, const float) noexcept;
 		~Vector4D() noexcept = default;
 

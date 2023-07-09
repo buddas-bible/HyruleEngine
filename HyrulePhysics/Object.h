@@ -18,7 +18,7 @@ namespace Hyrule
 		class RigidBody;
 		class Collider;
 
-		struct Object
+		class Object
 		{
 		public:
 			Object() noexcept = delete;
@@ -43,7 +43,7 @@ namespace Hyrule
 		public:
 			void SetCollided(bool);
 			bool IsColliding();
-			Matrix4x4 SetWorldTM(const Matrix4x4&);
+			void SetWorldTM(const Matrix4x4&);
 			Matrix4x4 GetWorldTM();
 			Matrix3x3 GetInertiaTensor(float);
 			Vector3D GetCenterOfMess();

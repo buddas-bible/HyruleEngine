@@ -81,7 +81,7 @@ namespace Hyrule
 						if (OC.Dot(direction) <= 0)
 						{
 							// collided = false;
-							return;
+							return false;
 						}
 					}
 					break;
@@ -99,7 +99,7 @@ namespace Hyrule
 							(simplex[2] == simplex[3]))
 						{
 							// collided = false;
-							return;
+							return false;
 						}
 
 						Vector3D CA{ simplex[0] - simplex[2] };
@@ -123,7 +123,7 @@ namespace Hyrule
 							// FindContactPoint(manifold.normal, A, B);
 							// manifold.tangentVector = Cross(manifold.normal, Vector3::Up).Normalized();
 							// collided = true;
-							return;
+							return true;
 						}
 
 						if (nBC.Dot(CO) > 0)
@@ -169,7 +169,7 @@ namespace Hyrule
 			}
 
 			// collided = false;
-			return;
+			return false;
 		}
 
 		Manifold* CollisionSystem::ComputePenetrationDepth(Collider*, Collider*, Simplex*)
@@ -217,6 +217,27 @@ namespace Hyrule
 // 		}
 // 
 // 		return Vector2D(0, 0);
+			return nullptr;
+		}
+
+		void CollisionSystem::GetSupportPoint(Collider*, Collider*, const Vector3D&)
+		{
+
+		}
+
+		void CollisionSystem::GetSupportEdge(Simplex*)
+		{
+
+		}
+
+		void CollisionSystem::GetSupportFace()
+		{
+
+		}
+
+		void CollisionSystem::FindContactPoint(Collider*, Collider*)
+		{
+
 		}
 
 		/*

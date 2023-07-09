@@ -1,60 +1,134 @@
-#include "framework.h"
+//***************************************************************************************
+// GameTimer.cpp by Frank Luna (C) 2011 All Rights Reserved.
+//***************************************************************************************
+
+#include <windows.h>
 #include "Timer.h"
 
 namespace Hyrule
 {
-	Timer::Timer() noexcept
+	GameTimer::GameTimer()
+		: mSecondsPerCount(0.0), mDeltaTime(-1.0), mBaseTime(0),
+		mPausedTime(0), mPrevTime(0), mCurrTime(0), mStopped(false)
 	{
-		QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
+		__int64 countsPerSec;
+		QueryPerformanceFrequency((LARGE_INTEGER*)&countsPerSec);
+		mSecondsPerCount = 1.0 / (double)countsPerSec;
 	}
 
-	float Timer::fDeltaTime() const noexcept
+	// Returns the total time elapsed since Reset() was called, NOT counting any
+	// time when the clock is stopped.
+	float GameTimer::TotalTime()const
 	{
-		return (float)deltaTime;
+		// If we are stopped, do not count the time that has passed since we stopped.
+		// Moreover, if we previously already had a pause, the distance 
+		// mStopTime - mBaseTime includes paused time, which we do not want to count.
+		// To correct this, we can subtract the paused time from mStopTime:  
+		//
+		//                     |<--paused time-->|
+		// ----*---------------*-----------------*------------*------------*------> time
+		//  mBaseTime       mStopTime        startTime     mStopTime    mCurrTime
+
+		if (mStopped)
+		{
+			return (float)(((mStopTime - mPausedTime) - mBaseTime) * mSecondsPerCount);
+		}
+
+		// The distance mCurrTime - mBaseTime includes paused time,
+		// which we do not want to count.  To correct this, we can subtract 
+		// the paused time from mCurrTime:  
+		//
+		//  (mCurrTime - mPausedTime) - mBaseTime 
+		//
+		//                     |<--paused time-->|
+		// ----*---------------*-----------------*------------*------> time
+		//  mBaseTime       mStopTime        startTime     mCurrTime
+
+		else
+		{
+			return (float)(((mCurrTime - mPausedTime) - mBaseTime) * mSecondsPerCount);
+		}
 	}
 
-	double Timer::DeltaTime() const noexcept
+	float GameTimer::DeltaTime()const
 	{
-		return deltaTime;
+		return (float)mDeltaTime;
 	}
 
-	float Timer::ScaledfDeltaTime() const noexcept
+	float GameTimer::ScalingDeltaTime() const
 	{
-		return timeScale * (float)deltaTime;
+		return (float)mDeltaTime * timeScale;
 	}
 
-	double Timer::ScaledDeltaTime() const noexcept
+	void GameTimer::Reset()
 	{
-		return (double)timeScale * deltaTime;
+		__int64 currTime;
+		QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
+
+		mBaseTime = currTime;
+		mPrevTime = currTime;
+		mStopTime = 0;
+		mStopped = false;
 	}
 
-	int Timer::GetFramePerSecond() const noexcept
+	void GameTimer::Start()
 	{
-		return fps;
+		__int64 startTime;
+		QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
+
+
+		// Accumulate the time elapsed between stop and start pairs.
+		//
+		//                     |<-------d------->|
+		// ----*---------------*-----------------*------------> time
+		//  mBaseTime       mStopTime        startTime     
+
+		if (mStopped)
+		{
+			mPausedTime += (startTime - mStopTime);
+
+			mPrevTime = startTime;
+			mStopTime = 0;
+			mStopped = false;
+		}
 	}
 
-	void Timer::Update() noexcept
+	void GameTimer::Stop()
 	{
+		if (!mStopped)
+		{
+			__int64 currTime;
+			QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
 
+			mStopTime = currTime;
+			mStopped = true;
+		}
 	}
 
-	void Timer::Start() noexcept
+	void GameTimer::Tick()
 	{
-		
-	}
+		if (mStopped)
+		{
+			mDeltaTime = 0.0;
+			return;
+		}
 
-	void Timer::Stop() noexcept
-	{
+		__int64 currTime;
+		QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
+		mCurrTime = currTime;
 
-	}
+		// Time difference between this frame and the previous.
+		mDeltaTime = (mCurrTime - mPrevTime) * mSecondsPerCount;
 
-	float Timer::GetTimeScale() const noexcept
-	{
-		return timeScale;
-	}
+		// Prepare for next frame.
+		mPrevTime = mCurrTime;
 
-	void Timer::SetTimeScale(float _scale) noexcept
-	{
-		timeScale = _scale;
+		// Force nonnegative.  The DXSDK's CDXUTTimer mentions that if the 
+		// processor goes into a power save mode or we get shuffled to another
+		// processor, then mDeltaTime can be negative.
+		if (mDeltaTime < 0.0)
+		{
+			mDeltaTime = 0.0;
+		}
 	}
 }

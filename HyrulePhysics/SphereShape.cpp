@@ -6,7 +6,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		SphereShape::SphereShape() : Shape(), length()
+		SphereShape::SphereShape() noexcept : Shape(), length()
 		{
 			type = ShapeType::SPHERE;
 		}

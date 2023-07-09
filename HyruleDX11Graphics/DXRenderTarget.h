@@ -11,14 +11,15 @@ namespace Hyrule
 	class DXRenderTarget
 	{
 	public:
-		DXRenderTarget(DXDevice* _device);
+		DXRenderTarget(std::shared_ptr<DXDevice>);
 		~DXRenderTarget();
 
 	private:
 		template <typename T>
 		using Comptr = Microsoft::WRL::ComPtr<T>;
 
-		DXDevice* m_dxDevice;
+		std::shared_ptr<DXDevice> m_device;
+		// std::weak_ptr<DXDevice> m_dxDevice;
 
 		Comptr<ID3D11RenderTargetView1> m_renderTargetView;
 		Comptr<ID3D11DepthStencilView> m_depthStencilView;
@@ -34,7 +35,5 @@ namespace Hyrule
 	private:
 		long CreateRenderTarget();
 		long CreateDepthStencil();
-
-		void ReleaseAll();
 	};
 }

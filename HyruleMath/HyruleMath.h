@@ -3,7 +3,9 @@
 #include <cmath>
 
 #include "HRConstant.h"
+
 // Vecotr3D, 4D
+#include "Vector2D.h"
 #include "Vector3D.h"
 #include "Vector4D.h"
 

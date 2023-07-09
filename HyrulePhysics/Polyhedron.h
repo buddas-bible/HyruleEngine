@@ -13,7 +13,7 @@ namespace Hyrule
 		class Polyhedron : public Shape
 		{
 		public:
-			Polyhedron() noexcept = default;
+			Polyhedron() noexcept;
 			~Polyhedron() noexcept = default;
 
 		private:

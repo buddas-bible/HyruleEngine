@@ -41,8 +41,8 @@ namespace Hyrule
 			Collider* CreateCollider(Object*, COLLIDER_INFO*);						// 콜라이더를 만듬
 			RigidBody* CreateRigidBody(Object*);									// 강체를 만듬
 
-			Object*& GetObject(const std::wstring&);
-			Object*& CreateObject(const std::wstring&);
+			Object* GetObject(const std::wstring&);
+			Object* CreateObject(const std::wstring&);
 			void RemoveObject(const std::wstring&);
 		};
 	}

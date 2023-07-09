@@ -1,4 +1,5 @@
 #pragma once
+#include <sal.h>
 
 namespace Hyrule
 {
@@ -18,6 +19,9 @@ namespace Hyrule
 		{}
 		constexpr Vector3D(const Vector3D&) noexcept = default;
 		constexpr Vector3D(Vector3D&&) noexcept = default;
+		constexpr Vector3D(_In_reads_(3) const float* _arr) noexcept :
+			e{ _arr[0], _arr[1], _arr[2] }
+		{}
 		~Vector3D() noexcept = default;
 
 		constexpr Vector3D& operator= (const Vector3D&) noexcept = default;

@@ -4,6 +4,8 @@
 
 namespace Hyrule
 {
+	struct Vector3D;
+
 	namespace Physics
 	{
 		class Collider;
@@ -18,6 +20,7 @@ namespace Hyrule
 			Manifold* ComputePenetrationDepth(Collider*, Collider*, Simplex*);
 			void GetSupportPoint(Collider*, Collider*, const Vector3D&);
 			void GetSupportEdge(Simplex*);
+			void GetSupportFace();
 			void FindContactPoint(Collider*, Collider*);
 
 		private:
