@@ -98,15 +98,15 @@ namespace Hyrule
 
 	void HyruleGraphicsDX11::Render()
 	{
-		// m_axis->SetViewProjTM(m_camera->GetViewProjMatrix());
+		m_axis->SetViewProjTM(m_camera->GetViewProjMatrix());
 		m_grid->SetViewProjTM(m_camera->GetViewProjMatrix());
 
-
+		m_renderTarget->Bind();
 		m_renderTarget->Clear();
 		
 		///
-		// m_axis->Render();
-		 m_grid->Render();
+		m_axis->Render();
+		m_grid->Render();
 
 		///
 
@@ -218,32 +218,32 @@ namespace Hyrule
 
 	long HyruleGraphicsDX11::CreateHelper()
 	{
-		// PC axis[] =
-		// {
-		// 	{Vector3D(0.f, 0.01f, 0.f), Vector4D(DXColor::Red),},
-		// 	{Vector3D(15.f, 0.01f, 0.f), Vector4D(DXColor::Red),},
-		// 
-		// 	{Vector3D(0.f, 0.f, 0.f),	Vector4D(DXColor::Green),},
-		// 	{Vector3D(0.f ,15.f, 0.f), Vector4D(DXColor::Green),},
-		// 
-		// 	{Vector3D(0.f, 0.01f, 0.f),	Vector4D(DXColor::Blue),},
-		// 	{Vector3D(0.f ,0.01f, 15.f), Vector4D(DXColor::Blue),},
-		// };
-		// 
-		// UINT indices[] = {
-		// 	0, 1,			// x
-		// 	2, 3,			// y
-		// 	4, 5,			// z
-		// };
-		// 
-		// auto axisMesh = ResourceManager::GetInstance().AddMesh(
-		// 	L"Axis",
-		// 	axis, sizeof(axis),
-		// 	indices, sizeof(indices),
-		// 	ARRAYSIZE(indices)
-		// );
-		// 
-		// m_axis = new Helper(m_device, m_rasterizerState, axisMesh);
+		PC axis[] =
+		{
+			{Vector3D(0.f, 0.01f, 0.f), Vector4D(DXColor::Red),},
+			{Vector3D(15.f, 0.01f, 0.f), Vector4D(DXColor::Red),},
+
+			{Vector3D(0.f, 0.f, 0.f),	Vector4D(DXColor::Green),},
+			{Vector3D(0.f ,15.f, 0.f), Vector4D(DXColor::Green),},
+
+			{Vector3D(0.f, 0.01f, 0.f),	Vector4D(DXColor::Blue),},
+			{Vector3D(0.f ,0.01f, 15.f), Vector4D(DXColor::Blue),},
+		};
+
+		UINT indices[] = {
+			0, 1,			// x
+			2, 3,			// y
+			4, 5,			// z
+		};
+
+		auto axisMesh = ResourceManager::GetInstance().AddMesh(
+			L"Axis",
+			axis, sizeof(axis),
+			indices, sizeof(indices),
+			ARRAYSIZE(indices)
+		);
+
+		m_axis = new Helper(m_device, m_rasterizerState, axisMesh);
 
 		////////////////////////////////////////////////////////////////////////////////////////
 

@@ -14,6 +14,9 @@
     <Filter Include="Quaternion">
       <UniqueIdentifier>{b7456e41-8b1e-4eca-8a98-5ac730a9a170}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Function">
+      <UniqueIdentifier>{96d87de0-9766-45cf-bdd5-dd2da00de076}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3D.h">
@@ -43,11 +46,11 @@
     <ClInclude Include="HRConstant.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="HRMathFunc.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2D.h">
       <Filter>Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="HRMathFunc.h">
+      <Filter>Function</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -72,11 +75,11 @@
     <ClCompile Include="Quaternion.cpp">
       <Filter>Quaternion</Filter>
     </ClCompile>
-    <ClCompile Include="HRMathFunc.cpp">
-      <Filter>헤더 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Vector2D.cpp">
       <Filter>Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="HRMathFunc.cpp">
+      <Filter>Function</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
