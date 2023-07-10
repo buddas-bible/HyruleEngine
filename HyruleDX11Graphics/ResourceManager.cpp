@@ -1,5 +1,7 @@
 #include "ResourceManager.h"
 
+#include "Vertex.h"
+
 namespace Hyrule
 {
 
@@ -66,7 +68,7 @@ namespace Hyrule
 		return hr;
 	}
 
-	DXMesh* ResourceManager::CreateMesh(void* vetArr, size_t _vetWidth, void* idxArr, size_t _idxWidth, size_t _count)
+	DXMesh* ResourceManager::CreateMesh(void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, UINT _count)
 	{
 		HRESULT hr = S_OK;
 
@@ -132,7 +134,7 @@ namespace Hyrule
 		return mesh;
 	}
 
-	std::shared_ptr<DXMesh> ResourceManager::AddMesh(const std::wstring& _name, void* vetArr, size_t _vetWidth, void* idxArr, size_t _idxWidth, size_t _count)
+	std::shared_ptr<DXMesh> ResourceManager::AddMesh(const std::wstring& _name, void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, UINT _count)
 	{
 		auto mesh = CreateMesh(vetArr, _vetWidth, idxArr, _idxWidth, _count);
 
@@ -207,5 +209,69 @@ namespace Hyrule
 		}
 
 		return itr->second;
+	}
+
+	std::shared_ptr<DXMesh> HelerObject::axis{};
+	std::shared_ptr<DXMesh> HelerObject::gizmo{};
+
+	void HelerObject::InitHelperObject()
+	{
+		PC axis[] =
+		{
+			{Vector3(0.f, 0.f, 0.f),	Vector4(DXColor::Red),	},
+			{Vector3(15.f, 0.f, 0.f),	Vector4(DXColor::Red),	},
+
+			{Vector3(0.f, 0.f, 0.f),	Vector4(DXColor::Green),},
+			{Vector3(0.f ,15.f, 0.f),	Vector4(DXColor::Green),},
+
+			{Vector3(0.f, 0.f, 0.f),	Vector4(DXColor::Blue),	},
+			{Vector3(0.f ,0.f, 15.f),	Vector4(DXColor::Blue),	},
+		};
+
+		UINT indices[] = {
+			0, 1,			// x
+			2, 3,			// y
+			4, 5,			// z
+		};
+
+		auto axisMesh = ResourceManager::GetInstance().CreateMesh(
+			axis, sizeof(axis),
+			indices, sizeof(indices),
+			ARRAYSIZE(indices)
+		);
+
+		std::shared_ptr<DXMesh> temp0{axisMesh};
+		HelerObject::axis = temp0;
+
+		/*---------------------------------------------------------------------------------------------*/
+
+		PC vertices[100];
+		for (int i = 0; i < 100; i++)
+		{
+			vertices[i].pos = Vector3((i % 10) - 5.0f, 0.0f, (float)(i / 10) - 5.0f);
+			vertices[i].color = Vector4(DXColor::White);
+		}
+
+		UINT index[40];
+		for (int i = 0; i < 10; i++)
+		{
+			index[i * 2] = i;
+			index[i * 2 + 1] = i + 90;
+		}
+
+		for (int i = 0; i < 10; i++)
+		{
+			index[20 + (i * 2)] = i * 10;
+			index[20 + (i * 2) + 1] = i * 10 + 9;
+		}
+
+		auto gridMesh = ResourceManager::GetInstance().CreateMesh(
+			vertices, sizeof(vertices),
+			index, sizeof(index),
+			ARRAYSIZE(index)
+		);
+
+		std::shared_ptr<DXMesh> temp1{gridMesh};
+		HelerObject::gizmo = temp1;
 	}
 }

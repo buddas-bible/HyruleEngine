@@ -27,8 +27,8 @@ namespace Hyrule
 		long LoadTexture(const std::wstring& _name, const std::wstring& _path);
 		long LoadMesh(const std::wstring& _name, const std::wstring& _path);
 
-		DXMesh* CreateMesh(void* vetArr, size_t _vetWidth, void* idxArr, size_t _idxWidth, size_t _count);
-		std::shared_ptr<DXMesh> AddMesh(const std::wstring& _name, void* vetArr, size_t _vetWidth, void* idxArr, size_t _idxWidth, size_t _count);
+		DXMesh* CreateMesh(void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, UINT _count);
+		std::shared_ptr<DXMesh> AddMesh(const std::wstring& _name, void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, UINT _count);
 
 		void AddTexture(const std::wstring& _name, std::shared_ptr<DXTexture>);
 		void AddShader(const std::wstring& _name, std::shared_ptr<DXShader>);
@@ -51,6 +51,15 @@ namespace Hyrule
 		MeshContainer		meshMap;
 		TextureContainer	textureMap;
 		ShaderContainer		shaderMap;
+	};
+
+	class HelerObject
+	{
+	public:
+		static void InitHelperObject();
+
+		static std::shared_ptr<DXMesh> axis;
+		static std::shared_ptr<DXMesh> gizmo;
 	};
 }
 

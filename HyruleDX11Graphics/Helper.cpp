@@ -18,11 +18,11 @@ namespace Hyrule
 
 	void Helper::Render()
 	{
-		device->GetDeviceContext()->RSSetState(rasterState->GetWireRasterizerState());
+		device->GetDeviceContext()->RSSetState(0);
 		device->GetDeviceContext()->IASetInputLayout(InputLayouts::PCLayout->GetInputLayout());
 		device->GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
-		UINT stride = sizeof(PC);
+		UINT stride = 28;//sizeof(PC);
 		UINT offset = 0;
 		device->GetDeviceContext()->IASetVertexBuffers(
 			0,

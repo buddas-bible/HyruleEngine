@@ -47,9 +47,6 @@
     <Filter Include="1. Resource\Object\HelperObject">
       <UniqueIdentifier>{0b8677b3-c0b6-4aff-ac3d-15a79b267cfa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1. Resource\Object\NewFilter1">
-      <UniqueIdentifier>{4cab6b8c-9450-4562-a5bf-72b4dd6901af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="1. Resource\Struct">
       <UniqueIdentifier>{48677460-a120-4192-9617-f91fd687f963}</UniqueIdentifier>
     </Filter>

@@ -49,6 +49,10 @@ namespace Hyrule
 		// 	return S_FALSE;
 		// }
 
+		hr = m_renderTargetView.Reset();
+
+		hr = m_depthStencilView.Reset();
+
 		hr = m_device->GetSwapChain()->ResizeBuffers(
 			NULL,
 			NULL,

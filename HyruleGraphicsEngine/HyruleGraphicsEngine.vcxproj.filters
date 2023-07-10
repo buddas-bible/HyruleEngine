@@ -19,5 +19,8 @@
     <ClInclude Include="ICamera.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="IRenderable.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
