@@ -1,13 +1,13 @@
 //***************************************************************************************
 // GameTimer.cpp by Frank Luna (C) 2011 All Rights Reserved.
 //***************************************************************************************
-
+#include <chrono>
 #include <windows.h>
 #include "Timer.h"
 
 namespace Hyrule
 {
-	GameTimer::GameTimer()
+	CTimer::CTimer() noexcept
 		: mSecondsPerCount(0.0), mDeltaTime(-1.0), mBaseTime(0),
 		mPausedTime(0), mPrevTime(0), mCurrTime(0), mStopped(false)
 	{
@@ -18,7 +18,7 @@ namespace Hyrule
 
 	// Returns the total time elapsed since Reset() was called, NOT counting any
 	// time when the clock is stopped.
-	float GameTimer::TotalTime()const
+	float CTimer::TotalTime()const
 	{
 		// If we are stopped, do not count the time that has passed since we stopped.
 		// Moreover, if we previously already had a pause, the distance 
@@ -50,20 +50,22 @@ namespace Hyrule
 		}
 	}
 
-	float GameTimer::DeltaTime()const
+	float CTimer::DeltaTime()const
 	{
 		return (float)mDeltaTime;
 	}
 
-	float GameTimer::ScalingDeltaTime() const
+	float CTimer::ScalingDeltaTime() const
 	{
 		return (float)mDeltaTime * timeScale;
 	}
 
-	void GameTimer::Reset()
+	void CTimer::Reset()
 	{
 		__int64 currTime;
 		QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
+
+		auto curr = 
 
 		mBaseTime = currTime;
 		mPrevTime = currTime;
@@ -71,7 +73,7 @@ namespace Hyrule
 		mStopped = false;
 	}
 
-	void GameTimer::Start()
+	void CTimer::Start()
 	{
 		__int64 startTime;
 		QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
@@ -93,7 +95,7 @@ namespace Hyrule
 		}
 	}
 
-	void GameTimer::Stop()
+	void CTimer::Stop()
 	{
 		if (!mStopped)
 		{
@@ -105,7 +107,7 @@ namespace Hyrule
 		}
 	}
 
-	void GameTimer::Tick()
+	void CTimer::Tick()
 	{
 		if (mStopped)
 		{

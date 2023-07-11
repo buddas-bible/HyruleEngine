@@ -27,7 +27,7 @@ namespace Hyrule
 		~DXEffect() = default;
 
 		DXEffect(const DXEffect&) = delete;
-		void operator=(const DXEffect&) = delete;
+		DXEffect& operator=(const DXEffect&) = delete;
 
 	private:
 		template <typename T>
@@ -55,6 +55,42 @@ namespace Hyrule
 		void SetEyePosW(const Vector3D&);
 		void SetDirectionLight(const Vector3D&);
 	};
+
+
+	// class DXHelperEffect : public DXEffect
+	// {
+	// public:
+	// 	DXHelperEffect(std::shared_ptr<DXDevice>, const std::wstring&);
+	// 	~DXHelperEffect() = default;
+	// 
+	// 	DXHelperEffect(const DXHelperEffect&) = delete;
+	// 	DXBasicEffect& operator=(const DXHelperEffect&) = delete;
+	// 
+	// private:
+	// 	template <typename T>
+	// 	using Comptr = Microsoft::WRL::ComPtr<T>;
+	// 	Comptr<ID3DX11EffectTechnique> tech0;
+	// 	Comptr<ID3DX11EffectMatrixVariable> worldViewProj;
+	// };
+	// 
+	// 
+	// class DXBasicEffect : public DXEffect
+	// {
+	// public:
+	// 	DXBasicEffect(std::shared_ptr<DXDevice>, const std::wstring&);
+	// 	~DXBasicEffect() = default;
+	// 
+	// 	DXBasicEffect(const DXBasicEffect&) = delete;
+	// 	DXBasicEffect& operator=(const DXBasicEffect&) = delete;
+	// 
+	// private:
+	// 	template <typename T>
+	// 	using Comptr = Microsoft::WRL::ComPtr<T>;
+	// 	Comptr<ID3DX11EffectMatrixVariable> worldViewProj;
+	// 	Comptr<ID3DX11EffectMatrixVariable> world;
+	// 	Comptr<ID3DX11EffectMatrixVariable> worldInvTranspose;
+	// };
+
 
 	class Effects
 	{

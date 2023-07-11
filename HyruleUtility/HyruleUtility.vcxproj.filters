@@ -15,11 +15,14 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Timer</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
+    <ClCompile Include="KeyInput.cpp">
       <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>Random</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTimer.cpp">
+      <Filter>Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -27,11 +30,14 @@
       <Filter>Timer</Filter>
     </ClInclude>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Input.h">
+    <ClInclude Include="KeyInput.h">
       <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="Random.h">
       <Filter>Random</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimer.h">
+      <Filter>Timer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

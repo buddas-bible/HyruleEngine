@@ -14,9 +14,7 @@ namespace Hyrule
 	}
 
 	void DXCamera::Update(float)
-	{
-
-	}
+	{}
 
 	void DXCamera::UpdateViewMatrix()
 	{
@@ -29,12 +27,12 @@ namespace Hyrule
 		);
 	}
 
-	Hyrule::Matrix4x4 DXCamera::GetViewMatrix() const
+	Matrix4x4 DXCamera::GetViewMatrix() const
 	{
 		return this->m_View;
 	}
 
-	Hyrule::Matrix4x4 DXCamera::GetProjMatrix() const
+	Matrix4x4 DXCamera::GetProjMatrix() const
 	{
 		if (isPerspective)
 		{
@@ -46,7 +44,7 @@ namespace Hyrule
 		}
 	}
 
-	Hyrule::Matrix4x4 DXCamera::GetViewProjMatrix() const
+	Matrix4x4 DXCamera::GetViewProjMatrix() const
 	{
 		return this->GetViewMatrix() * this->GetProjMatrix();
 	}

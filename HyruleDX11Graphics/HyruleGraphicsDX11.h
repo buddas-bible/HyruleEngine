@@ -52,7 +52,7 @@ namespace Hyrule
 		long CreateHelper();
 
 		Helper* m_axis;
-		Helper* m_grid;
+		Helper* m_gizmo;
 #endif
 	};
 

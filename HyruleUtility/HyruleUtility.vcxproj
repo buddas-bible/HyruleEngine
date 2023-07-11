@@ -19,13 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameTimer.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="KeyInput.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>

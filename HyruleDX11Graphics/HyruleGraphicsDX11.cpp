@@ -31,9 +31,7 @@ namespace Hyrule
 		: m_hWnd(),
 		m_device(), m_renderTarget(), m_rasterizerState(),
 		m_camera()
-	{
-
-	}
+	{}
 
 	long HyruleGraphicsDX11::Initialize(int _hwnd)
 	{
@@ -78,8 +76,6 @@ namespace Hyrule
 
 		ResourceManager::GetInstance().Initialize(m_device);
 
-
-
 #if _DEBUG
 		HelerObject::InitHelperObject();
 		hr = CreateHelper();
@@ -95,14 +91,24 @@ namespace Hyrule
 
 	void HyruleGraphicsDX11::Finalize()
 	{
-		
+		if (m_axis)
+		{
+			delete m_axis;
+			m_axis = nullptr;
+		}
+
+		if (m_gizmo)
+		{
+			delete m_gizmo;
+			m_gizmo = nullptr;
+		}
 	}
 
 	void HyruleGraphicsDX11::Render()
 	{
 #if _DEBUG
 		m_axis->SetViewProjTM(m_camera->GetViewProjMatrix());
-		m_grid->SetViewProjTM(m_camera->GetViewProjMatrix());
+		m_gizmo->SetViewProjTM(m_camera->GetViewProjMatrix());
 #endif
 
 		m_renderTarget->Bind();
@@ -110,7 +116,7 @@ namespace Hyrule
 		
 		///
 #if _DEBUG
-		m_grid->Render();
+		m_gizmo->Render();
 		m_axis->Render();
 #endif
 
@@ -228,7 +234,7 @@ namespace Hyrule
 
 		////////////////////////////////////////////////////////////////////////////////////////
 
-		m_grid = new Helper(m_device, m_rasterizerState, HelerObject::gizmo);
+		m_gizmo = new Helper(m_device, m_rasterizerState, HelerObject::gizmo);
 
 		return S_OK;
 	}
