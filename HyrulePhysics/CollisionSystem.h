@@ -32,7 +32,7 @@ namespace Hyrule
 			Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
 			void FindSupportEdge(Simplex*);
 			void FindSupportFace();
-			void FindContactPoint(Collider*, Collider*);
+			void FindContactPoint(Collider*, Collider*, const Vector3D&);
 
 		private:
 			enum GJK : size_t

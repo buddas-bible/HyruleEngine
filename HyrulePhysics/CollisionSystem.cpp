@@ -53,8 +53,9 @@ namespace Hyrule
 			}
 		}
 
-		Manifold* CollisionSystem::ComputePenetrationDepth(Collider*, Collider*, Simplex*)
+		Manifold* CollisionSystem::ComputePenetrationDepth(Collider* _colliderA, Collider* _colliderB, Simplex* _simplex)
 		{
+			
 			// 		size_t i = 0;
 // 
 // 		while (i < EPA_MAXCOUNT)
@@ -101,12 +102,13 @@ namespace Hyrule
 			return nullptr;
 		}
 
-		Vector3D CollisionSystem::FindSupportPoint(Collider*, Collider*, const Vector3D&)
+		Vector3D CollisionSystem::FindSupportPoint(Collider* _colliderA, Collider* _colliderB, const Vector3D& _direction)
 		{
+			// return _colliderA->FindWorldSupport(_direction) - _colliderB->FindWorldSupport(-_direction);
 			return Vector3D();
 		}
 
-		void CollisionSystem::FindSupportEdge(Simplex*)
+		void CollisionSystem::FindSupportEdge(Simplex* _simplex)
 		{
 
 		}
@@ -116,9 +118,32 @@ namespace Hyrule
 
 		}
 
-		void CollisionSystem::FindContactPoint(Collider*, Collider*)
+		void CollisionSystem::FindContactPoint(Collider* _colliderA, Collider* _colliderB, const Vector3D& _direction)
 		{
+			// Vector3D direction = _direction;
+			// 
+			// // 충돌에 관여한 면을 찾아냄
+			// Face* reference = _colliderA->FindSupportFace(_direction);
+			// Face* incident = _colliderA->FindSupportFace(-_direction);
+			// 
+			// // Face* reference;
+			// // Face* incident;
+			// 
+			// float aPerpendicular = std::fabs(reference->normal.Dot(_direction));
+			// float bPerpendicular = std::fabs(incident->normal.Dot(_direction));
+			// 
+			// // 0에 제일 가까운 면을 기준면으로 삼음
+			// if (aPerpendicular > bPerpendicular)
+			// {
+			// 	auto temp = reference;
+			// 	reference = incident;
+			// 	incident = reference;
+			// 	direction = -direction;
+			// }
 
+			// FaceClip(incident, );
+			// FaceClip(incident, );
+			// FaceClip(incident, );
 		}
 
 		bool CollisionSystem::DoSimplex(Simplex& _simplex, Vector3D& _direction)
