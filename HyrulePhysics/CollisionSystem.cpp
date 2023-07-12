@@ -121,7 +121,6 @@ namespace Hyrule
 
 		}
 
-
 		bool CollisionSystem::DoSimplex(Simplex& _simplex, Vector3D& _direction)
 		{
 			switch (_simplex.size())
@@ -208,7 +207,6 @@ namespace Hyrule
 					// CB 공간 안에 원점이 있지만 B로부터 C가 원점 너머에 있지 않음.
 					_simplex = { B, C };
 					return DoSimplex2(_simplex, CO);
-
 // 					// DoSimplex2와 비슷한 행동
 // 					// CB와 원점의 방향을 판단
 // 					if (CB.Dot(CO) > 0.f)
@@ -232,7 +230,6 @@ namespace Hyrule
 				{
 					_simplex = { B, C };
 					return DoSimplex2(_simplex, CO);
-
 // 					// DoSimplex2와 비슷한 행동
 // 					// CB와 원점의 관계를 판단
 // 					if (CB.Dot(CO) > 0.f)
@@ -263,7 +260,6 @@ namespace Hyrule
 					}
 				}
 			}
-
 			return false;
 		}
 
@@ -306,8 +302,6 @@ namespace Hyrule
 
 			return true;
 		}
-
-
 	}
 }
 

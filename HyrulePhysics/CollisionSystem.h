@@ -14,10 +14,20 @@ namespace Hyrule
 
 		class CollisionSystem
 		{
+		///
+		/// </summary>
 		public:
+			/// <summary>
+			/// 충돌 감지
+			/// </summary>
+			/// <param name=""></param>
+			/// <param name=""></param>
+			/// <returns></returns>
 			bool CollisionCheck(Collider*, Collider*);
-			bool Velocity();
 			
+			/// <summary>
+			/// 
+			/// </summary>
 			Manifold* ComputePenetrationDepth(Collider*, Collider*, Simplex*);
 			Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
 			void FindSupportEdge(Simplex*);
@@ -38,6 +48,12 @@ namespace Hyrule
 			bool DoSimplex2(Simplex&, Vector3D&);
 			bool DoSimplex3(Simplex&, Vector3D&);
 			bool DoSimplex4(Simplex&, Vector3D&);
+
+		/// <summary>
+		/// 충돌 대응 부분.
+		/// </summary>
+		public:
+			void CollisionRespone();
 		};
 	}
 }
