@@ -184,35 +184,34 @@ namespace Hyrule
 			Vector3D CA = (A - C).Normalized();
 			Vector3D CB = (B - C).Normalized();
 			Vector3D CO = -C.Normalized();
-			Vector3D CBA = CB.Cross(CA);
+			Vector3D CAB = CA.Cross(CB);
 			
 			// ABC 삼각형의 노말 벡터를 구하고
 			// 삼각형 어느 방향에 원점이 있는지 판단.
 
-			// CA에서 부터 수직인 방향 벡터를 구하고 그 방향 원점이 있는지 체크
-			if (CBA.Cross(CA).Dot(CO) > 0.f)
+			// CB 공간에 원점이 존재하는지 체크
+			if (CAB.Cross(CB).Dot(CO) > 0.f)
 			{
-				// CA 공간에 원점이 있다면
-				// 방향벡터 AC와 원점과의 관계를 판단함.
-
+				// CB 공간에 원점이 존재한다면
+				// 비버 집을 다시 지어야함.
 				// DoSimplex2와 비슷한 행동
-				if (CA.Dot(CO) > 0.f)
+				if (CB.Dot(CO) > 0.f)
 				{
-					// CA 공간에서 심플렉스 만들면서 다시 탐색
-					_simplex = { A, C };
-					_direction = CA.Cross(CO).Cross(CA);
+					// CB 공간에서 다시 탐색
+					_simplex = { B, C };
+					_direction = CB.Cross(CO).Cross(CB);
 				}
 				else
 				{
-					// CB 공간 안에 원점이 있지만 B로부터 C가 원점 너머에 있지 않음.
-					_simplex = { B, C };
+					// CA 공간에서 다시 탐색
+					_simplex = { A, C };
 					return DoSimplex2(_simplex, CO);
 // 					// DoSimplex2와 비슷한 행동
-// 					// CB와 원점의 방향을 판단
-// 					if (CB.Dot(CO) > 0.f)
+// 					// CA와 원점의 방향을 판단
+// 					if (CA.Dot(CO) > 0.f)
 // 					{
 // 						_simplex = { B, C };
-// 						_direction = CB.Cross(CO).Cross(CB);
+// 						_direction = CA.Cross(CO).Cross(CA);
 // 					}
 // 
 // 					// 마지막에 찾은 점을 넣고 다시 DoSimplex...
@@ -225,17 +224,19 @@ namespace Hyrule
 			}
 			else
 			{
-				// CB에서 부터 수직인 벡터를 구하고 그 방향 원점이 있는지 체크
-				if (CB.Cross(CBA).Dot(CO) > 0.f)
+				// CA 공간에 원점이 존재하는지 체크
+				if (CA.Cross(CAB).Dot(CO) > 0.f)
 				{
-					_simplex = { B, C };
+					// CA 공간에 원점이 존재한다면
+					// 비버 집을 다시 지어야함.
+					_simplex = { A, C };
 					return DoSimplex2(_simplex, CO);
 // 					// DoSimplex2와 비슷한 행동
-// 					// CB와 원점의 관계를 판단
-// 					if (CB.Dot(CO) > 0.f)
+// 					// CA와 원점의 관계를 판단
+// 					if (CA.Dot(CO) > 0.f)
 // 					{
-// 						_simplex = { B, C };
-// 						_direction = CB.Cross(CO).Cross(CB);
+// 						_simplex = { A, C };
+// 						_direction = CA.Cross(CO).Cross(CA);
 // 					}
 // 					else
 // 					{
@@ -243,20 +244,24 @@ namespace Hyrule
 // 						_direction = CO;
 // 					}
 				}
-
-				// 삼각형 외부에 존재하지 않는다면
-				// 사면체를 만들어서 원점 위치를 체크함.
+				
+				// CA, CB 공간에 원점이 존재하지 않는다면
 				else
 				{
-					if (CBA.Dot(CO) > 0.f)
+					// 면 CAB 노말 방향에 원점이 존재하는가?
+					if (CAB.Dot(CO) > 0.f)
 					{
+						// CBA 노말 방향으로 점 D를 탐색
 						_simplex = { A, B, C };
-						_direction = CBA;
+						_direction = CAB;
 					}
 					else
 					{
+						// CBA 공간 안에 원점은 있으나
+						// 방향은 반대라서
+						// CBA -노말 방향으로 점 D를 탐색
 						_simplex = { B, A, C };
-						_direction = -CBA;
+						_direction = -CAB;
 					}
 				}
 			}
@@ -275,26 +280,29 @@ namespace Hyrule
 			Vector3D DA{ (A - D).Normalized() };
 			Vector3D DB{ (B - D).Normalized() };
 			Vector3D DC{ (C - D).Normalized() };
-			Vector3D DBA{ DB.Cross(DA) };
-			Vector3D DAC{ DA.Cross(DC) };
-			Vector3D DCB{ DC.Cross(DB) };
+			Vector3D DAB{ DA.Cross(DB) };
+			Vector3D DCA{ DC.Cross(DA) };
+			Vector3D DBC{ DB.Cross(DC) };
 			Vector3D DO{ -D.Normalized() };
 
-			// 면의 노말 벡터와 원점의 방향으로 사면체가 원점을 포함하고 있는지를 판단함.
-
-			if (DBA.Dot(DO) > 0.f)
+			// 사면체를 이루는 각 면의 노말 벡터와
+			// 원점의 방향으로 사면체가 원점을 포함하고 있는지를 판단함.
+			if (DAB.Dot(DO) > 0.f)
 			{
+				// 노말 방향에 원점이 존재한다면...
+				// DAB 공간안에 원점이 있음
+				// 해당 면의 
 				_simplex = { A, B, D };
 				return DoSimplex3(_simplex, DO);
 			}
 
-			if (DAC.Dot(DO) > 0.f)
+			if (DCA.Dot(DO) > 0.f)
 			{
 				_simplex = { A, C, D };
 				return DoSimplex3(_simplex, DO);
 			}
 
-			if (DCB.Dot(DO) > 0.f)
+			if (DBC.Dot(DO) > 0.f)
 			{
 				_simplex = { B, C, D };
 				return DoSimplex3(_simplex, DO);
