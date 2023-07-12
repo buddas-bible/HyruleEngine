@@ -14,6 +14,12 @@ namespace Hyrule
 			Simplex() noexcept = default;
 			~Simplex() noexcept = default;
 
+			Vector3D& operator[](int);
+			std::vector<Vector3D>& operator=(const std::vector<Vector3D>&);
+			
+			void push_back(const Vector3D&);
+			size_t size();
+
 			std::vector<Vector3D> points;
 			std::vector<size_t> index;
 		};

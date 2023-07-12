@@ -13,274 +13,44 @@ namespace Hyrule
 		/// <summary>
 		/// Casey's GJK
 		/// </summary>
-		bool CollisionSystem::CollisionCheck(Collider* _A, Collider* _B, Manifold* _manifold)
+		bool CollisionSystem::CollisionCheck(Collider* _colliderA, Collider* _colliderB)
 		{
-			// 임의의 방향 벡터
+			size_t count{};
+
+			Simplex* simplex = new Simplex;
+
+			// 임의의 방향 벡터로 
 			Vector3D direction{ Vector3D::Right() };
-			Vector3D trash{};
+			Vector3D support{ FindSupportPoint(_colliderA, _colliderB, direction) };
 
-			std::vector<Vector3D> simplex;
-			Simplex* sim = new Simplex;
-
-			size_t count = 0;
+			simplex->push_back(support);
+			direction = -support.Normalized();
 
 			while (count < GJK_MAX)
 			{
-				switch (simplex.size())
+				// 방향 벡터로부터 서포트 포인터를 구하는건 공통임
+				support = FindSupportPoint(_colliderA, _colliderB, direction);
+				Vector3D OP = support.Normalized();
+
+				// 서포트 포인트와 방향벡터의 각도가 90도 이상이면 그냥 충돌 안하는 거임
+				// (해당 방향으로 원점을 넘는 점이 없기 때문에)
+				// (원점을 포함하는 심플렉스를 만들 수가 없음)
+				if (OP.Dot(direction) < 0.f)
 				{
-					default:
-						// 방향 벡터로부터 서포트 포인터를 구하는건 공통임
-						auto support = FindSupportPoint(_A, _B, direction);
-
-						// 서포트 포인트와 방향벡터의 각도가 90도 이상이면 그냥 충돌 안하는 거임
-						// (해당 방향으로 원점을 넘는 점이 없기 때문에)
-						if (support.Dot(direction) <= 0)
-						{
-							return false;
-						}
-
-						// 일단 서포트 포인터가 구해졌으면 심플렉스에 넣어본다
-						simplex.push_back(support);
-						simplex.insert(simplex.begin(), support);
-						break;
-
-					case LINE:
-						auto& A = simplex[0];
-						auto& B = simplex[1];
-						auto AB = (B - A).Normalized();
-						auto AO = -A;
-
-						if (AB.Dot(AO) > 0.f)
-						{
-							simplex = { A, B };
-							direction = AB.Cross(A).Cross(AB).Normalized();
-							break;
-						}
-						else
-						{
-							simplex = { A };
-							direction = AO.Normalized();
-							break;
-						}
-						break;
-
-					case TRIANGLE:
-						auto& A = simplex[0];
-						auto& B = simplex[1];
-						auto& C = simplex[2];
-						auto AB = B - A;
-						auto AC = C - A;
-						auto AO = -A;
-						auto ABC = AB.Cross(AC);
-
-						if (ABC.Cross(AC).Dot(AO) > 0.f)
-						{
-							if (AC.Dot(AO) > 0.f)
-							{
-								simplex = { A, C };
-								direction = AC.Cross(AO).Cross(AC);
-								break;
-							}
-							else
-							{
-								if (AB.Dot(AO) > 0.f)
-								{
-									simplex = { A, B };
-									direction = AB.Cross(AO).Cross(AB);
-									break;
-								}
-								else
-								{
-									simplex = { A };
-									direction = AO;
-									break;
-								}
-							}
-						}
-						else
-						{
-							if (AB.Cross(ABC).Dot(AO) > 0.f)
-							{
-								if (AB.Dot(AO) > 0.f)
-								{
-									simplex = { A, B };
-									direction = AB.Cross(AO).Cross(AB);
-									break;
-								}
-								else
-								{
-									simplex = { A };
-									direction = AO;
-									break;
-								}
-							}
-							else
-							{
-								if (ABC.Dot(AO) > 0.f)
-								{
-									simplex = { A, B, C };
-									direction = ABC;
-									break;
-								}
-								else
-								{
-									simplex = { A, C, B };
-									direction = -ABC;
-									break;
-								}
-							}
-						}
-						break;
-
-					case TETRAHEDRON:
-						break;
-
-
-						/////////////////////////////////////////////////////////////////////////////////////////////
-
-// 					case 0:
-// 					{
-// 						// 서포트 포인트 A를 구함
-// 						Vector3D support; // = FindSupport(A, B, direction);
-// 						// simplex.push_back(support);
-// 
-// 						// 방향 벡터로부터 서포트를 구했는데 완전 엉뚱한 애가 나오면 충돌 안함.
-// 						if (support.Dot(direction) < 0)
-// 						{
-// 							return false;
-// 						}
-// 
-// 						direction = -direction;
-// 					}
-// 					break;
-// 
-// 					case 1:
-// 					{
-// 						// 서포트 포인트 B를 구함
-// 						Vector3D OA = simplex[0].Normalized();
-// 						Vector3D AO = -OA;
-// 						// Vector3D support = FindSupport(A, B, direction);
-// 						// simplex.push_back(support);
-// 
-// 						Vector3D OB = simplex[1].Normalized();
-// 
-// 						// 서포트 포인트 B가 원점 너머에 있지 않으면 충돌하지 않음
-// 						if (OB.Dot(AO) < 0)
-// 						{
-// 							return false;
-// 						}
-// 					}
-// 					break;
-// 
-// 					// 선
-// 					case 2:
-// 					{
-// 						// 원점을 향한 방향 벡터를 구하기 위해서 삼중곱을 함
-// 						Vector3D AB = simplex[1] - simplex[0];
-// 						Vector3D AO = -simplex[0];
-// 						direction = AB.Cross(AO).Cross(AB).Normalized();
-// 
-// 						// AB 위에 원점이 있을 경우
-// 						// if (directionVec == Vector3D::Zero())
-// 						// {
-// 						// 	directionVec = Vector3D(-AB.y, AB.x, 0.f).Normalized();
-// 						// }
-// 
-// 						// 서포트 포인트 C를 구함
-// 						// Vector3D support = FindSupport(A, B, direction);
-// 						// simplex.push_back(support);
-// 
-// 						Vector3D OC = simplex[2].Normalized();
-// 
-// 						// 서포트 포인트 C가 원점 너머에 있지 않으면 충돌하지 않음
-// 						if (OC.Dot(direction) <= 0)
-// 						{
-// 							return false;
-// 						}
-// 					}
-// 					break;
-// 
-// 					// 삼각형
-// 					case 3:
-// 					{
-// 						// 점이 중복된다면 리턴
-// 						if (
-// 							(simplex[0] == simplex[1]) || 
-// 							(simplex[0] == simplex[2]) || 
-// 							(simplex[0] == simplex[3]) || 
-// 							(simplex[1] == simplex[2]) ||
-// 							(simplex[1] == simplex[3]) ||
-// 							(simplex[2] == simplex[3]))
-// 						{
-// 							// collided = false;
-// 							return false;
-// 						}
-// 
-// 						Vector3D CA{ simplex[0] - simplex[2] };
-// 						Vector3D CB{ simplex[1] - simplex[2] };
-// 						Vector3D CO{ -simplex[2].Normalized() };
-// 
-// 						Vector3D nBC = CA.Cross(CB).Cross(CB).Normalized();
-// 						Vector3D nAC = CB.Cross(CA).Cross(CA).Normalized();
-// 
-// 						// AB에서 원점을 향해서 점을 찾기 시작한 것이니
-// 						// nBC, nAC를 원점과 내적해서 각도가 제대로 나오는가 판단
-// 						if (nBC.Dot(CO) <= 0 && nAC.Dot(CO) <= 0)
-// 						{
-// 							// 심플렉스 내부에 원점이 존재함
-// 
-// 							// 현재 심플렉스 정보를 저장함
-// 							// m_Simplex = simplex;
-// 							// 
-// 							// EPA(A, B);
-// 							// 
-// 							// FindContactPoint(manifold.normal, A, B);
-// 							// manifold.tangentVector = Cross(manifold.normal, Vector3::Up).Normalized();
-// 							// collided = true;
-// 							return true;
-// 						}
-// 
-// 						if (nBC.Dot(CO) > 0)
-// 						{
-// 							// BC 영역 안에 원점이 존재함.
-// 							direction = nBC;
-// 
-// 							trash = simplex[0];
-// 							// 점 A 삭제 및 배열을 당김
-// 							simplex.erase(simplex.begin() + 0);
-// 							count++;
-// 							break;
-// 						}
-// 						else if (nAC.Dot(CO) > 0)
-// 						{
-// 							// AC 영역 안에 원점이 존재함.
-// 							direction = nAC;
-// 
-// 							trash = simplex[1];
-// 							// 점 B 삭제 및 배열을 당김
-// 							simplex.erase(simplex.begin() + 1);
-// 							count++;
-// 							break;
-// 						}
-// 					}
-// 					break;
-// 
-// 					// 사면체
-// 					case 4:
-// 					{
-// 						// 사면체 내부에 점이 있는가 판단.
-// 
-// 						// 사면체 내부에 없다면 방향을 찾고
-// 						// 
-// 
-// 
-// 					}
-// 					break;
+					return false;
 				}
-			}
 
-			// collided = false;
-			return false;
+				// 서포트 포인터가 구해졌으면 심플렉스에 넣는다.
+				simplex->push_back(support);
+
+				if (DoSimplex(*simplex, direction))
+				{
+					// 심플렉스 안에 원점이 존재한다면 충돌함.
+					return true;
+				}
+
+				count++;
+			}
 		}
 
 		Manifold* CollisionSystem::ComputePenetrationDepth(Collider*, Collider*, Simplex*)
@@ -352,36 +122,191 @@ namespace Hyrule
 		}
 
 
-		void CollisionSystem::Simplex2(Simplex* _simplex, const Vector3D& _direc)
+		bool CollisionSystem::DoSimplex(Simplex& _simplex, Vector3D& _direction)
 		{
+			switch (_simplex.size())
+			{
+				case LINE:
+				{
+					return DoSimplex2(_simplex, _direction);
+				}
+				break;
 
+				case TRIANGLE:
+				{
+					return DoSimplex3(_simplex, _direction);
+				}
+				break;
+
+				case TETRAHEDRON:
+				{
+					return DoSimplex4(_simplex, _direction);
+				}
+				break;
+			}
+			return false;
 		}
 
-
-		void CollisionSystem::Simplex3(Simplex* _simplex, const Vector3D& _direc)
+		/// <summary>
+		/// 선분
+		/// </summary>
+		bool CollisionSystem::DoSimplex2(Simplex& _simplex, Vector3D& _direction)
 		{
+			Vector3D A = _simplex[0];
+			Vector3D B = _simplex[1];
+			Vector3D BA = (A - B).Normalized();
+			Vector3D BO = -B.Normalized();
 
+			// 서포트 포인트끼리 선을 그어보고 원점과 각도를 비교해본다.
+			// 선분과 원점을 향한 벡터가 이루는 각이 90도 보다 작다면
+			// 원점을 포함하는 심플렉스를 만들 가능성이 있기 때문에
+			// 그의 수직인 방향으로 서포트 포인트를 찾는다.
+			if (BA.Dot(BO) > 0.f)
+			{
+				_direction = BA.Cross(BO).Cross(BA);
+			}
+			else
+			{
+				_simplex = { B };
+				_direction = BO;
+			}
+
+			return false;
 		}
 
-
-		void CollisionSystem::Simplex4(Simplex* _simplex, const Vector3D& _direc)
+		/// <summary>
+		/// 삼각형
+		/// </summary>
+		bool CollisionSystem::DoSimplex3(Simplex& _simplex, Vector3D& _direction)
 		{
+			Vector3D A = _simplex[0];
+			Vector3D B = _simplex[1];
+			Vector3D C = _simplex[2];
+			Vector3D CA = (A - C).Normalized();
+			Vector3D CB = (B - C).Normalized();
+			Vector3D CO = -C.Normalized();
+			Vector3D CBA = CB.Cross(CA);
+			
+			// ABC 삼각형의 노말 벡터를 구하고
+			// 삼각형 어느 방향에 원점이 있는지 판단.
 
+			// CA에서 부터 수직인 방향 벡터를 구하고 그 방향 원점이 있는지 체크
+			if (CBA.Cross(CA).Dot(CO) > 0.f)
+			{
+				// CA 공간에 원점이 있다면
+				// 방향벡터 AC와 원점과의 관계를 판단함.
+
+				// DoSimplex2와 비슷한 행동
+				if (CA.Dot(CO) > 0.f)
+				{
+					// CA 공간에서 심플렉스 만들면서 다시 탐색
+					_simplex = { A, C };
+					_direction = CA.Cross(CO).Cross(CA);
+				}
+				else
+				{
+					// CB 공간 안에 원점이 있지만 B로부터 C가 원점 너머에 있지 않음.
+					_simplex = { B, C };
+					return DoSimplex2(_simplex, CO);
+
+// 					// DoSimplex2와 비슷한 행동
+// 					// CB와 원점의 방향을 판단
+// 					if (CB.Dot(CO) > 0.f)
+// 					{
+// 						_simplex = { B, C };
+// 						_direction = CB.Cross(CO).Cross(CB);
+// 					}
+// 
+// 					// 마지막에 찾은 점을 넣고 다시 DoSimplex...
+// 					else
+// 					{
+// 						_simplex = { C };
+// 						_direction = CO;
+// 					}
+				}
+			}
+			else
+			{
+				// CB에서 부터 수직인 벡터를 구하고 그 방향 원점이 있는지 체크
+				if (CB.Cross(CBA).Dot(CO) > 0.f)
+				{
+					_simplex = { B, C };
+					return DoSimplex2(_simplex, CO);
+
+// 					// DoSimplex2와 비슷한 행동
+// 					// CB와 원점의 관계를 판단
+// 					if (CB.Dot(CO) > 0.f)
+// 					{
+// 						_simplex = { B, C };
+// 						_direction = CB.Cross(CO).Cross(CB);
+// 					}
+// 					else
+// 					{
+// 						_simplex = { C };
+// 						_direction = CO;
+// 					}
+				}
+
+				// 삼각형 외부에 존재하지 않는다면
+				// 사면체를 만들어서 원점 위치를 체크함.
+				else
+				{
+					if (CBA.Dot(CO) > 0.f)
+					{
+						_simplex = { A, B, C };
+						_direction = CBA;
+					}
+					else
+					{
+						_simplex = { B, A, C };
+						_direction = -CBA;
+					}
+				}
+			}
+
+			return false;
 		}
 
-		/*
-		3D GJK 메모
-		2D에서는 삼각형을 만들면서 원점을 포함하고 있는지를 판단했다면
-		3D에서는 사면체를 만들면서 원점을 포함하고 있는지를 판단해야 한다.
+		/// <summary>
+		/// 사면체
+		/// </summary>
+		bool CollisionSystem::DoSimplex4(Simplex& _simplex, Vector3D& _direction)
+		{
+			Vector3D A{ _simplex[0] };
+			Vector3D B{ _simplex[1] };
+			Vector3D C{ _simplex[2] };
+			Vector3D D{ _simplex[3] };
+			Vector3D DA{ (A - D).Normalized() };
+			Vector3D DB{ (B - D).Normalized() };
+			Vector3D DC{ (C - D).Normalized() };
+			Vector3D DBA{ DB.Cross(DA) };
+			Vector3D DAC{ DA.Cross(DC) };
+			Vector3D DCB{ DC.Cross(DB) };
+			Vector3D DO{ -D.Normalized() };
 
-		첫 방향 벡터로 서포트 A와 반대 방향으로 서포트 B를 찾고
-		OA 벡터와 AB 벡터로 B가 이루는 각도가 90도가 넘는가로 원점 너머에 있는지 판단한다.
-		(원점 너머에 없으면 충돌 하지 않음)
+			// 면의 노말 벡터와 원점의 방향으로 사면체가 원점을 포함하고 있는지를 판단함.
 
-		AB
+			if (DBA.Dot(DO) > 0.f)
+			{
+				_simplex = { A, B, D };
+				return DoSimplex3(_simplex, DO);
+			}
 
-		
-		*/
+			if (DAC.Dot(DO) > 0.f)
+			{
+				_simplex = { A, C, D };
+				return DoSimplex3(_simplex, DO);
+			}
+
+			if (DCB.Dot(DO) > 0.f)
+			{
+				_simplex = { B, C, D };
+				return DoSimplex3(_simplex, DO);
+			}
+
+			return true;
+		}
+
 
 	}
 }

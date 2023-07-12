@@ -15,7 +15,8 @@ namespace Hyrule
 		class CollisionSystem
 		{
 		public:
-			bool CollisionCheck(Collider*, Collider*, Manifold*);
+			bool CollisionCheck(Collider*, Collider*);
+			bool Velocity();
 			
 			Manifold* ComputePenetrationDepth(Collider*, Collider*, Simplex*);
 			Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
@@ -33,9 +34,10 @@ namespace Hyrule
 
 			std::map<Manifold*, Simplex*> detectionInfo;
 
-			void Simplex2(Simplex*, const Vector3D&);
-			void Simplex3(Simplex*, const Vector3D&);
-			void Simplex4(Simplex*, const Vector3D&);
+			bool DoSimplex(Simplex&, Vector3D&);
+			bool DoSimplex2(Simplex&, Vector3D&);
+			bool DoSimplex3(Simplex&, Vector3D&);
+			bool DoSimplex4(Simplex&, Vector3D&);
 		};
 	}
 }
