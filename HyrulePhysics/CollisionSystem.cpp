@@ -3,6 +3,7 @@
 #include "HyruleMath.h"
 #include <vector>
 #include "Simplex.h"
+#include "Collider.h"
 
 constexpr size_t GJK_MAX = 50;
 
@@ -102,10 +103,12 @@ namespace Hyrule
 			return nullptr;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		Vector3D CollisionSystem::FindSupportPoint(Collider* _colliderA, Collider* _colliderB, const Vector3D& _direction)
 		{
-			// return _colliderA->FindWorldSupport(_direction) - _colliderB->FindWorldSupport(-_direction);
-			return Vector3D();
+			return _colliderA->FindFarthestPoint(_direction) - _colliderB->FindFarthestPoint(-_direction);
 		}
 
 		void CollisionSystem::FindSupportEdge(Simplex* _simplex)

@@ -8,10 +8,14 @@ namespace Hyrule
 	class HyruleEngine
 	{
 		HyruleEngine() noexcept;
-		~HyruleEngine() noexcept;
+		~HyruleEngine() noexcept = default;
+		HyruleEngine(const HyruleEngine&) noexcept = delete;
+		HyruleEngine(HyruleEngine&&) noexcept = delete;
+		HyruleEngine& operator=(const HyruleEngine&) noexcept = delete;
+		HyruleEngine& operator=(HyruleEngine&&) noexcept = delete;
 
 	public:
-		static HyruleEngine* GetInstance() noexcept;
+		static HyruleEngine& GetInstance() noexcept;
 		
 		void Initialize(HINSTANCE hInstance, const std::wstring& _name) noexcept;
 		void Run() noexcept;

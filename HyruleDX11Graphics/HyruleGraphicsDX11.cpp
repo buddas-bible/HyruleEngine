@@ -104,12 +104,17 @@ namespace Hyrule
 		}
 	}
 
-	void HyruleGraphicsDX11::Render()
+	void HyruleGraphicsDX11::Update()
 	{
 #if _DEBUG
 		m_axis->SetViewProjTM(m_camera->GetViewProjMatrix());
 		m_gizmo->SetViewProjTM(m_camera->GetViewProjMatrix());
 #endif
+
+	}
+
+	void HyruleGraphicsDX11::Render()
+	{
 
 		m_renderTarget->Bind();
 		m_renderTarget->Clear();

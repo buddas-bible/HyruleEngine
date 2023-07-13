@@ -19,11 +19,14 @@ namespace Hyrule
 
 	private:
 		IGraphics* graphicsEngine{};
+		HMODULE graphicsDLL;
 
 	public:
 		bool LoadGraphicsDLL(const std::wstring&, HWND);
 
+		void Update() noexcept;
 		void Render() noexcept;
+		void DebugRender() noexcept;
 		void Finalize() noexcept;
 		
 		long OnResize();

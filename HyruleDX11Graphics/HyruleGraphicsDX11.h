@@ -33,6 +33,7 @@ namespace Hyrule
 	public:
 		virtual long Initialize(int _hwnd) override;
 		virtual void Finalize() override;
+		virtual void Update() override;
 		virtual void Render() override;
 		virtual long OnResize() override;
 		ICamera* GetCamera();

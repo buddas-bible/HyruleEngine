@@ -13,6 +13,7 @@ namespace Hyrule
 
 	public:
 		virtual long Initialize(int _hwnd) abstract;
+		virtual void Update() abstract;
 		virtual void Render() abstract;
 		virtual void Finalize() abstract;
 

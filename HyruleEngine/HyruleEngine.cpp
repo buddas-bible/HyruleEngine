@@ -15,23 +15,18 @@ namespace Hyrule
 		// m_gameEngine = this;
 	}
 
-	HyruleEngine::~HyruleEngine() noexcept
-	{
-
-	}
-
 	/// <summary>
 	/// 그냥 싱글턴으로 객체 반환해주는 함수
 	/// </summary>
 	/// <returns></returns>
-	HyruleEngine* HyruleEngine::GetInstance() noexcept
+	HyruleEngine& HyruleEngine::GetInstance() noexcept
 	{
-		static HyruleEngine* gameEngine = nullptr;
+		static HyruleEngine gameEngine;
 
-		if (!gameEngine)
-		{
-			gameEngine = new HyruleEngine;
-		}
+		// if (!gameEngine)
+		// {
+		// 	gameEngine = new HyruleEngine;
+		// }
 
 		return gameEngine;
 	}
@@ -57,6 +52,7 @@ namespace Hyrule
 				/// 여기가 Core를 실행시킬 곳일까?
 
 				// sceneManager.
+				RendererSystem::GetInstance().Update();
 				RendererSystem::GetInstance().Render();
 				// m_engine->PhysicsUpdate();
 				// engine->Render();
@@ -71,8 +67,6 @@ namespace Hyrule
 	{
 		// 윈도우 창 설정
 		this->CreateEngineWindow(hInstance, _name);
-
-		// 여기서 아마 시스템 관련 친구들을 생성 및 초기화 하지 않을까?
 	}
 
 	/// <summary>
@@ -227,10 +221,10 @@ namespace Hyrule
 				{
 					// 윈도우가 최대화될 때
 					// 윈도우 크기가 변경될 때
-					if (HyruleEngine::GetInstance() != nullptr)
-					{
-						HyruleEngine::GetInstance()->OnResize();
-					}
+					// if (HyruleEngine::GetInstance() != nullptr)
+					// {
+						HyruleEngine::GetInstance().OnResize();
+					// }
 				}
 			}
 			break;

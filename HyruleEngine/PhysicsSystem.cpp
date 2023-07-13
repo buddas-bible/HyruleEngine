@@ -6,7 +6,7 @@ namespace Hyrule
 {
 	bool PhysicsSystem::LoadPhysicsDLL(const std::wstring& _path, HWND _hwnd)
 	{
-		HMODULE physicsDLL{ LoadLibrary(_path.c_str()) };
+		physicsDLL = LoadLibrary(_path.c_str());
 		if (!physicsDLL)
 		{
 			MessageBox(_hwnd, L"해당 경로에 Physics DLL 파일이 존재하지 않습니다.", L"DLL 오류", MB_OK | MB_ICONWARNING);
@@ -16,7 +16,7 @@ namespace Hyrule
 		using ImportFunction = Physics::IPhysics* (*) ();
 		ImportFunction CreateInstance{ (ImportFunction)GetProcAddress(physicsDLL, "CreatePhysicsWorld") };
 		
-		if (!CreateInstance)
+		if (CreateInstance == nullptr)
 		{
 			MessageBox(_hwnd, L"Physics DLL에서 함수 포인터를 받아오지 못했습니다.", L"DLL 오류", MB_OK | MB_ICONWARNING);
 			return false;
@@ -35,12 +35,14 @@ namespace Hyrule
 	{
 		physicsEngine->Finalize();
 
-		if (physicsEngine)
+		if (physicsEngine != nullptr)
 		{
 			delete physicsEngine;
 		}
 
 		physicsEngine = nullptr;
+
+		FreeLibrary(physicsDLL);
 	}
 
 	/// <summary>

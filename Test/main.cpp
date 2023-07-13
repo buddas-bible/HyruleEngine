@@ -48,40 +48,37 @@ int APIENTRY WinMain(
 	_In_ LPSTR _lpCmdLine, 
 	_In_ int _nShowCmd)
 {
-	auto gameEngine{ Hyrule::HyruleEngine::GetInstance() };
-	gameEngine->Initialize(_hInstance, L"Hyrule Engine");
+	auto& gameEngine{ Hyrule::HyruleEngine::GetInstance() };
+	gameEngine.Initialize(_hInstance, L"Hyrule Engine");
 
 #if _DEBUG		// Debug
 #if _WIN64		// x64
-	gameEngine->LoadGraphicsDLL(L"../x64/Debug/HyruleGraphicsDX11.dll");
-	// gameEngine->LoadPhysicsDLL(L"");
+	gameEngine.LoadGraphicsDLL(L"../x64/Debug/HyruleGraphicsDX11.dll");
+	// gameEngine.LoadPhysicsDLL(L"");
 #else			// x86
-	gameEngine->LoadGraphicsDLL(L"../x86/Debug/HyruleGraphicsDX11.dll");
-	gameEngine->LoadPhysicsDLL(L"");
+	gameEngine.LoadGraphicsDLL(L"../x86/Debug/HyruleGraphicsDX11.dll");
+	gameEngine.LoadPhysicsDLL(L"");
 #endif
 #else			// Release
 #if _WIN64		// x64
-	gameEngine->LoadGraphicsDLL(L"HyruleGraphicsDX11.dll");
-	gameEngine->LoadPhysicsDLL(L"HyrulePhysics.dll");
+	gameEngine.LoadGraphicsDLL(L"HyruleGraphicsDX11.dll");
+	gameEngine.LoadPhysicsDLL(L"HyrulePhysics.dll");
 #else			// x86
-	gameEngine->LoadGraphicsDLL(L"HyruleGraphicsDX11.dll");
-	gameEngine->LoadPhysicsDLL(L"HyrulePhysics.dll");
+	gameEngine.LoadGraphicsDLL(L"HyruleGraphicsDX11.dll");
+	gameEngine.LoadPhysicsDLL(L"HyrulePhysics.dll");
 #endif	
 #endif
 
 	auto& sceneManager = Hyrule::SceneManager::GetInstance();
-
-
 	Hyrule::Scene* scene01 = new Hyrule::Scene(L"Scene01");
 	sceneManager.AddScene(scene01);
-
-
-
-
-
 	sceneManager.LoadScene(scene01);
-	gameEngine->Run();
-	gameEngine->Finalize();
+
+
+
+
+	gameEngine.Run();
+	gameEngine.Finalize();
 
 	return 0;
 }

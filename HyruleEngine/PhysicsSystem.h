@@ -25,6 +25,7 @@ namespace Hyrule
 
 	private:
 		Physics::IPhysics* physicsEngine{};
+		HMODULE physicsDLL;
 
 	public:
 		bool LoadPhysicsDLL(const std::wstring&, HWND);

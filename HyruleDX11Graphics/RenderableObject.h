@@ -18,14 +18,16 @@ namespace Hyrule
 	public:
 		RenderableObject(
 			std::shared_ptr<DXDevice>, 
-			std::shared_ptr<DXRasterizerState>
-		);
-		~RenderableObject() = default;
+			std::shared_ptr<DXRasterizerState>,
+			std::shared_ptr<DXMesh>
+		) noexcept;
+		~RenderableObject() noexcept = default;
 
 	public:
-		void SetWorldTM(const Matrix4x4&);
-
-		void Render();
+		void SetTexture(const std::shared_ptr<DXTexture>) noexcept;
+		void SetWorldTM(const Matrix4x4&) noexcept;
+		void SetViewProjTM(const Matrix4x4&) noexcept;
+		void Render() noexcept;
 
 	private:
 		std::shared_ptr<DXDevice> device;
@@ -36,9 +38,7 @@ namespace Hyrule
 		std::shared_ptr<DXTexture> texture;
 
 		Matrix4x4 worldTM;
-		Matrix4x4 viewTM;
-		Matrix4x4 projTM;
-
+		Matrix4x4 viewProjTM;
 	};
 }
 

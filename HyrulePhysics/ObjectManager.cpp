@@ -123,11 +123,11 @@ namespace Hyrule
 
 		Collider* ObjectManager::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
 		{
-			Collider* collider = new Collider;
+			// Collider* collider = new Collider;
+			// 
+			// _obj->colliders.push_back(collider);
 
-			_obj->colliders.push_back(collider);
-
-			return collider;
+			return NULL;
 		}
 
 		RigidBody* ObjectManager::CreateRigidBody(Object* _obj)

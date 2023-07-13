@@ -96,9 +96,9 @@ namespace Hyrule
 		PCEffect = std::make_shared<DXEffect>(_device, L"../x64/debug/Color.cso");
 		PCEffect->CreateEffect();
 
-		// PUNEffect = std::make_shared<DXEffect>(_device, L"");
-		// PUNEffect->CreateEffect();
-		// 
+		PUNEffect = std::make_shared<DXEffect>(_device, L"../x64/debug/PosNormalColor.cso");
+		PUNEffect->CreateEffect();
+
 		// PUNTEffect = std::make_shared<DXEffect>(_device, L"");
 		// PUNTEffect->CreateEffect();
 	}

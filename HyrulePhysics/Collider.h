@@ -24,18 +24,24 @@ namespace Hyrule
 			Vector3D center;
 			Vector3D size;
 			bool isTrigger;
+			bool collided;
 
 			Matrix3x3 inertia;
 			Vector3D centerOfMass;
 
 		public:
-			virtual void SetWorldTransformMatrix(const Matrix4x4&) override;
-			
-			virtual void SetTrigger(bool) override;
-			virtual void SetSize(const Vector3D&) override;
-			virtual void SetCenter(const Vector3D&) override;
+			virtual void SetWorldTransformMatrix(const Matrix4x4&) abstract;
 
-			virtual bool IsColliding() override;
+		public:
+			virtual void SetTrigger(bool) abstract;
+			virtual void SetSize(const Vector3D&) abstract;
+			virtual void SetCenter(const Vector3D&) abstract;
+
+		public:
+			virtual bool IsColliding() abstract;
+			
+		public:
+			virtual Vector3D FindFarthestPoint(const Vector3D&) abstract;
 		};
 	}
 }

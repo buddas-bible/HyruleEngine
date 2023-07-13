@@ -6,7 +6,7 @@ namespace Hyrule
 {
 	bool RendererSystem::LoadGraphicsDLL(const std::wstring& _path, HWND _hwnd)
 	{
-		HMODULE graphicsDLL{ LoadLibrary(_path.c_str()) };
+		graphicsDLL = LoadLibrary(_path.c_str());
 		if (graphicsDLL == nullptr)
 		{
 			MessageBox(_hwnd, L"해당 경로에 Graphics DLL 파일이 존재하지 않습니다.", L"DLL 오류", NULL);
@@ -38,21 +38,34 @@ namespace Hyrule
 		return true;
 	}
 
+
+	void RendererSystem::Update() noexcept
+	{
+		graphicsEngine->Update();
+	}
+
 	void RendererSystem::Render() noexcept
 	{
 		graphicsEngine->Render();
+	}
+
+	void RendererSystem::DebugRender() noexcept
+	{
+
 	}
 
 	void RendererSystem::Finalize() noexcept
 	{
 		graphicsEngine->Finalize();
 
-		if (graphicsEngine)
+		if (graphicsEngine != nullptr)
 		{
 			delete graphicsEngine;
 		}
 
 		graphicsEngine = nullptr;
+
+		FreeLibrary(graphicsDLL);
 	}
 
 	long RendererSystem::OnResize()
@@ -61,6 +74,7 @@ namespace Hyrule
 		{
 			return S_FALSE;
 		}
+
 		auto hr = graphicsEngine->OnResize();
 
 		if (FAILED(hr))

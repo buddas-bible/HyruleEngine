@@ -22,7 +22,7 @@ namespace Hyrule
 		device->GetDeviceContext()->IASetInputLayout(InputLayouts::PCLayout->GetInputLayout());
 		device->GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 
-		UINT stride = 28;//sizeof(PC);
+		UINT stride = sizeof(PC);
 		UINT offset = 0;
 		device->GetDeviceContext()->IASetVertexBuffers(
 			0,

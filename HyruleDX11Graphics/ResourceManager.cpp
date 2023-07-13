@@ -214,64 +214,175 @@ namespace Hyrule
 	std::shared_ptr<DXMesh> HelerObject::axis{};
 	std::shared_ptr<DXMesh> HelerObject::gizmo{};
 
+	std::shared_ptr<DXMesh> HelerObject::box{};
+	std::shared_ptr<DXMesh> HelerObject::sphere{};
+	std::shared_ptr<DXMesh> HelerObject::plane{};
+
 	void HelerObject::InitHelperObject()
 	{
-		PC axis[] =
+#pragma region Axis
 		{
-			{Vector3(0.f, 0.f, 0.f),	Vector4(DXColor::Red),	},
-			{Vector3(15.f, 0.f, 0.f),	Vector4(DXColor::Red),	},
+			PC axis[] =
+			{
+				{Vector3(0.f, 0.f, 0.f),	Vector4(DXColor::Red),	},
+				{Vector3(15.f, 0.f, 0.f),	Vector4(DXColor::Red),	},
 
-			{Vector3(0.f, 0.f, 0.f),	Vector4(DXColor::Green),},
-			{Vector3(0.f ,15.f, 0.f),	Vector4(DXColor::Green),},
+				{Vector3(0.f, 0.f, 0.f),	Vector4(DXColor::Green),},
+				{Vector3(0.f ,15.f, 0.f),	Vector4(DXColor::Green),},
 
-			{Vector3(0.f, 0.f, 0.f),	Vector4(DXColor::Blue),	},
-			{Vector3(0.f ,0.f, 15.f),	Vector4(DXColor::Blue),	},
-		};
+				{Vector3(0.f, 0.f, 0.f),	Vector4(DXColor::Blue),	},
+				{Vector3(0.f ,0.f, 15.f),	Vector4(DXColor::Blue),	},
+			};
 
-		UINT indices[] = {
-			0, 1,			// x
-			2, 3,			// y
-			4, 5,			// z
-		};
+			UINT axisIndex[] = {
+				0, 1,			// x
+				2, 3,			// y
+				4, 5,			// z
+			};
 
-		auto axisMesh = ResourceManager::GetInstance().CreateMesh(
-			axis, sizeof(axis),
-			indices, sizeof(indices),
-			ARRAYSIZE(indices)
-		);
+			auto axisMesh = ResourceManager::GetInstance().CreateMesh(
+				axis, sizeof(axis),
+				axisIndex, sizeof(axisIndex),
+				ARRAYSIZE(axisIndex)
+			);
 
-		std::shared_ptr<DXMesh> temp0{axisMesh};
-		HelerObject::axis = temp0;
+			std::shared_ptr<DXMesh> temp0{axisMesh};
+			HelerObject::axis = temp0;
+		}
+#pragma endregion Axis
 
 		/*---------------------------------------------------------------------------------------------*/
 
-		PC vertices[100];
-		for (int i = 0; i < 100; i++)
+#pragma region Gizmo
 		{
-			vertices[i].pos = Vector3((i % 10) - 5.0f, 0.0f, (float)(i / 10) - 5.0f);
-			vertices[i].color = Vector4(DXColor::White);
-		}
+			PC gizmo[100];
+			for (int i = 0; i < 100; i++)
+			{
+				gizmo[i].pos = Vector3((i % 10) - 5.0f, 0.0f, (float)(i / 10) - 5.0f);
+				gizmo[i].color = Vector4(DXColor::White);
+			}
 
-		UINT index[40];
-		for (int i = 0; i < 10; i++)
+			UINT gizmoIndex[40];
+			for (int i = 0; i < 10; i++)
+			{
+				gizmoIndex[i * 2] = i;
+				gizmoIndex[i * 2 + 1] = i + 90;
+			}
+			for (int i = 0; i < 10; i++)
+			{
+				gizmoIndex[20 + (i * 2)] = i * 10;
+				gizmoIndex[20 + (i * 2) + 1] = i * 10 + 9;
+			}
+
+			auto gridMesh = ResourceManager::GetInstance().CreateMesh(
+				gizmo, sizeof(gizmo),
+				gizmoIndex, sizeof(gizmoIndex),
+				ARRAYSIZE(gizmoIndex)
+			);
+
+			std::shared_ptr<DXMesh> temp1{gridMesh};
+			HelerObject::gizmo = temp1;
+		}
+#pragma endregion Gizmo
+
+		/*---------------------------------------------------------------------------------------------*/
+
+#pragma region Box
 		{
-			index[i * 2] = i;
-			index[i * 2 + 1] = i + 90;
-		}
+			PUN box[]
+			{
+				// POSITION						UV					NORMAL
+				{ Vector3(-0.5f,-0.5f,-0.5f),	Vector2(0.f, 0.f),	Vector3(0.f, -1.f, 0.f), },	// 0	0
+				{ Vector3(0.5f,-0.5f,-0.5f),	Vector2(1.f, 0.f),	Vector3(0.f, -1.f, 0.f), },	// 1	1
+				{ Vector3(0.5f,-0.5f, 0.5f),	Vector2(1.f, 1.f),	Vector3(0.f, -1.f, 0.f), },	// 2	2
+				{ Vector3(-0.5f,-0.5f, 0.5f),	Vector2(0.f, 1.f),	Vector3(0.f, -1.f, 0.f), },	// 3	3
 
-		for (int i = 0; i < 10; i++)
+				{ Vector3(-0.5f, 0.5f,-0.5f),	Vector2(0.f, 0.f),	Vector3(0.f, 0.f, -1.f), },	// 4	4
+				{ Vector3(0.5f, 0.5f,-0.5f),	Vector2(1.f, 0.f),	Vector3(0.f, 0.f, -1.f), },	// 5	5
+				{ Vector3(0.5f,-0.5f,-0.5f),	Vector2(1.f, 1.f),	Vector3(0.f, 0.f, -1.f), },	// 1	6
+				{ Vector3(-0.5f,-0.5f,-0.5f),	Vector2(0.f, 1.f),	Vector3(0.f, 0.f, -1.f), },	// 0	7
+
+				{ Vector3(0.5f, 0.5f,-0.5f),	Vector2(0.f, 0.f),	Vector3(1.f, 0.f, 0.f), },	// 5	8
+				{ Vector3(0.5f, 0.5f, 0.5f),	Vector2(1.f, 0.f),	Vector3(1.f, 0.f, 0.f), },	// 6	9
+				{ Vector3(0.5f,-0.5f, 0.5f),	Vector2(1.f, 1.f),	Vector3(1.f, 0.f, 0.f), },	// 2	10
+				{ Vector3(0.5f,-0.5f,-0.5f),	Vector2(0.f, 1.f),	Vector3(1.f, 0.f, 0.f), },	// 1	11
+
+				{ Vector3(0.5f, 0.5f, 0.5f),	Vector2(0.f, 0.f),	Vector3(0.f, 0.f, 1.f), },	// 6	12
+				{ Vector3(-0.5f, 0.5f, 0.5f),	Vector2(0.f, 1.f),	Vector3(0.f, 0.f, 1.f), },	// 7	13
+				{ Vector3(-0.5f,-0.5f, 0.5f),	Vector2(1.f, 1.f),	Vector3(0.f, 0.f, 1.f), },	// 3	14
+				{ Vector3(0.5f,-0.5f, 0.5f),	Vector2(0.f, 1.f),	Vector3(0.f, 0.f, 1.f), },	// 2	15
+
+				{ Vector3(-0.5f, 0.5f, 0.5f),	Vector2(0.f, 0.f),	Vector3(-1.f, 0.f, 0.f), },	// 7	16
+				{ Vector3(-0.5f, 0.5f,-0.5f),	Vector2(1.f, 0.f),	Vector3(-1.f, 0.f, 0.f), },	// 4	17
+				{ Vector3(-0.5f,-0.5f,-0.5f),	Vector2(1.f, 1.f),	Vector3(-1.f, 0.f, 0.f), },	// 0	18
+				{ Vector3(-0.5f,-0.5f, 0.5f),	Vector2(0.f, 1.f),	Vector3(-1.f, 0.f, 0.f), },	// 3	19
+
+				{ Vector3(-0.5f, 0.5f, 0.5f),	Vector2(0.f, 0.f),	Vector3(0.f, 1.f, 0.f), },	// 7	20
+				{ Vector3(0.5f, 0.5f, 0.5f),	Vector2(1.f, 0.f),	Vector3(0.f, 1.f, 0.f), },	// 6	21
+				{ Vector3(0.5f, 0.5f,-0.5f),	Vector2(1.f, 1.f),	Vector3(0.f, 1.f, 0.f), },	// 5	22
+				{ Vector3(-0.5f, 0.5f,-0.5f),	Vector2(0.f, 1.f),	Vector3(0.f, 1.f, 0.f), },	// 4	23
+			};
+
+			UINT boxIndex[] =
+			{
+				0, 1, 2,		// го
+				0, 2, 3,
+
+				4, 5, 6,
+				4, 6, 7,
+
+				8, 9, 10,
+				8, 10, 11,
+
+				12, 13, 14,
+				12, 14, 15,
+
+				16, 17, 18,
+				16, 18, 19,
+
+				20, 21, 22,
+				20, 22, 23,
+			};
+
+			auto boxMesh = ResourceManager::GetInstance().CreateMesh(
+				box, sizeof(box),
+				boxIndex, sizeof(boxIndex),
+				ARRAYSIZE(boxIndex)
+			);
+
+			std::shared_ptr<DXMesh> temp0{boxMesh};
+			HelerObject::box = temp0;
+		}
+#pragma endregion Box
+
+		/*---------------------------------------------------------------------------------------------*/
+
+#pragma region Plane
 		{
-			index[20 + (i * 2)] = i * 10;
-			index[20 + (i * 2) + 1] = i * 10 + 9;
+			PUN plane[]
+			{
+				// POSITION						UV					NORMAL
+				{ Vector3(-5.f, 0.f, -5.f),		Vector2(0.f, 0.f),	Vector3(0.f, 1.f, 0.f), },
+				{ Vector3(-5.f, 0.f, 5.f),		Vector2(0.f, 1.f),	Vector3(0.f, 1.f, 0.f), },
+				{ Vector3(5.f, 0.f, 5.f),		Vector2(1.f, 1.f),	Vector3(0.f, 1.f, 0.f), },
+				{ Vector3(5.f, 0.f, -5.f),		Vector2(1.f, 0.f),	Vector3(0.f, 1.f, 0.f), },
+			};
+
+			UINT planeIndex[] =
+			{
+				0, 1, 2,
+				0, 2, 3,
+			};
+
+			auto planeMesh = ResourceManager::GetInstance().CreateMesh(
+				plane, sizeof(plane),
+				planeIndex, sizeof(planeIndex),
+				ARRAYSIZE(planeIndex)
+			);
+
+			std::shared_ptr<DXMesh> temp0{planeMesh};
+			HelerObject::plane = temp0;
 		}
-
-		auto gridMesh = ResourceManager::GetInstance().CreateMesh(
-			vertices, sizeof(vertices),
-			index, sizeof(index),
-			ARRAYSIZE(index)
-		);
-
-		std::shared_ptr<DXMesh> temp1{gridMesh};
-		HelerObject::gizmo = temp1;
+#pragma endregion Plane
 	}
 }

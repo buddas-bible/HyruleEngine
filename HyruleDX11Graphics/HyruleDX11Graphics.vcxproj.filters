@@ -50,6 +50,9 @@
     <Filter Include="1. Resource\Struct">
       <UniqueIdentifier>{48677460-a120-4192-9617-f91fd687f963}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1. Resource\DXShader\FX">
+      <UniqueIdentifier>{c896e17d-32bd-45f1-a495-319973d49719}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -168,7 +171,10 @@
       <Filter>1. Resource\DXShader</Filter>
     </FxCompile>
     <FxCompile Include="Color.fx">
-      <Filter>1. Resource\Object\HelperObject</Filter>
+      <Filter>1. Resource\DXShader\FX</Filter>
+    </FxCompile>
+    <FxCompile Include="PosNormalColor.fx">
+      <Filter>1. Resource\DXShader\FX</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

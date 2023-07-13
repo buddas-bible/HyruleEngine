@@ -10,14 +10,14 @@ namespace Hyrule
 	public:
 		static T& GetInstance() noexcept
 		{
-			static T* instance = nullptr;
+			static T instance;
 
-			if (instance == nullptr)
-			{
-				instance = new T;
-			}
+// 			if (instance == nullptr)
+// 			{
+// 				instance = new T;
+// 			}
 
-			return *instance;
+			return instance;
 		}
 	};
 }

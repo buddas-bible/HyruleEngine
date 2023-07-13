@@ -75,7 +75,6 @@ namespace Hyrule
 		return layout.Get();
 	}
 
-
 	std::shared_ptr<DXInputLayout> InputLayouts::PCLayout{};
 	std::shared_ptr<DXInputLayout> InputLayouts::PUNLayout{};
 	std::shared_ptr<DXInputLayout> InputLayouts::PUNTLayout{};
@@ -85,9 +84,9 @@ namespace Hyrule
 		PCLayout = std::make_shared<DXInputLayout>(device, Effects::PCEffect);
 		PCLayout->CreateInputLayout(InputLayoutDesc::pc, ARRAYSIZE(InputLayoutDesc::pc));
 
-		// PUNLayout = std::make_shared<DXInputLayout>(device, Effects::PUNEffect);
-		// PUNLayout->CreateInputLayout(&InputLayoutDesc::pun[0], sizeof(InputLayoutDesc::pun));
-		// 
+//		PUNLayout = std::make_shared<DXInputLayout>(device, Effects::PUNEffect);
+//		PUNLayout->CreateInputLayout(&InputLayoutDesc::pun[0], sizeof(InputLayoutDesc::pun));
+
 		// PUNTLayout = std::make_shared<DXInputLayout>(device, Effects::PUNTEffect);
 		// PUNTLayout->CreateInputLayout(&InputLayoutDesc::punt[0], sizeof(InputLayoutDesc::punt));
 	}
