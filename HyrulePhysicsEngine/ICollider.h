@@ -25,6 +25,7 @@ namespace Hyrule
 			virtual void SetTrigger(bool) abstract;
 			virtual void SetSize(const Vector3D&) abstract;
 			virtual void SetCenter(const Vector3D&) abstract;
+
 			virtual bool IsColliding() abstract;
 		};
 	}

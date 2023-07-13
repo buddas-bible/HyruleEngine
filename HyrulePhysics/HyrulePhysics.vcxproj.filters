@@ -46,7 +46,7 @@
     <ClInclude Include="Shape.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Polyhedron.h">
+    <ClInclude Include="ConvexShape.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
     <ClInclude Include="AABB.h">
@@ -120,7 +120,7 @@
     <ClCompile Include="Shape.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
-    <ClCompile Include="Polyhedron.cpp">
+    <ClCompile Include="ConvexShape.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
     <ClCompile Include="AABB.cpp">
