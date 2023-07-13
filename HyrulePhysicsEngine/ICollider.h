@@ -4,6 +4,7 @@ namespace Hyrule
 {
 	struct Vector3D;
 	struct Matrix4x4;
+	struct COLLIDER_INFO;
 
 	namespace Physics
 	{
@@ -19,7 +20,7 @@ namespace Hyrule
 			/// 
 			/// 
 			/// </summary>
-			virtual void SetWorldTransformMatrix(const Matrix4x4&) abstract;
+			virtual void SetWorldTransform(const Matrix4x4&) abstract;
 
 			virtual void SetTrigger(bool) abstract;
 			virtual void SetSize(const Vector3D&) abstract;

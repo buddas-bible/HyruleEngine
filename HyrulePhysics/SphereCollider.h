@@ -8,7 +8,7 @@ namespace Hyrule
 		class SphereCollider : public Collider
 		{
 		public:
-			SphereCollider() noexcept = default;
+			SphereCollider(COLLIDER_INFO*) noexcept;
 			virtual ~SphereCollider() noexcept = default;
 
 		private:
@@ -21,9 +21,6 @@ namespace Hyrule
 
 			Collider::inertia;
 			Collider::centerOfMass;
-
-		public:
-			virtual void SetWorldTransformMatrix(const Matrix4x4&) override;
 
 		public:
 			virtual void SetTrigger(bool) override;

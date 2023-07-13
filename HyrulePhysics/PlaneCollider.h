@@ -9,6 +9,7 @@ namespace Hyrule
 		{
 		public:
 			PlaneCollider() noexcept = default;
+			PlaneCollider(COLLIDER_INFO*) noexcept;
 			virtual ~PlaneCollider() noexcept = default;
 
 		private:
@@ -22,9 +23,6 @@ namespace Hyrule
 			Collider::inertia;
 			Collider::centerOfMass;
 		
-		public:
-			virtual void SetWorldTransformMatrix(const Matrix4x4&) override;
-
 		public:
 			virtual void SetTrigger(bool) override;
 			virtual void SetSize(const Vector3D&) override;

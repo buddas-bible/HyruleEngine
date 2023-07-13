@@ -6,17 +6,17 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Polyhedron::Polyhedron() noexcept : Shape(), points(), index(), length()
+		ConvexShape::ConvexShape() noexcept : Shape(), points(), index(), length()
 		{
 			type = ShapeType::POLYHEDRON;
 		}
 
-		int Polyhedron::GetShapeType()
+		int ConvexShape::GetShapeType()
 		{
 			return (int)this->type;
 		}
 
-		float Polyhedron::GetLength()
+		float ConvexShape::GetLength()
 		{
 			return this->length;
 		}

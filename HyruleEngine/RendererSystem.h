@@ -30,6 +30,9 @@ namespace Hyrule
 		void Finalize() noexcept;
 		
 		long OnResize();
+
+	public:
+
 	};
 }
 

@@ -5,7 +5,8 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		void SphereCollider::SetWorldTransformMatrix(const Matrix4x4&)
+
+		SphereCollider::SphereCollider(COLLIDER_INFO*) noexcept : Collider()
 		{
 
 		}

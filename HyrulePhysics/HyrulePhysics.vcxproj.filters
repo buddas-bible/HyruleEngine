@@ -97,6 +97,12 @@
     <ClInclude Include="ShapeManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Hill_Climbing.h">
+      <Filter>2. DataStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneShape.h">
+      <Filter>3. PhysicalyObject\Shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyrulePhysics.cpp">
@@ -164,6 +170,12 @@
     </ClCompile>
     <ClCompile Include="ShapeManager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Hill_Climbing.cpp">
+      <Filter>2. DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneShape.cpp">
+      <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

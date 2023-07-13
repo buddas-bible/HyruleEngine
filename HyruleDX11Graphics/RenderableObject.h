@@ -1,6 +1,7 @@
 #pragma once
 #include "framework.h"
 #include "HyruleMath.h"
+#include "IRenderable.h"
 
 namespace Hyrule
 {
@@ -13,7 +14,7 @@ namespace Hyrule
 
 	struct Matrix4x4;
 
-	class RenderableObject
+	class RenderableObject : public IRenderable
 	{
 	public:
 		RenderableObject(
@@ -25,7 +26,7 @@ namespace Hyrule
 
 	public:
 		void SetTexture(const std::shared_ptr<DXTexture>) noexcept;
-		void SetWorldTM(const Matrix4x4&) noexcept;
+		virtual void SetWorldTransform(const Matrix4x4&) noexcept override;
 		void SetViewProjTM(const Matrix4x4&) noexcept;
 		void Render() noexcept;
 

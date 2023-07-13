@@ -22,7 +22,7 @@ namespace Hyrule
 				return nullptr;
 			}
 
-			return colliders[_index];
+			return colliders[_index].get();
 		}
 
 		void Object::RemoveCollider(size_t _index)
@@ -36,14 +36,14 @@ namespace Hyrule
 
 			colliders.erase(remove(colliders.begin(), colliders.end(), collider));
 
-			delete collider;
+			// delete collider;
 		}
 
 		void Object::RemoveCollider(Collider*& _target)
 		{
 			colliders.erase(remove(colliders.begin(), colliders.end(), _target));
 
-			delete _target;
+			// delete _target;
 		}
 
 		bool Object::Empty()

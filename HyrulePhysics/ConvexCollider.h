@@ -8,7 +8,8 @@ namespace Hyrule
 		class ConvexCollider : public Collider
 		{
 		public:
-			ConvexCollider() noexcept = default;
+			ConvexCollider() noexcept = delete;
+			ConvexCollider(COLLIDER_INFO*) noexcept;
 			virtual ~ConvexCollider() noexcept = default;
 
 		private:
@@ -21,9 +22,6 @@ namespace Hyrule
 
 			Collider::inertia;
 			Collider::centerOfMass;
-
-		public:
-			virtual void SetWorldTransformMatrix(const Matrix4x4&) override;
 
 		public:
 			virtual void SetTrigger(bool) override;

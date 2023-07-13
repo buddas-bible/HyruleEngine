@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <memory>
 
 namespace Hyrule
 {
@@ -12,10 +13,17 @@ namespace Hyrule
 	namespace Physics
 	{
 		class Object;
+
 		class ICollider;
 		class Collider;
+		class SphereCollider;
+		class BoxCollider;
+		class PlaneCollider;
+		class SphereCollider;
+
 		class IRigidBody;
 		class RigidBody;
+
 		struct COLLIDER_INFO;
 
 		class ObjectManager : public Manager<ObjectManager>

@@ -4,7 +4,8 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		void BoxCollider::SetWorldTransformMatrix(const Matrix4x4&)
+
+		BoxCollider::BoxCollider(COLLIDER_INFO* _info) noexcept : Collider()
 		{
 
 		}

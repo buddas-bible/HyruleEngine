@@ -30,7 +30,7 @@ namespace Hyrule
 			Vector3D centerOfMass;
 
 		public:
-			virtual void SetWorldTransformMatrix(const Matrix4x4&) abstract;
+			virtual void SetWorldTransformMatrix(const Matrix4x4& _mat) final;
 
 		public:
 			virtual void SetTrigger(bool) abstract;

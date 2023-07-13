@@ -10,11 +10,11 @@ namespace Hyrule
 	{
 		class Face;
 
-		class Polyhedron : public Shape
+		class ConvexShape : public Shape
 		{
 		public:
-			Polyhedron() noexcept;
-			~Polyhedron() noexcept = default;
+			ConvexShape() noexcept;
+			~ConvexShape() noexcept = default;
 
 		private:
 			float length;						// AABB 크기를 잡기 위해서..

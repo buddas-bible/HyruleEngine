@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-
+#include <memory>
 #include "HyruleMath.h"
 
 namespace Hyrule
@@ -31,8 +31,8 @@ namespace Hyrule
 			bool isColliding;
 
 		public:
-			RigidBody* rigidbody;
-			std::vector<Collider*> colliders;
+			std::shared_ptr<RigidBody> rigidbody;
+			std::vector<std::shared_ptr<Collider>> colliders;
 
 		public:
 			Collider* GetCollider(size_t);

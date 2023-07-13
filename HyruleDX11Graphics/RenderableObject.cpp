@@ -19,9 +19,9 @@ namespace Hyrule
 		this->texture = _texture;
 	}
 
-	void RenderableObject::SetWorldTM(const Matrix4x4& _world) noexcept
+	void RenderableObject::SetWorldTransform(const Matrix4x4& _mat) noexcept
 	{
-		this->worldTM = _world;
+		this->worldTM = _mat;
 	}
 
 	void RenderableObject::SetViewProjTM(const Matrix4x4& _viewProj) noexcept

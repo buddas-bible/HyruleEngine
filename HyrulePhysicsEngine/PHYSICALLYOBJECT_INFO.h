@@ -8,34 +8,37 @@ namespace Hyrule
 
 	namespace Physics
 	{
-		/// <summary>
-		/// 트랜스폼 정보를 포인터로 받음
-		/// 강체 시뮬레이션으로 인해 로컬 트랜스폼 정보가 변경될 수도 있으니 필요하다.
-		/// 
-		/// isChanged는 트랜스폼 정보가 변경 되었는지에 대한 bool값임.
-		/// 트랜스폼 정보가 변경된다면 팔진 트리를 다시 탐색해야하기 때문에
-		/// 정보를 주고받을 필요가 있다.
-		/// </summary>
-		struct TRANSFORM_INFO
+		enum SHAPE_TYPE
 		{
-			Vector3D* pPosition;
-			Quaternion* pRotation;
-			Vector3D* pScale;
-			bool* isChanged;
+			SPHERE		= 0,
+			BOX			= 10,
+			CAPSULE		= 20,
+			CONVEX		= 30,
+			PLANE		= 40,
+			MESH		= 50,
 		};
 		
+		struct SHAPE_INPO
+		{
+			size_t shapeType;
+			Vector3D* pPointArr;			// 버텍스 배열 포인터
+			size_t pPointArrSize;			// 배열 개수
+			size_t* pIndexArr;				// 인덱스 배열 포인터
+			size_t pIndexArrSize;			// 인덱스 개수
+		};
+
 		/// <summary>
-		/// 콜라이더 타입 (구, 박스, 캡슐, 다면체, 메쉬)
+		/// 콜라이더 타입 (구, 박스, 캡슐, 다면체, 평면, 메쉬)
 		/// 
 		/// 다면체, 메쉬만 배열과 인덱스 정보를 받음.
 		/// </summary>
 		struct COLLIDER_INFO
 		{
 			std::wstring shapeName;
-			Vector3D* pPointArr;
-			size_t pPointArrSize;
-			size_t* pIndexArr;
-			size_t pIndexArrSize;
+			size_t collisionType;							// Static, Dynamic
+			SHAPE_INPO shapeInfo;
+			Vector3D colliderSize{ 1.f, 1.f, 1.f };			// 구는 x만 영향 받음
+			Vector3D colliderCenter{ 0.f, 0.f ,0.f };
 		};
 	}
 }

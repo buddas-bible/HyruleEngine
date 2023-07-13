@@ -2,11 +2,12 @@
 
 enum class ShapeType : int
 {
-	SPHERE,
-	BOX,
-	CAPSULE,
-	POLYHEDRON,
-	MESH,
+	SPHERE = 0,
+	BOX = 10,
+	CAPSULE = 20,
+	CONVEX = 30,
+	PLANE = 40,
+	MESH = 50,
 };
 
 namespace Hyrule
@@ -26,8 +27,8 @@ namespace Hyrule
 			ShapeType type;
 
 		public:
-			int GetShapeType();
-			float GetLength();
+			virtual int GetShapeType() abstract;
+			virtual float GetLength() abstract;
 		};
 	}
 }

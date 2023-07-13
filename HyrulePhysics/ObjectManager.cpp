@@ -7,6 +7,11 @@
 #include "RigidBody.h"
 #include "PHYSICALLYOBJECT_INFO.h"
 
+#include "SphereCollider.h"
+#include "BoxCollider.h"
+#include "ConvexCollider.h"
+#include "PlaneCollider.h"
+
 
 namespace Hyrule
 {
@@ -15,14 +20,14 @@ namespace Hyrule
 
 		ICollider* ObjectManager::AddCollider(const std::wstring& _name, COLLIDER_INFO* _info)
 		{
-			auto obj = this->GetObject(_name);
+			Object* obj = this->GetObject(_name);
 
 			if (obj == nullptr)
 			{
 				obj = this->CreateObject(_name);
 			}
 
-			auto collider = this->CreateCollider(obj, _info);
+			Collider* collider = this->CreateCollider(obj, _info);
 
 			return (ICollider*)collider;
 		}
@@ -30,7 +35,7 @@ namespace Hyrule
 
 		IRigidBody* ObjectManager::AddRigidBody(const std::wstring& _name)
 		{
-			auto obj = this->GetObject(_name);
+			Object* obj = this->GetObject(_name);
 
 			if (obj == nullptr)
 			{
@@ -42,7 +47,7 @@ namespace Hyrule
 				this->RemoveRigidBody(_name);
 			}
 
-			auto rigidbody = this->CreateRigidBody(obj);
+			RigidBody* rigidbody = this->CreateRigidBody(obj);
 
 			return (IRigidBody*)rigidbody;
 		}
@@ -50,20 +55,21 @@ namespace Hyrule
 
 		void ObjectManager::RemoveCollider(const std::wstring& _name, ICollider*& _target)
 		{
-			auto obj = this->GetObject(_name);
+			Object* obj = this->GetObject(_name);
 
 			if (obj == nullptr || _target == nullptr)
 			{
 				return;
 			}
 
-			auto t = static_cast<Collider*>(_target);
+			Collider* t = static_cast<Collider*>(_target);
 			obj->RemoveCollider(t);
 
 			// 오브젝트가 가진 콜라이더 개수가 0이라면
 			if (obj->Empty())
 			{
 				this->RemoveObject(_name);
+				delete obj;
 				obj = nullptr;
 			}
 		}
@@ -71,7 +77,7 @@ namespace Hyrule
 
 		void ObjectManager::RemoveCollider(const std::wstring& _name, int _index)
 		{
-			auto obj = this->GetObject(_name);
+			Object* obj = this->GetObject(_name);
 
 			if ((obj == nullptr) ||
 				(_index < 0) ||
@@ -80,16 +86,14 @@ namespace Hyrule
 				return;
 			}
 
-			auto& collider = obj->colliders[_index];
-
-			obj->colliders.erase(obj->colliders.begin() + _index);
-
-			delete collider;
+			obj->RemoveCollider(_index);
+			// delete collider;
 
 			// 오브젝트가 가진 콜라이더 개수가 0이고, 강체도 없으면 오브젝트를 삭제함.
 			if (!obj->colliders.size() && obj->rigidbody == nullptr)
 			{
 				this->RemoveObject(_name);
+				delete obj;
 				obj = nullptr;
 			}
 		}
@@ -97,7 +101,7 @@ namespace Hyrule
 
 		void ObjectManager::RemoveRigidBody(const std::wstring& _name)
 		{
-			auto obj = this->GetObject(_name);
+			Object* obj = this->GetObject(_name);
 
 			if (obj == nullptr)
 			{
@@ -106,37 +110,53 @@ namespace Hyrule
 
 			auto& rigidbody = obj->rigidbody;
 
-			if (rigidbody == nullptr)
+			if (rigidbody.get() == nullptr)
 			{
 				return;
 			}
 
-			delete rigidbody;
+			// delete rigidbody;
 
 			// 오브젝트에 강체도 지웠는데 콜라이더도 없으면 오브젝트를 삭제함. 
 			if (!obj->colliders.size())
 			{
 				this->RemoveObject(_name);
+				delete obj;
 				obj = nullptr;
 			}
 		}
 
 		Collider* ObjectManager::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
 		{
-			// Collider* collider = new Collider;
-			// 
-			// _obj->colliders.push_back(collider);
-
+			switch (_info->shapeInfo.shapeType)
+			{
+				case SPHERE:
+					Collider* newCol = new SphereCollider(_info);
+					break;
+				case BOX:
+					Collider* newCol = new BoxCollider(_info);
+					break;
+					// case CAPSULE:
+					// 	Collider* newCol = new SphereCollider;
+					// 	break;
+				case CONVEX:
+					Collider* newCol = new ConvexCollider(_info);
+					break;
+				case PLANE:
+					Collider* newCol = new PlaneCollider(_info);
+					break;
+					// case MESH:
+					// 	Collider* newCol = new MeshCollider;
+					// 	break;
+			}
 			return NULL;
 		}
 
 		RigidBody* ObjectManager::CreateRigidBody(Object* _obj)
 		{
-			RigidBody* newRigidbody = new RigidBody;
+			_obj->rigidbody = std::make_shared<RigidBody>();
 
-			_obj->rigidbody = newRigidbody;
-
-			return newRigidbody;
+			return _obj->rigidbody.get();
 		}
 
 		Object* ObjectManager::GetObject(const std::wstring& _name)
@@ -160,7 +180,7 @@ namespace Hyrule
 		Object* ObjectManager::CreateObject(const std::wstring& _name)
 		{
 			Object* obj = new Object(_name);
-
+			// std::unique_ptr<Object> obbj = std::make_unique<Object>(_name);
 			objectMap[_name] = obj;
 
 			return obj;
