@@ -27,9 +27,13 @@ namespace Hyrule
 
 	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler) noexcept;
 
-	Matrix4x4 ToScaleMatrix(const Vector3D& _euler) noexcept;
+	Matrix4x4 ToScaleMatrix(const Vector3D& _scl) noexcept;
+
+	Matrix4x4 ToScaleMatrix(const float _scl) noexcept;
 
 	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept;
+
+	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const float _scl) noexcept;
 
 	void Decompose(Vector4D& _pos, Quaternion& _rot, Vector4D& _scl, const Matrix4x4& _matrix) noexcept;
 
@@ -54,6 +58,9 @@ namespace Hyrule
 	Matrix4x4 ToMatrix4(const Quaternion&) noexcept;
 
 	Matrix3x3 ToMatrix3(const Vector3D&, const float) noexcept;
+
+	Vector4D operator*(const Vector4D&, const Matrix4x4&) noexcept;
+	Vector4D& operator*=(Vector4D&, const Matrix4x4&) noexcept;
 
 	// ToEuler (축각)
 	// ToEuler (행렬)

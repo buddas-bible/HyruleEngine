@@ -22,5 +22,8 @@
     <ClInclude Include="IRenderable.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Renderable_desc.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

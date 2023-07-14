@@ -1,6 +1,7 @@
 #include "RendererSystem.h"
 
 #include "IGraphics.h"
+#include "IRenderable.h"
 
 namespace Hyrule
 {
@@ -85,4 +86,10 @@ namespace Hyrule
 		return hr;
 	}
 
+
+	Hyrule::IRenderable* RendererSystem::GetRenderableObject()
+	{
+		//return graphicsEngine->;
+		return nullptr;
+	}
 }

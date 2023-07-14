@@ -5,6 +5,8 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		struct COLLIDER_INFO;
+
 		class BoxCollider : public Collider
 		{
 		public:
@@ -19,18 +21,10 @@ namespace Hyrule
 			Collider::center;
 			Collider::size;
 			Collider::isTrigger;
-			Collider::collided;
+//			Collider::collided;
 
 			Collider::inertia;
 			Collider::centerOfMass;
-
-		public:
-			virtual void SetTrigger(bool) override;
-			virtual void SetSize(const Vector3D&) override;
-			virtual void SetCenter(const Vector3D&) override;
-
-		public:
-			virtual bool IsColliding() override;
 
 		public:
 			virtual Vector3D FindFarthestPoint(const Vector3D&) override;

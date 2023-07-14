@@ -130,6 +130,12 @@
     <ClInclude Include="Camera.h">
       <Filter>3. Component\2. Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="CubeRenderer.h">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereRenderer.h">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -199,6 +205,12 @@
       <Filter>3. Component\2. Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeRenderer.cpp">
+      <Filter>3. Component\2. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereRenderer.cpp">
       <Filter>3. Component\2. Renderer</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 enum class ShapeType : int
 {
@@ -30,5 +31,18 @@ namespace Hyrule
 			virtual int GetShapeType() abstract;
 			virtual float GetLength() abstract;
 		};
+	
+	
+		class Shapes
+		{
+		public:
+			static void Initialize();
+
+			// static std::shared_ptr<BoxShape> boxShape;
+			// static std::shared_ptr<SphereShape> boxShape;
+			// static std::shared_ptr<PlaneShape> boxShape;
+			// std::shared_ptr<PlaneShape> boxShape;
+		};
+	
 	}
 }

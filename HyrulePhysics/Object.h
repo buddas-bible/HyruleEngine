@@ -13,8 +13,6 @@ namespace Hyrule
 
 	namespace Physics
 	{
-		// struct TRANSFORM_INFO;
-		// class Transform;
 		class RigidBody;
 		class Collider;
 
@@ -31,18 +29,21 @@ namespace Hyrule
 			bool isColliding;
 
 		public:
-			std::shared_ptr<RigidBody> rigidbody;
-			std::vector<std::shared_ptr<Collider>> colliders;
+			RigidBody* rigidbody;
+			std::vector<Collider*> colliders;
 
 		public:
 			Collider* GetCollider(size_t);
 			void RemoveCollider(size_t);
 			void RemoveCollider(Collider*&);
+			RigidBody* GetRigidBody();
+			void RemoveRigidBody();
 			bool Empty();
 
 		public:
-			void SetCollided(bool);
-			bool IsColliding();
+			std::wstring GetName();
+			// void SetCollided(bool);
+			// bool IsColliding();
 			void SetWorldTM(const Matrix4x4&);
 			Matrix4x4 GetWorldTM();
 			Matrix3x3 GetInertiaTensor(float);

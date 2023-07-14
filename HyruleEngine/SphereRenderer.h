@@ -6,12 +6,12 @@ namespace Hyrule
 	class GameObject;
 	class Mesh;
 
-	class MeshRenderer : public Renderer
+	class SphereRenderer : public Renderer
 	{
 	public:
-		MeshRenderer() = delete;
-		MeshRenderer(GameObject*) noexcept;
-		virtual ~MeshRenderer() noexcept = default;
+		SphereRenderer() = delete;
+		SphereRenderer(GameObject*) noexcept;
+		virtual ~SphereRenderer() noexcept = default;
 
 	public:
 		// virtual void FixedUpdate() override;

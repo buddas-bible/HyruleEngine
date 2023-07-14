@@ -39,9 +39,28 @@ namespace Hyrule
 	}
 
 	/// <summary>
+	/// 스케일 매트릭스로 반환
+	/// </summary>
+	Matrix4x4 ToScaleMatrix(const float _scl) noexcept
+	{
+		return Matrix4x4
+		{
+			_scl,		0.f,		0.f,		0.f,
+			0.f,		_scl,		0.f,		0.f,
+			0.f,		0.f,		_scl,		0.f,
+			0.f,		0.f,		0.f,		1.f
+		};
+	}
+
+	/// <summary>
 	/// 트랜스폼 매트릭스로 반환
 	/// </summary>
 	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept
+	{
+		return ToScaleMatrix(_scl) * ToMatrix4(_rot) * ToTranslateMatrix(_pos);
+	}
+
+	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const float _scl) noexcept
 	{
 		return ToScaleMatrix(_scl) * ToMatrix4(_rot) * ToTranslateMatrix(_pos);
 	}
@@ -393,6 +412,21 @@ namespace Hyrule
 			cos + z * z * (1 - cos)
 		);
 	}
+
+	Vector4D& operator*=(Vector4D& _vec, const Matrix4x4& _mat) noexcept
+	{
+		Matrix4x4 temp{ _mat.Inverse() };
+
+		return _vec;
+	}
+
+	Vector4D operator*(const Vector4D& _vec, const Matrix4x4& _mat) noexcept
+	{
+		Vector4D temp(_vec);
+
+		return temp *= _mat;
+	}
+
 
 	// ToEuler (축각)
 	// ToEuler (행렬)

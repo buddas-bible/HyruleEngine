@@ -15,6 +15,7 @@
 #include "DXInputLayout.h"
 
 #include "Helper.h"
+#include "Renderable_desc.h"
 
 
 namespace Hyrule
@@ -109,6 +110,11 @@ namespace Hyrule
 #if _DEBUG
 		m_axis->SetViewProjTM(m_camera->GetViewProjMatrix());
 		m_gizmo->SetViewProjTM(m_camera->GetViewProjMatrix());
+
+		for (auto e : renderableList)
+		{
+			e->SetViewProjTM(m_camera->GetViewProjMatrix());
+		}
 #endif
 
 	}
@@ -123,6 +129,11 @@ namespace Hyrule
 #if _DEBUG
 		m_gizmo->Render();
 		m_axis->Render();
+
+		for (auto e : renderableList)
+		{
+			e->Render();
+		}
 #endif
 
 		///
@@ -242,5 +253,51 @@ namespace Hyrule
 		m_gizmo = new Helper(m_device, m_rasterizerState, HelerObject::gizmo);
 
 		return S_OK;
+	}
+
+	IRenderable* HyruleGraphicsDX11::GetRenderableObject(RENDERABLE_DESC* _desc)
+	{
+		RenderableObject* newObject = nullptr;
+
+		switch (_desc->meshType)
+		{
+			case CUBE:
+			{
+				newObject = new RenderableObject(m_device, m_rasterizerState, HelerObject::cube);
+				renderableList.push_back(newObject);
+			}
+			break;
+
+			case PLANE:
+			{
+				newObject = new RenderableObject(m_device, m_rasterizerState, HelerObject::plane);
+				renderableList.push_back(newObject);
+			}
+			break;
+
+			case SPHERE:
+			{
+				newObject = new RenderableObject(m_device, m_rasterizerState, HelerObject::sphere);
+				renderableList.push_back(newObject);
+			}
+			break;
+
+			case CAPSULE:
+			{
+				// auto newObject = new RenderableObject(m_device, m_rasterizerState, HelerObject::cube);
+				// renderableList.push_back(newObject);
+			}
+			break;
+
+			default:
+			{
+				auto mesh = ResourceManager::GetInstance().GetMesh(_desc->meshName);
+				newObject = new RenderableObject(m_device, m_rasterizerState, mesh);
+				renderableList.push_back(newObject);
+			}
+			break;
+		}
+
+		return newObject;
 	}
 }

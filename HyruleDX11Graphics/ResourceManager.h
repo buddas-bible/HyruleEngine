@@ -61,7 +61,7 @@ namespace Hyrule
 		static std::shared_ptr<DXMesh> axis;
 		static std::shared_ptr<DXMesh> gizmo;
 
-		static std::shared_ptr<DXMesh> box;
+		static std::shared_ptr<DXMesh> cube;
 		static std::shared_ptr<DXMesh> sphere;
 		static std::shared_ptr<DXMesh> plane;
 	};

@@ -200,7 +200,6 @@
     <ClInclude Include="ConvexCollider.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shape.h" />
-    <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="Simplex.h" />
     <ClInclude Include="SphereShape.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -226,7 +225,6 @@
     <ClCompile Include="ConvexCollider.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="Simplex.cpp" />
     <ClCompile Include="SphereShape.cpp" />
     <ClCompile Include="SphereCollider.cpp" />

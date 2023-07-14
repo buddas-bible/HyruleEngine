@@ -8,7 +8,7 @@ namespace Hyrule
 	{
 		ConvexShape::ConvexShape() noexcept : Shape(), points(), index(), length()
 		{
-			type = ShapeType::POLYHEDRON;
+			type = ShapeType::CONVEX;
 		}
 
 		int ConvexShape::GetShapeType()

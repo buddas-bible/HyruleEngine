@@ -163,6 +163,7 @@
     <ClInclude Include="ICamera.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IRenderable.h" />
+    <ClInclude Include="Renderable_desc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

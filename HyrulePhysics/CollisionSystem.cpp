@@ -54,6 +54,21 @@ namespace Hyrule
 			}
 		}
 
+
+		//		bool CollisionSystem::CollisionCheck2(Collider*, Collider*)
+		//		{
+		//			// 임의의 벡터를 방향 벡터 d로 삼아서
+		//			// 두 콜라이더의 서포트 포인터를 구함.
+		//			// a dot d < b dot -d 라는 결과가 나오면 충돌 안함
+		//
+		//			// 아니면 새로운 방향 벡터를 구함
+		//			// 새로운 방향벡터는 d-2(r dot d)r
+		//			// 여기서 r은 (b-a) / (b-a).length()
+		//			// 
+		//			// 새로 얻은 방향벡터로 다시 탐색을 시작함
+		//			// GJK보다 2배 빠른 충돌 감지 알고리즘
+		//		}
+
 		Manifold* CollisionSystem::ComputePenetrationDepth(Collider* _colliderA, Collider* _colliderB, Simplex* _simplex)
 		{
 			
@@ -321,19 +336,22 @@ namespace Hyrule
 				// DAB 공간안에 원점이 있음
 				// 해당 면의 
 				_simplex = { A, B, D };
-				return DoSimplex3(_simplex, DO);
+				_direction = DO;
+				return false;
 			}
 
 			if (DCA.Dot(DO) > 0.f)
 			{
 				_simplex = { A, C, D };
-				return DoSimplex3(_simplex, DO);
+				_direction = DO;
+				return false;
 			}
 
 			if (DBC.Dot(DO) > 0.f)
 			{
 				_simplex = { B, C, D };
-				return DoSimplex3(_simplex, DO);
+				_direction = DO;
+				return false;
 			}
 
 			return true;

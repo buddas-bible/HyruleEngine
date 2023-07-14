@@ -214,7 +214,7 @@ namespace Hyrule
 	std::shared_ptr<DXMesh> HelerObject::axis{};
 	std::shared_ptr<DXMesh> HelerObject::gizmo{};
 
-	std::shared_ptr<DXMesh> HelerObject::box{};
+	std::shared_ptr<DXMesh> HelerObject::cube{};
 	std::shared_ptr<DXMesh> HelerObject::sphere{};
 	std::shared_ptr<DXMesh> HelerObject::plane{};
 
@@ -351,7 +351,7 @@ namespace Hyrule
 			);
 
 			std::shared_ptr<DXMesh> temp0{boxMesh};
-			HelerObject::box = temp0;
+			HelerObject::cube = temp0;
 		}
 #pragma endregion Box
 

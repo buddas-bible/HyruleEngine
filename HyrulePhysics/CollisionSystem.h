@@ -24,6 +24,7 @@ namespace Hyrule
 			/// <param name=""></param>
 			/// <returns></returns>
 			bool CollisionCheck(Collider*, Collider*);
+			// bool CollisionCheck2(Collider*, Collider*);
 			
 			/// <summary>
 			/// 

@@ -1,12 +1,13 @@
 #pragma once
-
 #include "Component.h"
+#include "IRenderable.h"
 
-
+#include "RendererSystem.h"
 
 namespace Hyrule
 {
 	class Mesh;
+	class IRenderable;
 
 	class Renderer : public Component
 	{
@@ -16,16 +17,16 @@ namespace Hyrule
 		virtual ~Renderer() noexcept = default;
 
 	protected:
-		Mesh* meshData;
+		IRenderable* meshData;
 
 	public:
-		virtual void Awake() override {}
-		virtual void OnEnable() override {}
-		virtual void Start() override {}
-		virtual void FixedUpdate() override {}
-		virtual void Update() override {}
-		virtual void LastUpdate() override {}
-		virtual void Render() override {}
+		virtual void Awake() final {};
+		virtual void OnEnable() final {};
+		virtual void Start() final {};
+		virtual void FixedUpdate() final {};
+		virtual void Update() abstract;
+		virtual void LastUpdate() final {};
+		virtual void Render() final {};
 
 		// 		virtual void OnTriggerEnter(Collider*) override {}
 		// 		virtual void OnTriggerStay(Collider*) override {}
@@ -35,15 +36,15 @@ namespace Hyrule
 		// 		virtual void OnTriggerStay() override;
 		// 		virtual void OnTriggerExit() override;
 
-		virtual void OnCollisionEnter(Collider*) override {}
-		virtual void OnCollisionStay(Collider*) override {}
-		virtual void OnCollisionExit(Collider*) override {}
+		virtual void OnCollisionEnter(Collider*) final {};
+		virtual void OnCollisionStay(Collider*) final {};
+		virtual void OnCollisionExit(Collider*) final {};
 
-		virtual void OnCollisionEnter() override {}
-		virtual void OnCollisionStay() override {}
-		virtual void OnCollisionExit() override {}
+		virtual void OnCollisionEnter() final {};
+		virtual void OnCollisionStay() final {};
+		virtual void OnCollisionExit() final {};
 
-		virtual void OnDestroy() override {};
+		virtual void OnDestroy() final {};
 	};
 }
 

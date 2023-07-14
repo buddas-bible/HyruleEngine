@@ -5,7 +5,9 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		class PlaneCollider : Collider
+		struct COLLIDER_INFO;
+
+		class PlaneCollider : public Collider
 		{
 		public:
 			PlaneCollider() noexcept = default;
@@ -22,14 +24,6 @@ namespace Hyrule
 
 			Collider::inertia;
 			Collider::centerOfMass;
-		
-		public:
-			virtual void SetTrigger(bool) override;
-			virtual void SetSize(const Vector3D&) override;
-			virtual void SetCenter(const Vector3D&) override;
-
-		public:
-			virtual bool IsColliding() override;
 
 		public:
 			virtual Vector3D FindFarthestPoint(const Vector3D&) override;

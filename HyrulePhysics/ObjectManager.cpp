@@ -87,17 +87,15 @@ namespace Hyrule
 			}
 
 			obj->RemoveCollider(_index);
-			// delete collider;
 
 			// 오브젝트가 가진 콜라이더 개수가 0이고, 강체도 없으면 오브젝트를 삭제함.
-			if (!obj->colliders.size() && obj->rigidbody == nullptr)
+			if (obj->Empty())
 			{
 				this->RemoveObject(_name);
 				delete obj;
 				obj = nullptr;
 			}
 		}
-
 
 		void ObjectManager::RemoveRigidBody(const std::wstring& _name)
 		{
@@ -108,17 +106,10 @@ namespace Hyrule
 				return;
 			}
 
-			auto& rigidbody = obj->rigidbody;
-
-			if (rigidbody.get() == nullptr)
-			{
-				return;
-			}
-
-			// delete rigidbody;
+			obj->RemoveRigidBody();
 
 			// 오브젝트에 강체도 지웠는데 콜라이더도 없으면 오브젝트를 삭제함. 
-			if (!obj->colliders.size())
+			if (obj->Empty())
 			{
 				this->RemoveObject(_name);
 				delete obj;
@@ -128,35 +119,51 @@ namespace Hyrule
 
 		Collider* ObjectManager::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
 		{
+			Collider* newCollider = nullptr;
+
 			switch (_info->shapeInfo.shapeType)
 			{
 				case SPHERE:
-					Collider* newCol = new SphereCollider(_info);
-					break;
+				{
+					newCollider = new SphereCollider(_info);
+				}
+				break;
+
 				case BOX:
-					Collider* newCol = new BoxCollider(_info);
-					break;
+				{
+					newCollider = new BoxCollider(_info);
+				}
+				break;
+
 					// case CAPSULE:
-					// 	Collider* newCol = new SphereCollider;
+					// 	Collider* newCollider = new SphereCollider;
 					// 	break;
+
 				case CONVEX:
-					Collider* newCol = new ConvexCollider(_info);
-					break;
+				{
+					newCollider = new ConvexCollider(_info);
+				}
+				break;
+
 				case PLANE:
-					Collider* newCol = new PlaneCollider(_info);
-					break;
+				{
+					newCollider = new PlaneCollider(_info);
+				}
+				break;
+
 					// case MESH:
-					// 	Collider* newCol = new MeshCollider;
+					// 	Collider* newCollider = new MeshCollider;
 					// 	break;
 			}
-			return NULL;
+
+			return newCollider;
 		}
 
 		RigidBody* ObjectManager::CreateRigidBody(Object* _obj)
 		{
-			_obj->rigidbody = std::make_shared<RigidBody>();
+			_obj->rigidbody = new RigidBody;
 
-			return _obj->rigidbody.get();
+			return _obj->rigidbody;
 		}
 
 		Object* ObjectManager::GetObject(const std::wstring& _name)

@@ -1,37 +1,21 @@
 #include "BoxCollider.h"
+#include "PHYSICALLYOBJECT_INFO.h"
+#include "Object.h"
 
 namespace Hyrule
 {
 	namespace Physics
 	{
 
-		BoxCollider::BoxCollider(COLLIDER_INFO* _info) noexcept : Collider()
+		BoxCollider::BoxCollider(COLLIDER_INFO* _info) noexcept
 		{
-
-		}
-
-		void BoxCollider::SetTrigger(bool _isTrigger)
-		{
-			this->isTrigger = _isTrigger;
-		}
-
-		void BoxCollider::SetSize(const Vector3D& _size)
-		{
-			this->size = _size;
-		}
-
-		void BoxCollider::SetCenter(const Vector3D& _center)
-		{
-			this->center = _center;
-		}
-
-		bool BoxCollider::IsColliding()
-		{
-			return this->collided;
+			SetSize(_info->colliderSize);
+			SetCenter(_info->colliderCenter);
 		}
 
 		Vector3D BoxCollider::FindFarthestPoint(const Vector3D&)
 		{
+			Matrix4x4 world = object->GetWorldTM();
 			return Vector3D();
 		}
 	}

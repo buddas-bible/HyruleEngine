@@ -1,8 +1,9 @@
 #pragma once
 #include "framework.h"
 #include <memory>
+#include <vector>
 #include "IGraphics.h"
-
+#include "RenderableObject.h"
 
 namespace Hyrule
 {
@@ -11,6 +12,9 @@ namespace Hyrule
 	class DXRasterizerState;
 	class DXCamera;
 	class ICamera;
+
+	class RenderableObject;
+	struct RENDERABLE_DESC;
 
 	class Helper;
 
@@ -51,6 +55,9 @@ namespace Hyrule
 
 #if _DEBUG
 		long CreateHelper();
+
+		IRenderable* GetRenderableObject(RENDERABLE_DESC*);
+		std::vector<RenderableObject*> renderableList;
 
 		Helper* m_axis;
 		Helper* m_gizmo;

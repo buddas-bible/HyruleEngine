@@ -8,6 +8,7 @@
 namespace Hyrule
 {
 	class IGraphics;
+	class IRenderable;
 
 	class RendererSystem : public System<RendererSystem>
 	{
@@ -32,6 +33,7 @@ namespace Hyrule
 		long OnResize();
 
 	public:
+		IRenderable* GetRenderableObject();
 
 	};
 }

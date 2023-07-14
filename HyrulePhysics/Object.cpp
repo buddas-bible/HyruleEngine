@@ -8,8 +8,8 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Object::Object(const std::wstring& _name/*, TRANSFORM_INFO* _info*/) noexcept
-			: name(_name), /*transform(new Transform(_info)),*/
+		Object::Object(const std::wstring& _name) noexcept
+			: name(_name),
 			rigidbody(), colliders(), isColliding()
 		{
 
@@ -22,7 +22,7 @@ namespace Hyrule
 				return nullptr;
 			}
 
-			return colliders[_index].get();
+			return colliders[_index];
 		}
 
 		void Object::RemoveCollider(size_t _index)
@@ -36,14 +36,31 @@ namespace Hyrule
 
 			colliders.erase(remove(colliders.begin(), colliders.end(), collider));
 
-			// delete collider;
+			delete collider;
 		}
 
 		void Object::RemoveCollider(Collider*& _target)
 		{
 			colliders.erase(remove(colliders.begin(), colliders.end(), _target));
 
-			// delete _target;
+			delete _target;
+		}
+
+
+		RigidBody* Object::GetRigidBody()
+		{
+			return rigidbody;
+		}
+
+		void Object::RemoveRigidBody()
+		{
+			if (rigidbody == nullptr)
+			{
+				return;
+			}
+
+			delete rigidbody;
+			rigidbody = nullptr;
 		}
 
 		bool Object::Empty()
@@ -51,15 +68,20 @@ namespace Hyrule
 			return colliders.empty() && rigidbody == nullptr;
 		}
 
-		void Object::SetCollided(bool _co)
+		std::wstring Object::GetName()
 		{
-			this->isColliding = _co;
+			return this->name;
 		}
 
-		bool Object::IsColliding()
-		{
-			return isColliding;
-		}
+		// 		void Object::SetCollided(bool _co)
+		// 		{
+		// 			this->isColliding = _co;
+		// 		}
+		// 
+		// 		bool Object::IsColliding()
+		// 		{
+		// 			return isColliding;
+		// 		}
 
 		void Object::SetWorldTM(const Matrix4x4& _TM)
 		{
