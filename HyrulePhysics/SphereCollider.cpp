@@ -21,7 +21,7 @@ namespace Hyrule
 			// 여러 축의 스케일
 			Vector4D length{ Vector3D{0.5f, 0.5f, 0.5f}.Normalized(), 1.f };
 
-			length *= world * ToScaleMatrix(size);
+			length *= (world * ToScaleMatrix(size));
 
 			return Vector3D();
 		}
