@@ -6,17 +6,9 @@ namespace Hyrule
 {
 	Transform::Transform(GameObject* _gameObject) noexcept :
 		Component(_gameObject), 
-		position(), /*rotation(),*/ scale(),
+		position(), rotation(), scale(),
 		parent(), child()
-	{
-	
-	}
-
-	Transform::~Transform() noexcept
-	{
-
-	}
-	
+	{}
 	
 	Vector3D Transform::GetLocalPosition() noexcept
 	{
@@ -193,9 +185,14 @@ namespace Hyrule
 
 	void Transform::OnDestroy()
 	{
-		parent->RemoveChild(this);
-		parent = nullptr;
+		// 부모관계를 끊음
+		if (parent != nullptr)
+		{
+			parent->RemoveChild(this);
+			parent = nullptr;
+		}
 
+		// 자식 관계를 끊음
 		for (auto& e : child)
 		{
 			e->RemoveParent();

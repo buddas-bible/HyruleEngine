@@ -30,14 +30,19 @@ namespace Hyrule
 			}
 		{}
 		constexpr Matrix4x4(
+			__m128 _m0,
+			__m128 _m1,
+			__m128 _m2,
+			__m128 _m3
+		) noexcept :
+			m { _m0, _m1, _m2, _m3 }
+		{}
+		constexpr Matrix4x4(
 			const Matrix1x4& _m1,
 			const Matrix1x4& _m2,
 			const Matrix1x4& _m3,
 			const Matrix1x4& _m4) noexcept :
-			m
-			{
-				_m1, _m2, _m3, _m4
-			}
+			m { _m1, _m2, _m3, _m4 }
 		{}
 		constexpr Matrix4x4(const Matrix4x4&) noexcept = default;
 		constexpr Matrix4x4(Matrix4x4&&) noexcept = default;
@@ -78,10 +83,10 @@ namespace Hyrule
 		/// <summary>
 		/// 멤버 함수
 		/// </summary>
-		float Determinant() noexcept;
-		float Determinant3x3() noexcept;
-		Matrix4x4 Transpose() noexcept;
-		Matrix4x4 Inverse() noexcept;
+		float Determinant() const noexcept;
+		float Determinant3x3() const noexcept;
+		Matrix4x4 Transpose() const noexcept;
+		Matrix4x4 Inverse() const noexcept;
 
 		/// <summary>
 		/// 연산자 오버로딩

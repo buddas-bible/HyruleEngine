@@ -31,8 +31,8 @@ namespace Hyrule
 		collider->SetSize(_center);
 	}
 
-	bool MeshCollider::IsColliding()
-	{
-		return collider->IsColliding();
-	}
+// 	bool MeshCollider::IsColliding()
+// 	{
+// 		return collider->IsColliding();
+// 	}
 }

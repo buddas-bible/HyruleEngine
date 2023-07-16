@@ -11,6 +11,8 @@ namespace Hyrule
 		class Collider;
 		class Manifold;
 		class Simplex;
+		struct Face;
+		struct Edge;
 
 		class CollisionSystem
 		{
@@ -23,17 +25,14 @@ namespace Hyrule
 			/// <param name=""></param>
 			/// <param name=""></param>
 			/// <returns></returns>
-			bool CollisionCheck(Collider*, Collider*);
+			bool GJKCollisionDetection(Collider*, Collider*);
 			// bool CollisionCheck2(Collider*, Collider*);
 			
-			/// <summary>
-			/// 
-			/// </summary>
-			Manifold* ComputePenetrationDepth(Collider*, Collider*, Simplex*);
+			void ComputePenetrationDepth(Manifold* _manifold);
 			Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
-			void FindSupportEdge(Simplex*);
-			void FindSupportFace();
-			void FindContactPoint(Collider*, Collider*, const Vector3D&);
+			std::pair<Edge*, float> FindClosestEdge(Simplex*);
+			std::pair<Face*, float> FindClosestFace(Simplex*);
+			void FindContactPoint(Manifold*, const Vector3D&);
 
 		private:
 			enum GJK : size_t
@@ -50,11 +49,14 @@ namespace Hyrule
 			bool DoSimplex3(Simplex&, Vector3D&);
 			bool DoSimplex4(Simplex&, Vector3D&);
 
+			void FaceClip(Face& _incident, const Edge& _refEdge, const Vector3D& _refNormal);
+			void EdgeClip(Edge&, const Vector3D&, const Vector3D&, bool);
+
 		/// <summary>
 		/// 충돌 대응 부분.
 		/// </summary>
 		public:
-			void CollisionRespone();
+			void CollisionRespone(float);
 		};
 	}
 }

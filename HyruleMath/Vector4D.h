@@ -17,6 +17,9 @@ namespace Hyrule
 		constexpr Vector4D() noexcept :
 			e{}
 		{}
+		constexpr Vector4D(__m128 _m) noexcept :
+			m{ _m }
+		{}
 		constexpr Vector4D(float _x, float _y, float _z, float _w) noexcept :
 			e{ _x, _y, _z, _w }
 		{}

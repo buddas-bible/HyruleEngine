@@ -52,9 +52,6 @@
     <ClInclude Include="AABB.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="SphereShape.h">
-      <Filter>3. PhysicalyObject\Shape</Filter>
-    </ClInclude>
     <ClInclude Include="BoxShape.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
@@ -121,9 +118,6 @@
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
     <ClCompile Include="AABB.cpp">
-      <Filter>3. PhysicalyObject\Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereShape.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
     <ClCompile Include="BoxShape.cpp">

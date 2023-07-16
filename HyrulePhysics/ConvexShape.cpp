@@ -6,19 +6,13 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		ConvexShape::ConvexShape() noexcept : Shape(), points(), index(), length()
-		{
-			type = ShapeType::CONVEX;
-		}
-
-		int ConvexShape::GetShapeType()
-		{
-			return (int)this->type;
-		}
-
-		float ConvexShape::GetLength()
-		{
-			return this->length;
-		}
+		// 		ConvexShape::ConvexShape() noexcept : Shape(), points(), index()
+		// 		{
+		// 		}
+		// 
+		// 		std::vector<Hyrule::Vector3D> ConvexShape::GetPoints() noexcept
+		// 		{
+		// 			return points;
+		// 		}
 	}
 }

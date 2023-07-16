@@ -39,7 +39,7 @@
 #pragma comment(lib, "HyruleEngine.lib")
 #include "HyruleEngine.h"
 
-#include "Scene.h"
+#include "Scene01.h"
 #include "SceneManager.h"
 
 int APIENTRY WinMain(
@@ -70,7 +70,7 @@ int APIENTRY WinMain(
 #endif
 
 	auto& sceneManager = Hyrule::SceneManager::GetInstance();
-	Hyrule::Scene* scene01 = new Hyrule::Scene(L"Scene01");
+	Hyrule::Scene* scene01 = new Scene01(L"Scene01");
 	sceneManager.AddScene(scene01);
 	sceneManager.LoadScene(scene01);
 

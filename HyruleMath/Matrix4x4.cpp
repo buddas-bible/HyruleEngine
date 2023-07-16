@@ -40,7 +40,7 @@ namespace Hyrule
 // 
 // 	}
 
-	Matrix4x4 Matrix4x4::Transpose() noexcept
+	Matrix4x4 Matrix4x4::Transpose() const noexcept
 	{
 		return Matrix4x4
 		{
@@ -51,7 +51,7 @@ namespace Hyrule
 		};
 	}
 
-	Matrix4x4 Matrix4x4::Inverse() noexcept
+	Matrix4x4 Matrix4x4::Inverse() const noexcept
 	{
 		Matrix4x4 result{};
 
@@ -88,7 +88,7 @@ namespace Hyrule
 		return result;
 	}
 
-	float Matrix4x4::Determinant() noexcept
+	float Matrix4x4::Determinant() const noexcept
 	{
 		float det =
 			e00 * e11 * e22 * e33 + 
@@ -120,7 +120,7 @@ namespace Hyrule
 		return det;
 	}
 
-	float Matrix4x4::Determinant3x3() noexcept
+	float Matrix4x4::Determinant3x3() const noexcept
 	{
 		return 
 			e[0][0] * (e[1][1] * e[2][2] - e[1][2] * e[2][1]) -

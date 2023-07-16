@@ -1,5 +1,6 @@
 #pragma once
 #include "Collider.h"
+#include "Shape.h"
 
 namespace Hyrule
 {
@@ -10,12 +11,13 @@ namespace Hyrule
 		class ConvexCollider : public Collider
 		{
 		public:
-			ConvexCollider() noexcept = default;
+			ConvexCollider() noexcept = delete;
 			ConvexCollider(COLLIDER_INFO*) noexcept;
 			virtual ~ConvexCollider() noexcept = default;
 
 		public:
 			virtual Vector3D FindFarthestPoint(const Vector3D&) override;
+			virtual Face FindSupportFace(const Vector3D&) override;
 		};
 	}
 }

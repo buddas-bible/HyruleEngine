@@ -15,7 +15,7 @@ namespace Hyrule
 	public:
 		Transform() = delete;
 		Transform(GameObject*) noexcept;
-		virtual ~Transform() noexcept;
+		virtual ~Transform() noexcept = default;
 
 	private:
 		Vector3D position;
@@ -24,13 +24,12 @@ namespace Hyrule
 
 	private:
 		Hyrule::Transform* parent;
-		std::vector<Hyrule::Transform*> child;
+		std::vector<Transform*> child;
 
 	public:
 		/// <summary>
 		/// 트랜스폼 관련 함수
 		/// </summary>
-		
 		Vector3D GetLocalPosition() noexcept;
 		void SetLocalPosition(const Vector3D&) noexcept;
 		Vector3D GetLocalRotation() noexcept;
@@ -71,7 +70,7 @@ namespace Hyrule
 		virtual void Start() override {}
 		virtual void FixedUpdate() override {}
 		virtual void Update() override {}
-		virtual void LastUpdate() override {}
+		virtual void LateUpdate() override {}
 		virtual void Render() override {}
 
 		// 		virtual void OnTriggerEnter(Collider*) override {}
@@ -91,6 +90,7 @@ namespace Hyrule
 		virtual void OnCollisionExit() override {}
 
 		virtual void OnEnable() override {}
+		virtual void OnDisable() override {}
 		virtual void OnDestroy() override;
 	};
 }

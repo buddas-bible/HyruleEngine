@@ -1,15 +1,10 @@
 #include "SceneManager.h"
-#include "Scene.h"
+#include "IScene.h"
 
 #include "GameObject.h"
 
 namespace Hyrule
 {
-	SceneManager::~SceneManager() noexcept
-	{
-
-	}
-
 	SceneManager& SceneManager::GetInstance() noexcept
 	{
 		static SceneManager instance;
@@ -17,56 +12,93 @@ namespace Hyrule
 		return instance;
 	}
 
-	void SceneManager::AddScene(Scene*& _scene) noexcept
+	void SceneManager::AddScene(const std::wstring& _name, IScene* _scene) noexcept
 	{
-		sceneMap[_scene->GetName()] = _scene;
+		sceneMap[_name] = _scene;
 	}
 
 	void SceneManager::RemoveScene(const std::wstring& _name) noexcept
 	{
-		auto e = sceneMap[_name];
-		delete e;
+		auto itr = sceneMap.find(_name);
 
-		sceneMap.erase(_name);
+		if (itr == sceneMap.end())
+		{
+			return;
+		}
+
+		sceneMap.erase(itr);
 	}
 
-	void SceneManager::RemoveScene(Scene*& _scene) noexcept
+	void SceneManager::RemoveScene(IScene*& _scene) noexcept
 	{
-		_scene->GetName();
+		auto itr = sceneMap.find(_scene->GetName());
+
+		if (itr == sceneMap.end())
+		{
+			return;
+		}
+
+		sceneMap.erase(itr);
 	}
 
 	void SceneManager::LoadScene(const std::wstring& _name) noexcept
 	{
 		// current를 비활성화
-		if (currentScene)
+		if (currentScene != nullptr)
 		{
-			currentScene->ClearScene();
+			currentScene->Clear();
 		}
 
 		currentScene = sceneMap[_name];
-
-		// 해당 씬을 활성화 시키고 현재 씬을 바꿈
-		// sceneMap[_name]
-		// currentScene = sceneMap[_name];
+		currentScene->Load();
 	}
 
-	void SceneManager::LoadScene(Scene*& _scene) noexcept
+	void SceneManager::LoadScene(IScene*& _scene) noexcept
 	{
 		// current를 비활성화
-		if (currentScene)
+		if (currentScene != nullptr)
 		{
-			currentScene->ClearScene();
+			currentScene->Clear();
 		}
 
 		currentScene = _scene;
-		// 해당 씬을 활성화 시키고 현재 씬을 바꿈
-		// sceneMap[_name]
-		// currentScene = sceneMap[_name];
+		currentScene->Load();
 	}
 
 	void SceneManager::ClearScene()
 	{
-		currentScene->ClearScene();
+		currentScene->Clear();
+	}
+
+
+
+	void SceneManager::SceneStart()
+	{
+
+	}
+
+	void SceneManager::OnDisable()
+	{
+		for (auto& e : currentScene->GetGameObjectList())
+		{
+			e.second->OnDisable();
+		}
+	}
+
+	void SceneManager::OnEnable()
+	{
+		for (auto& e : currentScene->GetGameObjectList())
+		{
+			e.second->OnEnable();
+		}
+	}
+
+	void SceneManager::Awake()
+	{
+		for (auto& e : currentScene->GetGameObjectList())
+		{
+			e.second->Awake();
+		}
 	}
 
 	void SceneManager::Start()
@@ -75,6 +107,14 @@ namespace Hyrule
 		{
 			e.second->Start();
 		}
+	}
+
+	void SceneManager::PhysicsUpdate()
+	{
+		// for (auto& e : currentScene->GetGameObjectList())
+		// {
+		// 	e.second->P();
+		// }
 	}
 
 	void SceneManager::FixedUpdate()
@@ -93,11 +133,19 @@ namespace Hyrule
 		}
 	}
 
-	void SceneManager::LastUpdate()
+	void SceneManager::LateUpdate()
 	{
 		for (auto& e : currentScene->GetGameObjectList())
 		{
-			e.second->LastUpdate();
+			e.second->LateUpdate();
+		}
+	}
+
+	void SceneManager::OnDestroy()
+	{
+		for (auto& e : currentScene->GetGameObjectList())
+		{
+			e.second->OnDestroy();
 		}
 	}
 }

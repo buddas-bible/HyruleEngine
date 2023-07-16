@@ -1,7 +1,7 @@
 #include "SphereCollider.h"
 #include "PHYSICALLYOBJECT_INFO.h"
 #include "Object.h"
-#include "SphereShape.h"
+#include "Face.h"
 
 namespace Hyrule
 {
@@ -15,15 +15,29 @@ namespace Hyrule
 
 		Vector3D SphereCollider::FindFarthestPoint(const Vector3D& _direction)
 		{
+			// float L = size.x < size.y ? size.y : size.x;
+			// L = L < size.z ? size.z : L;
+
+			Matrix4x4 local = ToTransformMatrix(center, Quaternion::Identity(), size);
+			// Matrix4x4 local = ToTransformMatrix(center, Quaternion::Identity(), L);
 			Matrix4x4 world = object->GetWorldTM();
-			// 콜라이더 위치 + 디렉션 방향 * 길이 (근데? 스케일값에 영향을 받아야하고, 콜라이더 사이즈도 영향을 받아야함)
-			
-			// 여러 축의 스케일
-			Vector4D length{ Vector3D{0.5f, 0.5f, 0.5f}.Normalized(), 1.f };
 
-			length *= (world * ToScaleMatrix(size));
+			auto tt = Vector4D(_direction, 1.f) * local * world;
+			// local *= world;
+			// Vector3D move = Vector3D(local.m[3].e00, local.m[3].e01, local.m[3].e02);
+			// 
+			// local.m[3].e00 = 0.f;
+			// local.m[3].e01 = 0.f;
+			// local.m[3].e02 = 0.f;
+			// 
+			// Vector4D temp = Vector4D(_direction, 1.f) * local;
 
-			return Vector3D();
+			return Vector3D(tt.x, tt.y, tt.z);
+		}
+
+		Face SphereCollider::FindSupportFace(const Vector3D&)
+		{
+			return Face(Vector3D(), Vector3D(), Vector3D(), 0, 1, 2);
 		}
 	}
 }

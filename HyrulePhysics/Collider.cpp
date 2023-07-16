@@ -27,7 +27,6 @@ namespace Hyrule
 			this->center = _center;
 		}
 
-
 		std::wstring Collider::GetObjectName()
 		{
 			return this->object->GetName();

@@ -25,7 +25,7 @@ namespace Hyrule
 			virtual void SetCenter(const Vector3D&) abstract;
 
 			// virtual std::wstring GetObjectName() abstract;
-			virtual bool IsColliding() abstract;
+			// virtual bool IsColliding() abstract;
 		};
 	}
 }

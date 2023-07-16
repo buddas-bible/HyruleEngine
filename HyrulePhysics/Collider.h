@@ -11,6 +11,9 @@ namespace Hyrule
 	{
 		class Object;
 		class Shape;
+		struct Vertex;
+		struct Edge;
+		struct Face;
 
 		class Collider : public ICollider
 		{
@@ -20,12 +23,10 @@ namespace Hyrule
 
 		protected:
 			Object* object;
-			Shape* shape;
 
-			Vector3D center;
-			Vector3D size;
-			bool isTrigger;
-//			bool collided;
+			Vector3D center{ 0.f, 0.f, 0.f };
+			Vector3D size{ 0.5f, 0.5f, 0.5f };
+			bool isTrigger{ false };
 
 			Matrix3x3 inertia;
 			Vector3D centerOfMass;
@@ -40,10 +41,10 @@ namespace Hyrule
 
 		public:
 			virtual std::wstring GetObjectName();
-			virtual bool IsColliding();
 			
 		public:
 			virtual Vector3D FindFarthestPoint(const Vector3D&) abstract;
+			virtual Face FindSupportFace(const Vector3D&) abstract;
 		};
 	}
 }

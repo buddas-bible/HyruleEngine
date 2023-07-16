@@ -20,12 +20,6 @@
     <Filter Include="3. Component\2. Renderer">
       <UniqueIdentifier>{cbe8f34f-2b53-44c3-aed2-c7276c1d6eec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3. Component\3. Effect">
-      <UniqueIdentifier>{ab1065eb-6c82-42ae-ba60-b51cbbdc25b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3. Component\4. UI">
-      <UniqueIdentifier>{b45a5e3e-45bf-43e6-ae17-2e589dab3d8e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="4. Resource">
       <UniqueIdentifier>{8a259e07-4103-4c86-a7ed-f2c85a97330d}</UniqueIdentifier>
     </Filter>
@@ -91,9 +85,6 @@
     <ClInclude Include="CoreSystem.h">
       <Filter>1. System</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentManager.h">
-      <Filter>3. Component\4. UI</Filter>
-    </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>3. Component\1. Physics\Collider</Filter>
     </ClInclude>
@@ -136,6 +127,9 @@
     <ClInclude Include="SphereRenderer.h">
       <Filter>3. Component\2. Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="IScene.h">
+      <Filter>2. Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -167,9 +161,6 @@
     </ClCompile>
     <ClCompile Include="CoreSystem.cpp">
       <Filter>1. System</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentManager.cpp">
-      <Filter>3. Component\4. UI</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>3. Component\1. Physics\Collider</Filter>

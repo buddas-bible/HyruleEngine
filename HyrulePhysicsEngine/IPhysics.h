@@ -12,6 +12,7 @@ namespace Hyrule
 		class IRigidBody;
 		struct TRANSFORM_INFO;
 		struct COLLIDER_INFO;
+		struct Manifold;
 
 		class IPhysics
 		{
@@ -33,6 +34,8 @@ namespace Hyrule
 			virtual void RemoveCollider(const std::wstring&, ICollider*) abstract;
 			virtual void RemoveCollider(const std::wstring&, int) abstract;
 			virtual void RemoveRigidBody(const std::wstring&) abstract;
+
+			virtual std::vector<Manifold*> GetCollisionData() abstract;
 
 		public:
 			virtual long Initialize() abstract;

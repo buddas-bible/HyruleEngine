@@ -415,7 +415,13 @@ namespace Hyrule
 
 	Vector4D& operator*=(Vector4D& _vec, const Matrix4x4& _mat) noexcept
 	{
-		Matrix4x4 temp{ _mat.Inverse() };
+		__m128 m = _vec.m;
+		Matrix4x4 temp1(_mat.Inverse());
+
+		_vec.x = _mm_cvtss_f32(_mm_dp_ps(m, temp1.m[0].m, 0xFF));
+		_vec.y = _mm_cvtss_f32(_mm_dp_ps(m, temp1.m[1].m, 0xFF));
+		_vec.z = _mm_cvtss_f32(_mm_dp_ps(m, temp1.m[2].m, 0xFF));
+		_vec.w = _mm_cvtss_f32(_mm_dp_ps(m, temp1.m[3].m, 0xFF));
 
 		return _vec;
 	}

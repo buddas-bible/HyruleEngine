@@ -241,7 +241,7 @@ namespace Hyrule
 		// CreateViewTM();
 	}
 
-	void Camera::LastUpdate()
+	void Camera::LateUpdate()
 	{
 
 	}
@@ -282,6 +282,11 @@ namespace Hyrule
 	}
 
 	void Camera::OnEnable()
+	{
+
+	}
+
+	void Camera::OnDisable()
 	{
 
 	}

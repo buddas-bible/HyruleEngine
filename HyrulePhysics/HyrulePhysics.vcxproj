@@ -201,7 +201,6 @@
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Simplex.h" />
-    <ClInclude Include="SphereShape.h" />
     <ClInclude Include="SphereCollider.h" />
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +225,6 @@
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Simplex.cpp" />
-    <ClCompile Include="SphereShape.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
   </ItemGroup>
   <ItemGroup>

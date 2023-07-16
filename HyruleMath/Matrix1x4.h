@@ -14,6 +14,10 @@ namespace Hyrule
 			e{}
 		{}
 		constexpr Matrix1x4(
+			__m128 _m) noexcept :
+			m{ _m }
+		{}
+		constexpr Matrix1x4(
 			float _e00, float _e01, float _e02, float _e03) noexcept :
 			e{ _e00, _e01, _e02, _e03 }
 		{}

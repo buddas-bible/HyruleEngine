@@ -37,7 +37,8 @@ namespace Hyrule
 			bool collided;
 
 		public:
-			bool IsColliding();
+			Collider* GetColliderA();
+			Collider* GetColliderB();
 
 			Vector3D GetNormal() const noexcept;
 			void SetNormal(const Vector3D& _normal) noexcept;
@@ -54,22 +55,8 @@ namespace Hyrule
 			const std::vector<Vector3D>& GetContactPoints() const;
 			void AddContactPoint(const Vector3D& point);
 
-			std::vector<Vector3D> simplex;
-			std::vector<size_t> index;
-
-		private:
-			/// <summary>
-			/// 매니폴드가 GJK를 가지고 있는 것이 아닌
-			/// GJK의 반환이 매니폴드가 되어야할 것 같음.
-			/// 충돌하면 매니폴드를 반환
-			/// 충돌하지 않으면 nullptr을 반환하는 방식으로 해서
-			/// 
-			/// 아니면 그냥 GJK랑 EPA를 함수 객체로 만들어볼까
-			/// </summary>
-			void CheckCollision();
-
-			void CollisionEvent();
-
+			// std::vector<Vector3D> simplex;
+			// std::vector<size_t> index;
 		};
 	}
 }

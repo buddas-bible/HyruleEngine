@@ -1,18 +1,25 @@
 #pragma once
 #include "HyruleMath.h"
+#include "Edge.h"
 
 namespace Hyrule
 {
 	struct Vector3D;
+	struct Edge;
+
 	namespace Physics
 	{
 		struct Face
 		{
-			Face() = delete;
+			Face() noexcept = delete;
 			Face(const Vector3D&, const Vector3D&, const Vector3D&, 
-				size_t, size_t, size_t);
-			Vector3D point[3];
+				size_t, size_t, size_t)noexcept;
+			~Face() noexcept;
+
+			Vector3D vec[3];
 			size_t index[3];
+			Edge edge[3];
+
 			Vector3D normal;
 			Vector3D center;
 		};

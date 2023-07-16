@@ -32,7 +32,6 @@ namespace Hyrule
 			return (ICollider*)collider;
 		}
 
-
 		IRigidBody* ObjectManager::AddRigidBody(const std::wstring& _name)
 		{
 			Object* obj = this->GetObject(_name);
@@ -51,7 +50,6 @@ namespace Hyrule
 
 			return (IRigidBody*)rigidbody;
 		}
-
 
 		void ObjectManager::RemoveCollider(const std::wstring& _name, ICollider*& _target)
 		{
@@ -73,7 +71,6 @@ namespace Hyrule
 				obj = nullptr;
 			}
 		}
-
 
 		void ObjectManager::RemoveCollider(const std::wstring& _name, int _index)
 		{

@@ -42,6 +42,35 @@ namespace Hyrule
 		return transform;
 	}
 
+	void GameObject::SetParent(GameObject* _parent)
+	{
+		this->transform->SetParent(_parent->transform);
+	}
+
+	void GameObject::OnDisable()
+	{
+		for (auto& e : components)
+		{
+			e.second->OnDisable();
+		}
+	}
+
+	void GameObject::OnEnable()
+	{
+		for (auto& e : components)
+		{
+			e.second->OnEnable();
+		}
+	}
+
+	void GameObject::Awake()
+	{
+		for (auto& e : components)
+		{
+			e.second->Awake();
+		}
+	}
+
 	void GameObject::Start()
 	{
 		for (auto& e : components)
@@ -66,11 +95,11 @@ namespace Hyrule
 		}
 	}
 
-	void GameObject::LastUpdate()
+	void GameObject::LateUpdate()
 	{
 		for (auto& e : components)
 		{
-			e.second->LastUpdate();
+			e.second->LateUpdate();
 		}
 	}
 

@@ -30,8 +30,8 @@ namespace Hyrule
 		collider->SetSize(_center);
 	}
 
-	bool SphereCollider::IsColliding()
-	{
-		return collider->IsColliding();
-	}
+	// 	bool SphereCollider::IsColliding()
+	// 	{
+	// 		return collider->IsColliding();
+	// 	}
 }

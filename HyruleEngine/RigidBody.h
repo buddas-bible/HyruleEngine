@@ -53,7 +53,7 @@ namespace Hyrule
 		virtual void Start() override {}
 		virtual void FixedUpdate() override {}
 		virtual void Update() override {}
-		virtual void LastUpdate() override {}
+		virtual void LateUpdate() override {}
 		virtual void Render() override {}
 
 		// 		virtual void OnTriggerEnter(Collider*) override {}
@@ -73,6 +73,7 @@ namespace Hyrule
 		virtual void OnCollisionExit() override {}
 
 		virtual void OnEnable() override {}
+		virtual void OnDisable() override {}
 		virtual void OnDestroy() override {};
 	};
 }

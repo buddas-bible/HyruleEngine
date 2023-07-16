@@ -35,6 +35,8 @@ namespace Hyrule
 			virtual void RemoveCollider(const std::wstring&, int) override;					// 콜라이더 인덱스를 받아서 삭제
 			virtual void RemoveRigidBody(const std::wstring&) override;						// 강체 삭제
 
+			virtual std::vector<Manifold*> GetCollisionData() override;
+
 		public:
 			virtual long Initialize() override;
 			virtual void CollisionDetection() override;										// 콜리전 체크
@@ -45,12 +47,6 @@ namespace Hyrule
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;					// 월드 중력을 설정함.
 
 		private:
-			/// <summary>
-			/// 오브젝트 매니저로 뺄 예정.
-			/// </summary>
-			// std::map<std::wstring, Object*> objectMap;								// 오브젝트랑 이름, 포인터 맵
-			// std::vector<Object*> objectList;										// 단순 탐색하고 싶어서.
-
 			Hyrule::Vector3D gravity;
 
 			bool useOctree{ true };

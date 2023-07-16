@@ -8,24 +8,21 @@ namespace Hyrule
 {
 	namespace Physics 
 	{
-		class Face;
+// 		class Face;
 
-		class ConvexShape : public Shape
-		{
-		public:
-			ConvexShape() noexcept;
-			~ConvexShape() noexcept = default;
-
-		private:
-			float length;						// AABB 크기를 잡기 위해서..
-
-			std::vector<Vector3D> points;
-			std::vector<size_t> index;
-
-		public:
-			int GetShapeType();
-			float GetLength();
-		};
+// 		class ConvexShape : public Shape
+// 		{
+// 		public:
+// 			ConvexShape() noexcept;
+// 			~ConvexShape() noexcept = default;
+// 
+// 		public:
+// 			virtual std::vector<Vector3D> GetPoints() noexcept override;
+// 
+// 		private:
+// 			std::vector<Vector3D> points;
+// 			std::vector<size_t> index;
+//		};
 	}
 }
 

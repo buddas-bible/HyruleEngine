@@ -36,12 +36,16 @@ namespace Hyrule
 		Scene* GetScene();
 
 		Transform* GetTransform();
+		void SetParent(GameObject*);
 
 	public:
+		void OnDisable();
+		void OnEnable();
+		void Awake();
 		void Start();
 		void Update();
 		void FixedUpdate();
-		void LastUpdate();
+		void LateUpdate();
 		void Render();
 
 		void OnCollisionEnter();

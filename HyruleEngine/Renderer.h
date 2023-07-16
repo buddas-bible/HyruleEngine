@@ -22,10 +22,11 @@ namespace Hyrule
 	public:
 		virtual void Awake() final {};
 		virtual void OnEnable() final {};
+		virtual void OnDisable() final {};
 		virtual void Start() final {};
 		virtual void FixedUpdate() final {};
 		virtual void Update() abstract;
-		virtual void LastUpdate() final {};
+		virtual void LateUpdate() final {};
 		virtual void Render() final {};
 
 		// 		virtual void OnTriggerEnter(Collider*) override {}

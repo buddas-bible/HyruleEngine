@@ -60,6 +60,11 @@ namespace Hyrule
 			return ObjectManager::GetInstance().RemoveRigidBody(_name);
 		}
 
+		std::vector<Manifold*> HyrulePhysics::GetCollisionData()
+		{
+			return std::vector<Manifold*>();
+		}
+
 		long HyrulePhysics::Initialize()
 		{
 			gravity = Hyrule::Vector3D(0.f, -9.81f, 0.f);
@@ -81,20 +86,14 @@ namespace Hyrule
 
 			/// 우선 엔진이 옥트리를 사용할지 안할지에 따라서
 			/// 배열을 전부 탐색할지 판단함.
-			if (useOctree)
-			{
-				/// 옥트리의 노드를 구분함.
-				/// 노드 안에 데이터가 0~1개면 패스.
-				/// 2개 ~ 4개까지는 그냥 순회하면서 충돌 감지 하려고 함.
-				/// 5개 넘어가면 자식을 탐색.
 
-				Octree<Object, 4> octree;
-				
-			}
-			else
-			{
+			/// 옥트리의 노드를 구분함.
+			/// 노드 안에 데이터가 0~1개면 패스.
+			/// 2개 ~ 4개까지는 그냥 순회하면서 충돌 감지 하려고 함.
+			/// 5개 넘어가면 자식을 탐색.
 
-			}
+			Octree<Object, 4> octree;
+
 		}
 
 		/// <summary>

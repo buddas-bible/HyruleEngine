@@ -20,6 +20,8 @@ namespace Hyrule
 			void push_back(const Vector3D&);
 			size_t size();
 
+			void SetIndices();
+
 			std::vector<Vector3D> points;
 			std::vector<size_t> index;
 		};

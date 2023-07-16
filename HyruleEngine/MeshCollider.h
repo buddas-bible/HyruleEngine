@@ -34,7 +34,7 @@ namespace Hyrule
 		virtual void Start() abstract;
 		virtual void FixedUpdate() abstract;
 		virtual void Update() abstract;
-		virtual void LastUpdate() abstract;
+		virtual void LateUpdate() abstract;
 		virtual void Render() abstract;
 
 		// 		virtual void OnTriggerEnter(Collider*) override {}
