@@ -53,7 +53,7 @@ namespace Hyrule
 		currentScene->Load();
 	}
 
-	void SceneManager::LoadScene(IScene*& _scene) noexcept
+	void SceneManager::LoadScene(IScene* _scene) noexcept
 	{
 		// current를 비활성화
 		if (currentScene != nullptr)
@@ -72,14 +72,35 @@ namespace Hyrule
 
 
 
-	void SceneManager::SceneStart()
+	void SceneManager::Initalization()
 	{
+		if (first == true)
+		{
 
+		}
+		else
+		{
+			// 우선 모든 오브젝트는 기본이 활성 상태.
+			// Start에서 비활성화
+			for (size_t i = 0; i < currentScene->ActivatedQueue().size(); i++)
+			{
+				auto obj = currentScene->ActivatedQueue().front();
+				obj->Awake();
+				currentScene->AddActivatedQueue(obj);
+				currentScene->ActivatedQueue().pop();
+			}
+
+			for (size_t i = 0; i < currentScene->ActivatedQueue().size(); i++)
+			{
+				currentScene->ActivatedQueue().front()->OnEnable();
+				currentScene->ActivatedQueue().pop();
+			}
+		}
 	}
 
 	void SceneManager::OnDisable()
 	{
-		for (auto& e : currentScene->GetGameObjectList())
+		for (auto& e : currentScene->GetSceneObjectList())
 		{
 			e.second->OnDisable();
 		}
@@ -87,7 +108,7 @@ namespace Hyrule
 
 	void SceneManager::OnEnable()
 	{
-		for (auto& e : currentScene->GetGameObjectList())
+		for (auto& e : currentScene->GetSceneObjectList())
 		{
 			e.second->OnEnable();
 		}
@@ -95,7 +116,7 @@ namespace Hyrule
 
 	void SceneManager::Awake()
 	{
-		for (auto& e : currentScene->GetGameObjectList())
+		for (auto& e : currentScene->GetSceneObjectList())
 		{
 			e.second->Awake();
 		}
@@ -103,9 +124,9 @@ namespace Hyrule
 
 	void SceneManager::Start()
 	{
-		for (auto& e : currentScene->GetGameObjectList())
+		for (auto& e : currentScene->GetActivtedObject())
 		{
-			e.second->Start();
+			e->Start();
 		}
 	}
 
@@ -113,39 +134,56 @@ namespace Hyrule
 	{
 		// for (auto& e : currentScene->GetGameObjectList())
 		// {
-		// 	e.second->P();
+		// 	e->P();
 		// }
 	}
 
 	void SceneManager::FixedUpdate()
 	{
-		for (auto& e : currentScene->GetGameObjectList())
+		for (auto& e : currentScene->GetActivtedObject())
 		{
-			e.second->FixedUpdate();
+			e->FixedUpdate();
 		}
 	}
 
 	void SceneManager::Update()
 	{
-		for (auto& e : currentScene->GetGameObjectList())
+		for (auto& e : currentScene->GetActivtedObject())
 		{
-			e.second->Update();
+			e->Update();
 		}
 	}
 
 	void SceneManager::LateUpdate()
 	{
-		for (auto& e : currentScene->GetGameObjectList())
+		for (auto& e : currentScene->GetActivtedObject())
 		{
-			e.second->LateUpdate();
+			e->LateUpdate();
 		}
 	}
 
 	void SceneManager::OnDestroy()
 	{
-		for (auto& e : currentScene->GetGameObjectList())
+		for (auto& e : currentScene->GetSceneObjectList())
 		{
 			e.second->OnDestroy();
+		}
+	}
+
+	void SceneManager::Decommissioning()
+	{
+		// 우선 모든 오브젝트는 기본이 활성 상태.
+		// Start에서 비활성화
+		for (size_t i = 0; i < currentScene->DeactivatedQueue().size(); i++)
+		{
+			currentScene->DeactivatedQueue().front()->OnDisable();
+			currentScene->ActivatedQueue().pop();
+		}
+
+		for (size_t i = 0; i < currentScene->DestroyedQueue().size(); i++)
+		{
+			currentScene->DestroyedQueue().front()->OnDestroy();
+			currentScene->DestroyedQueue().pop();
 		}
 	}
 }

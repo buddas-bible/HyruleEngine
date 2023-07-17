@@ -19,7 +19,7 @@ namespace Hyrule
 			edge[0] = Edge(_A, _B, _i0, _i1);
 			edge[0].SetNormal(AB.Cross(normal));
 			
-			edge[1] = Edge(_A, _C, _i0, _i2);
+			edge[1] = Edge(_C, _A, _i2, _i0);
 			edge[1].SetNormal(normal.Cross(AC));
 			
 			edge[2] = Edge(_B, _C, _i1, _i2);
@@ -30,7 +30,7 @@ namespace Hyrule
 
 		Face::~Face() noexcept
 		{
-			delete[] edge;
+			// delete[] edge;
 		}
 
 	}

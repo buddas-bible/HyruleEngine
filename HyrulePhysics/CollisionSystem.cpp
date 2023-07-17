@@ -103,7 +103,7 @@ namespace Hyrule
 				float dist{ support.Dot(std::get<0>(closestFace)->normal) };
 				
 				// 점을 노말에 투영한 값과 면과의 거리가 유사하다면
-				if (std::fabs(dist - std::get<1>(closestFace)) > Epsilon)
+				if (std::fabs(dist - std::get<1>(closestFace)) < Epsilon)
 				{
 					_manifold->SetDepth(dist);
 					_manifold->SetNormal(std::get<0>(closestFace)->normal);
@@ -115,20 +115,29 @@ namespace Hyrule
 					// 심플렉스에 점을 추가하고 면을 삭제시킴
 					simplex.push_back(support);
 
+					// 심플렉스로부터 받은 면 정보이기 때문에 인덱스 정보가 일치할 것임
+					auto face = std::get<0>(closestFace);
+					size_t _i0 = face->index[0];		// A
+					size_t _i1 = face->index[1];		// B
+					size_t _i2 = face->index[2];		// C
+					size_t newVertex = simplex.size() - 1;
+
 					for (size_t i = 0; i < simplex.index.size(); i += 3)
 					{
-						// 심플렉스로부터 받은 면 정보이기 때문에 인덱스 정보가 일치할 것임
-						size_t _i0 = std::get<0>(closestFace)->index[0];
-						size_t _i1 = std::get<0>(closestFace)->index[1];
-						size_t _i2 = std::get<0>(closestFace)->index[2];
-						
 						if (simplex.index[i] == _i0 && simplex.index[i + 1] == _i1 && simplex.index[i + 2] == _i2)
 						{
-							simplex.index.erase(simplex.index.begin() + i);
-							simplex.index.erase(simplex.index.begin() + i + 1);
-							simplex.index.erase(simplex.index.begin() + i + 2);
+							simplex.index.erase(simplex.index.begin(), simplex.index.begin() + 2);
 						}
 					}
+
+					std::vector<size_t> newindex
+					{
+						_i0, _i1, newVertex,
+						_i0, newVertex, _i2,
+						_i1, _i2, newVertex
+					
+					};
+					simplex.index.insert(simplex.index.end(), newindex.begin(), newindex.end());
 				}
 			}
 
@@ -194,7 +203,31 @@ namespace Hyrule
 
 		std::pair<Face*, float> CollisionSystem::FindClosestFace(Simplex* _simplex)
 		{
-			return std::pair<Face*, float>();
+			float mindist{ 100000000000.f };
+			Face* closestFace{};
+
+			for (size_t i = 0; i < _simplex->index.size(); i += 3)
+			{
+				size_t i0{ _simplex->index[i] };
+				size_t i1{ _simplex->index[i + 1] };
+				size_t i2{ _simplex->index[i + 2] };
+
+				Face* newFace = new Face((*_simplex)[i0], (*_simplex)[i1], (*_simplex)[i2], i0, i1, i2);
+				float dist{ (*_simplex)[i0].Dot(newFace->normal) };
+
+				if (mindist > dist)
+				{
+					mindist = dist;
+					delete closestFace;
+					closestFace = newFace;
+				}
+				else
+				{
+					delete newFace;
+				}
+			}
+
+			return std::make_pair(closestFace, mindist);
 		}
 
 		/// <summary>
@@ -326,27 +359,27 @@ namespace Hyrule
 			Vector3D CA = (A - C).Normalized();
 			Vector3D CB = (B - C).Normalized();
 			Vector3D CO = -C.Normalized();
-			Vector3D CAB = CA.Cross(CB).Normalized();
+			Vector3D CBA = CB.Cross(CA).Normalized();
 			
 			// ABC 삼각형의 노말 벡터를 구하고
 			// 삼각형 어느 방향에 원점이 있는지 판단.
 
-			// CB 공간에 원점이 존재하는지 체크
-			if (CAB.Cross(CB).Normalized().Dot(CO) > 0.f)
+			// CA 공간에 원점이 존재하는지 체크
+			if (CBA.Cross(CA).Normalized().Dot(CO) > 0.f)
 			{
-				// CB 공간에 원점이 존재한다면
+				// CA 공간에 원점이 존재한다면
 				// 비버 집을 다시 지어야함.
 				// DoSimplex2와 비슷한 행동
-				if (CB.Dot(CO) > 0.f)
-				{
-					// CB 공간에서 다시 탐색
-					_simplex = { B, C };
-					_direction = CB.Cross(CO).Cross(CB).Normalized();
-				}
-				else
+				if (CA.Dot(CO) > 0.f)
 				{
 					// CA 공간에서 다시 탐색
 					_simplex = { A, C };
+					_direction = CA.Cross(CO).Cross(CA).Normalized();
+				}
+				else
+				{
+					// CB 공간에서 다시 탐색
+					_simplex = { B, C };
 					return DoSimplex2(_simplex, CO);
 // 					// DoSimplex2와 비슷한 행동
 // 					// CA와 원점의 방향을 판단
@@ -367,11 +400,11 @@ namespace Hyrule
 			else
 			{
 				// CA 공간에 원점이 존재하는지 체크
-				if (CA.Cross(CAB).Normalized().Dot(CO) > 0.f)
+				if (CB.Cross(CBA).Normalized().Dot(CO) > 0.f)
 				{
 					// CA 공간에 원점이 존재한다면
 					// 비버 집을 다시 지어야함.
-					_simplex = { A, C };
+					_simplex = { B, C };
 					return DoSimplex2(_simplex, CO);
 // 					// DoSimplex2와 비슷한 행동
 // 					// CA와 원점의 관계를 판단
@@ -390,12 +423,12 @@ namespace Hyrule
 				// CA, CB 공간에 원점이 존재하지 않는다면
 				else
 				{
-					// 면 CAB 노말 방향에 원점이 존재하는가?
-					if (CAB.Dot(CO) > 0.f)
+					// 면 CBA 노말 방향에 원점이 존재하는가?
+					if (CBA.Dot(CO) > 0.f)
 					{
 						// CBA 노말 방향으로 점 D를 탐색
 						_simplex = { A, B, C };
-						_direction = CAB;
+						_direction = CBA;
 					}
 					else
 					{
@@ -403,7 +436,7 @@ namespace Hyrule
 						// 방향은 반대라서
 						// CBA -노말 방향으로 점 D를 탐색
 						_simplex = { B, A, C };
-						_direction = -CAB;
+						_direction = -CBA;
 					}
 				}
 			}
@@ -422,14 +455,14 @@ namespace Hyrule
 			Vector3D DA{ (A - D).Normalized() };
 			Vector3D DB{ (B - D).Normalized() };
 			Vector3D DC{ (C - D).Normalized() };
-			Vector3D DAB{ DA.Cross(DB).Normalized() };
-			Vector3D DCA{ DC.Cross(DA).Normalized() };
-			Vector3D DBC{ DB.Cross(DC).Normalized() };
+			Vector3D DBA{ DB.Cross(DA).Normalized() };
+			Vector3D DAC{ DA.Cross(DC).Normalized() };
+			Vector3D DCB{ DC.Cross(DB).Normalized() };
 			Vector3D DO{ -D.Normalized() };
 
 			// 사면체를 이루는 각 면의 노말 벡터와
 			// 원점의 방향으로 사면체가 원점을 포함하고 있는지를 판단함.
-			if (DAB.Dot(DO) > 0.f)
+			if (DBA.Dot(DO) > 0.f)
 			{
 				// 노말 방향에 원점이 존재한다면...
 				// DAB 공간안에 원점이 있음
@@ -439,14 +472,14 @@ namespace Hyrule
 				return false;
 			}
 
-			if (DCA.Dot(DO) > 0.f)
+			if (DAC.Dot(DO) > 0.f)
 			{
 				_simplex = { A, C, D };
 				_direction = DO;
 				return false;
 			}
 
-			if (DBC.Dot(DO) > 0.f)
+			if (DCB.Dot(DO) > 0.f)
 			{
 				_simplex = { B, C, D };
 				_direction = DO;
@@ -518,12 +551,24 @@ namespace Hyrule
 		void CollisionSystem::CollisionRespone(float)
 		{
 			// 속력 업데이트
+			ComputeVelocity();
 			// 충돌 대응
+			ComputeImpulse();
 			// 위치 업데이트
+			ComputePosition();
 			// 밀어냄
+			ResolveCollision();
 			// 힘 초기화
 
+		}
 
+		void CollisionSystem::ComputeVelocity()
+		{
+
+		}
+
+		void CollisionSystem::ComputeImpulse()
+		{
 			// A, B의 질량이 0이라면 운동을 하지 않음
 // 			if (((A->GetInvMass() + B->GetInvMass()) - 0.f) <= 0.000001f)
 // 			{
@@ -602,6 +647,17 @@ namespace Hyrule
 // 
 // 				A->ApplyImpulse(-1.f * tangentImpulse, AtoContactPoint);
 // 				B->ApplyImpulse(tangentImpulse, BtoContactPoint);
+		}
+
+		void CollisionSystem::ComputePosition()
+		{
+
+		}
+
+
+		void CollisionSystem::ResolveCollision()
+		{
+
 		}
 	}
 }

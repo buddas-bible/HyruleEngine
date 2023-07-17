@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
 #include "Transform.h"
+#include "Scene.h"
 
 namespace Hyrule
 {
@@ -36,7 +37,6 @@ namespace Hyrule
 		return scene;
 	}
 
-
 	Transform* GameObject::GetTransform()
 	{
 		return transform;
@@ -45,6 +45,18 @@ namespace Hyrule
 	void GameObject::SetParent(GameObject* _parent)
 	{
 		this->transform->SetParent(_parent->transform);
+	}
+
+	void GameObject::SetActive(bool _active)
+	{
+		if (_active == true)
+		{
+			scene->AddActivatedQueue(this);
+		}
+		else
+		{
+			scene->AddDeactivatedQueue(this);
+		}
 	}
 
 	void GameObject::OnDisable()

@@ -13,12 +13,12 @@ namespace Hyrule
 
 		enum EventFunction : int
 		{
-			INITIALIZAION	= 0,
+			INITIALIZATION	= 0,
 			PHYSICS			= 10,
 			INPUT			= 20,
 			GAME_LOGIC		= 30,
 			RENDERING		= 40,
-			DESTROY			= 50,
+			DECOMISSIONING	= 50,
 			DEBUGRENDERING	= 60,
 		};
 	};

@@ -1,5 +1,8 @@
 #pragma once
-
+#include <map>
+#include <string>
+#include <vector>
+#include <queue>
 
 namespace Hyrule
 {
@@ -12,16 +15,22 @@ namespace Hyrule
 		IScene() noexcept = default;
 		virtual ~IScene() noexcept = default;
 
-	protected:
-		virtual GameObject* CreateGameObject(const std::wstring&) abstract;
-
 	public:
 		virtual  std::wstring GetName() noexcept abstract;
-		virtual  GameObject* AddGameObject(const std::wstring&) abstract;
-		virtual  GameObject* AddGameObject(const std::wstring&, GameObject*) abstract;
-		virtual  std::map<std::wstring, GameObject*>& GetGameObjectList() abstract;
+		virtual  GameObject* CreateGameObject(const std::wstring&) abstract;
+		virtual  GameObject* CreateGameObject(const std::wstring&, GameObject*) abstract;
+		virtual  std::map<std::wstring, GameObject*>& GetSceneObjectList() abstract;
+		virtual std::vector<GameObject*>& GetActivtedObject() abstract;
+		virtual std::queue<GameObject*>& ActivatedQueue() abstract;
+		virtual std::queue<GameObject*>& DeactivatedQueue() abstract;
+		virtual std::queue<GameObject*>& DestroyedQueue() abstract;
 
 		virtual Camera* GetMainCamera() abstract;
+		virtual void SetMainCamera(Camera* _camera) abstract;
+
+		virtual void AddActivatedQueue(GameObject*) abstract;
+		virtual void AddDeactivatedQueue(GameObject*) abstract;
+		virtual void AddDestroyedQueue(GameObject*) abstract;
 
 		virtual void Load() noexcept abstract;
 		virtual void Clear() noexcept abstract;

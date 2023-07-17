@@ -1,15 +1,16 @@
 #pragma once
-#include <map>
 #include <string>
+#include <queue>
+#include <map>
 #include "IScene.h"
 #include "SceneManager.h"
+#include "GameObject.h"
 
 namespace Hyrule
 {
 	class GameObject;
 	class Camera;
 
-	template <typename SceneType>
 	class Scene : public IScene
 	{
 	friend SceneManager;
@@ -22,20 +23,19 @@ namespace Hyrule
 		}
 		virtual ~Scene() noexcept = default;
 
-	private:
-		std::wstring name;							// 씬 이름
-		std::map<std::wstring, GameObject*> gameObjecs;	// 
+	protected:
+		std::wstring name;								// 씬 이름
+		std::map<std::wstring, GameObject*> gameObjecs;	// 씬에 있는 모든 오브젝트
+		std::vector<GameObject*> activatedObject;		// 활성화된 오브젝트
+		std::queue<GameObject*> objectsToDestroy;		// 오브젝트 파괴
+		std::queue<GameObject*> objectsToActivate;		// 오브젝트 활성화
+		std::queue<GameObject*> objectsToDeactivate;	// 오브젝트 비활성화
 
 	public:
 		virtual std::wstring GetName() noexcept final
 		{
-			return name;
+			return this->name;
 		}
-		virtual std::map<std::wstring, GameObject*>& GetGameObjectList() final
-		{
-			return gameObjecs;
-		}
-
 		virtual GameObject* CreateGameObject(const std::wstring& _name) final
 		{
 			auto itr = gameObjecs.find(_name);
@@ -58,6 +58,26 @@ namespace Hyrule
 
 			return newObejct;
 		}
+		virtual std::map<std::wstring, GameObject*>& GetSceneObjectList() final
+		{
+			return gameObjecs;
+		}
+		virtual std::vector<GameObject*>& GetActivtedObject() final
+		{
+			return activatedObject;
+		}
+		virtual std::queue<GameObject*>& ActivatedQueue() final
+		{
+			return this->objectsToDeactivate;
+		}
+		virtual std::queue<GameObject*>& DeactivatedQueue() final
+		{
+			return this->objectsToActivate;
+		}
+		virtual std::queue<GameObject*>& DestroyedQueue() final
+		{
+			return this->objectsToDestroy;
+		}
 
 		virtual Camera* GetMainCamera() final
 		{
@@ -68,6 +88,19 @@ namespace Hyrule
 			this->mainCamera = _camera;
 		}
 	
+		virtual void AddActivatedQueue(GameObject* _object) final
+		{
+			this->objectsToActivate.push(_object);
+		}
+		virtual void AddDeactivatedQueue(GameObject* _object) final
+		{
+			this->objectsToDeactivate.push(_object);
+		}
+		virtual void AddDestroyedQueue(GameObject* _object) final
+		{
+			this->objectsToDestroy.push(_object);
+		}
+
 	public:
 		virtual void Load() noexcept abstract;
 		virtual void Clear() noexcept final
@@ -79,7 +112,7 @@ namespace Hyrule
 			gameObjecs.clear();
 		}
 
-	private:
+	protected:
 		Camera* mainCamera;
 	};
 }

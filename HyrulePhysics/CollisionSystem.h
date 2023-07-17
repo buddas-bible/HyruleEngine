@@ -20,14 +20,14 @@ namespace Hyrule
 		/// </summary>
 		public:
 			/// <summary>
-			/// 충돌 감지
+			/// GJK 충돌 감지
 			/// </summary>
-			/// <param name=""></param>
-			/// <param name=""></param>
-			/// <returns></returns>
 			bool GJKCollisionDetection(Collider*, Collider*);
 			// bool CollisionCheck2(Collider*, Collider*);
 			
+			/// <summary>
+			/// EPA 침투 깊이 계산
+			/// </summary>
 			void ComputePenetrationDepth(Manifold* _manifold);
 			Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
 			std::pair<Edge*, float> FindClosestEdge(Simplex*);
@@ -57,6 +57,10 @@ namespace Hyrule
 		/// </summary>
 		public:
 			void CollisionRespone(float);
+			void ComputeVelocity();
+			void ComputeImpulse();
+			void ComputePosition();
+			void ResolveCollision();
 		};
 	}
 }

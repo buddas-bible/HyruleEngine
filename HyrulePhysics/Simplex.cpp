@@ -24,12 +24,13 @@ namespace Hyrule
 
 		void Simplex::SetIndices()
 		{
-			Vector3D& A{ points[0] };
-			Vector3D& B{ points[1] };
-			Vector3D& C{ points[2] };
-			Vector3D& D{ points[3] };
-
-			index = {};
+			index = 
+			{
+				0, 2, 1,		// A, C, B
+				0, 1, 3,		// A, B, D
+				0, 3, 2,		// A, D, C
+				2, 3, 1,		// C, D, B
+			};
 		}
 
 		std::vector<Vector3D>& Simplex::operator=(const std::vector<Vector3D>& _points)

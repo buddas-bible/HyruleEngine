@@ -11,10 +11,13 @@ namespace Hyrule
 	private:
 		SceneManager() noexcept = default;
 		~SceneManager() noexcept = default;
+		SceneManager& operator= (const SceneManager&) noexcept = delete;
+		SceneManager& operator= (SceneManager&&) noexcept = delete;
 
 	private:
 		IScene* currentScene;
 		std::map<std::wstring, IScene*> sceneMap;
+		bool first{ true };
 
 	public:
 		static SceneManager& GetInstance() noexcept;
@@ -24,23 +27,23 @@ namespace Hyrule
 		void RemoveScene(IScene*&) noexcept;
 
 		void LoadScene(const std::wstring&) noexcept;
-		void LoadScene(IScene*&) noexcept;
+		void LoadScene(IScene*) noexcept;
 		void ClearScene();
 
 	public:
-		void SceneStart();
-
+		void Initalization();
 
 		void Awake();
 		void OnEnable();
+		void OnDisable();
+
 		void Start();
 		void PhysicsUpdate();
 		void FixedUpdate();
 		void Update();
 		void LateUpdate();
 
-		void OnDisable();
-
 		void OnDestroy();
+		void Decommissioning();
 	};
 }

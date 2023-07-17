@@ -28,6 +28,8 @@ namespace Hyrule
 		Scene* scene;									// 내가 포함된 씬..
 		// 컴포넌트들이 게임 오브젝트를 통해서 씬 이름 같은걸 알아내나?
 
+		bool activeSelf;
+
 	public:
 		const std::wstring& GetName();
 		void SetName(const std::wstring&);
@@ -39,9 +41,11 @@ namespace Hyrule
 		void SetParent(GameObject*);
 
 	public:
-		void OnDisable();
-		void OnEnable();
+		void SetActive(bool);
+
 		void Awake();
+		void OnEnable();
+
 		void Start();
 		void Update();
 		void FixedUpdate();
@@ -52,6 +56,7 @@ namespace Hyrule
 		void OnCollisionStay();
 		void OnCollisionExit();
 
+		void OnDisable();
 		void OnDestroy();
 
 	public:

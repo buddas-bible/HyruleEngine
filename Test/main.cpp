@@ -71,12 +71,12 @@ int APIENTRY WinMain(
 
 	auto& sceneManager = Hyrule::SceneManager::GetInstance();
 	Hyrule::Scene* scene01 = new Scene01(L"Scene01");
-	sceneManager.AddScene(scene01);
+	sceneManager.AddScene(L"Scene01", scene01);
+
+
+
+
 	sceneManager.LoadScene(scene01);
-
-
-
-
 	gameEngine.Run();
 	gameEngine.Finalize();
 
