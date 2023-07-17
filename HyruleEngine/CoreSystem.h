@@ -3,10 +3,16 @@
 
 namespace Hyrule
 {
-	class CoreSystem : System<CoreSystem>
+	class CoreSystem : public System<CoreSystem>
 	{
 	public:
-		bool GameProcess();
+		CoreSystem() noexcept = default;
+		~CoreSystem() noexcept = default;
+		CoreSystem(const CoreSystem&) = delete;
+		void operator=(const CoreSystem&) = delete;
+
+	public:
+		bool GameProcess() noexcept;
 
 	private:
 		int state{};

@@ -7,7 +7,7 @@ namespace Hyrule
 	Transform::Transform(GameObject* _gameObject) noexcept :
 		Component(_gameObject), 
 		position(), rotation(), scale(),
-		parent(), child()
+		parent(), children()
 	{}
 	
 	Vector3D Transform::GetLocalPosition() noexcept
@@ -147,32 +147,37 @@ namespace Hyrule
 
 	void Transform::AddChild(Transform* _child) noexcept
 	{
-		child.push_back(_child);
+		children.push_back(_child);
 	}
 
 	void Transform::RemoveChild(Transform* _child) noexcept
 	{
-		child.erase(remove(child.begin(), child.end(), _child));
+		children.erase(remove(children.begin(), children.end(), _child));
 	}
 
 	Transform* Transform::GetChild(const size_t _index) noexcept
 	{
-		if ((_index < 0) || (_index > child.size()))
+		if ((_index < 0) || (_index > children.size()))
 		{
 			return nullptr;
 		}
 
-		return child[_index];
+		return children[_index];
+	}
+
+	std::vector<Transform*> Transform::Getchildren() noexcept
+	{
+		return this->children;
 	}
 
 	size_t Transform::GetChildCount() noexcept
 	{
-		return child.size();
+		return children.size();
 	}
 
 	Transform* Transform::FindChild(const std::wstring& _name) noexcept
 	{
-		for (auto e : child)
+		for (auto e : children)
 		{
 			if (e->gameObject->GetName() == _name)
 			{
@@ -192,10 +197,10 @@ namespace Hyrule
 			parent = nullptr;
 		}
 
-		// 자식 관계를 끊음
-		for (auto& e : child)
-		{
-			e->RemoveParent();
+		// 자식을 전부 파괴함.
+		for (auto& e : children)
+		{	
+			//e->gameObject->GetScene()->
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace Hyrule
 
 	private:
 		Hyrule::Transform* parent;
-		std::vector<Transform*> child;
+		std::vector<Transform*> children;
 
 	public:
 		/// <summary>
@@ -62,6 +62,7 @@ namespace Hyrule
 		void RemoveChild(Transform*) noexcept;
 
 		Transform* GetChild(const size_t) noexcept;
+		std::vector<Transform*> Getchildren() noexcept;
 		size_t GetChildCount() noexcept;
 		Transform* FindChild(const std::wstring&) noexcept;
 

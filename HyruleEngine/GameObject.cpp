@@ -52,11 +52,26 @@ namespace Hyrule
 		if (_active == true)
 		{
 			scene->AddActivatedQueue(this);
+			for (auto& e : transform->Getchildren())
+			{
+				e->gameObject->SetActive(_active);
+			}
 		}
 		else
 		{
 			scene->AddDeactivatedQueue(this);
+			for (auto& e : transform->Getchildren())
+			{
+				e->gameObject->SetActive(_active);
+			}
 		}
+
+		this->activeSelf = _active;
+	}
+
+	bool GameObject::Activated()
+	{
+		return this->activeSelf;
 	}
 
 	void GameObject::OnDisable()
@@ -153,7 +168,8 @@ namespace Hyrule
 		{
 			e.second->OnDestroy();
 			delete e.second;
-			components.erase(e.first);
 		}
+
+		components.clear();
 	}
 }

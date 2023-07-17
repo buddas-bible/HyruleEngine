@@ -14,7 +14,7 @@ namespace Hyrule
 
 	void SceneManager::AddScene(const std::wstring& _name, IScene* _scene) noexcept
 	{
-		sceneMap[_name] = _scene;
+		sceneMap.insert(std::make_pair(_name, _scene));
 	}
 
 	void SceneManager::RemoveScene(const std::wstring& _name) noexcept
@@ -44,55 +44,82 @@ namespace Hyrule
 	void SceneManager::LoadScene(const std::wstring& _name) noexcept
 	{
 		// current를 비활성화
-		if (currentScene != nullptr)
-		{
-			currentScene->Clear();
-		}
+		this->ClearScene();
 
 		currentScene = sceneMap[_name];
 		currentScene->Load();
+		first = true;
 	}
 
 	void SceneManager::LoadScene(IScene* _scene) noexcept
 	{
 		// current를 비활성화
-		if (currentScene != nullptr)
-		{
-			currentScene->Clear();
-		}
+		this->ClearScene();
 
 		currentScene = _scene;
 		currentScene->Load();
+		first = true;
 	}
 
 	void SceneManager::ClearScene()
 	{
-		currentScene->Clear();
+		if (currentScene != nullptr)
+		{
+			currentScene->Clear();
+		}
 	}
-
 
 
 	void SceneManager::Initalization()
 	{
 		if (first == true)
 		{
+			currentScene->Initialize();
 
+			// 활성화 중인 오브젝트의 이벤트 함수를 호출
+			for (auto& e : currentScene->GetActivtedObject())
+			{
+				e->Awake();
+			}
+
+			for (auto& e : currentScene->GetActivtedObject())
+			{
+				e->OnEnable();
+			}
+
+			for (auto& e : currentScene->GetActivtedObject())
+			{
+				e->Start();
+			}
+
+			first = false;
 		}
 		else
 		{
-			// 우선 모든 오브젝트는 기본이 활성 상태.
-			// Start에서 비활성화
+			// 이전 프레임에서 활성화 된 오브젝트들의 이벤트 함수를 호출함.
 			for (size_t i = 0; i < currentScene->ActivatedQueue().size(); i++)
 			{
 				auto obj = currentScene->ActivatedQueue().front();
-				obj->Awake();
 				currentScene->AddActivatedQueue(obj);
 				currentScene->ActivatedQueue().pop();
+				obj->Awake();
+
+				// 활성화된 오브젝트 배열에 넣음.
+				currentScene->GetActivtedObject().push_back(obj);
 			}
 
 			for (size_t i = 0; i < currentScene->ActivatedQueue().size(); i++)
 			{
-				currentScene->ActivatedQueue().front()->OnEnable();
+				auto obj = currentScene->ActivatedQueue().front();
+				currentScene->AddActivatedQueue(obj);
+				currentScene->ActivatedQueue().pop();
+
+				obj->OnEnable();
+			}
+
+			for (size_t i = 0; i < currentScene->ActivatedQueue().size(); i++)
+			{
+				currentScene->ActivatedQueue().front()->Start();
 				currentScene->ActivatedQueue().pop();
 			}
 		}
@@ -172,16 +199,27 @@ namespace Hyrule
 
 	void SceneManager::Decommissioning()
 	{
-		// 우선 모든 오브젝트는 기본이 활성 상태.
-		// Start에서 비활성화
+		// 비활성화 하기로 한 오브젝트 처리 
 		for (size_t i = 0; i < currentScene->DeactivatedQueue().size(); i++)
 		{
-			currentScene->DeactivatedQueue().front()->OnDisable();
+			auto obj = currentScene->DeactivatedQueue().front();
 			currentScene->ActivatedQueue().pop();
+
+			auto itr = std::find(
+				currentScene->GetActivtedObject().begin(), 
+				currentScene->GetActivtedObject().end(), 
+				obj
+			);
+
+			currentScene->GetActivtedObject().erase(itr);
+			
+			obj->OnDisable();
 		}
 
+		// 파괴된 오브젝트 처리
 		for (size_t i = 0; i < currentScene->DestroyedQueue().size(); i++)
 		{
+			currentScene->DestroyedQueue().front()->OnDisable();
 			currentScene->DestroyedQueue().front()->OnDestroy();
 			currentScene->DestroyedQueue().pop();
 		}

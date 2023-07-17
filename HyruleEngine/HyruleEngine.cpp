@@ -1,8 +1,7 @@
 #include "HyruleEngine.h"
 
 #include "framework.h"
-
-#include "SceneManager.h"
+#include "CoreSystem.h"
 #include "RendererSystem.h"
 #include "PhysicsSystem.h"
 
@@ -22,11 +21,6 @@ namespace Hyrule
 	HyruleEngine& HyruleEngine::GetInstance() noexcept
 	{
 		static HyruleEngine gameEngine;
-
-		// if (!gameEngine)
-		// {
-		// 	gameEngine = new HyruleEngine;
-		// }
 
 		return gameEngine;
 	}
@@ -49,13 +43,9 @@ namespace Hyrule
 			}
 			else
 			{
-				/// 여기가 Core를 실행시킬 곳일까?
-
-				// sceneManager.
-				RendererSystem::GetInstance().Update();
-				RendererSystem::GetInstance().Render();
-				// m_engine->PhysicsUpdate();
-				// engine->Render();
+				// RendererSystem::GetInstance().Update();
+				// RendererSystem::GetInstance().Render();
+				isRunning = CoreSystem::GetInstance().GameProcess();
 			}
 		}
 	}

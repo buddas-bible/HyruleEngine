@@ -31,8 +31,10 @@ namespace Hyrule
 		virtual void AddActivatedQueue(GameObject*) abstract;
 		virtual void AddDeactivatedQueue(GameObject*) abstract;
 		virtual void AddDestroyedQueue(GameObject*) abstract;
-
+		
+		virtual void Initialize() noexcept abstract;
 		virtual void Load() noexcept abstract;
+		virtual void Destroy(GameObject*) noexcept abstract;
 		virtual void Clear() noexcept abstract;
 	};
 

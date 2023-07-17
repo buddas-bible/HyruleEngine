@@ -42,6 +42,7 @@ namespace Hyrule
 
 	public:
 		void SetActive(bool);
+		bool Activated();
 
 		void Awake();
 		void OnEnable();

@@ -16,101 +16,43 @@ namespace Hyrule
 	friend SceneManager;
 
 	public:
-		Scene(const std::wstring& _name) noexcept : 
-			name(_name), gameObjecs(), mainCamera()
-		{
-			SceneManager::GetInstance().AddScene(_name, this);
-		}
+		Scene(const std::wstring& _name) noexcept;
 		virtual ~Scene() noexcept = default;
+		Scene& operator=(const Scene&) noexcept = delete;
+		Scene& operator=(Scene&&) noexcept = delete;
 
 	protected:
 		std::wstring name;								// 씬 이름
 		std::map<std::wstring, GameObject*> gameObjecs;	// 씬에 있는 모든 오브젝트
+
+	protected:
 		std::vector<GameObject*> activatedObject;		// 활성화된 오브젝트
 		std::queue<GameObject*> objectsToDestroy;		// 오브젝트 파괴
 		std::queue<GameObject*> objectsToActivate;		// 오브젝트 활성화
 		std::queue<GameObject*> objectsToDeactivate;	// 오브젝트 비활성화
 
 	public:
-		virtual std::wstring GetName() noexcept final
-		{
-			return this->name;
-		}
-		virtual GameObject* CreateGameObject(const std::wstring& _name) final
-		{
-			auto itr = gameObjecs.find(_name);
+		virtual std::wstring GetName() noexcept final;
+		virtual GameObject* CreateGameObject(const std::wstring& _name) final;
+		virtual GameObject* CreateGameObject(const std::wstring& _name, GameObject* _parent) final;
+		virtual std::map<std::wstring, GameObject*>& GetSceneObjectList() final;
+		virtual std::vector<GameObject*>& GetActivtedObject() final;
+		virtual std::queue<GameObject*>& ActivatedQueue() final;
+		virtual std::queue<GameObject*>& DeactivatedQueue() final;
+		virtual std::queue<GameObject*>& DestroyedQueue() final;
 
-			if (itr != gameObjecs.end())
-			{
-				return itr->second;
-			}
-
-			GameObject* newObejct = new GameObject(_name, this);
-			gameObjecs[_name] = newObejct;
-
-			return newObejct;
-		}
-		virtual GameObject* CreateGameObject(const std::wstring& _name, GameObject* _parent) final
-		{
-			GameObject* newObejct = CreateGameObject(_name);
-			gameObjecs[_name] = newObejct;
-			newObejct->SetParent(newObejct);
-
-			return newObejct;
-		}
-		virtual std::map<std::wstring, GameObject*>& GetSceneObjectList() final
-		{
-			return gameObjecs;
-		}
-		virtual std::vector<GameObject*>& GetActivtedObject() final
-		{
-			return activatedObject;
-		}
-		virtual std::queue<GameObject*>& ActivatedQueue() final
-		{
-			return this->objectsToDeactivate;
-		}
-		virtual std::queue<GameObject*>& DeactivatedQueue() final
-		{
-			return this->objectsToActivate;
-		}
-		virtual std::queue<GameObject*>& DestroyedQueue() final
-		{
-			return this->objectsToDestroy;
-		}
-
-		virtual Camera* GetMainCamera() final
-		{
-			return this->mainCamera;
-		}
-		virtual void SetMainCamera(Camera* _camera) final
-		{
-			this->mainCamera = _camera;
-		}
+		virtual Camera* GetMainCamera() final;
+		virtual void SetMainCamera(Camera* _camera) final;
 	
-		virtual void AddActivatedQueue(GameObject* _object) final
-		{
-			this->objectsToActivate.push(_object);
-		}
-		virtual void AddDeactivatedQueue(GameObject* _object) final
-		{
-			this->objectsToDeactivate.push(_object);
-		}
-		virtual void AddDestroyedQueue(GameObject* _object) final
-		{
-			this->objectsToDestroy.push(_object);
-		}
+		virtual void AddActivatedQueue(GameObject* _object) final;
+		virtual void AddDeactivatedQueue(GameObject* _object) final;
+		virtual void AddDestroyedQueue(GameObject* _object) final;
 
 	public:
+		virtual void Initialize() noexcept final;
 		virtual void Load() noexcept abstract;
-		virtual void Clear() noexcept final
-		{
-			for (auto& e : gameObjecs)
-			{
-				delete e.second;
-			}
-			gameObjecs.clear();
-		}
+		virtual void Destroy(GameObject*) noexcept final;
+		virtual void Clear() noexcept final;
 
 	protected:
 		Camera* mainCamera;

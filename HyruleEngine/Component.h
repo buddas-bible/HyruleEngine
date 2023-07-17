@@ -12,7 +12,7 @@ namespace Hyrule
 		Component(GameObject*) noexcept;
 		virtual ~Component() noexcept = default;
 
-	protected:
+	public:
 		GameObject* gameObject;
 
 	public:

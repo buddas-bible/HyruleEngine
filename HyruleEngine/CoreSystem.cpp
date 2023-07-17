@@ -6,7 +6,7 @@
 
 namespace Hyrule
 {
-	bool CoreSystem::GameProcess()
+	bool CoreSystem::GameProcess() noexcept
 	{
 		switch (state)
 		{
@@ -14,7 +14,7 @@ namespace Hyrule
 			{
 				// 씬에서 Awake, Enable, Start를 호출해야 할 게임 오브젝트를 처리
 				SceneManager::GetInstance().Initalization();
-				state = INITIALIZATION;
+				state = PHYSICS;
 				break;
 			}
 			case PHYSICS:
@@ -46,6 +46,7 @@ namespace Hyrule
 			}
 			case RENDERING:
 			{
+				RendererSystem::GetInstance().Update();
 				// RendererSystem::GetInstance().PreRender();
 				RendererSystem::GetInstance().Render();
 				// RendererSystem::GetInstance().PostRender();
