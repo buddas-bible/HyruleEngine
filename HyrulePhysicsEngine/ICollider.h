@@ -15,8 +15,9 @@ namespace Hyrule
 			virtual ~ICollider() noexcept = default;
 
 		public:
-			virtual void OnDisable() noexcept abstract;
 			virtual void OnEnable() noexcept abstract;
+			virtual void OnDisable() noexcept abstract;
+			virtual void OnDestroy() noexcept abstract;
 
 		public:
 			/// <summary>

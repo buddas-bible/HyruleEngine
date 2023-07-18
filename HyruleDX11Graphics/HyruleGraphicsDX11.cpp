@@ -131,6 +131,7 @@ namespace Hyrule
 #endif
 
 		ObjectManager::GetInstance().Render();
+		ObjectManager::GetInstance().Render();
 
 		///
 

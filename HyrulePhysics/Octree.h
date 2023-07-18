@@ -190,7 +190,7 @@ namespace Hyrule
 
 		private:
 			// const size_t DepthLimit;
-			Node* root;
+			Node* root{};
 			
 			std::vector<std::vector<Data*>> 탐색해야할모든노드데이터;
 

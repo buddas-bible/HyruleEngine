@@ -6,7 +6,7 @@ namespace Hyrule
 {
 
 	MeshCollider::MeshCollider(GameObject* _gameObject) noexcept : 
-		Collider(_gameObject)
+		Collider(_gameObject), isColliding(), collider()
 	{
 
 	}
@@ -38,17 +38,17 @@ namespace Hyrule
 
 	void MeshCollider::OnEnable()
 	{
-
+		collider->OnEnable();
 	}
 
 	void MeshCollider::OnDisable()
 	{
-
+		collider->OnDisable();
 	}
 
 	void MeshCollider::OnDestroy()
 	{
-
+		// collider->OnD();
 	}
 
 // 	bool MeshCollider::IsColliding()

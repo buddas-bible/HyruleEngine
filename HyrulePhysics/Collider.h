@@ -22,7 +22,7 @@ namespace Hyrule
 			virtual ~Collider() noexcept = default;
 
 		protected:
-			Object* object;
+			Object* object{};
 
 			Vector3D center{ 0.f, 0.f, 0.f };
 			Vector3D size{ 0.5f, 0.5f, 0.5f };
@@ -32,8 +32,9 @@ namespace Hyrule
 			Vector3D centerOfMass;
 
 		public:
-			virtual void OnDisable() noexcept override {};
 			virtual void OnEnable() noexcept override {};
+			virtual void OnDisable() noexcept override {};
+			virtual void OnDestroy() noexcept override {};
 
 		public:
 			virtual void SetWorldTransform(const Matrix4x4& _mat);

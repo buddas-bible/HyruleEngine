@@ -19,8 +19,9 @@ namespace Hyrule
 			Object* object;
 
 		public:
-			virtual void OnDisable() noexcept override {};
 			virtual void OnEnable() noexcept override {};
+			virtual void OnDisable() noexcept override {};
+			virtual void OnDestroy() noexcept override {};
 
 		private:
 			/// <summary>
@@ -74,7 +75,7 @@ namespace Hyrule
 			virtual bool isSleeping() const noexcept override;
 			virtual void isSleeping(const bool) noexcept override;
 
-			virtual Hyrule::Matrix4x4 Apply() const noexcept override;
+			virtual Matrix4x4 Apply() const noexcept override;
 #pragma endregion GetSet
 		};
 	}

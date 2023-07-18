@@ -40,7 +40,7 @@ namespace Hyrule
 		virtual void Update() override;
 		virtual void Render() override;
 		virtual long OnResize() override;
-		ICamera* GetCamera();
+		virtual ICamera* GetCamera() override;
 
 	private:
 		/// <summary>

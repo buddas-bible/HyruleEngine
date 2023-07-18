@@ -3,9 +3,11 @@
 
 #include "Matrix1x3.h"
 #include "Matrix3x3.h"
+#include "Matrix4x4.h"
 #include "Quaternion.h"
 
 #include "Vector3D.h"
+#include "Vector4D.h"
 
 namespace Hyrule
 {
@@ -169,6 +171,26 @@ namespace Hyrule
 		return *this;
 	}
 
+	Vector3D& Vector3D::operator*=(const Matrix4x4& _mat) noexcept
+	{
+		Vector4D temp(*this, 1.f);
+		temp *= _mat;
+
+		this->x = temp.x;
+		this->y = temp.y;
+		this->z = temp.z;
+
+		return *this;
+	}
+
+	Vector3D Vector3D::operator*(const Matrix4x4& _mat) const noexcept
+	{
+		Vector4D temp(*this, 1.f);
+		temp *= _mat;
+
+		return Vector3D(temp.x, temp.y, temp.z);
+	}
+
 	Vector3D& Vector3D::operator/=(const float n) noexcept
 	{
 		this->x /= n;
@@ -180,14 +202,14 @@ namespace Hyrule
 
 	Vector3D Vector3D::operator*(const float n) const noexcept
 	{
-		Vector3D temp;
+		Vector3D temp(*this);
 		
 		return temp *= n;
 	}
 
 	Vector3D Vector3D::operator/(const float n) const noexcept
 	{
-		Vector3D temp;
+		Vector3D temp(*this);
 
 		return temp /= n;
 	}

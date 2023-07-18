@@ -87,6 +87,9 @@ namespace Hyrule
 		Vector4D operator * (const float) const noexcept;
 		Vector4D operator / (const float) const noexcept;
 
+		Vector4D& operator *= (const Matrix4x4&) noexcept;
+		Vector4D operator * (const Matrix4x4&) const noexcept;
+
 		bool operator == (const Vector4D&) const noexcept;
 	};
 }

@@ -1,6 +1,7 @@
 #include "Scene.h"
 
 #include "GameObject.h"
+#include "Camera.h"
 
 namespace Hyrule
 {
@@ -9,8 +10,8 @@ namespace Hyrule
 	{
 		SceneManager::GetInstance().AddScene(_name, this);
 
-		// GameObject* camera = CreateGameObject(L"Camera");
-		// mainCamera = camera->AddComponent<Camera>();
+		GameObject* camera = CreateGameObject(L"Camera");
+		mainCamera = camera->AddComponent<Camera>();
 	}
 
 	std::wstring Scene::GetName() noexcept

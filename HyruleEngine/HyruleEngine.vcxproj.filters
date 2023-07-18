@@ -136,6 +136,9 @@
     <ClInclude Include="InputSystem.h">
       <Filter>1. System</Filter>
     </ClInclude>
+    <ClInclude Include="TimeSystem.h">
+      <Filter>1. System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -211,6 +214,9 @@
       <Filter>3. Component\0. Base</Filter>
     </ClCompile>
     <ClCompile Include="InputSystem.cpp">
+      <Filter>1. System</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeSystem.cpp">
       <Filter>1. System</Filter>
     </ClCompile>
   </ItemGroup>

@@ -22,7 +22,7 @@ namespace Hyrule
 			// Matrix4x4 local = ToTransformMatrix(center, Quaternion::Identity(), L);
 			Matrix4x4 world = object->GetWorldTM();
 
-			auto tt = Vector4D(_direction, 1.f) * local * world;
+			auto tt = _direction * local * world;
 			// local *= world;
 			// Vector3D move = Vector3D(local.m[3].e00, local.m[3].e01, local.m[3].e02);
 			// 
@@ -32,7 +32,7 @@ namespace Hyrule
 			// 
 			// Vector4D temp = Vector4D(_direction, 1.f) * local;
 
-			return Vector3D(tt.x, tt.y, tt.z);
+			return tt;
 		}
 
 		Face SphereCollider::FindSupportFace(const Vector3D&)

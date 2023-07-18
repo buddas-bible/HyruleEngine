@@ -5,6 +5,7 @@ namespace Hyrule
 {
 	struct Matrix1x3;
 	struct Matrix3x3;
+	struct Matrix4x4;
 	struct Quaternion;
 
 	struct Vector3D
@@ -81,6 +82,9 @@ namespace Hyrule
 
 		Vector3D& operator*= (const Matrix3x3&) noexcept;
 		Vector3D operator* (const Matrix3x3&) const noexcept;
+
+		Vector3D operator*= (const Matrix4x4&) noexcept;
+		Vector3D operator* (const Matrix4x4&) const noexcept;
 
 		bool operator == (const Vector3D&) const noexcept;
 

@@ -87,6 +87,11 @@ namespace Hyrule
 	}
 
 
+	Hyrule::ICamera* RendererSystem::GetCamera() noexcept
+	{
+		return graphicsEngine->GetCamera();
+	}
+
 	Hyrule::IRenderable* RendererSystem::GetRenderableObject(RENDERABLE_DESC* _desc)
 	{
 		return graphicsEngine->GetRenderableObject(_desc);

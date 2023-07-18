@@ -3,13 +3,16 @@
 #include "ICamera.h"
 #include "InputSystem.h"
 #include <windows.h>
+#include "RendererSystem.h"
 
 
 namespace Hyrule 
 {
 	Camera::Camera(GameObject* _gameObject) noexcept :
 		Component(_gameObject)
-	{}
+	{
+		camera = RendererSystem::GetInstance().GetCamera();
+	}
 
 	Matrix4x4 Camera::GetViewMatrix() const
 	{
@@ -69,10 +72,14 @@ namespace Hyrule
 			camera->moveL(1.f);
 		if (input.KeyPress(0x53))	// S
 			camera->moveL(-1.f);
-		if (input.KeyPress(0x41))	// A
-			camera->moveL(1.f);
 		if (input.KeyPress(0x44))	// D
-			camera->moveL(1.f);
+			camera->moveR(1.f);
+		if (input.KeyPress(0x41))	// A
+			camera->moveR(-1.f);
+		if (input.KeyPress(0x45))	// E
+			camera->moveU(1.f);
+		if (input.KeyPress(0x51))	// Q
+			camera->moveU(-1.f);
 	}
 
 	void Camera::OnEnable()

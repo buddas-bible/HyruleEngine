@@ -10,6 +10,7 @@ namespace Hyrule
 	class IGraphics;
 	class IRenderable;
 	struct RENDERABLE_DESC;
+	class ICamera;
 
 	class RendererSystem : public System<RendererSystem>
 	{
@@ -32,6 +33,8 @@ namespace Hyrule
 		void Finalize() noexcept;
 		
 		long OnResize();
+
+		ICamera* GetCamera() noexcept;
 
 	public:
 		IRenderable* GetRenderableObject(RENDERABLE_DESC* _desc);

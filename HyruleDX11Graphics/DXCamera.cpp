@@ -149,7 +149,7 @@ namespace Hyrule
 	void DXCamera::moveL(const float& _look)
 	{
 		this->m_look.Normalize();
-		this->m_pos += m_look * _look;
+		this->m_pos += (m_look * _look);
 
 		this->UpdateLUR();
 		this->UpdateViewMatrix();

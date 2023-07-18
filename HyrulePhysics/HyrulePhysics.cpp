@@ -93,7 +93,7 @@ namespace Hyrule
 			/// 5개 넘어가면 자식을 탐색.
 
 			Octree<Object, 4> octree;
-
+			// CollisionSystem::GJKCollisionDetection();
 		}
 
 		/// <summary>
