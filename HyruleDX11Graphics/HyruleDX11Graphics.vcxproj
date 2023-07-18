@@ -194,6 +194,7 @@
     </ClInclude>
     <ClInclude Include="IResource.h" />
     <ClInclude Include="DXMesh.h" />
+    <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="RenderableObject.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="DXTexture.h" />
@@ -222,6 +223,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DXMesh.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="DXTexture.cpp" />

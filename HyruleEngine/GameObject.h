@@ -28,7 +28,7 @@ namespace Hyrule
 		Scene* scene;									// 내가 포함된 씬..
 		// 컴포넌트들이 게임 오브젝트를 통해서 씬 이름 같은걸 알아내나?
 
-		bool activeSelf;
+		bool activeSelf{ true };
 
 	public:
 		const std::wstring& GetName();
@@ -89,11 +89,11 @@ namespace Hyrule
 	{
 		auto id = typeid(component).hash_code();
 
-		auto pointer = components[id];
+		auto itr = components.find(id);
 
-		if (pointer != nullptr)
+		if (itr != components.end())
 		{
-			return pointer;
+			return itr->second;
 		}
 
 		return nullptr;

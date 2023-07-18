@@ -32,6 +32,10 @@ namespace Hyrule
 			Vector3D centerOfMass;
 
 		public:
+			virtual void OnDisable() noexcept override {};
+			virtual void OnEnable() noexcept override {};
+
+		public:
 			virtual void SetWorldTransform(const Matrix4x4& _mat);
 
 		public:

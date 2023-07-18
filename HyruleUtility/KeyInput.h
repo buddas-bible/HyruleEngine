@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace Hyrule
 {
 	class KeyInput

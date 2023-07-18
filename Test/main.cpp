@@ -70,9 +70,8 @@ int APIENTRY WinMain(
 #endif
 
 	auto& sceneManager = Hyrule::SceneManager::GetInstance();
-	Hyrule::Scene* scene01 = new Scene01(L"Scene01");
+	Hyrule::Scene* scene01 = new Hyrule::Scene01(L"Scene01");
 	sceneManager.AddScene(L"Scene01", scene01);
-
 
 
 

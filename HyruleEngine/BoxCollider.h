@@ -21,17 +21,16 @@ namespace Hyrule
 		virtual void SetTrigger(bool) override;
 		virtual void SetSize(const Vector3D&) override;
 		virtual void SetCenter(const Vector3D&) override;
-		virtual bool IsColliding() override;
+		// virtual bool IsColliding() override;
 
 
 	public:
-
-		virtual void Awake() abstract;
-		virtual void Start() abstract;
-		virtual void FixedUpdate() abstract;
-		virtual void Update() abstract;
-		virtual void LateUpdate() abstract;
-		virtual void Render() abstract;
+		// virtual void Awake() abstract;
+		// virtual void Start() abstract;
+		virtual void FixedUpdate() override;
+		// virtual void Update() override;
+		// virtual void LateUpdate() override;
+		// virtual void Render() override;
 
 		// 		virtual void OnTriggerEnter(Collider*) override {}
 		// 		virtual void OnTriggerStay(Collider*) override {}
@@ -41,16 +40,17 @@ namespace Hyrule
 		// 		virtual void OnTriggerStay() override;
 		// 		virtual void OnTriggerExit() override;
 
-		virtual void OnCollisionEnter(Collider*) abstract;
-		virtual void OnCollisionStay(Collider*) abstract;
-		virtual void OnCollisionExit(Collider*) abstract;
+		// virtual void OnCollisionEnter(Collider*) abstract;
+		// virtual void OnCollisionStay(Collider*) abstract;
+		// virtual void OnCollisionExit(Collider*) abstract;
 
-		virtual void OnCollisionEnter() abstract;
-		virtual void OnCollisionStay() abstract;
-		virtual void OnCollisionExit() abstract;
+		// virtual void OnCollisionEnter() abstract;
+		// virtual void OnCollisionStay() abstract;
+		// virtual void OnCollisionExit() abstract;
 
-		virtual void OnEnable() abstract;
-		virtual void OnDestroy() abstract;
+		virtual void OnEnable() override;
+		virtual void OnDisable() override;
+		virtual void OnDestroy() override;
 	};
 }
 

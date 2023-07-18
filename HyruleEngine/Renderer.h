@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "IRenderable.h"
 
 #include "RendererSystem.h"
 
@@ -21,8 +20,8 @@ namespace Hyrule
 
 	public:
 		virtual void Awake() final {};
-		virtual void OnEnable() final {};
-		virtual void OnDisable() final {};
+		virtual void OnEnable() final;
+		virtual void OnDisable() final;
 		virtual void Start() final {};
 		virtual void FixedUpdate() final {};
 		virtual void Update() abstract;

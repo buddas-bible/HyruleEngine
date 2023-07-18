@@ -24,13 +24,18 @@ namespace Hyrule
 		fin.read(&vsCompiledShader[0], size);
 		fin.close();
 
-		D3DX11CreateEffectFromMemory(
+		long hr = D3DX11CreateEffectFromMemory(
 			&vsCompiledShader[0],
 			size,
 			0,
 			Device->GetDevice(),
 			&effect
 		);
+
+		if (FAILED(hr))
+		{
+			hr = S_FALSE;
+		}
 	}
 
 	long DXEffect::CreateEffect()
@@ -46,8 +51,8 @@ namespace Hyrule
 
 		worldViewProj = effect->GetVariableByName("worldViewProj")->AsMatrix();
 		world = effect->GetVariableByName("world")->AsMatrix();
-		worldInvTranspose = effect->GetVariableByName("worldInvTranspose")->AsMatrix();
-		eyePosW = effect->GetVariableByName("eyePosW");
+		worldInvTranspose = effect->GetVariableByName("invTworldViewProj")->AsMatrix();
+		// eyePosW = effect->GetVariableByName("eyePosW");
 
 		return hr;
 	}

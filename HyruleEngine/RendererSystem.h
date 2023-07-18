@@ -9,6 +9,7 @@ namespace Hyrule
 {
 	class IGraphics;
 	class IRenderable;
+	struct RENDERABLE_DESC;
 
 	class RendererSystem : public System<RendererSystem>
 	{
@@ -33,7 +34,7 @@ namespace Hyrule
 		long OnResize();
 
 	public:
-		IRenderable* GetRenderableObject();
+		IRenderable* GetRenderableObject(RENDERABLE_DESC* _desc);
 
 	};
 }

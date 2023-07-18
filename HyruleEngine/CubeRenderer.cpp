@@ -2,13 +2,17 @@
 
 #include "GameObject.h"
 #include "Transform.h"
+#include "RENDERABLE_DESC.h"
+#include "IRenderable.h"
 
 namespace Hyrule
 {
 	CubeRenderer::CubeRenderer(GameObject* _gameObject) noexcept : 
 		Renderer(_gameObject)
 	{
-		this->meshData = RendererSystem::GetInstance().GetRenderableObject();
+		RENDERABLE_DESC desc;
+		desc.meshType = CUBE;
+		this->meshData = RendererSystem::GetInstance().GetRenderableObject(&desc);
 	}
 
 // 	void BoxRenderer::FixedUpdate()

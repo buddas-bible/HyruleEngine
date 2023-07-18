@@ -31,6 +31,26 @@ namespace Hyrule
 		collider->SetSize(_center);
 	}
 
+	void BoxCollider::FixedUpdate()
+	{
+
+	}
+
+	void BoxCollider::OnEnable()
+	{
+
+	}
+
+	void BoxCollider::OnDisable()
+	{
+
+	}
+
+	void BoxCollider::OnDestroy()
+	{
+
+	}
+
 // 	bool BoxCollider::IsColliding()
 // 	{
 // 		return collider->IsColliding();

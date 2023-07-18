@@ -16,6 +16,10 @@ namespace Hyrule
 			virtual ~IRigidBody() noexcept = default;
 
 		public:
+			virtual void OnDisable() noexcept abstract;
+			virtual void OnEnable() noexcept abstract;
+
+		public:
 			virtual void AddForce(const Hyrule::Vector3D&) noexcept abstract;
 			virtual void AddTorque(const Hyrule::Vector3D&) noexcept abstract;
 

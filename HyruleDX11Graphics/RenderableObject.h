@@ -27,8 +27,14 @@ namespace Hyrule
 	public:
 		void SetTexture(const std::shared_ptr<DXTexture>) noexcept;
 		virtual void SetWorldTransform(const Matrix4x4&) noexcept override;
+		virtual void OnEnble() noexcept override;
+		virtual void OnDisable() noexcept override;
+
 		void SetViewProjTM(const Matrix4x4&) noexcept;
 		void Render() noexcept;
+
+	private:
+		bool activate{true};
 
 	private:
 		std::shared_ptr<DXDevice> device;

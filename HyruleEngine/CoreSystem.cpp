@@ -2,6 +2,7 @@
 
 #include "SceneManager.h"
 #include "PhysicsSystem.h"
+#include "InputSystem.h"
 #include "RendererSystem.h"
 
 namespace Hyrule
@@ -34,6 +35,7 @@ namespace Hyrule
 			case INPUT:
 			{
 				// 인풋 관련 함수?
+				InputSystem::GetInstance().Update();
 				state = GAME_LOGIC;
 				break;
 			}

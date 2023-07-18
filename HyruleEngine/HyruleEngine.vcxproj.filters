@@ -47,6 +47,9 @@
     <Filter Include="Object">
       <UniqueIdentifier>{5c565fc7-6928-4c9a-8937-ce61504fae2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. Component\0. Base">
+      <UniqueIdentifier>{491e232f-239d-4577-810a-d216ce8c41c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -109,9 +112,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>3. Component</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>3. Component\2. Renderer</Filter>
     </ClInclude>
@@ -129,6 +129,12 @@
     </ClInclude>
     <ClInclude Include="IScene.h">
       <Filter>2. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>3. Component\0. Base</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>1. System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +192,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>3. Component</Filter>
-    </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>3. Component\2. Renderer</Filter>
     </ClCompile>
@@ -203,6 +206,12 @@
     </ClCompile>
     <ClCompile Include="SphereRenderer.cpp">
       <Filter>3. Component\2. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>3. Component\0. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>1. System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

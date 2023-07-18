@@ -18,6 +18,10 @@ namespace Hyrule
 		private:
 			Object* object;
 
+		public:
+			virtual void OnDisable() noexcept override {};
+			virtual void OnEnable() noexcept override {};
+
 		private:
 			/// <summary>
 			/// 여기서 포지션과 로테이션은 트렌스폼 정보인데

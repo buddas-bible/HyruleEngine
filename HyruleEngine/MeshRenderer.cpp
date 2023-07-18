@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "Transform.h"
+#include "IRenderable.h"
 
 namespace Hyrule
 {
@@ -9,7 +10,7 @@ namespace Hyrule
 	MeshRenderer::MeshRenderer(GameObject* _gameObject) noexcept :
 		Renderer(_gameObject)
 	{
-		this->meshData = RendererSystem::GetInstance().GetRenderableObject();
+		// this->meshData = RendererSystem::GetInstance().GetRenderableObject();
 	}
 
 // 	void MeshRenderer::FixedUpdate()

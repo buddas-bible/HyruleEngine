@@ -15,6 +15,10 @@ namespace Hyrule
 			virtual ~ICollider() noexcept = default;
 
 		public:
+			virtual void OnDisable() noexcept abstract;
+			virtual void OnEnable() noexcept abstract;
+
+		public:
 			/// <summary>
 			/// 게임 엔진으로부터 트랜스폼 정보를 받음.
 			/// </summary>

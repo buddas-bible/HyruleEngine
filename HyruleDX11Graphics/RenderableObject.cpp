@@ -1,9 +1,12 @@
 #include "RenderableObject.h"
 #include "DXDevice.h"
+#include "DXRasterizerState.h"
 #include "DXInputLayout.h"
 #include "DXEffect.h"
 #include "DXMesh.h"
 #include "Vertex.h"
+
+#include "ObjectManager.h"
 
 namespace Hyrule
 {
@@ -24,6 +27,16 @@ namespace Hyrule
 		this->worldTM = _mat;
 	}
 
+	void RenderableObject::OnDisable() noexcept
+	{
+		ObjectManager::GetInstance().DisableObject(this);
+	}
+
+	void RenderableObject::OnEnble() noexcept
+	{
+		ObjectManager::GetInstance().EnableObject(this);
+	}
+
 	void RenderableObject::SetViewProjTM(const Matrix4x4& _viewProj) noexcept
 	{
 		this->viewProjTM = _viewProj;
@@ -31,7 +44,7 @@ namespace Hyrule
 
 	void RenderableObject::Render() noexcept
 	{
-		device->GetDeviceContext()->RSSetState(0);
+		device->GetDeviceContext()->RSSetState(currState->GetWireRasterizerState());
 		device->GetDeviceContext()->IASetInputLayout(InputLayouts::PUNLayout->GetInputLayout());
 		device->GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

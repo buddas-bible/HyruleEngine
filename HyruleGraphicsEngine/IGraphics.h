@@ -2,6 +2,9 @@
 
 namespace Hyrule
 {
+	class IRenderable;
+	struct RENDERABLE_DESC;
+
 	class IGraphics
 	{
 	public:
@@ -18,5 +21,7 @@ namespace Hyrule
 		virtual void Finalize() abstract;
 
 		virtual long OnResize() abstract;
+
+		virtual IRenderable* GetRenderableObject(RENDERABLE_DESC*) abstract;
 	};
 }

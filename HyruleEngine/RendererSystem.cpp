@@ -87,9 +87,8 @@ namespace Hyrule
 	}
 
 
-	Hyrule::IRenderable* RendererSystem::GetRenderableObject()
+	Hyrule::IRenderable* RendererSystem::GetRenderableObject(RENDERABLE_DESC* _desc)
 	{
-		//return graphicsEngine->;
-		return nullptr;
+		return graphicsEngine->GetRenderableObject(_desc);
 	}
 }

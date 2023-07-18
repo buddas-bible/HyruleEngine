@@ -6,6 +6,9 @@ namespace Hyrule
 	{
 	protected:
 		System() noexcept = default;
+		~System() noexcept = default;
+		System& operator=(const System&) noexcept = delete;
+		System& operator=(System&&) noexcept = delete;
 
 	public:
 		static T& GetInstance() noexcept

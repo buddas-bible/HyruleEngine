@@ -1,5 +1,6 @@
 #include "Renderer.h"
 
+#include "IRenderable.h"
 
 namespace Hyrule
 {
@@ -9,4 +10,13 @@ namespace Hyrule
 
 	}
 
+	void Renderer::OnEnable()
+	{
+		meshData->OnEnble();
+	}
+
+	void Renderer::OnDisable()
+	{
+		meshData->OnDisable();
+	}
 }

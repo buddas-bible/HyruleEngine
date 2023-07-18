@@ -1,6 +1,8 @@
 #include "SphereCollider.h"
 
 #include "ICollider.h"
+#include "Transform.h"
+#include "GameObject.h"
 
 namespace Hyrule
 {
@@ -28,6 +30,27 @@ namespace Hyrule
 	void SphereCollider::SetCenter(const Vector3D& _center)
 	{
 		collider->SetSize(_center);
+	}
+
+	void SphereCollider::FixedUpdate()
+	{
+		// gameObject->GetComponent<Transform>()
+		// collider->SetWorldTransform();
+	}
+
+	void SphereCollider::OnEnable()
+	{
+
+	}
+
+	void SphereCollider::OnDisable()
+	{
+
+	}
+
+	void SphereCollider::OnDestroy()
+	{
+
 	}
 
 	// 	bool SphereCollider::IsColliding()

@@ -8,6 +8,7 @@
 #include "DXCamera.h"
 
 #include "ResourceManager.h"
+#include "ObjectManager.h"
 #include "HyruleMath.h"
 #include "Vertex.h"
 
@@ -33,6 +34,7 @@ namespace Hyrule
 		m_device(), m_renderTarget(), m_rasterizerState(),
 		m_camera()
 	{}
+
 
 	long HyruleGraphicsDX11::Initialize(int _hwnd)
 	{
@@ -110,12 +112,9 @@ namespace Hyrule
 #if _DEBUG
 		m_axis->SetViewProjTM(m_camera->GetViewProjMatrix());
 		m_gizmo->SetViewProjTM(m_camera->GetViewProjMatrix());
-
-		for (auto e : renderableList)
-		{
-			e->SetViewProjTM(m_camera->GetViewProjMatrix());
-		}
 #endif
+
+		ObjectManager::GetInstance().Update(m_camera->GetViewProjMatrix());
 
 	}
 
@@ -129,12 +128,9 @@ namespace Hyrule
 #if _DEBUG
 		m_gizmo->Render();
 		m_axis->Render();
-
-		for (auto e : renderableList)
-		{
-			e->Render();
-		}
 #endif
+
+		ObjectManager::GetInstance().Render();
 
 		///
 
@@ -264,21 +260,18 @@ namespace Hyrule
 			case CUBE:
 			{
 				newObject = new RenderableObject(m_device, m_rasterizerState, HelerObject::cube);
-				renderableList.push_back(newObject);
 			}
 			break;
 
 			case PLANE:
 			{
 				newObject = new RenderableObject(m_device, m_rasterizerState, HelerObject::plane);
-				renderableList.push_back(newObject);
 			}
 			break;
 
 			case SPHERE:
 			{
 				newObject = new RenderableObject(m_device, m_rasterizerState, HelerObject::sphere);
-				renderableList.push_back(newObject);
 			}
 			break;
 
@@ -293,7 +286,6 @@ namespace Hyrule
 			{
 				auto mesh = ResourceManager::GetInstance().GetMesh(_desc->meshName);
 				newObject = new RenderableObject(m_device, m_rasterizerState, mesh);
-				renderableList.push_back(newObject);
 			}
 			break;
 		}

@@ -8,6 +8,9 @@ namespace Hyrule
 		name(_name), gameObjecs(), mainCamera()
 	{
 		SceneManager::GetInstance().AddScene(_name, this);
+
+		// GameObject* camera = CreateGameObject(L"Camera");
+		// mainCamera = camera->AddComponent<Camera>();
 	}
 
 	std::wstring Scene::GetName() noexcept
@@ -25,7 +28,7 @@ namespace Hyrule
 		}
 
 		GameObject* newObejct = new GameObject(_name, this);
-		gameObjecs[_name] = newObejct;
+		gameObjecs.insert(make_pair(_name, newObejct));
 
 		return newObejct;
 	}
