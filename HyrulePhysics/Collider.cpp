@@ -7,6 +7,26 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		bool Collider::isActive()
+		{
+			return this->activate;
+		}
+
+		void Collider::OnEnable() noexcept
+		{
+			this->activate = true;
+		}
+
+		void Collider::OnDisable() noexcept
+		{
+			this->activate = false;
+		}
+
+		void Collider::OnDestroy() noexcept
+		{
+			// 오브젝트 매니저에서 삭제를 요청.
+		}
+
 		void Collider::SetWorldTransform(const Matrix4x4& _mat)
 		{
 			this->object->SetWorldTM(_mat);

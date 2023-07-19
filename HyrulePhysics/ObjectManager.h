@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <queue>
 
 namespace Hyrule
 {
@@ -36,6 +37,8 @@ namespace Hyrule
 
 		private:
 			std::map<std::wstring, Object*> objectMap;
+			std::vector<Collider*> activatedCollider;		// 활성화된 콜라이더
+			std::queue<RigidBody*> collision;				// 시뮬레이션 예정인 강체
 
 		public:
 			ICollider* AddCollider(const std::wstring&, COLLIDER_INFO*);	// 오브젝트에 콜라이더를 추가함.

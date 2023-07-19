@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <list>
 
 namespace Hyrule
 {
@@ -28,10 +29,10 @@ namespace Hyrule
 			/// <summary>
 			/// EPA 침투 깊이 계산
 			/// </summary>
-			void ComputePenetrationDepth(Manifold* _manifold);
+			void EPAComputePenetrationDepth(Manifold* _manifold);
 			Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
-			std::pair<Edge*, float> FindClosestEdge(Simplex*);
-			std::pair<Face*, float> FindClosestFace(Simplex*);
+			// std::pair<Edge*, float> FindClosestEdge(Simplex*);
+			// std::tuple<Face*, float, std::list<size_t[3]>::iterator> FindClosestFace(Simplex*);
 			void FindContactPoint(Manifold*, const Vector3D&);
 
 		private:

@@ -17,11 +17,13 @@ namespace Hyrule
 
 		private:
 			Object* object;
+			bool activate;
 
 		public:
-			virtual void OnEnable() noexcept override {};
-			virtual void OnDisable() noexcept override {};
-			virtual void OnDestroy() noexcept override {};
+			bool isActive();
+			virtual void OnEnable() noexcept override;
+			virtual void OnDisable() noexcept override;
+			virtual void OnDestroy() noexcept override;
 
 		private:
 			/// <summary>

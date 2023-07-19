@@ -29,6 +29,13 @@ namespace Hyrule
 		virtual void SetWorldTransform(const Matrix4x4&) noexcept override;
 		virtual void OnEnble() noexcept override;
 		virtual void OnDisable() noexcept override;
+		// virtual void OnDestory() noexcept override;
+		virtual bool isActive() noexcept override;
+
+#if _DEBUG
+		virtual void OnCollisionEnter() noexcept override;
+		virtual void OnCollisionExit() noexcept override;
+#endif
 
 		void SetViewProjTM(const Matrix4x4&) noexcept;
 		void Render() noexcept;

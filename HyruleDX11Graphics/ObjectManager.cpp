@@ -22,49 +22,60 @@ namespace Hyrule
 		return this->renderableList;
 	}
 
-	std::vector<RenderableObject*>& ObjectManager::GetActivatedObjects()
+	// std::vector<RenderableObject*>& ObjectManager::GetActivatedObjects()
+	// {
+	// 	return this->activatedObject;
+	// }
+
+	void ObjectManager::AddObject(RenderableObject* _obj)
 	{
-		return this->activatedObject;
+		renderableList.push_back(_obj);
 	}
 
 	void ObjectManager::Update(const Matrix4x4& _viewProj)
 	{
-		for (auto& e : activatedObject)
+		for (auto& e : renderableList)
 		{
-			e->SetViewProjTM(_viewProj);
+			if (e->isActive())
+			{
+				e->SetViewProjTM(_viewProj);
+			}
 		}
 	}
 
 	void ObjectManager::Render()
 	{
-		for (auto& e : activatedObject)
+		for (auto& e : renderableList)
 		{
-			e->Render();
+			if (e->isActive())
+			{
+				e->Render();
+			}
 		}
 	}
 
-	void ObjectManager::DisableObject(RenderableObject* _object)
-	{
-		if (_object == nullptr)
-		{
-			return;
-		}
-		
-		auto itr = std::find(activatedObject.begin(), activatedObject.end(), _object);
-
-		if (itr != activatedObject.end())
-		{
-			activatedObject.erase(itr);
-		}
-	}
-
-	void ObjectManager::EnableObject(RenderableObject* _object)
-	{
-		auto itr = std::find(activatedObject.begin(), activatedObject.end(), _object);
-
-		if (itr == activatedObject.end())
-		{
-			activatedObject.push_back(_object);
-		}
-	}
+	// void ObjectManager::DisableObject(RenderableObject* _object)
+	// {
+	// 	if (_object == nullptr)
+	// 	{
+	// 		return;
+	// 	}
+	// 
+	// 	auto itr = std::find(activatedObject.begin(), activatedObject.end(), _object);
+	// 
+	// 	if (itr != activatedObject.end())
+	// 	{
+	// 		activatedObject.erase(itr);
+	// 	}
+	// }
+	// 
+	// void ObjectManager::EnableObject(RenderableObject* _object)
+	// {
+	// 	auto itr = std::find(activatedObject.begin(), activatedObject.end(), _object);
+	// 
+	// 	if (itr == activatedObject.end())
+	// 	{
+	// 		activatedObject.push_back(_object);
+	// 	}
+	// }
 }

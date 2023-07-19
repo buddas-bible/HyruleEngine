@@ -3,13 +3,17 @@
 #include "ICollider.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "PhysicsSystem.h"
+#include "PHYSICALLYOBJECT_INFO.h"
 
 namespace Hyrule
 {
 	SphereCollider::SphereCollider(GameObject* _gameObject) noexcept : 
 		Collider(_gameObject)
 	{
-		// 여기서 피직스 엔진에 콜라이더 추가를 요청함.
+		Physics::COLLIDER_INFO info;
+		info.shapeInfo.shapeType = Physics::SPHERE;
+		collider = PhysicsSystem::GetInstance().AddCollider(gameObject->GetName(), &info);
 	}
 
 	SphereCollider::~SphereCollider() noexcept
@@ -34,23 +38,22 @@ namespace Hyrule
 
 	void SphereCollider::FixedUpdate()
 	{
-		// gameObject->GetComponent<Transform>()
-		// collider->SetWorldTransform();
+		collider->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
 	}
 
 	void SphereCollider::OnEnable()
 	{
-
+		collider->OnEnable();
 	}
 
 	void SphereCollider::OnDisable()
 	{
-
+		collider->OnDisable();
 	}
 
 	void SphereCollider::OnDestroy()
 	{
-
+		collider->OnDestroy();
 	}
 
 	// 	bool SphereCollider::IsColliding()

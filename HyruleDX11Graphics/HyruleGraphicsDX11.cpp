@@ -291,6 +291,7 @@ namespace Hyrule
 			break;
 		}
 
+		ObjectManager::GetInstance().AddObject(newObject);
 		return newObject;
 	}
 }

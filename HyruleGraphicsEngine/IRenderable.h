@@ -18,5 +18,8 @@ namespace Hyrule
 		// 컴포넌트는 함수만 호출 당하는 느낌.
 		virtual void OnDisable() noexcept abstract;
 		virtual void OnEnble() noexcept abstract;
+		
+		virtual void OnCollisionEnter() noexcept abstract;
+		virtual void OnCollisionExit() noexcept abstract;
 	};
 }

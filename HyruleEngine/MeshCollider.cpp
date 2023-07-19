@@ -1,6 +1,8 @@
 #include "MeshCollider.h"
 
 #include "ICollider.h"
+#include "Transform.h"
+#include "GameObject.h"
 
 namespace Hyrule
 {
@@ -33,7 +35,7 @@ namespace Hyrule
 
 	void MeshCollider::FixedUpdate()
 	{
-
+		collider->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
 	}
 
 	void MeshCollider::OnEnable()
@@ -48,7 +50,7 @@ namespace Hyrule
 
 	void MeshCollider::OnDestroy()
 	{
-		// collider->OnD();
+		collider->OnDestroy();
 	}
 
 // 	bool MeshCollider::IsColliding()

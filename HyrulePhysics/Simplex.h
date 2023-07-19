@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <list>
+#include <map>
 #include "HyruleMath.h"
 
 
@@ -8,6 +10,8 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		struct Face;
+
 		class Simplex
 		{
 		public:
@@ -21,9 +25,12 @@ namespace Hyrule
 			size_t size();
 
 			void SetIndices();
+			void SetFace();
+			void AddFace(size_t, size_t, size_t);
+			std::map<float, Face*> faceMap;
 
 			std::vector<Vector3D> points;
-			std::vector<size_t> index;
+			std::list<size_t[3]> index;
 		};
 	}
 }

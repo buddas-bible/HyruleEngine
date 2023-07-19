@@ -30,22 +30,24 @@ namespace Hyrule
 
 			Matrix3x3 inertia;
 			Vector3D centerOfMass;
+			bool activate;
 
 		public:
-			virtual void OnEnable() noexcept override {};
-			virtual void OnDisable() noexcept override {};
-			virtual void OnDestroy() noexcept override {};
+			bool isActive();
+			virtual void OnEnable() noexcept final;
+			virtual void OnDisable() noexcept final;
+			virtual void OnDestroy() noexcept final;
 
 		public:
-			virtual void SetWorldTransform(const Matrix4x4& _mat);
+			virtual void SetWorldTransform(const Matrix4x4& _mat) final;
 
 		public:
-			virtual void SetTrigger(bool);
-			virtual void SetSize(const Vector3D&);
-			virtual void SetCenter(const Vector3D&);
+			virtual void SetTrigger(bool) final;
+			virtual void SetSize(const Vector3D&) final;
+			virtual void SetCenter(const Vector3D&) final;
 
 		public:
-			virtual std::wstring GetObjectName();
+			virtual std::wstring GetObjectName() final;
 			
 		public:
 			virtual Vector3D FindFarthestPoint(const Vector3D&) abstract;

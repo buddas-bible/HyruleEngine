@@ -83,108 +83,50 @@ namespace Hyrule
 		/// <summary>
 		/// EPA
 		/// </summary>
-		void CollisionSystem::ComputePenetrationDepth(Manifold* _manifold)
+		void CollisionSystem::EPAComputePenetrationDepth(Manifold* _manifold)
 		{
-			// 매니폴드의 심플렉스를 가져오고 인덱싱을 함
-			Simplex simplex = *detectionInfo[_manifold];
-			simplex.SetIndices();
+			// 심플렉스의 면을 일단 구분함
+			Simplex simplex{ *detectionInfo[_manifold] };
+			simplex.SetFace();
 
 			size_t count{};
 
 			while (count < EPA_MAX)
 			{
-				// 가장 가까운 면을 찾고 그 면과 원점의 거리를 구함
-				std::tuple<Face*, float> closestFace = FindClosestFace(&simplex);
-
-				// 노말 방향으로 서포트 포인트를 구함
-				Vector3D support = FindSupportPoint(_manifold->GetColliderA(), _manifold->GetColliderB(), std::get<0>(closestFace)->normal);
-
-				// 서포트 포인트와의 거리를 노말 방향과
-				float dist{ support.Dot(std::get<0>(closestFace)->normal) };
-				
-				// 점을 노말에 투영한 값과 면과의 거리가 유사하다면
-				if (std::fabs(dist - std::get<1>(closestFace)) < Epsilon)
+				// 면들과의 노말과 거리를 계산할 수 있음.
+				Vector3D normal{ simplex.faceMap.begin()->second->normal };
+				Vector3D support{ FindSupportPoint(
+					_manifold->GetColliderA(),
+					_manifold->GetColliderB(),
+					normal) 
+				};
+				float dist{ simplex.faceMap.begin()->first };
+				// 계산된 dist만 비교해서 가장 짧은 면과 서포트 포인트의 거리를 비교함
+				if (std::fabs(dist - support.Dot(normal)) < Epsilon)
 				{
+					// 유사하면 해당 깊이와 노말만 반환
 					_manifold->SetDepth(dist);
-					_manifold->SetNormal(std::get<0>(closestFace)->normal);
+					_manifold->SetNormal(normal);
 					return;
 				}
-				// 노말 방향으로 확장 시킴
 				else
 				{
-					// 심플렉스에 점을 추가하고 면을 삭제시킴
+					// 아니라면 심플렉스에 점을 추가하고
 					simplex.push_back(support);
-
-					// 심플렉스로부터 받은 면 정보이기 때문에 인덱스 정보가 일치할 것임
-					auto face = std::get<0>(closestFace);
-					size_t _i0 = face->index[0];		// A
-					size_t _i1 = face->index[1];		// B
-					size_t _i2 = face->index[2];		// C
-					size_t newVertex = simplex.size() - 1;
-
-					for (size_t i = 0; i < simplex.index.size(); i += 3)
+					size_t index[3]
 					{
-						if (simplex.index[i] == _i0 && simplex.index[i + 1] == _i1 && simplex.index[i + 2] == _i2)
-						{
-							simplex.index.erase(simplex.index.begin(), simplex.index.begin() + 2);
-						}
-					}
-
-					std::vector<size_t> newindex
-					{
-						_i0, _i1, newVertex,
-						_i0, newVertex, _i2,
-						_i1, _i2, newVertex
-					
+						simplex.faceMap.begin()->second->index[0],
+						simplex.faceMap.begin()->second->index[1],
+						simplex.faceMap.begin()->second->index[2],
 					};
-					simplex.index.insert(simplex.index.end(), newindex.begin(), newindex.end());
+					simplex.faceMap.erase(simplex.faceMap.begin());
+
+					// 면을 추가하고 각 면과 거리를 계산해둠.
+					simplex.AddFace(index[0], index[1], simplex.points.size());
+					simplex.AddFace(index[0], simplex.points.size(), index[2]);
+					simplex.AddFace(index[1], index[2], simplex.points.size());
 				}
 			}
-
-			// 		size_t i = 0;
-// 
-// 		while (i < EPA_MAXCOUNT)
-// 		{
-// 			// 가까운 변을 찾는다.
-// 			MinkowskiEdge edge = GetSupportEdge(m_Simplex);
-// 
-// 			// 가장 가까운 변의 노말 벡터를 방향벡터로 삼아 서포트 포인트를 구한다.
-// 			Vector2D p = GetSupportPoint(A, B, edge.normal);
-// 
-// 			// 서포트 포인트를 노말벡터에 투영해서 거리를 구한다.
-// 			float dist = p.Dot(edge.normal);
-// 
-// 			if (dist < 0.01f)
-// 			{
-// 				manifold.Clear();
-// 				manifold.A = A->pRigidBody;
-// 				manifold.B = B->pRigidBody;
-// 				manifold.normalVector = edge.normal;
-// 				manifold.depth = edge.dist;
-// 				return (edge.normal * (edge.dist + 0.001f));
-// 			}
-// 
-// 			// 서포트 포인트를 노말벡터에 투영한 값이
-// 			// 찾은 변의 정보와 유사하다면?
-// 			if ((dist - edge.dist) < 0.01f)
-// 			{
-// 				// 반복 충돌을 방지하기 위해 아주 작은 값은 더해서 반환
-// 				/// 벡터는 구했지만 어느 점에서 어느 변을 향한 벡터인지는 모른다.
-// 				manifold.Clear();
-// 				manifold.normalVector = edge.normal;
-// 				manifold.depth = edge.dist;
-// 				return (edge.normal * (edge.dist + 0.001f));
-// 			}
-// 			else
-// 			{
-// 				// 찾은 점을 심플렉스에 넣고 다시 탐색
-// 				m_Simplex.insert(m_Simplex.begin() + edge.index, p);
-// 				i++;
-// 			}
-// 		}
-// 
-// 		return Vector2D(0, 0);
-
 			return;
 		}
 
@@ -196,39 +138,41 @@ namespace Hyrule
 			return _colliderA->FindFarthestPoint(_direction) - _colliderB->FindFarthestPoint(-_direction);
 		}
 
-		std::pair<Edge*, float> CollisionSystem::FindClosestEdge(Simplex* _simplex)
-		{
-			return std::pair<Edge*, float>();
-		}
-
-		std::pair<Face*, float> CollisionSystem::FindClosestFace(Simplex* _simplex)
-		{
-			float mindist{ 100000000000.f };
-			Face* closestFace{};
-
-			for (size_t i = 0; i < _simplex->index.size(); i += 3)
-			{
-				size_t i0{ _simplex->index[i] };
-				size_t i1{ _simplex->index[i + 1] };
-				size_t i2{ _simplex->index[i + 2] };
-
-				Face* newFace = new Face((*_simplex)[i0], (*_simplex)[i1], (*_simplex)[i2], i0, i1, i2);
-				float dist{ (*_simplex)[i0].Dot(newFace->normal) };
-
-				if (mindist > dist)
-				{
-					mindist = dist;
-					delete closestFace;
-					closestFace = newFace;
-				}
-				else
-				{
-					delete newFace;
-				}
-			}
-
-			return std::make_pair(closestFace, mindist);
-		}
+		// 		std::pair<Edge*, float> CollisionSystem::FindClosestEdge(Simplex* _simplex)
+		// 		{
+		// 			return std::pair<Edge*, float>();
+		// 		}
+		// 
+		// 		std::tuple<Face*, float, std::list<size_t[3]>::iterator> CollisionSystem::FindClosestFace(Simplex* _simplex)
+		// 		{
+		// 			Face* closestFace{};
+		// 			float mindist{ FLT_MAX };
+		// 			std::list<size_t[3]>::iterator pos{};
+		// 
+		// 			for (auto itr = _simplex->index.begin(); itr != _simplex->index.end(); itr++ )
+		// 			{
+		// 				size_t i0{ (*itr)[0] };
+		// 				size_t i1{ (*itr)[1] };
+		// 				size_t i2{ (*itr)[2] };
+		// 
+		// 				Face* newFace = new Face((*_simplex)[i0], (*_simplex)[i1], (*_simplex)[i2], i0, i1, i2);
+		// 				float dist{ (*_simplex)[i0].Dot(newFace->normal) };
+		// 
+		// 				if (mindist > dist)
+		// 				{
+		// 					mindist = dist;
+		// 					delete closestFace;
+		// 					closestFace = newFace;
+		// 					pos = itr;
+		// 				}
+		// 				else
+		// 				{
+		// 					delete newFace;
+		// 				}
+		// 			}
+		// 
+		// 			return std::make_tuple(closestFace, mindist, pos);
+		// 		}
 
 		/// <summary>
 		/// 접촉점을 찾아냄

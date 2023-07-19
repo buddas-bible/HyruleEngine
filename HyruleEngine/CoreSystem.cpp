@@ -21,10 +21,9 @@ namespace Hyrule
 			case PHYSICS:
 			{
 				SceneManager::GetInstance().FixedUpdate();
+
 				PhysicsSystem::GetInstance().CollisionDetection();
-
 				/// 이쯤 어딘가에서 Manifold 가지고 뭔가를 해야함.
-
 				PhysicsSystem::GetInstance().CollisionResponse(0.008f);
 
 				// 시간이 남으면 물리 연산을 더 돌고,

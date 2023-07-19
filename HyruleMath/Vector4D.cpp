@@ -205,19 +205,19 @@ namespace Hyrule
 	{
 		Matrix4x4 temp{ _mat.Transpose() };
 		__m128 m128 = m;
-
+	
 		this->x = _mm_cvtss_f32(_mm_dp_ps(m128, temp.m[0].m, 0xFF));
 		this->y = _mm_cvtss_f32(_mm_dp_ps(m128, temp.m[1].m, 0xFF));
 		this->z = _mm_cvtss_f32(_mm_dp_ps(m128, temp.m[2].m, 0xFF));
 		this->w = _mm_cvtss_f32(_mm_dp_ps(m128, temp.m[3].m, 0xFF));
-
+	
 		return *this;
 	}
-
+	
 	Vector4D Vector4D::operator*(const Matrix4x4& _mat) const noexcept
 	{
 		Vector4D temp(*this);
-
+	
 		return temp *= _mat;
 	}
 

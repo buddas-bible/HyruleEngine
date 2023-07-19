@@ -27,15 +27,37 @@ namespace Hyrule
 		this->worldTM = _mat;
 	}
 
-	void RenderableObject::OnDisable() noexcept
-	{
-		ObjectManager::GetInstance().DisableObject(this);
-	}
-
 	void RenderableObject::OnEnble() noexcept
 	{
-		ObjectManager::GetInstance().EnableObject(this);
+		this->activate = true;
 	}
+
+	void RenderableObject::OnDisable() noexcept
+	{
+		this->activate = false;
+	}
+
+	bool RenderableObject::isActive() noexcept
+	{
+		return this->activate;
+	}
+
+	// void RenderableObject::OnDestory() noexcept
+	// {
+	// 
+	// }
+
+#if _DEBUG
+	void RenderableObject::OnCollisionEnter() noexcept
+	{
+		currState->SetWireState();
+	}
+
+	void RenderableObject::OnCollisionExit() noexcept
+	{
+		currState->SetSolidState();
+	}
+#endif
 
 	void RenderableObject::SetViewProjTM(const Matrix4x4& _viewProj) noexcept
 	{
@@ -44,7 +66,7 @@ namespace Hyrule
 
 	void RenderableObject::Render() noexcept
 	{
-		device->GetDeviceContext()->RSSetState(currState->GetWireRasterizerState());
+		device->GetDeviceContext()->RSSetState(currState->GetCurrRasterizerState());
 		device->GetDeviceContext()->IASetInputLayout(InputLayouts::PUNLayout->GetInputLayout());
 		device->GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

@@ -6,9 +6,7 @@ namespace Hyrule
 {
 	Renderer::Renderer(GameObject* _gameObject) noexcept :
 		Component(_gameObject), meshData()
-	{
-
-	}
+	{}
 
 	void Renderer::OnEnable()
 	{
@@ -18,5 +16,19 @@ namespace Hyrule
 	void Renderer::OnDisable()
 	{
 		meshData->OnDisable();
+	}
+
+	void Renderer::OnCollisionEnter()
+	{
+#if _DEBUG
+		meshData->OnCollisionEnter();
+#endif
+	}
+
+	void Renderer::OnCollisionExit()
+	{
+#if _DEBUG
+		meshData->OnCollisionExit();
+#endif
 	}
 }

@@ -8,7 +8,7 @@ namespace Hyrule
 
 	namespace Physics
 	{
-		enum SHAPE_TYPE
+		enum SHAPE_TYPE : size_t
 		{
 			SPHERE		= 0,
 			BOX			= 10,

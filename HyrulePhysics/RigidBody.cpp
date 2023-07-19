@@ -7,6 +7,27 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+
+		bool RigidBody::isActive()
+		{
+			return this->activate;
+		}
+
+		void RigidBody::OnEnable() noexcept
+		{
+			this->activate = true;
+		}
+
+		void RigidBody::OnDisable() noexcept
+		{
+			this->activate = false;
+		}
+
+		void RigidBody::OnDestroy() noexcept
+		{
+
+		}
+
 		void RigidBody::AddImpulse(const Vector3D& _impulse, const Vector3D& _contact) noexcept
 		{
 			if (invMess == 0.f)

@@ -1,14 +1,19 @@
 #include "BoxCollider.h"
 
 #include "ICollider.h"
+#include "Transform.h"
+#include "GameObject.h"
+#include "PhysicsSystem.h"
+#include "PHYSICALLYOBJECT_INFO.h"
 
 namespace Hyrule
 {
-
 	BoxCollider::BoxCollider(GameObject* _gameObject) noexcept : 
 		Collider(_gameObject)
 	{
-
+		Physics::COLLIDER_INFO info;
+		info.shapeInfo.shapeType = Physics::BOX;
+		collider = PhysicsSystem::GetInstance().AddCollider(gameObject->GetName(), &info);
 	}
 
 	BoxCollider::~BoxCollider() noexcept
@@ -33,22 +38,22 @@ namespace Hyrule
 
 	void BoxCollider::FixedUpdate()
 	{
-
+		collider->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
 	}
 
 	void BoxCollider::OnEnable()
 	{
-
+		collider->OnEnable();
 	}
 
 	void BoxCollider::OnDisable()
 	{
-
+		collider->OnDisable();
 	}
 
 	void BoxCollider::OnDestroy()
 	{
-
+		collider->OnDestroy();
 	}
 
 // 	bool BoxCollider::IsColliding()
