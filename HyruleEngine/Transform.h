@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 
-#pragma comment(lib, "HyruleMath.lib")
 #include "HyruleMath.h"
 #include "Component.h"
 
@@ -40,11 +39,11 @@ namespace Hyrule
 		void SetLocalScale(const Vector3D&) noexcept;
 		
 		Vector3D GetUp() noexcept;
-		void SetUp(const Vector3D&) noexcept;
+		// void SetUp(const Vector3D&) noexcept;
 		Vector3D GetForward() noexcept;
-		void SetForward(const Vector3D&) noexcept;
+		// void SetForward(const Vector3D&) noexcept;
 		Vector3D GetRight() noexcept;
-		void SetRight(const Vector3D&) noexcept;
+		// void SetRight(const Vector3D&) noexcept;
 		
 		Matrix4x4 GetLocalMatrix() noexcept;
 		Matrix4x4 GetWorldMatrix() noexcept;

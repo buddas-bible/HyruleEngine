@@ -3,6 +3,8 @@
 
 namespace Hyrule
 {
+	struct Vector3D;
+
 	class Scene01 : public Scene
 	{
 	public:

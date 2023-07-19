@@ -44,6 +44,7 @@ namespace Hyrule
 			ICollider* AddCollider(const std::wstring&, COLLIDER_INFO*);	// 오브젝트에 콜라이더를 추가함.
 			IRigidBody* AddRigidBody(const std::wstring&);					// 오브젝트에 강체를 추가함
 
+			void RemoveCollider(const std::wstring&, Collider*&);			// 콜라이더 포인터를 받아서 삭제
 			void RemoveCollider(const std::wstring&, ICollider*&);			// 콜라이더 포인터를 받아서 삭제
 			void RemoveCollider(const std::wstring&, int);					// 콜라이더 인덱스를 받아서 삭제
 			void RemoveRigidBody(const std::wstring&);

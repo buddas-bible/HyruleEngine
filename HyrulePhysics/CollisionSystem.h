@@ -58,6 +58,8 @@ namespace Hyrule
 		/// </summary>
 		public:
 			void CollisionRespone(float);
+
+		private:
 			void ComputeVelocity();
 			void ComputeImpulse();
 			void ComputePosition();

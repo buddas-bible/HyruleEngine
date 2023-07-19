@@ -117,7 +117,7 @@ namespace Hyrule
 					{
 						simplex.faceMap.begin()->second->index[0],
 						simplex.faceMap.begin()->second->index[1],
-						simplex.faceMap.begin()->second->index[2],
+						simplex.faceMap.begin()->second->index[2]
 					};
 					simplex.faceMap.erase(simplex.faceMap.begin());
 
@@ -495,24 +495,26 @@ namespace Hyrule
 		void CollisionSystem::CollisionRespone(float)
 		{
 			// 속력 업데이트
-			ComputeVelocity();
+			this->ComputeVelocity();
 			// 충돌 대응
-			ComputeImpulse();
+			this->ComputeImpulse();
 			// 위치 업데이트
-			ComputePosition();
+			this->ComputePosition();
 			// 밀어냄
-			ResolveCollision();
+			this->ResolveCollision();
 			// 힘 초기화
 
 		}
 
 		void CollisionSystem::ComputeVelocity()
 		{
-
+			// 각 물체들이 가지고 있는 힘으로 속력을 계산함.
 		}
 
 		void CollisionSystem::ComputeImpulse()
 		{
+			// 각 물체들이 가지고 있는 속력으로 충격량을 계산함
+
 			// A, B의 질량이 0이라면 운동을 하지 않음
 // 			if (((A->GetInvMass() + B->GetInvMass()) - 0.f) <= 0.000001f)
 // 			{
@@ -595,13 +597,12 @@ namespace Hyrule
 
 		void CollisionSystem::ComputePosition()
 		{
-
+			// 각 물체들이 가지고 있는 속력으로 위치를 계산함.
 		}
-
 
 		void CollisionSystem::ResolveCollision()
 		{
-
+			// 겹친 만큼 밀어냄
 		}
 	}
 }

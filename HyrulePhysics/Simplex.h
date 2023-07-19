@@ -30,7 +30,7 @@ namespace Hyrule
 			std::map<float, Face*> faceMap;
 
 			std::vector<Vector3D> points;
-			std::list<size_t[3]> index;
+			std::list<std::vector<size_t>> index;
 		};
 	}
 }

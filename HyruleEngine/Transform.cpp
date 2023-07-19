@@ -1,12 +1,12 @@
-#include "GameObject.h"
-
 #include "Transform.h"
+
+#include "GameObject.h"
 
 namespace Hyrule
 {
 	Transform::Transform(GameObject* _gameObject) noexcept :
 		Component(_gameObject), 
-		position(), rotation(), scale(),
+		position(), rotation(), scale(1.f, 1.f, 1.f),
 		parent(), children()
 	{}
 	
@@ -68,12 +68,11 @@ namespace Hyrule
 		return Vector3D{ 0.f, 1.f, 0.f };
 	 }
 
-
-	void Transform::SetUp(const Vector3D& _vec) noexcept
-	{
-		
-	}
-
+	// 	void Transform::SetUp(const Vector3D& _vec) noexcept
+	// 	{
+	// 		
+	// 	}
+ 
 	Vector3D Transform::GetForward() noexcept
 	{
 		Quaternion q = Quaternion::Identity();
@@ -86,11 +85,11 @@ namespace Hyrule
 		return Vector3D{ 0.f, 0.f, 1.f };
 	 }
 	
-	void Transform::SetForward(const Vector3D& _vec) noexcept
-	{
-		// Vector3D forward = _vec.Normalized();
-		// Quaternion q = 
-	}
+// 	void Transform::SetForward(const Vector3D& _vec) noexcept
+// 	{
+// 		// Vector3D forward = _vec.Normalized();
+// 		// Quaternion q = 
+// 	}
 
 	Vector3D Transform::GetRight() noexcept
 	{
@@ -103,12 +102,11 @@ namespace Hyrule
 
 		return Vector3D{ 1.f, 0.f, 0.f };
 	 }
-	
 
-	void Transform::SetRight(const Vector3D& _vec) noexcept
-	{
-		// this->quaternion =
-	}
+	// 	void Transform::SetRight(const Vector3D& _vec) noexcept
+	// 	{
+	// 		// this->quaternion =
+	// 	}
 
 	Matrix4x4 Transform::GetLocalMatrix() noexcept
 	{
@@ -126,7 +124,6 @@ namespace Hyrule
 
 		return GetLocalMatrix() * w;
 	}
-	
 
 	Transform* Transform::GetParent() noexcept
 	{

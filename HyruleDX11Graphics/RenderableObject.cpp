@@ -86,7 +86,7 @@ namespace Hyrule
 			0
 		);
 
-		Matrix4x4 _worldViewProj{ viewProjTM };
+		Matrix4x4 _worldViewProj{ worldTM * viewProjTM };
 		Effects::PUNEffect->SetWorldViewProj(_worldViewProj);
 
 		D3DX11_TECHNIQUE_DESC techDesc;

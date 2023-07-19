@@ -3,6 +3,8 @@
 #include "Object.h"
 #include <string>
 
+#include "ObjectManager.h"
+
 namespace Hyrule
 {
 	namespace Physics
@@ -24,7 +26,7 @@ namespace Hyrule
 
 		void Collider::OnDestroy() noexcept
 		{
-			// 오브젝트 매니저에서 삭제를 요청.
+			// ObjectManager::GetInstance().RemoveCollider(object->GetName(), this);
 		}
 
 		void Collider::SetWorldTransform(const Matrix4x4& _mat)

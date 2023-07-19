@@ -94,6 +94,26 @@ namespace Hyrule
 			}
 		}
 
+		void ObjectManager::RemoveCollider(const std::wstring& _name, Collider*& _target)
+		{
+			Object* obj = this->GetObject(_name);
+
+			if (obj == nullptr || _target == nullptr)
+			{
+				return;
+			}
+
+			obj->RemoveCollider(_target);
+
+			// 오브젝트가 가진 콜라이더 개수가 0이라면
+			if (obj->Empty())
+			{
+				this->RemoveObject(_name);
+				delete obj;
+				obj = nullptr;
+			}
+		}
+
 		void ObjectManager::RemoveRigidBody(const std::wstring& _name)
 		{
 			Object* obj = this->GetObject(_name);
