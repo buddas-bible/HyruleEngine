@@ -16,7 +16,7 @@ namespace Hyrule
 		/// 물리 엔진에서 공간 분할만을 위한 팔진트리
 		/// 재사용성은 신경쓰지도 않을 예정
 		/// </summary>
-		template <typename DataType, size_t DepthLimit = 4>
+		template <typename DataType, size_t DepthLimit = 6>
 		class Octree
 		{
 		public:
@@ -55,12 +55,22 @@ namespace Hyrule
 					aabb(_centre, _length),
 					depth(_depth), child(), dataList()
 				{}
-				~Node() noexcept {}
+				~Node() noexcept
+				{
+					for (auto& e : child)
+					{
+						if (e != nullptr)
+						{
+							delete e;
+							e = nullptr;
+						}
+					}
+				}
 
 			private:
 				const size_t depth;				// 현재 깊이
 				AABB aabb;
-				Node* child[8];					// 자식 노드
+				Node* child[8]{};				// 자식 노드
 				std::vector<Data*> dataList;
 
 			public:
@@ -89,7 +99,7 @@ namespace Hyrule
 					}
 					else
 					{
-						탐색해야할모든노드데이터.push_back(dataList);
+						searchDataContainer.push_back(dataList);
 						return;
 					}
 				}
@@ -186,13 +196,20 @@ namespace Hyrule
 			{
 				root = new Node(_centre, _length, DepthLimit);
 			}
-			~Octree() noexcept = default;
+			~Octree() noexcept
+			{
+				if (root != nullptr)
+				{
+					delete root;
+					root = nullptr;
+				}
+			}
 
 		private:
 			// const size_t DepthLimit;
 			Node* root{};
 			
-			std::vector<std::vector<Data*>> 탐색해야할모든노드데이터;
+			std::vector<std::vector<Data*>> searchDataContainer;
 
 		public:
 			void Insert(Data* _data)
@@ -213,7 +230,7 @@ namespace Hyrule
 			{
 				root->GetDataList();
 
-				return 탐색해야할모든노드데이터;
+				return this->searchDataContainer;
 			}
 		};
 	}

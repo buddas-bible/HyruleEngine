@@ -26,7 +26,7 @@ namespace Hyrule
 
 		void Collider::OnDestroy() noexcept
 		{
-			// ObjectManager::GetInstance().RemoveCollider(object->GetName(), this);
+
 		}
 
 		void Collider::SetWorldTransform(const Matrix4x4& _mat)

@@ -52,7 +52,7 @@ namespace Hyrule
 	/// </summary>
 	void PhysicsSystem::CollisionDetection() noexcept
 	{
-		// physicsEngine->CollisionDetection();
+		physicsEngine->CollisionDetection();
 	}
 
 	/// <summary>
@@ -62,12 +62,12 @@ namespace Hyrule
 	/// </summary>
 	void PhysicsSystem::CollisionResponse(float _dt) noexcept
 	{
-		// physicsEngine->CollisionResponse(_dt);
+		physicsEngine->CollisionResponse(_dt);
 	}
 
-	Physics::ICollider* PhysicsSystem::AddCollider(const std::wstring& _name, Physics::COLLIDER_INFO* _info)
+	Physics::ICollider* PhysicsSystem::CreateCollider(const std::wstring& _name, Physics::COLLIDER_INFO* _info)
 	{
-		auto collider = physicsEngine->AddCollider(_name, _info);
+		auto collider = physicsEngine->CreateCollider(_name, _info);
 
 		if (!collider)
 		{
@@ -77,14 +77,13 @@ namespace Hyrule
 		return collider;
 	}
 
-	Physics::IRigidBody* PhysicsSystem::AddRigidBody(const std::wstring& _name)
+	Physics::IRigidBody* PhysicsSystem::CreateRigidBody(const std::wstring& _name)
 	{
-		auto rigidbody = physicsEngine->AddRigidBody(_name);
+		auto rigidbody = physicsEngine->CreateRigidBody(_name);
 		if (!rigidbody)
 		{
 			return nullptr;
 		}
 		return rigidbody;
 	}
-
 }

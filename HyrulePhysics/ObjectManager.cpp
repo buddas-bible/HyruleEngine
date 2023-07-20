@@ -18,7 +18,7 @@ namespace Hyrule
 	namespace Physics
 	{
 
-		ICollider* ObjectManager::AddCollider(const std::wstring& _name, COLLIDER_INFO* _info)
+		ICollider* ObjectManager::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _info)
 		{
 			Object* obj = this->GetObject(_name);
 
@@ -27,12 +27,14 @@ namespace Hyrule
 				obj = this->CreateObject(_name);
 			}
 
-			Collider* collider = this->CreateCollider(obj, _info);
+			Collider* collider = this->AddCollider(obj, _info);
+
+			colliders.push_back(collider);
 
 			return (ICollider*)collider;
 		}
 
-		IRigidBody* ObjectManager::AddRigidBody(const std::wstring& _name)
+		IRigidBody* ObjectManager::CreateRigidBody(const std::wstring& _name)
 		{
 			Object* obj = this->GetObject(_name);
 
@@ -46,10 +48,13 @@ namespace Hyrule
 				this->RemoveRigidBody(_name);
 			}
 
-			RigidBody* rigidbody = this->CreateRigidBody(obj);
+			RigidBody* rigidbody = this->AddRigidBody(obj);
+
+			rigidBodies.push_back(rigidbody);
 
 			return (IRigidBody*)rigidbody;
 		}
+
 
 		void ObjectManager::RemoveCollider(const std::wstring& _name, ICollider*& _target)
 		{
@@ -134,7 +139,18 @@ namespace Hyrule
 			}
 		}
 
-		Collider* ObjectManager::CreateCollider(Object* _obj, COLLIDER_INFO* _info)
+
+		std::vector<Collider*>& ObjectManager::GetColliders() noexcept
+		{
+			return this->colliders;
+		}
+
+		std::vector<RigidBody*>& ObjectManager::GetRigidbodies() noexcept
+		{
+			return this->rigidBodies;
+		}
+
+		Collider* ObjectManager::AddCollider(Object* _obj, COLLIDER_INFO* _info)
 		{
 			Collider* newCollider = nullptr;
 
@@ -176,12 +192,13 @@ namespace Hyrule
 			return newCollider;
 		}
 
-		RigidBody* ObjectManager::CreateRigidBody(Object* _obj)
+		RigidBody* ObjectManager::AddRigidBody(Object* _obj)
 		{
 			_obj->rigidbody = new RigidBody;
 
 			return _obj->rigidbody;
 		}
+
 
 		Object* ObjectManager::GetObject(const std::wstring& _name)
 		{

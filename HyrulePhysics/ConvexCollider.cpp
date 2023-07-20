@@ -11,6 +11,14 @@ namespace Hyrule
 		{
 			SetSize(_info->colliderSize);
 			SetCenter(_info->colliderCenter);
+			
+			shape = Shapes::GetShape(_info->shapeName);
+
+			if (shape == nullptr)
+			{
+				Shapes::CreateConvexShape(_info->shapeName, _info->shapeInfo);
+			}
+
 		}
 
 		Vector3D ConvexCollider::FindFarthestPoint(const Vector3D& _direction)

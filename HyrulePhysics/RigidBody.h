@@ -47,7 +47,7 @@ namespace Hyrule
 
 			bool sleep;									// 잠지고 있는 상태인가?
 			bool kinematic;								// 다른 물체에게 외력을 받을 수 있는가?
-			bool gravityEnabled;						// 중력에 영향을 받는가?
+			bool useGravity;							// 중력에 영향을 받는가?
 
 		private:
 			Hyrule::Vector3D force;						// 힘

@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include <map>
+#include <string>
 #include "HyruleMath.h"
 
 enum class ShapeType : int
@@ -20,6 +22,8 @@ namespace Hyrule
 
 	namespace Physics
 	{
+		struct SHAPE_INPO;
+
 		class Shape
 		{
 		public:
@@ -92,7 +96,8 @@ namespace Hyrule
 		class ConvexShape : public Shape
 		{
 		public:
-			ConvexShape() noexcept;
+			ConvexShape() noexcept = default;
+			ConvexShape(SHAPE_INPO*) noexcept;
 			~ConvexShape() noexcept = default;
 
 		public:
@@ -107,10 +112,12 @@ namespace Hyrule
 		{
 		public:
 			static void Initalize();
+			static std::shared_ptr<ConvexShape> GetShape(const std::wstring&);
+			static void CreateConvexShape(const std::wstring& _name, SHAPE_INPO* _info);
 
 			static std::shared_ptr<BoxShape> boxShape;
 			static std::shared_ptr<PlaneShape> planeShape;
-			static std::vector<std::shared_ptr<ConvexShape>> convexShape;
+			static std::map<std::wstring, std::shared_ptr<ConvexShape>> convexShape;
 		};
 	
 	}

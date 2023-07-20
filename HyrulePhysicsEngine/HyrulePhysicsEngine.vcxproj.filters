@@ -28,5 +28,8 @@
     <ClInclude Include="PHYSICALLYOBJECT_INFO.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="ICollision.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

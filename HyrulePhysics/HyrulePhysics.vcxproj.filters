@@ -14,9 +14,6 @@
     <Filter Include="3. PhysicalyObject">
       <UniqueIdentifier>{b18d9165-96dc-4de9-b2c8-6ea989b34c69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Struct">
-      <UniqueIdentifier>{72546e8b-3b75-45e3-8455-3dc2254d751f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3. PhysicalyObject\Shape">
       <UniqueIdentifier>{80fc47c1-5302-41fe-a7c4-47810554ecc4}</UniqueIdentifier>
     </Filter>

@@ -11,6 +11,7 @@ namespace Hyrule
 		{
 			this->SetSize(_info->colliderSize);
 			this->SetCenter(_info->colliderCenter);
+			this->shape = Shapes::planeShape;
 		}
 
 		Vector3D PlaneCollider::FindFarthestPoint(const Vector3D& _direction)

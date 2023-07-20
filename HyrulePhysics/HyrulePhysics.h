@@ -28,12 +28,8 @@ namespace Hyrule
 			virtual ~HyrulePhysics() = default;
 
 		public:
-			virtual ICollider* AddCollider(const std::wstring&, COLLIDER_INFO*) override;	// 오브젝트에 콜라이더를 추가함.
-			virtual IRigidBody* AddRigidBody(const std::wstring&) override;					// 오브젝트에 강체를 추가함
-
-			virtual void RemoveCollider(const std::wstring&, ICollider*) override;			// 콜라이더 포인터를 받아서 삭제
-			virtual void RemoveCollider(const std::wstring&, int) override;					// 콜라이더 인덱스를 받아서 삭제
-			virtual void RemoveRigidBody(const std::wstring&) override;						// 강체 삭제
+			virtual ICollider* CreateCollider(const std::wstring&, COLLIDER_INFO*) override;	// 오브젝트에 콜라이더를 추가함.
+			virtual IRigidBody* CreateRigidBody(const std::wstring&) override;					// 오브젝트에 강체를 추가함
 
 			virtual std::vector<Manifold*> GetCollisionData() override;
 

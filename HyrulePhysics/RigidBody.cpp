@@ -84,7 +84,7 @@ namespace Hyrule
 		/// </summary>
 		Matrix3x3 RigidBody::GetInertia()
 		{
-			return inertiaTensor;
+			return this->inertiaTensor;
 		}
 
 #pragma region GetSet
@@ -128,7 +128,7 @@ namespace Hyrule
 
 		Vector3D RigidBody::GetAngularVelocity() const noexcept
 		{
-			return angularVelocity;
+			return this->angularVelocity;
 		}
 
 		bool RigidBody::isSleeping() const noexcept
@@ -145,7 +145,6 @@ namespace Hyrule
 		{
 			return this->object->GetWorldTM();
 		}
-
 #pragma endregion GetSet
 	}
 }

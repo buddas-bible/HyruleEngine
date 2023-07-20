@@ -35,8 +35,8 @@ namespace Hyrule
 		void Finalize();
 
 	public:
-		Physics::ICollider* AddCollider(const std::wstring&, Physics::COLLIDER_INFO*);
-		Physics::IRigidBody* AddRigidBody(const std::wstring&);
+		Physics::ICollider* CreateCollider(const std::wstring&, Physics::COLLIDER_INFO*);
+		Physics::IRigidBody* CreateRigidBody(const std::wstring&);
 	};
 }
 

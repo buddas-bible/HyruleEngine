@@ -22,7 +22,7 @@ namespace Hyrule
 		/// 트랜스폼 정보
 		/// 콜라이더 정보를 받아서 콜라이더를 만든다.
 		/// </summary>
-		ICollider* HyrulePhysics::AddCollider(const std::wstring& _name, COLLIDER_INFO* _colinfo)
+		ICollider* HyrulePhysics::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _colinfo)
 		{
 			return ObjectManager::GetInstance().AddCollider(_name, _colinfo);
 		}
@@ -31,33 +31,9 @@ namespace Hyrule
 		/// 게임 오브젝트 이름
 		/// 트랜스폼 정보를 받아서 강체를 만든다.
 		/// </summary>
-		IRigidBody* HyrulePhysics::AddRigidBody(const std::wstring& _name)
+		IRigidBody* HyrulePhysics::CreateRigidBody(const std::wstring& _name)
 		{
 			return ObjectManager::GetInstance().AddRigidBody(_name);
-		}
-
-		/// <summary>
-		/// 오브젝트의 콜라이더를 삭제함
-		/// </summary>
-		void HyrulePhysics::RemoveCollider(const std::wstring& _name, ICollider* _target)
-		{
-			return ObjectManager::GetInstance().RemoveCollider(_name, _target);
-		}
-
-		/// <summary>
-		/// 오브젝트의 콜라이더를 삭제함
-		/// </summary>
-		void HyrulePhysics::RemoveCollider(const std::wstring& _name, int _index)
-		{
-			return ObjectManager::GetInstance().RemoveCollider(_name, _index);
-		}
-
-		/// <summary>
-		/// 오브젝트가 가진 강체를 지움
-		/// </summary>
-		void HyrulePhysics::RemoveRigidBody(const std::wstring& _name)
-		{
-			return ObjectManager::GetInstance().RemoveRigidBody(_name);
 		}
 
 		std::vector<Manifold*> HyrulePhysics::GetCollisionData()
@@ -112,8 +88,8 @@ namespace Hyrule
 		/// <summary>
 		/// 월드 안에 있는 오브젝트를 전부 삭제함
 		/// </summary>
-		void HyrulePhysics::WorldReset()
-		{
+		// void HyrulePhysics::WorldReset()
+		// {
 			/*
 			게임 엔진에서 씬 단위로 관리를 한다고 했을 때.
 			씬 전환 시, 월드 리셋 함수를 호출하는 것으로 물리 엔진에 있는 오브젝트를 정리한다.
@@ -125,7 +101,7 @@ namespace Hyrule
 			씬 인터페이스를 만들어서 외부에서 씬을 생성하고 해당 씬에
 			*/
 			// 트리, 
-		}
+		// }
 
 		void HyrulePhysics::Finalize()
 		{

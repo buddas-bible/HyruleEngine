@@ -10,8 +10,9 @@ namespace Hyrule
 	{
 		BoxCollider::BoxCollider(COLLIDER_INFO* _info) noexcept
 		{
-			SetSize(_info->colliderSize);
-			SetCenter(_info->colliderCenter);
+			this->SetSize(_info->colliderSize);
+			this->SetCenter(_info->colliderCenter);
+			this->shape = Shapes::boxShape;
 		}
 
 		/// <summary>
