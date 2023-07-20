@@ -19,8 +19,8 @@ namespace Hyrule
 		virtual  std::wstring GetName() noexcept abstract;
 		virtual  GameObject* CreateGameObject(const std::wstring&) abstract;
 		virtual  GameObject* CreateGameObject(const std::wstring&, GameObject*) abstract;
-		virtual  std::map<std::wstring, GameObject*>& GetSceneObjectList() abstract;
-		virtual std::vector<GameObject*>& GetActivtedObject() abstract;
+		virtual  std::map<std::wstring, GameObject*>& SceneObjects() abstract;
+		// virtual std::vector<GameObject*>& GetActivtedObject() abstract;
 		virtual std::queue<GameObject*>& ActivatedQueue() abstract;
 		virtual std::queue<GameObject*>& DeactivatedQueue() abstract;
 		virtual std::queue<GameObject*>& DestroyedQueue() abstract;

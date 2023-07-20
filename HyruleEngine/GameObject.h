@@ -48,8 +48,8 @@ namespace Hyrule
 		void OnEnable();
 
 		void Start();
-		void Update();
 		void FixedUpdate();
+		void Update();
 		void LateUpdate();
 		void Render();
 

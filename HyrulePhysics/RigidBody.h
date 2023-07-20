@@ -54,7 +54,9 @@ namespace Hyrule
 			Hyrule::Vector3D torque;					// ≈‰≈©
 
 		public:
-			void AddImpulse(const Hyrule::Vector3D&, const Hyrule::Vector3D&) noexcept;
+			void ApplyImpulse(const Hyrule::Vector3D&, const Hyrule::Vector3D&) noexcept;
+			void ApplyForce(Vector3D _gravity, float) noexcept;
+			void ApplyTorque(float) noexcept;
 			virtual void AddForce(const Hyrule::Vector3D&) noexcept override;
 			virtual void AddTorque(const Hyrule::Vector3D&) noexcept override;
 

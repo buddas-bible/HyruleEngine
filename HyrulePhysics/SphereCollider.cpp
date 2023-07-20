@@ -7,7 +7,8 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		SphereCollider::SphereCollider(COLLIDER_INFO* _info) noexcept
+		SphereCollider::SphereCollider(Object* _obj, COLLIDER_INFO* _info) noexcept :
+			Collider(_obj)
 		{
 			SetSize(_info->colliderSize);
 			SetCenter(_info->colliderCenter);

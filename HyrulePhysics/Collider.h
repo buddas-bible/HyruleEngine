@@ -18,15 +18,16 @@ namespace Hyrule
 		class Collider : public ICollider
 		{
 		public:
-			Collider() noexcept = default;
+			Collider() noexcept = delete;
+			Collider(Object*) noexcept;
 			virtual ~Collider() noexcept = default;
 
 		protected:
-			Object* object{};
+			Object* object;
 
-			Vector3D center{ 0.f, 0.f, 0.f };
-			Vector3D size{ 0.5f, 0.5f, 0.5f };
-			bool isTrigger{ false };
+			Vector3D center;
+			Vector3D size;
+			bool isTrigger;
 
 			Matrix3x3 inertia;
 			Vector3D centerOfMass;

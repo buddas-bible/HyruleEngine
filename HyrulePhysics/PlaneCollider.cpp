@@ -7,11 +7,12 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		PlaneCollider::PlaneCollider(COLLIDER_INFO* _info) noexcept
+		PlaneCollider::PlaneCollider(Object* _obj, COLLIDER_INFO* _info) noexcept :
+			Collider(_obj),
+			shape(Shapes::planeShape)
 		{
 			this->SetSize(_info->colliderSize);
 			this->SetCenter(_info->colliderCenter);
-			this->shape = Shapes::planeShape;
 		}
 
 		Vector3D PlaneCollider::FindFarthestPoint(const Vector3D& _direction)

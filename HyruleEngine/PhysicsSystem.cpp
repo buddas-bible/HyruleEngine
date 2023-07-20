@@ -14,13 +14,15 @@ namespace Hyrule
 		}
 		
 		using ImportFunction = Physics::IPhysics* (*) ();
-		ImportFunction CreateInstance{ (ImportFunction)GetProcAddress(physicsDLL, "CreatePhysicsWorld") };
+		ImportFunction CreateInstance{ (ImportFunction)GetProcAddress(physicsDLL, "CreatePhysics") };
 		
 		if (CreateInstance == nullptr)
 		{
 			MessageBox(_hwnd, L"Physics DLL에서 함수 포인터를 받아오지 못했습니다.", L"DLL 오류", MB_OK | MB_ICONWARNING);
 			return false;
 		}
+
+		physicsEngine = CreateInstance();
 		
 		if (physicsEngine == nullptr)
 		{
@@ -28,7 +30,12 @@ namespace Hyrule
 			return false;
 		}
 		
-		physicsEngine = CreateInstance();
+		if (FAILED(physicsEngine->Initialize()))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	void PhysicsSystem::Finalize()

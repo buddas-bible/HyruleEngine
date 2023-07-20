@@ -28,9 +28,9 @@ namespace Hyrule
 
 		}
 
-		void RigidBody::AddImpulse(const Vector3D& _impulse, const Vector3D& _contact) noexcept
+		void RigidBody::ApplyImpulse(const Vector3D& _impulse, const Vector3D& _contact) noexcept
 		{
-			if (invMess == 0.f)
+			if (activate == false || invMess == 0.f)
 			{
 				return;
 			}
@@ -52,6 +52,34 @@ namespace Hyrule
 			// dw = (r X dP) / I
 			Vector3D dw = _contact.Cross(_impulse) * invInertiaTensor;
 			angularVelocity = angularVelocity + dw;
+		}
+
+		void RigidBody::ApplyForce(Vector3D _gravity, float _dt) noexcept
+		{
+			if (activate == false || invMess == 0.f)
+			{
+				return;
+			}
+
+			if (useGravity == true)
+			{
+				this->velocity += _gravity * _dt;
+			}
+
+			this->velocity += this->force * this->invMess * _dt;
+
+			this->force = Vector3D::Zero();
+		}
+
+		void RigidBody::ApplyTorque(float _dt) noexcept
+		{
+			if (activate == false || invMess == 0.f)
+			{
+				return;
+			}
+
+			this->angularVelocity += this->torque * this->invInertiaTensor * _dt;
+			this->torque = Vector3D::Zero();
 		}
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept

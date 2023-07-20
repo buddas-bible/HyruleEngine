@@ -7,7 +7,8 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		ConvexCollider::ConvexCollider(COLLIDER_INFO* _info) noexcept
+		ConvexCollider::ConvexCollider(Object* _obj, COLLIDER_INFO* _info) noexcept :
+			Collider(_obj)
 		{
 			SetSize(_info->colliderSize);
 			SetCenter(_info->colliderCenter);
@@ -16,7 +17,7 @@ namespace Hyrule
 
 			if (shape == nullptr)
 			{
-				Shapes::CreateConvexShape(_info->shapeName, _info->shapeInfo);
+				Shapes::CreateConvexShape(_info->shapeName, &_info->shapeInfo);
 			}
 
 		}
@@ -32,19 +33,18 @@ namespace Hyrule
 			size_t index{ 0 };
 			Vector3D dir{ (_direction * invWorld).Normalized() };
 
-			// for (size_t i = 0; i < shape->GetPoints().size(); i++)
-			// {
-			// 	float dist{ shape->GetPoints()[i].Dot(dir) };
-			// 
-			// 	if (dist < minDist)
-			// 	{
-			// 		minDist = dist;
-			// 		index = i;
-			// 	}
-			// }
-			// 
-			// return shape->GetPoints()[index] * world;
-			return Vector3D();
+			for (size_t i = 0; i < shape->GetPoints().size(); i++)
+			{
+				float dist{ shape->GetPoints()[i].Dot(dir) };
+
+				if (dist < minDist)
+				{
+					minDist = dist;
+					index = i;
+				}
+			}
+
+			return shape->GetPoints()[index] * world;
 		}
 
 		Face ConvexCollider::FindSupportFace(const Vector3D&)

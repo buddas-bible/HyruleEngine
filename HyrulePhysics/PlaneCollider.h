@@ -12,7 +12,7 @@ namespace Hyrule
 		{
 		public:
 			PlaneCollider() noexcept = delete;
-			PlaneCollider(COLLIDER_INFO*) noexcept;
+			PlaneCollider(Object*, COLLIDER_INFO*) noexcept;
 			virtual ~PlaneCollider() noexcept = default;
 
 		private:

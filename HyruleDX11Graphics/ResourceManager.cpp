@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 
 #include "Vertex.h"
+#include <vector>
 
 namespace Hyrule
 {
@@ -384,5 +385,91 @@ namespace Hyrule
 			HelerObject::plane = temp0;
 		}
 #pragma endregion Plane
+
+		/*---------------------------------------------------------------------------------------------*/
+
+#pragma region Sphere
+		{
+
+			size_t stackCount = 15;
+			size_t sliceCount = 15;
+			float radius = 0.5f;
+
+			std::vector<PUN> vertices;
+
+			// topVertex 추가
+			vertices.emplace_back();
+			vertices.back().pos = Vector3(0.0f, +radius, 0.0f);
+
+			float phiStep = PI<float> / stackCount;
+			float thetaStep = 2.0f * PI<float> / sliceCount;
+			for (unsigned int i = 1; i <= stackCount - 1; ++i)
+			{
+				float phi = i * phiStep;
+				// 고리의 정점들
+				for (unsigned int j = 0; j <= sliceCount; ++j)
+				{
+					float theta = j * thetaStep;
+					// 구면 좌표계에서 카테시안 좌표계로
+					Vector3 v(0.5f * sinf(phi) * cosf(theta),
+						0.5f * cosf(phi),
+						0.5f * sinf(phi) * sinf(theta));
+
+					vertices.emplace_back();
+					vertices.back().pos = v;
+				}
+			}
+
+			// bottomVertex 추가
+			vertices.emplace_back();
+			vertices.back().pos = Vector3(0.0f, -radius, 0.0f);
+
+			///////// 인덱스 리스트 만들기
+			// 구의 top 스택 계산
+			std::vector<UINT> indices;
+			for (UINT i = 1; i <= sliceCount; ++i)
+			{
+				indices.push_back(0);
+				indices.push_back(i + 1);
+				indices.push_back(i);
+			}
+
+			// 중간 스택들 계산
+			UINT baseIndex = 1;
+			UINT ringVertexCount = sliceCount + 1;
+			for (UINT i = 0; i < stackCount - 2; ++i)
+			{
+				for (UINT j = 0; j < sliceCount; ++j)
+				{
+					indices.push_back(baseIndex + i * ringVertexCount + j);
+					indices.push_back(baseIndex + i * ringVertexCount + j + 1);
+					indices.push_back(baseIndex + (i + 1) * ringVertexCount + j);
+
+					indices.push_back(baseIndex + (i + 1) * ringVertexCount + j);
+					indices.push_back(baseIndex + i * ringVertexCount + j + 1);
+					indices.push_back(baseIndex + (i + 1) * ringVertexCount + j + 1);
+				}
+			}
+			// bottom 스택 계산
+			UINT southPoleIndex = (UINT)vertices.size() - 1;
+			baseIndex = southPoleIndex - ringVertexCount;
+			for (UINT i = 0; i < sliceCount; ++i)
+			{
+				indices.push_back(southPoleIndex);
+				indices.push_back(baseIndex + i);
+				indices.push_back(baseIndex + i + 1);
+			}
+
+			auto sphereMesh = ResourceManager::GetInstance().CreateMesh(
+				&vertices[0], sizeof(PUN) * vertices.size(),
+				&indices[0], sizeof(UINT) * indices.size(),
+				indices.size()
+			);
+
+			std::shared_ptr<DXMesh> temp0{sphereMesh};
+			HelerObject::sphere = temp0;
+		}
+#pragma endregion Sphere
+
 	}
 }

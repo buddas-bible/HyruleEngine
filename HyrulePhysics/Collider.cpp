@@ -9,6 +9,12 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		Collider::Collider(Object* _obj) noexcept : 
+			object(_obj),
+			center(), size(0.5f, 0.5f, 0.5f), isTrigger(false),
+			inertia(), centerOfMass(), activate(true)
+		{}
+
 		bool Collider::isActive()
 		{
 			return this->activate;

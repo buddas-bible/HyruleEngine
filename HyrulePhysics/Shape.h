@@ -113,11 +113,11 @@ namespace Hyrule
 		public:
 			static void Initalize();
 			static std::shared_ptr<ConvexShape> GetShape(const std::wstring&);
-			static void CreateConvexShape(const std::wstring& _name, SHAPE_INPO* _info);
+			static std::shared_ptr<ConvexShape> CreateConvexShape(const std::wstring& _name, SHAPE_INPO* _info);
 
 			static std::shared_ptr<BoxShape> boxShape;
 			static std::shared_ptr<PlaneShape> planeShape;
-			static std::map<std::wstring, std::shared_ptr<ConvexShape>> convexShape;
+			// static std::map<std::wstring, std::shared_ptr<ConvexShape>> convexShapes;
 		};
 	
 	}

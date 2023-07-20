@@ -5,7 +5,9 @@
 #include "Transform.h"
 
 #include "BoxCollider.h"
+#include "SphereCollider.h"
 #include "CubeRenderer.h"
+#include "SphereRenderer.h"
 
 namespace Hyrule
 {
@@ -18,7 +20,12 @@ namespace Hyrule
 		GameObject* box = CreateGameObject(L"Box01");
 		box->AddComponent<CubeRenderer>();
 		box->GetTransform()->SetLocalPosition(Vector3D(3.f, 0.f, 1.f));
-		// box->AddComponent<BoxCollider>();
+		box->AddComponent<BoxCollider>();
+
+		GameObject* sphere = CreateGameObject(L"Sphere01");
+		sphere->AddComponent<SphereRenderer>();
+		sphere->GetTransform()->SetLocalPosition(Vector3D(-3.f, 0.f, 1.f));
+		sphere->AddComponent<SphereCollider>();
 	}
 
 }

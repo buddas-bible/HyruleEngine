@@ -57,9 +57,6 @@ namespace Hyrule
 		long CreateHelper();
 
 		virtual IRenderable* GetRenderableObject(RENDERABLE_DESC*) override;
-		std::vector<RenderableObject*> renderableList;
-		std::vector<RenderableObject*> disableList;
-		std::vector<RenderableObject*> enableList;
 
 		Helper* m_axis;
 		Helper* m_gizmo;

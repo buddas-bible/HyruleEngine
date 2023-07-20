@@ -38,7 +38,6 @@ namespace Hyrule
 			virtual long Initialize() abstract;
 			virtual void CollisionDetection() abstract;
 			virtual void CollisionResponse(float) abstract;
-			// virtual void WorldReset() abstract;
 			virtual void Finalize() abstract;
 
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) abstract;

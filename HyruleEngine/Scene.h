@@ -26,7 +26,7 @@ namespace Hyrule
 		std::map<std::wstring, GameObject*> gameObjecs;	// 씬에 있는 모든 오브젝트
 
 	protected:
-		std::vector<GameObject*> activatedObject;		// 활성화된 오브젝트
+		// std::vector<GameObject*> activatedObject;		// 활성화된 오브젝트
 		std::queue<GameObject*> objectsToDestroy;		// 오브젝트 파괴
 		std::queue<GameObject*> objectsToActivate;		// 오브젝트 활성화
 		std::queue<GameObject*> objectsToDeactivate;	// 오브젝트 비활성화
@@ -35,8 +35,8 @@ namespace Hyrule
 		virtual std::wstring GetName() noexcept final;
 		virtual GameObject* CreateGameObject(const std::wstring& _name) final;
 		virtual GameObject* CreateGameObject(const std::wstring& _name, GameObject* _parent) final;
-		virtual std::map<std::wstring, GameObject*>& GetSceneObjectList() final;
-		virtual std::vector<GameObject*>& GetActivtedObject() final;
+		virtual std::map<std::wstring, GameObject*>& SceneObjects() final;
+		// virtual std::vector<GameObject*>& GetActivtedObject() final;
 		virtual std::queue<GameObject*>& ActivatedQueue() final;
 		virtual std::queue<GameObject*>& DeactivatedQueue() final;
 		virtual std::queue<GameObject*>& DestroyedQueue() final;

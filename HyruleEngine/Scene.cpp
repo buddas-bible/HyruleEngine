@@ -43,15 +43,15 @@ namespace Hyrule
 		return newObejct;
 	}
 
-	std::map<std::wstring, GameObject*>& Scene::GetSceneObjectList()
+	std::map<std::wstring, GameObject*>& Scene::SceneObjects()
 	{
 		return this->gameObjecs;
 	}
 
-	std::vector<GameObject*>& Scene::GetActivtedObject()
-	{
-		return this->activatedObject;
-	}
+	// 	std::vector<GameObject*>& Scene::GetActivtedObject()
+	// 	{
+	// 		return this->activatedObject;
+	// 	}
 
 	std::queue<GameObject*>& Scene::ActivatedQueue()
 	{
@@ -95,14 +95,42 @@ namespace Hyrule
 
 	void Scene::Initialize() noexcept
 	{
-		activatedObject.clear();
-
-		for (auto& e : gameObjecs)
+		gameObjecs.clear();
+		if (!objectsToActivate.empty())
 		{
-			if (e.second->Activated() == true)
+			for (auto i = 0; i < objectsToActivate.size(); i++)
 			{
-				activatedObject.push_back(e.second);
+				auto e{ objectsToActivate.front() };
+
+				if (e != nullptr)
+				{
+					delete e;
+				}
+
+				objectsToActivate.pop();
 			}
+		}
+		if (!objectsToDestroy.empty())
+		{
+			auto e{ objectsToDestroy.front() };
+
+			if (e != nullptr)
+			{
+				delete e;
+			}
+
+			objectsToDestroy.pop();
+		}
+		if (!objectsToDeactivate.empty())
+		{
+			auto e{ objectsToDeactivate.front() };
+
+			if (e != nullptr)
+			{
+				delete e;
+			}
+
+			objectsToDeactivate.pop();
 		}
 	}
 
@@ -124,6 +152,5 @@ namespace Hyrule
 		}
 
 		gameObjecs.clear();
-		activatedObject.clear();
 	}
 }

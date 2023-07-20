@@ -11,7 +11,7 @@ namespace Hyrule
 		{
 		public:
 			SphereCollider() noexcept = delete;
-			SphereCollider(COLLIDER_INFO*) noexcept;
+			SphereCollider(Object*, COLLIDER_INFO*) noexcept;
 			virtual ~SphereCollider() noexcept = default;
 
 		public:

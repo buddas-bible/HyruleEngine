@@ -7,12 +7,13 @@ namespace Hyrule
 	namespace Physics
 	{
 		struct COLLIDER_INFO;
+		struct SHAPE_INPO;
 
 		class ConvexCollider : public Collider
 		{
 		public:
 			ConvexCollider() noexcept = delete;
-			ConvexCollider(COLLIDER_INFO*) noexcept;
+			ConvexCollider(Object*, COLLIDER_INFO*) noexcept;
 			virtual ~ConvexCollider() noexcept = default;
 
 		private:

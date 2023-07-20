@@ -37,7 +37,6 @@ namespace Hyrule
 			virtual long Initialize() override;
 			virtual void CollisionDetection() override;										// 콜리전 체크
 			virtual void CollisionResponse(float) override;									// 강체 시뮬레이션
-			virtual void WorldReset() override;												// 월드에 있는 콜라이더와 강체를 모두 지움
 			virtual void Finalize() override;
 
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;					// 월드 중력을 설정함.

@@ -509,6 +509,13 @@ namespace Hyrule
 		void CollisionSystem::ComputeVelocity()
 		{
 			// 각 물체들이 가지고 있는 힘으로 속력을 계산함.
+
+			// auto& rigidbodies = ObjectManager::GetInstance().GetRigidbodies();
+			// for (auto& e : rigidbodies)
+			// {
+			// 	e->ApplyForce();
+			// 	e->ApplyTorque();
+			// }
 		}
 
 		void CollisionSystem::ComputeImpulse()

@@ -24,7 +24,7 @@ namespace Hyrule
 		/// </summary>
 		ICollider* HyrulePhysics::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _colinfo)
 		{
-			return ObjectManager::GetInstance().AddCollider(_name, _colinfo);
+			return ObjectManager::GetInstance().CreateCollider(_name, _colinfo);
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace Hyrule
 		/// </summary>
 		IRigidBody* HyrulePhysics::CreateRigidBody(const std::wstring& _name)
 		{
-			return ObjectManager::GetInstance().AddRigidBody(_name);
+			return ObjectManager::GetInstance().CreateRigidBody(_name);
 		}
 
 		std::vector<Manifold*> HyrulePhysics::GetCollisionData()

@@ -18,7 +18,7 @@ namespace Hyrule
 	public:
 		Collider() = delete;
 		Collider(GameObject*) noexcept;
-		virtual ~Collider() noexcept;
+		virtual ~Collider() noexcept = default;
 
 	public:
 		virtual void SetTrigger(bool) abstract;

@@ -158,13 +158,13 @@ namespace Hyrule
 			{
 				case SPHERE:
 				{
-					newCollider = new SphereCollider(_info);
+					newCollider = new SphereCollider(_obj, _info);
 				}
 				break;
 
 				case BOX:
 				{
-					newCollider = new BoxCollider(_info);
+					newCollider = new BoxCollider(_obj, _info);
 				}
 				break;
 
@@ -174,13 +174,13 @@ namespace Hyrule
 
 				case CONVEX:
 				{
-					newCollider = new ConvexCollider(_info);
+					newCollider = new ConvexCollider(_obj, _info);
 				}
 				break;
 
 				case PLANE:
 				{
-					newCollider = new PlaneCollider(_info);
+					newCollider = new PlaneCollider(_obj, _info);
 				}
 				break;
 
@@ -222,7 +222,7 @@ namespace Hyrule
 		{
 			Object* obj = new Object(_name);
 			// std::unique_ptr<Object> obbj = std::make_unique<Object>(_name);
-			objectMap[_name] = obj;
+			objectMap.insert(std::make_pair(_name, obj));
 
 			return obj;
 		}

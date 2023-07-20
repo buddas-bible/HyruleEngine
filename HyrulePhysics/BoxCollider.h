@@ -12,7 +12,7 @@ namespace Hyrule
 		{
 		public:
 			BoxCollider() noexcept = delete;
-			BoxCollider(COLLIDER_INFO*) noexcept;
+			BoxCollider(Object*, COLLIDER_INFO*) noexcept;
 			virtual ~BoxCollider() noexcept = default;
 
 		private:

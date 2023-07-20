@@ -68,18 +68,28 @@ namespace Hyrule
 	{
 		auto& input = InputSystem::GetInstance();
 
-		if (input.KeyPress(0x57))	// W
-			camera->moveL(1.f);
-		if (input.KeyPress(0x53))	// S
-			camera->moveL(-1.f);
-		if (input.KeyPress(0x44))	// D
-			camera->moveR(1.f);
-		if (input.KeyPress(0x41))	// A
-			camera->moveR(-1.f);
-		if (input.KeyPress(0x45))	// E
-			camera->moveU(1.f);
-		if (input.KeyPress(0x51))	// Q
-			camera->moveU(-1.f);
+		if (input.KeyPress('W'))
+			camera->moveL(0.5f);
+		if (input.KeyPress('S'))
+			camera->moveL(-0.5f);
+		if (input.KeyPress('D'))
+			camera->moveR(0.5f);
+		if (input.KeyPress('A'))
+			camera->moveR(-0.5f);
+		if (input.KeyPress('E'))
+			camera->moveU(0.5f);
+		if (input.KeyPress('Q'))
+			camera->moveU(-0.5f);
+
+		if (input.KeyPress(VK_UP))
+			camera->Pitch(1.f);
+		if (input.KeyPress(VK_DOWN))
+			camera->Pitch(-1.f);
+		if (input.KeyPress(VK_LEFT))
+			camera->Yaw(1.f);
+		if (input.KeyPress(VK_RIGHT))
+			camera->Yaw(-1.f);
+
 	}
 
 	void Camera::OnEnable()

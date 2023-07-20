@@ -77,19 +77,25 @@ namespace Hyrule
 			currentScene->Initialize();
 
 			// 활성화 중인 오브젝트의 이벤트 함수를 호출
-			for (auto& e : currentScene->GetActivtedObject())
+			for (auto& e : currentScene->SceneObjects())
 			{
-				e->Awake();
+				if (e.second->Activated() != true)
+					continue;
+				e.second->Awake();
 			}
 
-			for (auto& e : currentScene->GetActivtedObject())
+			for (auto& e : currentScene->SceneObjects())
 			{
-				e->OnEnable();
+				if (e.second->Activated() != true)
+					continue;
+				e.second->OnEnable();
 			}
 
-			for (auto& e : currentScene->GetActivtedObject())
+			for (auto& e : currentScene->SceneObjects())
 			{
-				e->Start();
+				if (e.second->Activated() != true)
+					continue;
+				e.second->Start();
 			}
 
 			first = false;
@@ -102,10 +108,11 @@ namespace Hyrule
 				auto obj = currentScene->ActivatedQueue().front();
 				currentScene->AddActivatedQueue(obj);
 				currentScene->ActivatedQueue().pop();
+
 				obj->Awake();
 
 				// 활성화된 오브젝트 배열에 넣음.
-				currentScene->GetActivtedObject().push_back(obj);
+				// currentScene->GetActivtedObject().push_back(obj);
 			}
 
 			for (size_t i = 0; i < currentScene->ActivatedQueue().size(); i++)
@@ -127,7 +134,7 @@ namespace Hyrule
 
 	void SceneManager::OnDisable()
 	{
-		for (auto& e : currentScene->GetSceneObjectList())
+		for (auto& e : currentScene->SceneObjects())
 		{
 			e.second->OnDisable();
 		}
@@ -135,7 +142,7 @@ namespace Hyrule
 
 	void SceneManager::OnEnable()
 	{
-		for (auto& e : currentScene->GetSceneObjectList())
+		for (auto& e : currentScene->SceneObjects())
 		{
 			e.second->OnEnable();
 		}
@@ -143,7 +150,7 @@ namespace Hyrule
 
 	void SceneManager::Awake()
 	{
-		for (auto& e : currentScene->GetSceneObjectList())
+		for (auto& e : currentScene->SceneObjects())
 		{
 			e.second->Awake();
 		}
@@ -151,9 +158,11 @@ namespace Hyrule
 
 	void SceneManager::Start()
 	{
-		for (auto& e : currentScene->GetActivtedObject())
+		for (auto& e : currentScene->SceneObjects())
 		{
-			e->Start();
+			if (e.second->Activated() != true)
+				continue;
+			e.second->Start();
 		}
 	}
 
@@ -167,31 +176,37 @@ namespace Hyrule
 
 	void SceneManager::FixedUpdate()
 	{
-		for (auto& e : currentScene->GetActivtedObject())
+		for (auto& e : currentScene->SceneObjects())
 		{
-			e->FixedUpdate();
+			if (e.second->Activated() != true)
+				continue;
+			e.second->FixedUpdate();
 		}
 	}
 
 	void SceneManager::Update()
 	{
-		for (auto& e : currentScene->GetActivtedObject())
+		for (auto& e : currentScene->SceneObjects())
 		{
-			e->Update();
+			if (e.second->Activated() != true)
+				continue;
+			e.second->Update();
 		}
 	}
 
 	void SceneManager::LateUpdate()
 	{
-		for (auto& e : currentScene->GetActivtedObject())
+		for (auto& e : currentScene->SceneObjects())
 		{
-			e->LateUpdate();
+			if (e.second->Activated() != true)
+				continue;
+			e.second->LateUpdate();
 		}
 	}
 
 	void SceneManager::OnDestroy()
 	{
-		for (auto& e : currentScene->GetSceneObjectList())
+		for (auto& e : currentScene->SceneObjects())
 		{
 			e.second->OnDestroy();
 		}
@@ -205,13 +220,13 @@ namespace Hyrule
 			auto obj = currentScene->DeactivatedQueue().front();
 			currentScene->ActivatedQueue().pop();
 
-			auto itr = std::find(
-				currentScene->GetActivtedObject().begin(), 
-				currentScene->GetActivtedObject().end(), 
-				obj
-			);
-
-			currentScene->GetActivtedObject().erase(itr);
+// 			auto itr = std::find(
+// 				currentScene->GetActivtedObject().begin(), 
+// 				currentScene->GetActivtedObject().end(), 
+// 				obj
+// 			);
+// 
+// 			currentScene->GetActivtedObject().erase(itr);
 			
 			obj->OnDisable();
 		}

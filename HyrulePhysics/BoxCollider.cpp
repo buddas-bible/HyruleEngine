@@ -8,11 +8,12 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		BoxCollider::BoxCollider(COLLIDER_INFO* _info) noexcept
+		BoxCollider::BoxCollider(Object* _obj, COLLIDER_INFO* _info) noexcept : 
+			Collider(_obj),
+			shape(Shapes::boxShape)
 		{
 			this->SetSize(_info->colliderSize);
 			this->SetCenter(_info->colliderCenter);
-			this->shape = Shapes::boxShape;
 		}
 
 		/// <summary>

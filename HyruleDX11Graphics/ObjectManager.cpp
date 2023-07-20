@@ -22,11 +22,6 @@ namespace Hyrule
 		return this->renderableList;
 	}
 
-	// std::vector<RenderableObject*>& ObjectManager::GetActivatedObjects()
-	// {
-	// 	return this->activatedObject;
-	// }
-
 	void ObjectManager::AddObject(RenderableObject* _obj)
 	{
 		renderableList.push_back(_obj);

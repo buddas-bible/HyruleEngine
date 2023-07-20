@@ -49,7 +49,7 @@ namespace Hyrule
 
 	void GameObject::SetActive(bool _active)
 	{
-		if (_active == true)
+		if (_active == true && activeSelf == false)
 		{
 			scene->AddActivatedQueue(this);
 			for (auto& e : transform->Getchildren())
@@ -57,7 +57,7 @@ namespace Hyrule
 				e->gameObject->SetActive(_active);
 			}
 		}
-		else
+		else if (_active == false && activeSelf == true)
 		{
 			scene->AddDeactivatedQueue(this);
 			for (auto& e : transform->Getchildren())
@@ -65,8 +65,6 @@ namespace Hyrule
 				e->gameObject->SetActive(_active);
 			}
 		}
-
-		this->activeSelf = _active;
 	}
 
 	bool GameObject::Activated()
@@ -80,6 +78,7 @@ namespace Hyrule
 		{
 			e.second->OnDisable();
 		}
+		activeSelf = false;
 	}
 
 	void GameObject::OnEnable()
@@ -88,6 +87,7 @@ namespace Hyrule
 		{
 			e.second->OnEnable();
 		}
+		activeSelf = true;
 	}
 
 	void GameObject::Awake()
@@ -106,19 +106,19 @@ namespace Hyrule
 		}
 	}
 
-	void GameObject::Update()
-	{
-		for (auto& e : components)
-		{
-			e.second->Update();
-		}
-	}
-
 	void GameObject::FixedUpdate()
 	{
 		for (auto& e : components)
 		{
 			e.second->FixedUpdate();
+		}
+	}
+
+	void GameObject::Update()
+	{
+		for (auto& e : components)
+		{
+			e.second->Update();
 		}
 	}
 

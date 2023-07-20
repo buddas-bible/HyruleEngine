@@ -13,7 +13,7 @@ namespace Hyrule
 	{
 		Physics::COLLIDER_INFO info;
 		info.shapeInfo.shapeType = Physics::SPHERE;
-		collider = PhysicsSystem::GetInstance().AddCollider(gameObject->GetName(), &info);
+		collider = PhysicsSystem::GetInstance().CreateCollider(gameObject->GetName(), &info);
 	}
 
 	SphereCollider::~SphereCollider() noexcept

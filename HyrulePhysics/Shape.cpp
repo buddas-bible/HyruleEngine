@@ -14,19 +14,21 @@ namespace Hyrule
 
 		std::shared_ptr<ConvexShape> Shapes::GetShape(const std::wstring& _name)
 		{
-			auto itr = convexShape.find(_name);
+			// auto itr = (Shapes::convexShapes).find(_name);
 
-			if (itr != convexShape.end())
-			{
-				return itr->second;
-			}
+			// if (itr != (Shapes::convexShapes).end())
+			// {
+			// 	return itr->second;
+			// }
 
 			return nullptr;
 		}
 
-		void Shapes::CreateConvexShape(const std::wstring& _name, SHAPE_INPO* _info)
+		std::shared_ptr<ConvexShape> Shapes::CreateConvexShape(const std::wstring& _name, SHAPE_INPO* _info)
 		{
-			convexShape.insert(make_pair(_name, std::make_shared<ConvexShape>(_info)));
+			// (Shapes::convexShapes)[_name] = std::make_shared<ConvexShape>(_info);
+
+			return GetShape(_name);
 		}
 
 		BoxShape::BoxShape() noexcept : Shape()
@@ -45,9 +47,6 @@ namespace Hyrule
 			return this->points;
 		}
 
-		ConvexShape::ConvexShape() noexcept : Shape()
-		{}
-
 		ConvexShape::ConvexShape(SHAPE_INPO* _info) noexcept : 
 			points(_info->pPointArr, _info->pPointArr + _info->pPointArrSize),
 			index(_info->pIndexArr, _info->pIndexArr + _info->pIndexArrSize)
@@ -60,6 +59,6 @@ namespace Hyrule
 
 		std::shared_ptr<BoxShape> Shapes::boxShape{};
 		std::shared_ptr<PlaneShape> Shapes::planeShape{};
-		std::vector<std::shared_ptr<ConvexShape>> convexShape{};
+		// std::vector<std::shared_ptr<ConvexShape>> convexShape{};
 	}
 }

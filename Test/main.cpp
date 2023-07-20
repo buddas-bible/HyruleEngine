@@ -54,7 +54,7 @@ int APIENTRY WinMain(
 #if _DEBUG		// Debug
 #if _WIN64		// x64
 	gameEngine.LoadGraphicsDLL(L"../x64/Debug/HyruleGraphicsDX11.dll");
-	// gameEngine.LoadPhysicsDLL(L"");
+	gameEngine.LoadPhysicsDLL(L"../x64/Debug/HyrulePhysics.dll");
 #else			// x86
 	gameEngine.LoadGraphicsDLL(L"../x86/Debug/HyruleGraphicsDX11.dll");
 	gameEngine.LoadPhysicsDLL(L"");
