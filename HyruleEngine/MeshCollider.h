@@ -19,7 +19,7 @@ namespace Hyrule
 		virtual ~MeshCollider() noexcept;
 
 	private:
-		bool isColliding;
+		// bool isColliding;
 		Physics::ICollider* collider;
 
 	public:

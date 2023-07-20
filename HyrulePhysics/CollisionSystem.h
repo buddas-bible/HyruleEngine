@@ -2,6 +2,7 @@
 
 #include <map>
 #include <list>
+#include "Manager.h"
 
 namespace Hyrule
 {
@@ -15,7 +16,7 @@ namespace Hyrule
 		struct Face;
 		struct Edge;
 
-		class CollisionSystem
+		class CollisionSystem : public Manager<CollisionSystem>
 		{
 		///
 		/// </summary>

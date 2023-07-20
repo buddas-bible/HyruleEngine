@@ -59,6 +59,8 @@ namespace Hyrule
 
 	Matrix3x3 ToMatrix3(const Vector3D&, const float) noexcept;
 
+	Matrix4x4 ToMatrix4(const Vector3D&, const float) noexcept;
+
 	// Vector4D& operator*=(Vector4D&, const Matrix4x4&) noexcept;
 	// Vector4D operator*(const Vector4D&, const Matrix4x4&) noexcept;
 	// 

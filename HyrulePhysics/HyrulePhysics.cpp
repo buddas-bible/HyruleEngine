@@ -3,10 +3,12 @@
 #include "Collider.h"
 #include "RigidBody.h"
 #include "Object.h"
+#include "Shape.h"
 #include "Octree.h"
 
 #include "PHYSICALLYOBJECT_INFO.h"
 #include "ObjectManager.h"
+#include "CollisionSystem.h"
 
 namespace Hyrule
 {
@@ -44,7 +46,7 @@ namespace Hyrule
 		long HyrulePhysics::Initialize()
 		{
 			gravity = Hyrule::Vector3D(0.f, -9.81f, 0.f);
-
+			Shapes::Initalize();
 			return (long)0L;
 		}
 
@@ -69,7 +71,16 @@ namespace Hyrule
 			/// 5개 넘어가면 자식을 탐색.
 
 			Octree<Object, 4> octree;
-			// CollisionSystem::GJKCollisionDetection();
+
+			auto& colliders = ObjectManager::GetInstance().GetColliders();
+			for (auto i = 0; i < colliders.size() - 1; i++)
+			{
+				bool detect = CollisionSystem::GetInstance().GJKCollisionDetection(colliders[i], colliders[i + 1]);
+				if (detect)
+				{
+					Vector3D::Zero();
+				}
+			}
 		}
 
 		/// <summary>
@@ -85,29 +96,9 @@ namespace Hyrule
 			*/
 		}
 
-		/// <summary>
-		/// 월드 안에 있는 오브젝트를 전부 삭제함
-		/// </summary>
-		// void HyrulePhysics::WorldReset()
-		// {
-			/*
-			게임 엔진에서 씬 단위로 관리를 한다고 했을 때.
-			씬 전환 시, 월드 리셋 함수를 호출하는 것으로 물리 엔진에 있는 오브젝트를 정리한다.
-			
-			물리 엔진도 씬 단위로 오브젝트를 관리하는 것을 고민 해보았지만
-			이러는 편이 오히려 직관적으로 이용할 수 있을 듯 싶어서 이렇게 하기로 했다.
-
-			만약 물리 엔진도 씬 단위로 만든다고 했을 때,
-			씬 인터페이스를 만들어서 외부에서 씬을 생성하고 해당 씬에
-			*/
-			// 트리, 
-		// }
-
 		void HyrulePhysics::Finalize()
 		{
-			/*
 			
-			*/
 		}
 
 		/// <summary>

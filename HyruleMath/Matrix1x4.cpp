@@ -83,4 +83,9 @@ namespace Hyrule
 
 		return temp /= n;
 	}
+
+	bool Matrix1x4::operator==(const Matrix1x4& _mat) const noexcept
+	{
+		return (e00 == _mat.e00) && (e01 == _mat.e01) && (e02 == _mat.e02) && (e03 == _mat.e03);
+	}
 }

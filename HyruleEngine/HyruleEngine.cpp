@@ -43,8 +43,6 @@ namespace Hyrule
 			}
 			else
 			{
-				// RendererSystem::GetInstance().Update();
-				// RendererSystem::GetInstance().Render();
 				isRunning = CoreSystem::GetInstance().GameProcess();
 			}
 		}

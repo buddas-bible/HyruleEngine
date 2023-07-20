@@ -7,7 +7,6 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-
 		bool RigidBody::isActive()
 		{
 			return this->activate;
@@ -54,7 +53,7 @@ namespace Hyrule
 			angularVelocity = angularVelocity + dw;
 		}
 
-		void RigidBody::ApplyForce(Vector3D _gravity, float _dt) noexcept
+		void RigidBody::ApplyForceAndTorque(Vector3D _gravity, float _dt) noexcept
 		{
 			if (activate == false || invMess == 0.f)
 			{
@@ -67,20 +66,40 @@ namespace Hyrule
 			}
 
 			this->velocity += this->force * this->invMess * _dt;
-
 			this->force = Vector3D::Zero();
-		}
-
-		void RigidBody::ApplyTorque(float _dt) noexcept
-		{
-			if (activate == false || invMess == 0.f)
-			{
-				return;
-			}
 
 			this->angularVelocity += this->torque * this->invInertiaTensor * _dt;
 			this->torque = Vector3D::Zero();
 		}
+
+// 		void RigidBody::ApplyTorque(float _dt) noexcept
+// 		{
+// 			if (activate == false || invMess == 0.f)
+// 			{
+// 				return;
+// 			}
+// 
+// 			this->angularVelocity += this->torque * this->invInertiaTensor * _dt;
+// 			this->torque = Vector3D::Zero();
+// 		}
+
+		void RigidBody::ApplyVelocity(float _dt) noexcept
+		{
+			Vector3D dL{ velocity * _dt };
+
+			Vector3D dW{ angularVelocity * _dt };
+
+			// 이 dW의 크기를 각도, 방향을 축으로 해서 축각으로 나타낼 수 있을까?
+			Matrix4x4 rot{ ToMatrix4(dW.Normalized(), dW.Length()) };
+		}
+
+// 		void RigidBody::ApplyAngularVelocity(float _dt) noexcept
+// 		{
+// 			Vector3D dW{ angularVelocity * _dt };
+// 
+// 			// 이 dW의 크기를 각도, 방향을 축으로 해서 축각으로 나타낼 수 있을까?
+// 			Matrix4x4 rot{ ToMatrix4(dW.Normalized(), dW.Length()) };
+// 		}
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept
 		{

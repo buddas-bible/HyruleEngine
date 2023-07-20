@@ -48,6 +48,8 @@ namespace Hyrule
 			bool sleep;									// 잠지고 있는 상태인가?
 			bool kinematic;								// 다른 물체에게 외력을 받을 수 있는가?
 			bool useGravity;							// 중력에 영향을 받는가?
+			bool freezePos[3];
+			bool freezeRot[3];
 
 		private:
 			Hyrule::Vector3D force;						// 힘
@@ -55,8 +57,8 @@ namespace Hyrule
 
 		public:
 			void ApplyImpulse(const Hyrule::Vector3D&, const Hyrule::Vector3D&) noexcept;
-			void ApplyForce(Vector3D _gravity, float) noexcept;
-			void ApplyTorque(float) noexcept;
+			void ApplyForceAndTorque(Vector3D _gravity, float) noexcept;
+			void ApplyVelocity(float) noexcept;
 			virtual void AddForce(const Hyrule::Vector3D&) noexcept override;
 			virtual void AddTorque(const Hyrule::Vector3D&) noexcept override;
 

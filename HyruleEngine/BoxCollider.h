@@ -14,7 +14,7 @@ namespace Hyrule
 		virtual ~BoxCollider() noexcept;
 
 	private:
-		bool isColliding;
+		// bool isColliding;
 		Physics::ICollider* collider;
 
 	public:

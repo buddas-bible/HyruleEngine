@@ -8,7 +8,7 @@ namespace Hyrule
 {
 
 	MeshCollider::MeshCollider(GameObject* _gameObject) noexcept : 
-		Collider(_gameObject), isColliding(), collider()
+		Collider(_gameObject), collider()
 	{
 
 	}

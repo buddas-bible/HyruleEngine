@@ -95,7 +95,6 @@ namespace Hyrule
 
 	void Scene::Initialize() noexcept
 	{
-		gameObjecs.clear();
 		if (!objectsToActivate.empty())
 		{
 			for (auto i = 0; i < objectsToActivate.size(); i++)

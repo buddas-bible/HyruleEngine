@@ -99,5 +99,7 @@ namespace Hyrule
 		Matrix4x4& operator*= (const Matrix4x4&) noexcept;
 		// Matrix4x4 operator/ (const Matrix4x4&) const noexcept;
 		// Matrix4x4& operator/= (const Matrix4x4&) noexcept;
+		
+		bool operator== (const Matrix4x4&) noexcept;
 	};
 }

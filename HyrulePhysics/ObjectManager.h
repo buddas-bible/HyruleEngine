@@ -37,7 +37,7 @@ namespace Hyrule
 
 		private:
 			std::map<std::wstring, Object*> objectMap;
-			std::vector<Collider*> colliders;		// 활성화된 콜라이더
+			std::vector<Collider*> colliders;					// 활성화된 콜라이더
 			std::vector<RigidBody*> rigidBodies;				// 시뮬레이션 예정인 강체
 
 		public:

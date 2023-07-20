@@ -227,4 +227,9 @@ namespace Hyrule
 
 		return *this;
 	}
+
+	bool Matrix4x4::operator==(const Matrix4x4& _mat) noexcept
+	{
+		return (this->m[0] == _mat.m[0]) && (this->m[1] == _mat.m[1]) && (this->m[2] == _mat.m[2]) && (this->m[3] == _mat.m[3]);
+	}
 }
