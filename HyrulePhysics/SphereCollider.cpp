@@ -16,14 +16,12 @@ namespace Hyrule
 
 		Vector3D SphereCollider::FindFarthestPoint(const Vector3D& _direction)
 		{
-			// float L = size.x < size.y ? size.y : size.x;
-			// L = L < size.z ? size.z : L;
-
-			Matrix4x4 local = ToTransformMatrix(center, Quaternion::Identity(), size);
+			// Matrix4x4 local = ToTransformMatrix(center, Quaternion::Identity(), 1.f);
 			// Matrix4x4 local = ToTransformMatrix(center, Quaternion::Identity(), L);
 			Matrix4x4 world = object->GetWorldTM();
+			Vector3D pos(world.e30, world.e31, world.e32);
 
-			auto tt = _direction * local * world;
+			auto tt = _direction * 0.5f + pos;
 			// local *= world;
 			// Vector3D move = Vector3D(local.m[3].e00, local.m[3].e01, local.m[3].e02);
 			// 

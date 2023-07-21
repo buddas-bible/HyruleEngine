@@ -69,7 +69,7 @@ namespace Hyrule
 		return hr;
 	}
 
-	DXMesh* ResourceManager::CreateMesh(void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, UINT _count)
+	DXMesh* ResourceManager::CreateMesh(void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, size_t _count)
 	{
 		HRESULT hr = S_OK;
 
@@ -91,7 +91,7 @@ namespace Hyrule
 		bufferDesc.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA InitData;
-		InitData.pSysMem = vetArr;
+		InitData.pSysMem = vetArr; 
 		InitData.SysMemPitch = 0;
 		InitData.SysMemSlicePitch = 0;
 
@@ -135,7 +135,7 @@ namespace Hyrule
 		return mesh;
 	}
 
-	std::shared_ptr<DXMesh> ResourceManager::AddMesh(const std::wstring& _name, void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, UINT _count)
+	std::shared_ptr<DXMesh> ResourceManager::AddMesh(const std::wstring& _name, void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, size_t _count)
 	{
 		auto mesh = CreateMesh(vetArr, _vetWidth, idxArr, _idxWidth, _count);
 
@@ -391,8 +391,8 @@ namespace Hyrule
 #pragma region Sphere
 		{
 
-			size_t stackCount = 15;
-			size_t sliceCount = 15;
+			UINT stackCount = 15;
+			UINT sliceCount = 15;
 			float radius = 0.5f;
 
 			std::vector<PUN> vertices;
@@ -400,6 +400,7 @@ namespace Hyrule
 			// topVertex 추가
 			vertices.emplace_back();
 			vertices.back().pos = Vector3(0.0f, +radius, 0.0f);
+			vertices.back().normal = vertices.back().pos.Normalized();
 
 			float phiStep = PI<float> / stackCount;
 			float thetaStep = 2.0f * PI<float> / sliceCount;
@@ -417,12 +418,14 @@ namespace Hyrule
 
 					vertices.emplace_back();
 					vertices.back().pos = v;
+					vertices.back().normal = vertices.back().pos.Normalized();
 				}
 			}
 
 			// bottomVertex 추가
 			vertices.emplace_back();
 			vertices.back().pos = Vector3(0.0f, -radius, 0.0f);
+			vertices.back().normal = vertices.back().pos.Normalized();
 
 			///////// 인덱스 리스트 만들기
 			// 구의 top 스택 계산

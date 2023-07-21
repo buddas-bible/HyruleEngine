@@ -12,7 +12,7 @@ namespace Hyrule
 
 	public:
 		void Update();
-		bool KeyPress(int );
+		bool KeyPress(int);
 		bool KeyPressedNow(int);
 		bool KeyRelease(int);
 		bool KeyReleasedNow(int);

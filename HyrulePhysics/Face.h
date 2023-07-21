@@ -16,12 +16,16 @@ namespace Hyrule
 				size_t, size_t, size_t)noexcept;
 			~Face() noexcept;
 
+			void Inverse() noexcept;
+			void SetEdge() noexcept;
+
 			Vector3D vec[3];
 			size_t index[3];
-			Edge edge[3];
 
 			Vector3D normal;
 			Vector3D center;
+
+			Edge edge[3];
 		};
 	}
 }

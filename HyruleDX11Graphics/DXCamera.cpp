@@ -14,7 +14,9 @@ namespace Hyrule
 	}
 
 	void DXCamera::Update(float)
-	{}
+	{
+	
+	}
 
 	void DXCamera::UpdateViewMatrix()
 	{
@@ -123,74 +125,85 @@ namespace Hyrule
 		);
 	}
 
-	void DXCamera::moveWorld(const Vector3D& _move)
+	void DXCamera::SetWorldTransform(const Matrix4x4& _mat) noexcept
 	{
-		this->m_pos += _move;
-
-		this->UpdateViewMatrix();
-	}
-
-	void DXCamera::moveR(const float& _right)
-	{
-		this->m_right.Normalize();
-		this->m_pos += m_right * _right;
-
-		this->UpdateViewMatrix();
-	}
-
-	void DXCamera::moveU(const float& _up)
-	{
-		this->m_up.Normalize();
-		this->m_pos += m_up * _up;
-
-		this->UpdateViewMatrix();
-	}
-
-	void DXCamera::moveL(const float& _look)
-	{
-		this->m_look.Normalize();
-		this->m_pos += (m_look * _look);
+		m_right = _mat.Right();
+		m_up = _mat.Up();
+		m_look = _mat.Look();
+		m_pos = _mat.Pos();
 
 		this->UpdateLUR();
 		this->UpdateViewMatrix();
 	}
 
-	void DXCamera::Pitch(const float& _degree)
-	{
-		float angle = ToRadian(_degree);
-
-		Matrix3x3 rotate = ToMatrix3(m_right, angle);
-
-		this->m_look = this->m_look.Normalized() * rotate;
-
-
-		this->UpdateLUR();
-		this->UpdateViewMatrix();
-	}
-
-	void DXCamera::Yaw(const float& _degree)
-	{
-		float angle = ToRadian(_degree);
-
-		Matrix3x3 rotate = ToMatrix3(m_up, angle);
-
-		this->m_look = this->m_look.Normalize() * rotate;
-
-		this->UpdateLUR();
-		this->UpdateViewMatrix();
-	}
-
-	void DXCamera::roll(const float _degree)
-	{
-		float angle = ToRadian(_degree);
-
-		Matrix3x3 rotate = ToMatrix3(m_look, angle);
-
-		this->m_up = worldUp * rotate;
-
-		this->m_right = m_look.Cross(m_up);
-		this->UpdateViewMatrix();
-	}
+// 	void DXCamera::moveWorld(const Vector3D& _move)
+// 	{
+// 		this->m_pos += _move;
+// 
+// 		this->UpdateViewMatrix();
+// 	}
+// 
+// 	void DXCamera::moveR(const float& _right)
+// 	{
+// 		this->m_right.Normalize();
+// 		this->m_pos += m_right * _right;
+// 
+// 		this->UpdateViewMatrix();
+// 	}
+// 
+// 	void DXCamera::moveU(const float& _up)
+// 	{
+// 		this->m_up.Normalize();
+// 		this->m_pos += m_up * _up;
+// 
+// 		this->UpdateViewMatrix();
+// 	}
+// 
+// 	void DXCamera::moveL(const float& _look)
+// 	{
+// 		this->m_look.Normalize();
+// 		this->m_pos += (m_look * _look);
+// 
+// 		this->UpdateLUR();
+// 		this->UpdateViewMatrix();
+// 	}
+// 
+// 	void DXCamera::Pitch(const float& _degree)
+// 	{
+// 		float angle = ToRadian(_degree);
+// 
+// 		Matrix3x3 rotate = ToMatrix3(m_right, angle);
+// 
+// 		this->m_look = this->m_look.Normalized() * rotate;
+// 
+// 
+// 		this->UpdateLUR();
+// 		this->UpdateViewMatrix();
+// 	}
+// 
+// 	void DXCamera::Yaw(const float& _degree)
+// 	{
+// 		float angle = ToRadian(_degree);
+// 
+// 		Matrix3x3 rotate = ToMatrix3(m_up, angle);
+// 
+// 		this->m_look = this->m_look.Normalize() * rotate;
+// 
+// 		this->UpdateLUR();
+// 		this->UpdateViewMatrix();
+// 	}
+// 
+// 	void DXCamera::roll(const float _degree)
+// 	{
+// 		float angle = ToRadian(_degree);
+// 
+// 		Matrix3x3 rotate = ToMatrix3(m_look, angle);
+// 
+// 		this->m_up = worldUp * rotate;
+// 
+// 		this->m_right = m_look.Cross(m_up);
+// 		this->UpdateViewMatrix();
+// 	}
 
 	void DXCamera::SetPerspectiveView()
 	{

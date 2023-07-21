@@ -33,8 +33,12 @@ namespace Hyrule
 			Vector3D centerOfMass;
 			bool activate;
 
+			bool collied;
+
 		public:
 			bool isActive();
+			void SetCollied(bool);
+			virtual bool isCollision() noexcept final;
 			virtual void OnEnable() noexcept final;
 			virtual void OnDisable() noexcept final;
 			virtual void OnDestroy() noexcept final;

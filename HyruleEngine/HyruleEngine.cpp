@@ -4,7 +4,7 @@
 #include "CoreSystem.h"
 #include "RendererSystem.h"
 #include "PhysicsSystem.h"
-
+#include "TimeSystem.h"
 
 namespace Hyrule
 {
@@ -31,9 +31,7 @@ namespace Hyrule
 	void HyruleEngine::Run() noexcept
 	{
 		MSG msg;
-
-		// auto& sceneManager = Hyrule::SceneManager::GetInstance();
-
+		
 		while (isRunning)
 		{
 			if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
@@ -184,17 +182,19 @@ namespace Hyrule
 	{
 		switch (_msg)
 		{
-			case WM_ACTIVATE:
+			case WM_SETFOCUS:
 			{
-				// 윈도우가 활성화 될 때
-				// 타임 스케일이 1.f로 게임을 시작함
+				// 윈도우가 포커스 될 때
+				// 타임 스케일이 1.f로 게임을 실행시킴
+				TimeSystem::GetInstance().Start();
 			}
-			break;
+ 			break;
 
-			case WA_INACTIVE:
+			case WM_KILLFOCUS:
 			{
 				// 윈도우가 비활성화 될 때
 				// 타임 스케일이 0.f로 게임을 정지시킴
+				TimeSystem::GetInstance().Stop();
 			}
 			break;
 
@@ -204,6 +204,7 @@ namespace Hyrule
 				{
 					// 윈도우가 최소화될 때
 					// 타임 스케일이 0.f로 게임을 정지시킴
+					TimeSystem::GetInstance().Stop();
 				}
 				else if (_wParam == SIZE_MAXIMIZED || _wParam == SIZE_RESTORED)
 				{

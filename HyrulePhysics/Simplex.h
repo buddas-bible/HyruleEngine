@@ -16,10 +16,11 @@ namespace Hyrule
 		{
 		public:
 			Simplex() noexcept = default;
-			~Simplex() noexcept = default;
+			~Simplex() noexcept;
 
 			Vector3D& operator[](int);
 			std::vector<Vector3D>& operator=(const std::vector<Vector3D>&);
+			std::vector<Vector3D>& operator=(std::vector<Vector3D>&&);
 			
 			void push_back(const Vector3D&);
 			size_t size();

@@ -23,8 +23,8 @@ namespace Hyrule
 		// 		virtual void OnTriggerStay(Collider*) override {}
 		// 		virtual void OnTriggerExit(Collider*) override {}
 		// 
-		// 		virtual void OnTriggerEnter() override;
+		// virtual void OnTriggerEnter() override;
 		// 		virtual void OnTriggerStay() override;
-		// 		virtual void OnTriggerExit() override;
+		// virtual void OnTriggerExit() override;
 	};
 }

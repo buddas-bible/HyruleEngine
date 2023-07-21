@@ -26,15 +26,7 @@ namespace Hyrule
 		// 카메라를 직교 투영으로 세팅
 		virtual  void CameraOrthographicLH(float _width, float _height, float _near, float _far) override;
 
-		virtual  void moveWorld(const Vector3D& _move) override;	// 월드 방향 이동
-
-		virtual  void moveR(const float& _right) override;		// 카메라 시점으로부터 오른쪽으로 이동
-		virtual  void moveU(const float& _up) override;		// 카메라 시점으로부터 위로 이동
-		virtual  void moveL(const float& _look) override;		// 카메라 시점으로부터 앞으로 이동
-
-		virtual  void Pitch(const float& _degree) override;		// 카메라 위아래 회전
-		virtual  void Yaw(const float& _degree) override;			// 카메라 좌우 회전
-		virtual  void roll(const float _degree) override;			// 카메라 시점 시계 반시계 회전
+		virtual  void SetWorldTransform(const Matrix4x4&) noexcept override;
 
 		virtual  void SetPerspectiveView() override;
 		virtual  void SetOrthographicView() override;

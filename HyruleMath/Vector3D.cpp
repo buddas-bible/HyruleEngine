@@ -206,9 +206,11 @@ namespace Hyrule
 
 	Vector3D& Vector3D::operator*=(const Matrix3x3& other) noexcept
 	{
-		this->x = this->x * other.e00 + this->y * other.e10 + this->z * other.e20;
-		this->y = this->x * other.e01 + this->y * other.e11 + this->z * other.e21;
-		this->z = this->x * other.e02 + this->y * other.e12 + this->z * other.e22;
+		Vector3D temp(*this);
+
+		this->x = temp.x * other.e00 + temp.y * other.e10 + temp.z * other.e20;
+		this->y = temp.x * other.e01 + temp.y * other.e11 + temp.z * other.e21;
+		this->z = temp.x * other.e02 + temp.y * other.e12 + temp.z * other.e22;
 
 		return *this;
 	}

@@ -6,7 +6,14 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-
+		Simplex::~Simplex() noexcept
+		{
+			for (auto& e : faceMap)
+			{
+				delete e.second;
+				e.second = nullptr;
+			}
+		}
 
 		Hyrule::Vector3D& Simplex::operator[](int _i)
 		{
@@ -17,7 +24,6 @@ namespace Hyrule
 		{
 			points.push_back(_vec);
 		}
-
 
 		size_t Simplex::size()
 		{
@@ -47,28 +53,31 @@ namespace Hyrule
 				float dist = std::fabs(face->normal.Dot(face->vec[0]));
 				faceMap.insert(std::make_pair(dist, face));
 			}
-
-// 			Face* face1 = new Face(points[0], points[1], points[3], 0, 1, 3);
-// 			float dist0 = face1->normal.Dot(face1->vec[0]);
-// 
-// 			Face* face2 = new Face(points[0], points[3], points[2], 0, 3, 2);
-// 			float dist0 = face2->normal.Dot(face2->vec[0]);
-// 
-// 			Face* face3 = new Face(points[2], points[3], points[1], 2, 3, 1);
-// 			float dist0 = face3->normal.Dot(face3->vec[0]);
 		}
-
 
 		void Simplex::AddFace(size_t _i0, size_t _i1, size_t _i2)
 		{
-			Face* face0 = new Face(points[_i0], points[_i1], points[_i2], _i0, _i1, _i2);
-			float dist0 = face0->normal.Dot(face0->vec[0]);
-			faceMap.insert(std::make_pair(dist0, face0));
+			Face* face = new Face(points[_i0], points[_i1], points[_i2], _i0, _i1, _i2);
+			// ÀÌ¶§ 
+			
+			float dist = face->normal.Dot(face->vec[0]);
+			faceMap.insert(std::make_pair(dist, face));
 		}
 
 		std::vector<Vector3D>& Simplex::operator=(const std::vector<Vector3D>& _points)
 		{
 			this->points = _points;
+
+			return this->points;
+		}
+
+		std::vector<Vector3D>& Simplex::operator=(std::vector<Vector3D>&& _points)
+		{
+			if (&points != &_points)
+			{
+				this->points = _points;
+			}
+
 			return this->points;
 		}
 	}

@@ -36,17 +36,18 @@ struct VertexOut
 VertexOut VS(VertexIn vin)
 {
     VertexOut vout;
-    
+    float3 N = mul(vin.Normal, (float3x3)invTworldViewProj);
+    float3 L = lightDirection;
     vout.PosH = mul(float4(vin.PosL, 1.0f), worldViewProj);
-    vout.Diffuse = 0.5f + 0.5f;
+    vout.Diffuse = dot(N, L) * 0.5f + 0.5f;
 
     return vout;
 }
 
 float4 PS(VertexOut pin) : SV_Target
 {
-    float4 c = float4(1.f, 1.f, 1.f, 1.f);
-    return c;
+    float4 c = float4(1.f, 1.f, 1.f, 0.5f);
+    return c * pin.Diffuse;
 }
 
 technique11 Tech

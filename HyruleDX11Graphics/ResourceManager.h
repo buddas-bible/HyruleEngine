@@ -27,8 +27,8 @@ namespace Hyrule
 		long LoadTexture(const std::wstring& _name, const std::wstring& _path);
 		long LoadMesh(const std::wstring& _name, const std::wstring& _path);
 
-		DXMesh* CreateMesh(void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, UINT _count);
-		std::shared_ptr<DXMesh> AddMesh(const std::wstring& _name, void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, UINT _count);
+		DXMesh* CreateMesh(void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, size_t _count);
+		std::shared_ptr<DXMesh> AddMesh(const std::wstring& _name, void* vetArr, UINT _vetWidth, void* idxArr, UINT _idxWidth, size_t _count);
 
 		void AddTexture(const std::wstring& _name, std::shared_ptr<DXTexture>);
 		void AddShader(const std::wstring& _name, std::shared_ptr<DXShader>);

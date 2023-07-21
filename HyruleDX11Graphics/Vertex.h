@@ -13,6 +13,12 @@ namespace Hyrule
 		constexpr Vector2& operator=(const Vector2&) noexcept = default;
 		constexpr Vector2& operator=(Vector2&&) noexcept = default;
 		float x, y;
+
+		Vector2 Normalized() noexcept
+		{
+			float length{ std::powf(x * x + y * y, 0.5) };
+			return Vector2(x / length, y / length);
+		}
 	};
 
 	struct Vector3
@@ -25,6 +31,12 @@ namespace Hyrule
 		constexpr Vector3& operator=(const Vector3&) noexcept = default;
 		constexpr Vector3& operator=(Vector3&&) noexcept = default;
 		float x, y, z;
+
+		Vector3 Normalized() noexcept
+		{
+			float length{ std::powf(x * x + y * y + z * z, 0.5) };
+			return Vector3(x / length, y / length, z / length);
+		}
 	};
 
 	struct Vector4

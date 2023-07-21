@@ -8,8 +8,8 @@
 #include "Edge.h"
 #include "Manifold.h"
 
-constexpr size_t GJK_MAX = 50;
-constexpr size_t EPA_MAX = 50;
+constexpr size_t GJK_MAX = 150;
+constexpr size_t EPA_MAX = 150;
 
 namespace Hyrule
 {
@@ -32,6 +32,7 @@ namespace Hyrule
 			direction = -support.Normalized();
 
 			while (count < GJK_MAX)
+			// while (1)
 			{
 				// 방향 벡터로부터 서포트 포인터를 구하는건 공통임
 				support = FindSupportPoint(_colliderA, _colliderB, direction);
@@ -56,7 +57,6 @@ namespace Hyrule
 
 					detectionInfo.insert(std::make_pair(newManifold, simplex));
 					return true;
-
 				}
 				count++;
 			}
@@ -86,21 +86,22 @@ namespace Hyrule
 		void CollisionSystem::EPAComputePenetrationDepth(Manifold* _manifold)
 		{
 			// 심플렉스의 면을 일단 구분함
-			Simplex simplex{ *detectionInfo[_manifold] };
-			simplex.SetFace();
+			Simplex polytope{ *detectionInfo[_manifold] };
+			polytope.SetFace();
 
 			size_t count{};
 
 			while (count < EPA_MAX)
 			{
 				// 면들과의 노말과 거리를 계산할 수 있음.
-				Vector3D normal{ simplex.faceMap.begin()->second->normal };
+				Vector3D normal{ polytope.faceMap.begin()->second->normal };
 				Vector3D support{ FindSupportPoint(
 					_manifold->GetColliderA(),
 					_manifold->GetColliderB(),
 					normal) 
 				};
-				float dist{ simplex.faceMap.begin()->first };
+
+				float dist{ polytope.faceMap.begin()->first };
 				// 계산된 dist만 비교해서 가장 짧은 면과 서포트 포인트의 거리를 비교함
 				if (std::fabs(dist - support.Dot(normal)) < Epsilon)
 				{
@@ -111,20 +112,39 @@ namespace Hyrule
 				}
 				else
 				{
-					// 아니라면 심플렉스에 점을 추가하고
-					simplex.push_back(support);
-					size_t index[3]
+					std::vector<Edge> edges;
+					for (auto& e : polytope.faceMap)
 					{
-						simplex.faceMap.begin()->second->index[0],
-						simplex.faceMap.begin()->second->index[1],
-						simplex.faceMap.begin()->second->index[2]
-					};
-					simplex.faceMap.erase(simplex.faceMap.begin());
+						// 면과 거리 < 면의 노말 벡터 Dot 서포트 포인트 = 확장 가능성이 있음.
+						if (e.first < e.second->normal.Dot(support))
+						{
 
-					// 면을 추가하고 각 면과 거리를 계산해둠.
-					simplex.AddFace(index[0], index[1], simplex.points.size());
-					simplex.AddFace(index[0], simplex.points.size(), index[2]);
-					simplex.AddFace(index[1], index[2], simplex.points.size());
+							// 겹치는 변이 있는지 확인
+							// 겹치는 변이 있다면 두 면이 연속된 것이기 때문에 변을 뺌.
+							for (auto& edge : e.second->edge)
+							{
+								auto itr = std::find(edges.begin(), edges.end(), edge);
+							
+								if (itr != edges.end())
+								{
+									edges.erase(itr);
+								}
+								else
+								{
+									edges.push_back(edge);
+								}
+							}
+
+							// 확장 가능성을 가진 면을 삭제시켜야함.
+							// 인덱스를 어떻게 삭제시킬까...
+						}
+					}
+					
+					for (edges)
+					{
+					}
+
+
 				}
 			}
 			return;
@@ -283,11 +303,11 @@ namespace Hyrule
 			{
 				_direction = BA.Cross(BO).Cross(BA).Normalized();
 			}
-			else
-			{
-				_simplex = { B };
-				_direction = BO;
-			}
+			//			else
+			//			{
+			//				_simplex = { B };
+			//				_direction = BO;
+			//			}
 
 			return false;
 		}
@@ -303,13 +323,13 @@ namespace Hyrule
 			Vector3D CA = (A - C).Normalized();
 			Vector3D CB = (B - C).Normalized();
 			Vector3D CO = -C.Normalized();
-			Vector3D CBA = CB.Cross(CA).Normalized();
+			Vector3D CBA = CB.Cross(CA);
 			
 			// ABC 삼각형의 노말 벡터를 구하고
 			// 삼각형 어느 방향에 원점이 있는지 판단.
 
 			// CA 공간에 원점이 존재하는지 체크
-			if (CBA.Cross(CA).Normalized().Dot(CO) > 0.f)
+			if (CBA.Cross(CA).Dot(CO) > 0.f)
 			{
 				// CA 공간에 원점이 존재한다면
 				// 비버 집을 다시 지어야함.
@@ -343,10 +363,10 @@ namespace Hyrule
 			}
 			else
 			{
-				// CA 공간에 원점이 존재하는지 체크
-				if (CB.Cross(CBA).Normalized().Dot(CO) > 0.f)
+				// CB 공간에 원점이 존재하는지 체크
+				if (CB.Cross(CBA).Dot(CO) > 0.f)
 				{
-					// CA 공간에 원점이 존재한다면
+					// CB 공간에 원점이 존재한다면
 					// 비버 집을 다시 지어야함.
 					_simplex = { B, C };
 					return DoSimplex2(_simplex, CO);
@@ -372,7 +392,7 @@ namespace Hyrule
 					{
 						// CBA 노말 방향으로 점 D를 탐색
 						_simplex = { A, B, C };
-						_direction = CBA;
+						_direction = CBA.Normalized();
 					}
 					else
 					{
@@ -380,7 +400,7 @@ namespace Hyrule
 						// 방향은 반대라서
 						// CBA -노말 방향으로 점 D를 탐색
 						_simplex = { B, A, C };
-						_direction = -CBA;
+						_direction = -CBA.Normalized();
 					}
 				}
 			}
@@ -399,9 +419,9 @@ namespace Hyrule
 			Vector3D DA{ (A - D).Normalized() };
 			Vector3D DB{ (B - D).Normalized() };
 			Vector3D DC{ (C - D).Normalized() };
-			Vector3D DBA{ DB.Cross(DA).Normalized() };
-			Vector3D DAC{ DA.Cross(DC).Normalized() };
-			Vector3D DCB{ DC.Cross(DB).Normalized() };
+			Vector3D DBA{ DB.Cross(DA) };
+			Vector3D DAC{ DA.Cross(DC) };
+			Vector3D DCB{ DC.Cross(DB) };
 			Vector3D DO{ -D.Normalized() };
 
 			// 사면체를 이루는 각 면의 노말 벡터와
@@ -412,26 +432,25 @@ namespace Hyrule
 				// DAB 공간안에 원점이 있음
 				// 해당 면의 
 				_simplex = { A, B, D };
-				_direction = DO;
+				_direction = DBA.Normalized();
 				return false;
 			}
 
 			if (DAC.Dot(DO) > 0.f)
 			{
 				_simplex = { A, C, D };
-				_direction = DO;
+				_direction = DAC.Normalized();
 				return false;
 			}
 
 			if (DCB.Dot(DO) > 0.f)
 			{
 				_simplex = { B, C, D };
-				_direction = DO;
+				_direction = DCB.Normalized();
 				return false;
 			}
 
-			return true;
-		}
+			return true;		}
 
 		void CollisionSystem::FaceClip(Face& _incident, const Edge& _refEdge, const Vector3D& _refNormal)
 		{

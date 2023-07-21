@@ -33,9 +33,27 @@ namespace Hyrule
 		collider->SetSize(_center);
 	}
 
+
+	bool MeshCollider::isCollision() noexcept
+	{
+		return collider->isCollision();
+	}
+
 	void MeshCollider::FixedUpdate()
 	{
 		collider->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
+	}
+
+	void MeshCollider::Update()
+	{
+		if (isCollision() == true)
+		{
+			gameObject->OnCollisionEnter();
+		}
+		else
+		{
+			gameObject->OnCollisionExit();
+		}
 	}
 
 	void MeshCollider::OnEnable()

@@ -40,6 +40,9 @@ namespace Hyrule
 		void Start();
 		void PhysicsUpdate();
 		void FixedUpdate();
+
+		void OnCollision();
+
 		void Update();
 		void LateUpdate();
 

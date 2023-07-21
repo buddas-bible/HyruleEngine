@@ -21,14 +21,14 @@ namespace Hyrule
 		virtual void SetTrigger(bool) override;
 		virtual void SetSize(const Vector3D&) override;
 		virtual void SetCenter(const Vector3D&) override;
-		// virtual bool IsColliding() override;
+		virtual bool isCollision() noexcept override;
 
 
 	public:
 		// virtual void Awake() abstract;
 		// virtual void Start() abstract;
 		virtual void FixedUpdate() override;
-		// virtual void Update() override;
+		virtual void Update() override;
 		// virtual void LateUpdate() override;
 		// virtual void Render() override;
 

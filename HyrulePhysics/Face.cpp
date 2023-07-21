@@ -33,5 +33,15 @@ namespace Hyrule
 			// delete[] edge;
 		}
 
+
+		void Face::Inverse() noexcept
+		{
+
+		}
+
+		void Face::SetEdge() noexcept
+		{
+
+		}
 	}
 }

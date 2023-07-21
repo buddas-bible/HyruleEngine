@@ -184,6 +184,16 @@ namespace Hyrule
 		}
 	}
 
+	void SceneManager::OnCollision()
+	{
+		for (auto& e : currentScene->SceneObjects())
+		{
+			if (e.second->Activated() != true)
+				continue;
+			e.second->OnCollisionEnter();
+		}
+	}
+
 	void SceneManager::Update()
 	{
 		for (auto& e : currentScene->SceneObjects())

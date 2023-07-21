@@ -23,12 +23,14 @@ namespace Hyrule
 		/// </summary>
 		Vector3D BoxCollider::FindFarthestPoint(const Vector3D& _direction)
 		{
-			Matrix4x4 invWorld = object->GetWorldTM();
-			Matrix4x4 world = invWorld;
+			Matrix4x4 world = object->GetWorldTM();
+			Matrix4x4 local = ToTransformMatrix(center, Quaternion::Identity(), size);
+
+			Matrix4x4 invWorld = local *= world;
 			invWorld.m[3] = {0.f, 0.f, 0.f, 1.f};
 			invWorld = invWorld.Inverse();
 
-			float minDist{ FLT_MIN };
+			float maxDist{ FLT_MIN };
 			size_t index{ 0 };
 			Vector3D dir{ (_direction * invWorld).Normalized() };
 
@@ -36,14 +38,14 @@ namespace Hyrule
 			{
 				float dist{ shape->GetPoints()[i].Dot(dir) };
 
-				if (dist < minDist)
+				if (dist > maxDist)
 				{
-					minDist = dist;
+					maxDist = dist;
 					index = i;
 				}
 			}
 
-			return shape->GetPoints()[index] * world;
+			return shape->GetPoints()[index] * local;
 		}
 
 		Face BoxCollider::FindSupportFace(const Vector3D&)

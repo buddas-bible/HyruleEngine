@@ -24,6 +24,13 @@ namespace Hyrule
 			this->normal = _edgeNormal;
 		}
 
+		bool Edge::operator==(const Edge& _other) noexcept
+		{
+			return 
+				(this->vectorA == _other.vectorA && this->vectorB == _other.vectorB) || 
+				(this->vectorA == _other.vectorB && this->vectorB == _other.vectorA);
+		}
+
 		float Edge::GetLength() const noexcept
 		{
 			return (vectorA - vectorB).Length();

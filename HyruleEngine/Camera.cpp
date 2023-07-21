@@ -5,6 +5,9 @@
 #include <windows.h>
 #include "RendererSystem.h"
 
+#include "GameObject.h"
+#include "Transform.h"
+
 
 namespace Hyrule 
 {
@@ -61,35 +64,23 @@ namespace Hyrule
 
 	void Camera::Awake()
 	{
-
+		
 	}
 
 	void Camera::LateUpdate()
 	{
 		auto& input = InputSystem::GetInstance();
 
-		if (input.KeyPress('W'))
-			camera->moveL(0.5f);
-		if (input.KeyPress('S'))
-			camera->moveL(-0.5f);
-		if (input.KeyPress('D'))
-			camera->moveR(0.5f);
-		if (input.KeyPress('A'))
-			camera->moveR(-0.5f);
-		if (input.KeyPress('E'))
-			camera->moveU(0.5f);
-		if (input.KeyPress('Q'))
-			camera->moveU(-0.5f);
+		if (input.KeyPressedNow(VK_F9))
+		{
+			camera->SetPerspectiveView();
+		}
+		if (input.KeyPressedNow(VK_F10))
+		{
+			camera->SetOrthographicView();
+		}
 
-		if (input.KeyPress(VK_UP))
-			camera->Pitch(1.f);
-		if (input.KeyPress(VK_DOWN))
-			camera->Pitch(-1.f);
-		if (input.KeyPress(VK_LEFT))
-			camera->Yaw(1.f);
-		if (input.KeyPress(VK_RIGHT))
-			camera->Yaw(-1.f);
-
+		camera->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
 	}
 
 	void Camera::OnEnable()

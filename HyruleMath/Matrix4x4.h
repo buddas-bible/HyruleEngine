@@ -5,6 +5,7 @@
 
 namespace Hyrule
 {
+	struct Vector3D;
 	struct Matrix1x4;
 	struct Quaternion;
 
@@ -87,6 +88,10 @@ namespace Hyrule
 		float Determinant3x3() const noexcept;
 		Matrix4x4 Transpose() const noexcept;
 		Matrix4x4 Inverse() const noexcept;
+		Vector3D Right() const noexcept;
+		Vector3D Up() const noexcept;
+		Vector3D Look() const noexcept;
+		Vector3D Pos() const noexcept;
 
 		/// <summary>
 		/// 연산자 오버로딩

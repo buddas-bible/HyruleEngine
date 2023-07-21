@@ -53,6 +53,7 @@ namespace Hyrule
 		world = effect->GetVariableByName("world")->AsMatrix();
 		worldInvTranspose = effect->GetVariableByName("invTworldViewProj")->AsMatrix();
 		// eyePosW = effect->GetVariableByName("eyePosW");
+		direction = effect->GetVariableByName("lightDirection");
 
 		return hr;
 	}

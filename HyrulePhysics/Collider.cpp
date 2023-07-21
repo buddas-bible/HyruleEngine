@@ -12,12 +12,22 @@ namespace Hyrule
 		Collider::Collider(Object* _obj) noexcept : 
 			object(_obj),
 			center(), size(0.5f, 0.5f, 0.5f), isTrigger(false),
-			inertia(), centerOfMass(), activate(true)
+			inertia(), centerOfMass(), activate(true), collied(false)
 		{}
 
 		bool Collider::isActive()
 		{
 			return this->activate;
+		}
+
+		void Collider::SetCollied(bool _bool)
+		{
+			this->collied = _bool;
+		}
+
+		bool Collider::isCollision() noexcept
+		{
+			return collied;
 		}
 
 		void Collider::OnEnable() noexcept

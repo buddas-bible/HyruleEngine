@@ -76,9 +76,15 @@ namespace Hyrule
 			for (auto i = 0; i < colliders.size() - 1; i++)
 			{
 				bool detect = CollisionSystem::GetInstance().GJKCollisionDetection(colliders[i], colliders[i + 1]);
-				if (detect)
+				if (detect == true)
 				{
-					Vector3D::Zero();
+					colliders[i]->SetCollied(true);
+					colliders[i + 1]->SetCollied(true);
+				}
+				else
+				{
+					colliders[i]->SetCollied(false);
+					colliders[i + 1]->SetCollied(false);
 				}
 			}
 		}

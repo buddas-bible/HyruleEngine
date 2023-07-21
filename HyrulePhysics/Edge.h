@@ -24,6 +24,8 @@ namespace Hyrule
 
 			Vector3D direction;
 			Vector3D normal;
+
+			bool operator==(const Edge&) noexcept;
 		};
 	}
 }

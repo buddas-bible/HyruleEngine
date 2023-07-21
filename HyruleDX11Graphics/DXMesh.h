@@ -13,7 +13,7 @@ namespace Hyrule
 		using Comptr = Microsoft::WRL::ComPtr<T>;
 		Comptr<ID3D11Buffer> vertexBuffer;
 		Comptr<ID3D11Buffer> indexBuffer;
-		size_t indexCount;
+		UINT indexCount;
 	};
 }
 

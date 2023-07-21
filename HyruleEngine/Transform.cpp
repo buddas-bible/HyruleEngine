@@ -6,7 +6,7 @@ namespace Hyrule
 {
 	Transform::Transform(GameObject* _gameObject) noexcept :
 		Component(_gameObject), 
-		position(), rotation(), scale(1.f, 1.f, 1.f),
+		position(), rotation(1.f, 0.f, 0.f, 0.f), scale(1.f, 1.f, 1.f),
 		parent(), children()
 	{}
 	

@@ -88,6 +88,9 @@ namespace Hyrule
 
 		Matrix4x4 _worldViewProj{ worldTM * viewProjTM };
 		Effects::PUNEffect->SetWorldViewProj(_worldViewProj);
+		Effects::PUNEffect->SetWorldInvTranspose(worldTM.Inverse().Transpose());
+		Effects::PUNEffect->SetWorld(worldTM);
+		Effects::PUNEffect->SetDirectionLight(Vector3D::Forward());
 
 		D3DX11_TECHNIQUE_DESC techDesc;
 		Effects::PUNEffect->GetTechnique()->GetDesc(&techDesc);

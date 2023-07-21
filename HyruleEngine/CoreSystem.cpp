@@ -4,11 +4,14 @@
 #include "PhysicsSystem.h"
 #include "InputSystem.h"
 #include "RendererSystem.h"
+#include "TimeSystem.h"
 
 namespace Hyrule
 {
 	bool CoreSystem::GameProcess() noexcept
 	{
+		TimeSystem::GetInstance().Tick();
+
 		switch (state)
 		{
 			case INITIALIZATION:
