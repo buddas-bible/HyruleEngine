@@ -18,9 +18,9 @@ namespace Hyrule
 
 		class CollisionSystem : public Manager<CollisionSystem>
 		{
-		///
-		/// </summary>
 		public:
+			void Clear();
+
 			/// <summary>
 			/// GJK 충돌 감지
 			/// </summary>
@@ -30,11 +30,12 @@ namespace Hyrule
 			/// <summary>
 			/// EPA 침투 깊이 계산
 			/// </summary>
+			void EPAComputePenetrationDepth();
 			void EPAComputePenetrationDepth(Manifold* _manifold);
 			Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
-			// std::pair<Edge*, float> FindClosestEdge(Simplex*);
-			// std::tuple<Face*, float, std::list<size_t[3]>::iterator> FindClosestFace(Simplex*);
 			void FindContactPoint(Manifold*, const Vector3D&);
+
+			std::map<Manifold*, Simplex*>& GetManifold();
 
 		private:
 			enum GJK : size_t

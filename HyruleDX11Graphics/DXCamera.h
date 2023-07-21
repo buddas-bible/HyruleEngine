@@ -45,7 +45,6 @@ namespace Hyrule
 		Vector3D m_right;		// Ä«¸Þ¶ó x
 
 		Matrix4x4 m_View;
-		Matrix4x4 m_Proj;
 		Matrix4x4 m_persProj;
 		Matrix4x4 m_orthProj;
 

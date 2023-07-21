@@ -21,7 +21,7 @@ namespace Hyrule
 			Matrix4x4 world = object->GetWorldTM();
 			Vector3D pos(world.e30, world.e31, world.e32);
 
-			auto tt = _direction * 0.5f + pos;
+			auto tt = _direction * 0.5f * world;
 			// local *= world;
 			// Vector3D move = Vector3D(local.m[3].e00, local.m[3].e01, local.m[3].e02);
 			// 

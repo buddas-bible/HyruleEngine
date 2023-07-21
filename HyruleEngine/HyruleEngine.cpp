@@ -53,6 +53,8 @@ namespace Hyrule
 	{
 		// 윈도우 창 설정
 		this->CreateEngineWindow(hInstance, _name);
+
+		CoreSystem::GetInstance().SetHandle((int)hwnd);
 	}
 
 	/// <summary>

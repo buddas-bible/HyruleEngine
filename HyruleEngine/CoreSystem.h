@@ -14,8 +14,12 @@ namespace Hyrule
 	public:
 		bool GameProcess() noexcept;
 
+		void SetHandle(int) noexcept;
+
 	private:
 		int state{};
+
+		int hWnd;
 
 		enum EventFunction : int
 		{

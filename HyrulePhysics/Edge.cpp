@@ -27,8 +27,8 @@ namespace Hyrule
 		bool Edge::operator==(const Edge& _other) noexcept
 		{
 			return 
-				(this->vectorA == _other.vectorA && this->vectorB == _other.vectorB) || 
-				(this->vectorA == _other.vectorB && this->vectorB == _other.vectorA);
+				(this->index1 == _other.index2 && this->index2 == _other.index1) || 
+				(this->index1 == _other.index1 && this->index2 == _other.index2);
 		}
 
 		float Edge::GetLength() const noexcept

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <list>
+#include <set>
 #include <map>
 #include "HyruleMath.h"
 
@@ -25,13 +25,14 @@ namespace Hyrule
 			void push_back(const Vector3D&);
 			size_t size();
 
-			void SetIndices();
+			// void SetIndices();
 			void SetFace();
 			void AddFace(size_t, size_t, size_t);
-			std::map<float, Face*> faceMap;
+			// std::map<float, Face*> faceMap;
+			std::map<float, Face> faceMap;
 
 			std::vector<Vector3D> points;
-			std::list<std::vector<size_t>> index;
+			std::set<std::vector<size_t>> index;
 		};
 	}
 }

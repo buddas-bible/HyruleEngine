@@ -10,6 +10,9 @@
 #include "ObjectManager.h"
 #include "CollisionSystem.h"
 
+#include "Manifold.h"
+#include "Simplex.h"
+
 namespace Hyrule
 {
 	namespace Physics
@@ -55,6 +58,8 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::CollisionDetection()
 		{
+			CollisionSystem::GetInstance().Clear();
+
 			// CollisionSystem::GetInstance()
 			// 
 			// 이 함수가 호출되기 전에 콜라이더들은 월드TM을 업데이트 받을 것이다.
@@ -87,6 +92,8 @@ namespace Hyrule
 					colliders[i + 1]->SetCollied(false);
 				}
 			}
+
+			CollisionSystem::GetInstance().EPAComputePenetrationDepth();
 		}
 
 		/// <summary>

@@ -1,20 +1,36 @@
 #include "CollisionSystem.h"
 
-#include "HyruleMath.h"
 #include <vector>
+#include <set>
+#include "HyruleMath.h"
 #include "Simplex.h"
+#include "Manifold.h"
 #include "Collider.h"
 #include "Face.h"
 #include "Edge.h"
-#include "Manifold.h"
 
-constexpr size_t GJK_MAX = 150;
-constexpr size_t EPA_MAX = 150;
+constexpr size_t GJK_MAX = 50;
+constexpr size_t EPA_MAX = 50;
 
 namespace Hyrule
 {
 	namespace Physics
 	{
+
+		void CollisionSystem::Clear()
+		{
+			for (auto e : detectionInfo)
+			{
+				auto manifold = e.first;
+				auto simpelx = e.second;
+
+				delete manifold;
+				delete simpelx;
+			}
+
+			detectionInfo.clear();
+		}
+
 		/// <summary>
 		/// Casey's GJK
 		/// </summary>
@@ -94,60 +110,94 @@ namespace Hyrule
 			while (count < EPA_MAX)
 			{
 				// 면들과의 노말과 거리를 계산할 수 있음.
-				Vector3D normal{ polytope.faceMap.begin()->second->normal };
+ 				Vector3D normal{ polytope.faceMap.begin()->second.normal };
 				Vector3D support{ FindSupportPoint(
 					_manifold->GetColliderA(),
 					_manifold->GetColliderB(),
 					normal) 
 				};
 
-				float dist{ polytope.faceMap.begin()->first };
+				float faceDist{ polytope.faceMap.begin()->first };
+				float supportDist{ support.Dot(normal) };
+
+				// 서포트 포인트가 면과 맞닿아있을 때
+				if (supportDist < 0.01f)
+				{
+					float depth{ polytope.faceMap.begin()->first };
+					Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
+					_manifold->SetDepth(depth + Epsilon);
+					_manifold->SetNormal(detectNormal);
+					return;
+				}
+
 				// 계산된 dist만 비교해서 가장 짧은 면과 서포트 포인트의 거리를 비교함
-				if (std::fabs(dist - support.Dot(normal)) < Epsilon)
+				if (supportDist - faceDist < 0.01f)
 				{
 					// 유사하면 해당 깊이와 노말만 반환
-					_manifold->SetDepth(dist);
-					_manifold->SetNormal(normal);
+					float depth{ polytope.faceMap.begin()->first };
+					Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
+					_manifold->SetDepth(depth + Epsilon);
+					_manifold->SetNormal(detectNormal);
 					return;
 				}
 				else
 				{
-					std::vector<Edge> edges;
-					for (auto& e : polytope.faceMap)
-					{
-						// 면과 거리 < 면의 노말 벡터 Dot 서포트 포인트 = 확장 가능성이 있음.
-						if (e.first < e.second->normal.Dot(support))
-						{
+					std::list<Edge> edges;
 
-							// 겹치는 변이 있는지 확인
-							// 겹치는 변이 있다면 두 면이 연속된 것이기 때문에 변을 뺌.
-							for (auto& edge : e.second->edge)
+					// 우선 구한 서포트 포인트를 폴리토프에 넣고 폴리토프의 페이스를 순회한다.
+					// 면들과 서포트 포인트를 비교하면서 확장 가능성을 본다.
+					polytope.push_back(support);
+
+					for (auto itr = polytope.faceMap.begin(); itr != polytope.faceMap.end(); itr++)
+					{
+						float distance = itr->first;
+						Face f = itr->second;
+
+						float supportDist = f.normal.Dot(support);
+
+						// 면과 거리 < 면의 노말 벡터 Dot 서포트 포인트 = 확장 가능성이 있음.
+						if (distance < supportDist)
+						{
+							itr = polytope.faceMap.erase(itr);
+
+							// 겹치는 변이 있다면 두 면 이상이 연속된 것이기 때문에 변을 뺌.
+							for (auto& edge : f.edge)
 							{
-								auto itr = std::find(edges.begin(), edges.end(), edge);
+								auto fIter = std::find(edges.begin(), edges.end(), edge);
 							
-								if (itr != edges.end())
+								if (fIter != edges.end())
 								{
-									edges.erase(itr);
+									edges.erase(fIter);
 								}
 								else
 								{
 									edges.push_back(edge);
 								}
 							}
+						}
 
-							// 확장 가능성을 가진 면을 삭제시켜야함.
-							// 인덱스를 어떻게 삭제시킬까...
+						if (itr == polytope.faceMap.end())
+						{
+							break;
 						}
 					}
-					
-					for (edges)
+
+					for (auto& edge : edges)
 					{
+						polytope.AddFace(edge.index1, edge.index2, polytope.size() - 1);
 					}
-
-
 				}
+				count++;
 			}
 			return;
+		}
+
+		void CollisionSystem::EPAComputePenetrationDepth()
+		{
+			for (auto& e : detectionInfo)
+			{
+				EPAComputePenetrationDepth(e.first);
+			}
 		}
 
 		/// <summary>
@@ -157,42 +207,6 @@ namespace Hyrule
 		{
 			return _colliderA->FindFarthestPoint(_direction) - _colliderB->FindFarthestPoint(-_direction);
 		}
-
-		// 		std::pair<Edge*, float> CollisionSystem::FindClosestEdge(Simplex* _simplex)
-		// 		{
-		// 			return std::pair<Edge*, float>();
-		// 		}
-		// 
-		// 		std::tuple<Face*, float, std::list<size_t[3]>::iterator> CollisionSystem::FindClosestFace(Simplex* _simplex)
-		// 		{
-		// 			Face* closestFace{};
-		// 			float mindist{ FLT_MAX };
-		// 			std::list<size_t[3]>::iterator pos{};
-		// 
-		// 			for (auto itr = _simplex->index.begin(); itr != _simplex->index.end(); itr++ )
-		// 			{
-		// 				size_t i0{ (*itr)[0] };
-		// 				size_t i1{ (*itr)[1] };
-		// 				size_t i2{ (*itr)[2] };
-		// 
-		// 				Face* newFace = new Face((*_simplex)[i0], (*_simplex)[i1], (*_simplex)[i2], i0, i1, i2);
-		// 				float dist{ (*_simplex)[i0].Dot(newFace->normal) };
-		// 
-		// 				if (mindist > dist)
-		// 				{
-		// 					mindist = dist;
-		// 					delete closestFace;
-		// 					closestFace = newFace;
-		// 					pos = itr;
-		// 				}
-		// 				else
-		// 				{
-		// 					delete newFace;
-		// 				}
-		// 			}
-		// 
-		// 			return std::make_tuple(closestFace, mindist, pos);
-		// 		}
 
 		/// <summary>
 		/// 접촉점을 찾아냄
@@ -257,6 +271,11 @@ namespace Hyrule
 			delete incident;
 		}
 
+		std::map<Manifold*, Simplex*>& CollisionSystem::GetManifold()
+		{
+			return this->detectionInfo;
+		}
+
 		/// <summary>
 		/// 심플렉스가에 점 개수를 보고 함수를 호출해줌
 		/// </summary>
@@ -303,11 +322,11 @@ namespace Hyrule
 			{
 				_direction = BA.Cross(BO).Cross(BA).Normalized();
 			}
-			//			else
-			//			{
-			//				_simplex = { B };
-			//				_direction = BO;
-			//			}
+			else
+			{
+				_simplex = { B };
+				_direction = BO;
+			}
 
 			return false;
 		}
@@ -323,13 +342,13 @@ namespace Hyrule
 			Vector3D CA = (A - C).Normalized();
 			Vector3D CB = (B - C).Normalized();
 			Vector3D CO = -C.Normalized();
-			Vector3D CBA = CB.Cross(CA);
+			Vector3D CBA = CB.Cross(CA).Normalized();
 			
 			// ABC 삼각형의 노말 벡터를 구하고
 			// 삼각형 어느 방향에 원점이 있는지 판단.
 
 			// CA 공간에 원점이 존재하는지 체크
-			if (CBA.Cross(CA).Dot(CO) > 0.f)
+			if ((CBA.Cross(CA).Normalized()).Dot(CO) > 0.f)
 			{
 				// CA 공간에 원점이 존재한다면
 				// 비버 집을 다시 지어야함.
@@ -364,7 +383,7 @@ namespace Hyrule
 			else
 			{
 				// CB 공간에 원점이 존재하는지 체크
-				if (CB.Cross(CBA).Dot(CO) > 0.f)
+				if ((CB.Cross(CBA).Normalized()).Dot(CO) > 0.f)
 				{
 					// CB 공간에 원점이 존재한다면
 					// 비버 집을 다시 지어야함.
@@ -419,9 +438,9 @@ namespace Hyrule
 			Vector3D DA{ (A - D).Normalized() };
 			Vector3D DB{ (B - D).Normalized() };
 			Vector3D DC{ (C - D).Normalized() };
-			Vector3D DBA{ DB.Cross(DA) };
-			Vector3D DAC{ DA.Cross(DC) };
-			Vector3D DCB{ DC.Cross(DB) };
+			Vector3D DBA{ DB.Cross(DA).Normalized() };
+			Vector3D DAC{ DA.Cross(DC).Normalized() };
+			Vector3D DCB{ DC.Cross(DB).Normalized() };
 			Vector3D DO{ -D.Normalized() };
 
 			// 사면체를 이루는 각 면의 노말 벡터와
@@ -513,6 +532,14 @@ namespace Hyrule
 
 		void CollisionSystem::CollisionRespone(float)
 		{
+			for (auto& e : detectionInfo)
+			{
+				e.first->GetColliderA();
+				e.first->GetColliderB();
+				e.first->GetNormal();
+				e.first->GetDepth();
+			}
+
 			// 속력 업데이트
 			this->ComputeVelocity();
 			// 충돌 대응

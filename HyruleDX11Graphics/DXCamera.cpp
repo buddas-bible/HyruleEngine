@@ -4,19 +4,16 @@
 namespace Hyrule
 {
 
-	DXCamera::DXCamera()
-	{
-		Vector3D eye{ 0.0f, 8.f, -9.f };
-		Vector3D at{ 0.0f, 6.f, 0.0f };
-		Vector3D up{ 0.0f, 1.0f, 0.0f };
-
-		this->CameraLookAtLH(eye, at, up);
-	}
+	DXCamera::DXCamera() : 
+		isPerspective(true), 
+		worldUp(Vector3D::Up()), 
+		m_pos(), m_look(), m_right(),
+		m_View(), m_persProj(), m_orthProj(),
+		m_angle(), m_ratio(), m_height(), m_width(), m_near(), m_far()
+	{}
 
 	void DXCamera::Update(float)
-	{
-	
-	}
+	{}
 
 	void DXCamera::UpdateViewMatrix()
 	{
@@ -62,7 +59,7 @@ namespace Hyrule
 		m_up = up;
 		m_pos = _eyePos;
 
-		this->UpdateLUR();
+		// this->UpdateLUR();
 		this->UpdateViewMatrix();
 	}
 
@@ -77,7 +74,7 @@ namespace Hyrule
 		m_up = up;
 		m_pos = _eyePos;
 
-		this->UpdateLUR();
+		// this->UpdateLUR();
 		this->UpdateViewMatrix();
 	}
 
@@ -132,7 +129,7 @@ namespace Hyrule
 		m_look = _mat.Look();
 		m_pos = _mat.Pos();
 
-		this->UpdateLUR();
+		// this->UpdateLUR();
 		this->UpdateViewMatrix();
 	}
 

@@ -74,6 +74,14 @@ namespace Hyrule
 				break;
 		}
 
+		SetWindowText((HWND)hWnd, (L"fps : " + std::to_wstring(TimeSystem::GetInstance().GetFPS())).c_str());
+
 		return true;
 	}
+
+	void CoreSystem::SetHandle(int _hwnd) noexcept
+	{
+		this->hWnd = _hwnd;
+	}
+
 }

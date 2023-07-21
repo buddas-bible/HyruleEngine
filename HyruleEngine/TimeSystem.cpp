@@ -27,4 +27,10 @@ namespace Hyrule
 	{
 		return gameTimer.DeltaTime();
 	}
+
+	float TimeSystem::GetFPS()
+	{
+		return 1 / gameTimer.DeltaTime();
+	}
+
 }

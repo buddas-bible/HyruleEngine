@@ -23,10 +23,12 @@ namespace Hyrule
 		GameObject* box = CreateGameObject(L"Box01");
 		box->AddComponent<CubeRenderer>();
 		box->GetTransform()->SetLocalPosition(Vector3D(3.f, 0.f, 0.f));
+		box->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
 		box->AddComponent<BoxCollider>();
 
 		GameObject* sphere = CreateGameObject(L"Sphere01");
 		sphere->AddComponent<SphereRenderer>();
+		sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
 		sphere->AddComponent<SphereCollider>();
 	
 		GameObject* controller = CreateGameObject(L"Controller");
