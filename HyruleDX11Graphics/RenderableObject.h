@@ -41,6 +41,8 @@ namespace Hyrule
 		void Render() noexcept;
 
 	private:
+		static UINT id;
+		UINT UID;
 		bool activate{true};
 
 	private:

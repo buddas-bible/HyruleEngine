@@ -16,7 +16,10 @@ namespace Hyrule
 
 		void SetHandle(int) noexcept;
 
+		float Clamp(float, float, float);
+
 	private:
+		bool first = true;
 		int state{};
 
 		int hWnd;

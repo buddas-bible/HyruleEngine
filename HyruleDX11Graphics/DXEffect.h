@@ -14,6 +14,7 @@ namespace Hyrule
 	class DXDevice;
 	struct Matrix4x4;
 	struct Vector3D;
+	struct Vector4D;
 
 	/// <summary>
 	/// FX 코드 쭉 읽어온 친구
@@ -42,6 +43,7 @@ namespace Hyrule
 		Comptr<ID3DX11EffectMatrixVariable> worldInvTranspose;
 		Comptr<ID3DX11EffectVariable> eyePosW;
 		Comptr<ID3DX11EffectVariable> direction;
+		Comptr<ID3DX11EffectVariable> meshColor;
 
 	public:
 		long CreateEffect();
@@ -54,6 +56,7 @@ namespace Hyrule
 		void SetWorldInvTranspose(const Matrix4x4&);
 		void SetEyePosW(const Vector3D&);
 		void SetDirectionLight(const Vector3D&);
+		void SetMeshColor(const Vector4D&);
 	};
 
 

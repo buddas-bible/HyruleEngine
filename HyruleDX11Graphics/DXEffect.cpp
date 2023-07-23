@@ -54,6 +54,7 @@ namespace Hyrule
 		worldInvTranspose = effect->GetVariableByName("invTworldViewProj")->AsMatrix();
 		// eyePosW = effect->GetVariableByName("eyePosW");
 		direction = effect->GetVariableByName("lightDirection");
+		meshColor = effect->GetVariableByName("meshColor");
 
 		return hr;
 	}
@@ -92,6 +93,12 @@ namespace Hyrule
 	{
 		direction->SetRawValue(&_vec, 0, sizeof(Vector3D));
 	}
+
+	void DXEffect::SetMeshColor(const Vector4D& _vec)
+	{
+		meshColor->SetRawValue(&_vec, 0, sizeof(Vector4D));
+	}
+
 
 	std::shared_ptr<DXEffect> Effects::PCEffect{};
 	std::shared_ptr<DXEffect> Effects::PUNEffect{};

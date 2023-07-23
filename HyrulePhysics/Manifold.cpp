@@ -3,20 +3,46 @@
 #include <vector>
 #include "Object.h"
 #include "RigidBody.h"
+#include "Collider.h"
 
 namespace Hyrule
 {
 	namespace Physics
 	{
-
 		Manifold::Manifold(Collider*& _A, Collider*& _B) noexcept
 			: A(_A), B(_B),
 			normal{}, tangent{}, depth{},
 			contactPoints{},
-			contactNormal{},
+			contactNormal{}, friction{},
 			collided{ false }
-		{
+		{}
 
+		Manifold::~Manifold() noexcept
+		{}
+
+		void Manifold::Apply()
+		{
+			A->AddCollisionInfo(B, *this);
+			B->AddCollisionInfo(A, *this);
+		}
+
+		void Manifold::SetSimplex(Simplex* _simplex)
+		{
+			this->simplex = _simplex;
+		}
+
+		Simplex& Manifold::GetSimplex()
+		{
+			return *simplex;
+		}
+
+		void Manifold::Clear()
+		{
+			if (simplex != nullptr)
+			{
+				delete simplex;
+				simplex = nullptr;
+			}
 		}
 
 		Collider* Manifold::GetColliderA()
@@ -69,7 +95,7 @@ namespace Hyrule
 			this->depth = _depth;
 		}
 
-		const std::vector<Hyrule::Vector3D>& Manifold::GetContactPoints() const
+		const std::vector<Vector3D>& Manifold::GetContactPoints() const
 		{
 			return contactPoints;
 		}

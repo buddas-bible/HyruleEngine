@@ -41,7 +41,7 @@ namespace Hyrule
 		virtual void OnCollisionExit(Collider*) final {};
 
 		virtual void OnCollisionEnter() final;
-		virtual void OnCollisionStay() final {};
+		virtual void OnCollisionStay() final;
 		virtual void OnCollisionExit() final;
 
 		virtual void OnDestroy() final {};

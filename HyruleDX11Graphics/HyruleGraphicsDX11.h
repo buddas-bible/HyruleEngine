@@ -35,12 +35,19 @@ namespace Hyrule
 		std::shared_ptr<DXCamera>	m_camera;
 
 	public:
+		std::shared_ptr<DXDevice> Device();
+
+	public:
 		virtual long Initialize(int _hwnd) override;
 		virtual void Finalize() override;
 		virtual void Update() override;
 		virtual void Render() override;
 		virtual long OnResize() override;
 		virtual ICamera* GetCamera() override;
+
+		static void DrawLine(const Vector3D&, const Vector3D&);
+		static void DrawSphere(const Vector3D&);
+		static Matrix4x4 ViewProj();
 
 	private:
 		/// <summary>
@@ -67,4 +74,6 @@ namespace Hyrule
 	{
 		__declspec(dllexport) IGraphics* CreateRenderer();
 	}
+
+	static HyruleGraphicsDX11* g_renderer = nullptr;
 }

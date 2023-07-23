@@ -8,9 +8,6 @@
     <Filter Include="1. HyrulePhysics">
       <UniqueIdentifier>{76d2936b-eb43-444d-ad20-c0e4340367c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. DataStruct">
-      <UniqueIdentifier>{b6aa14e9-d9e1-4bb6-a865-3655c98c5a52}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3. PhysicalyObject">
       <UniqueIdentifier>{b18d9165-96dc-4de9-b2c8-6ea989b34c69}</UniqueIdentifier>
     </Filter>
@@ -23,6 +20,12 @@
     <Filter Include="3. PhysicalyObject\Collider">
       <UniqueIdentifier>{2eaa07f4-ded2-4e6b-aa26-29815740d500}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Struct">
+      <UniqueIdentifier>{b6aa14e9-d9e1-4bb6-a865-3655c98c5a52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStruct">
+      <UniqueIdentifier>{d7694bbb-ab07-4af1-8211-ec75f8e1520c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HyrulePhysics.h">
@@ -30,9 +33,6 @@
     </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>3. PhysicalyObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Octree.h">
-      <Filter>2. DataStruct</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>3. PhysicalyObject</Filter>
@@ -53,7 +53,7 @@
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
     <ClInclude Include="Manifold.h">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>Manager</Filter>
@@ -65,7 +65,7 @@
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="Simplex.h">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>3. PhysicalyObject\Collider</Filter>
@@ -83,16 +83,22 @@
       <Filter>3. PhysicalyObject\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Edge.h">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClInclude>
     <ClInclude Include="Face.h">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClInclude>
     <ClInclude Include="Hill_Climbing.h">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClInclude>
     <ClInclude Include="PlaneShape.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>2. Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>DataStruct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>3. PhysicalyObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Octree.cpp">
-      <Filter>2. DataStruct</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>3. PhysicalyObject</Filter>
@@ -121,7 +124,7 @@
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Manifold.cpp">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClCompile>
     <ClCompile Include="Manager.cpp">
       <Filter>Manager</Filter>
@@ -133,7 +136,7 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="Simplex.cpp">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>3. PhysicalyObject\Collider</Filter>
@@ -151,16 +154,22 @@
       <Filter>3. PhysicalyObject\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Edge.cpp">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClCompile>
     <ClCompile Include="Face.cpp">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClCompile>
     <ClCompile Include="Hill_Climbing.cpp">
-      <Filter>2. DataStruct</Filter>
+      <Filter>2. Struct</Filter>
     </ClCompile>
     <ClCompile Include="PlaneShape.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>2. Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>DataStruct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

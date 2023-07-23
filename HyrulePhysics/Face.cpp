@@ -11,9 +11,9 @@ namespace Hyrule
 			vec{ _A, _B, _C }, index{ _i0, _i1, _i2 },
 			normal{}, center{}
 		{
-			Vector3D AB{ (_B - _A).Normalized() };
-			Vector3D AC{ (_C - _A).Normalized() };
-			Vector3D BC{ (_C - _B).Normalized() };
+			Vector3D AB{ (_B - _A) };
+			Vector3D AC{ (_C - _A) };
+			Vector3D BC{ (_C - _B) };
 			this->normal = AB.Cross(AC).Normalized();
 
 			edge[0] = Edge(_A, _B, _i0, _i1);

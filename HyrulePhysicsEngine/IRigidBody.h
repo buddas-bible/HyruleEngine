@@ -42,7 +42,7 @@ namespace Hyrule
 			/// <summary>
 			/// 강체 시뮬레이션으로 변화된 월드 트랜프폼 정보
 			/// </summary>
-			virtual Matrix4x4 Apply() const noexcept abstract;
+			virtual Matrix4x4 Apply() noexcept abstract;
 		};
 	}
 }

@@ -8,13 +8,21 @@
 
 #include "ObjectManager.h"
 
+#include <random>
+
 namespace Hyrule
 {
+	UINT RenderableObject::id = 0;
+
 	RenderableObject::RenderableObject(
 		std::shared_ptr<DXDevice> _device, 
 		std::shared_ptr<DXRasterizerState> _state,
 		std::shared_ptr<DXMesh> _mesh) noexcept :
-		device(_device), currState(_state), mesh(_mesh) {}
+		device(_device), currState(_state), mesh(_mesh)
+	{
+		UID = id;
+		id++;
+	}
 
 
 	void RenderableObject::SetTexture(const std::shared_ptr<DXTexture> _texture) noexcept
@@ -91,6 +99,25 @@ namespace Hyrule
 		Effects::PUNEffect->SetWorldInvTranspose(worldTM.Inverse().Transpose());
 		Effects::PUNEffect->SetWorld(worldTM);
 		Effects::PUNEffect->SetDirectionLight(Vector3D::Forward());
+
+		switch (UID)
+		{
+			case 0:
+				Effects::PUNEffect->SetMeshColor(DXColor::AliceBlue);
+				break;
+			case 1:
+				Effects::PUNEffect->SetMeshColor(DXColor::Beige);
+				break;
+			case 2:
+				Effects::PUNEffect->SetMeshColor(DXColor::Blue);
+				break;
+			case 3:
+				Effects::PUNEffect->SetMeshColor(DXColor::IndianRed);
+				break;
+			default:
+				Effects::PUNEffect->SetMeshColor(DXColor::MediumTurquoise);
+				break;
+		}
 
 		D3DX11_TECHNIQUE_DESC techDesc;
 		Effects::PUNEffect->GetTechnique()->GetDesc(&techDesc);

@@ -53,7 +53,7 @@
     <Filter Include="2. Resource\DXShader\FX">
       <UniqueIdentifier>{c896e17d-32bd-45f1-a495-319973d49719}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. Resource\Struct">
+    <Filter Include="헤더 파일\Struct">
       <UniqueIdentifier>{48677460-a120-4192-9617-f91fd687f963}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -113,7 +113,7 @@
       <Filter>2. Resource\Object\HelperObject</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
-      <Filter>2. Resource\Struct</Filter>
+      <Filter>헤더 파일\Struct</Filter>
     </ClInclude>
     <ClInclude Include="HyruleGraphicsDX11.h">
       <Filter>0. Engine</Filter>

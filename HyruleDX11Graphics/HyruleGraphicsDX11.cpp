@@ -25,7 +25,11 @@ namespace Hyrule
 	{
 		__declspec(dllexport) IGraphics* CreateRenderer()
 		{
-			return new HyruleGraphicsDX11;
+			auto instance = new HyruleGraphicsDX11;
+
+			g_renderer = instance;
+
+			return instance;
 		}
 	}
 
@@ -35,6 +39,11 @@ namespace Hyrule
 		m_camera()
 	{}
 
+
+	std::shared_ptr<Hyrule::DXDevice> HyruleGraphicsDX11::Device()
+	{
+		return m_device;
+	}
 
 	long HyruleGraphicsDX11::Initialize(int _hwnd)
 	{
@@ -166,6 +175,73 @@ namespace Hyrule
 		}
 
 		return nullptr;
+	}
+
+	void HyruleGraphicsDX11::DrawLine(const Vector3D& _vec0, const Vector3D& _vec1)
+	{
+		auto device = g_renderer->Device();
+
+		device->GetDeviceContext()->RSSetState(0);
+		device->GetDeviceContext()->IASetInputLayout(InputLayouts::PCLayout->GetInputLayout());
+		device->GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+
+		PC verties[]
+		{
+			Vector3{ _vec0.x ,_vec0.y, _vec0.z}, Vector4{DXColor::CadetBlue},
+			Vector3{ _vec1.x, _vec1.y, _vec1.z}, Vector4{DXColor::CadetBlue},
+		};
+
+		UINT indies[]
+		{
+			0, 1,
+		};
+
+		auto line = ResourceManager::GetInstance().CreateMesh(
+			&verties, sizeof(verties),
+			&indies, sizeof(indies),
+			ARRAYSIZE(indies)
+		);
+
+		UINT stride = sizeof(PC);
+		UINT offset = 0;
+		device->GetDeviceContext()->IASetVertexBuffers(
+			0,
+			1,
+			line->vertexBuffer.GetAddressOf(),
+			&stride,
+			&offset
+		);
+
+		device->GetDeviceContext()->IASetIndexBuffer(
+			line->indexBuffer.Get(),
+			DXGI_FORMAT_R32_UINT,					// 32비트 unsigned int 형으로 읽음
+			0
+		);
+
+		Matrix4x4 _worldViewProj{ ViewProj()};
+		Effects::PCEffect->SetWorldViewProj(_worldViewProj);
+
+		D3DX11_TECHNIQUE_DESC techDesc;
+		Effects::PCEffect->GetTechnique()->GetDesc(&techDesc);
+
+		for (UINT p = 0; p < techDesc.Passes; ++p)
+		{
+			Effects::PCEffect->GetTechnique()->GetPassByIndex(p)->Apply(0, device->GetDeviceContext());
+
+			device->GetDeviceContext()->DrawIndexed(line->indexCount, 0, 0);
+		}
+
+		delete line;
+	}
+
+	void HyruleGraphicsDX11::DrawSphere(const Vector3D& _pos)
+	{
+
+	}
+
+	Hyrule::Matrix4x4 HyruleGraphicsDX11::ViewProj()
+	{
+		return g_renderer->GetCamera()->GetViewProjMatrix();
 	}
 
 	long HyruleGraphicsDX11::CreateDeviceAndSwapChain()

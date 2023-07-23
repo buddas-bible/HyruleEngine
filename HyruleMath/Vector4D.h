@@ -49,7 +49,7 @@ namespace Hyrule
 			};
 			float e[4];
 			__m128 m;
-		};;
+		};
 
 		static inline Vector4D Zero() noexcept
 		{

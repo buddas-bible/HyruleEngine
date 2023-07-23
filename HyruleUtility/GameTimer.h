@@ -24,16 +24,16 @@ namespace Hyrule
 		double mDeltaTime;
 
 
-		using second = std::chrono::duration<float>;
+		using second = std::chrono::duration<double>;
 		using milli = std::chrono::duration<std::milli>;
 		using micro = std::chrono::duration<std::micro>;
 		using nano = std::chrono::duration<std::nano>;
 
-		std::chrono::high_resolution_clock::time_point mBaseTime;
-		std::chrono::high_resolution_clock::time_point mPausedTime;
-		std::chrono::high_resolution_clock::time_point mStopTime;
-		std::chrono::high_resolution_clock::time_point mPrevTime;
-		std::chrono::high_resolution_clock::time_point mCurrTime;
+		std::chrono::steady_clock::time_point mBaseTime;
+		std::chrono::steady_clock::time_point mPausedTime;
+		std::chrono::steady_clock::time_point mStopTime;
+		std::chrono::steady_clock::time_point mPrevTime;
+		std::chrono::steady_clock::time_point mCurrTime;
 
 		bool mStopped;
 	};

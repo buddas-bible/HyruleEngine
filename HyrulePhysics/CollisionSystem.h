@@ -3,6 +3,8 @@
 #include <map>
 #include <list>
 #include "Manager.h"
+#include "Manifold.h"
+#include "Simplex.h"
 
 namespace Hyrule
 {
@@ -16,26 +18,23 @@ namespace Hyrule
 		struct Face;
 		struct Edge;
 
-		class CollisionSystem : public Manager<CollisionSystem>
+		class CollisionSystem
 		{
 		public:
-			void Clear();
-
 			/// <summary>
 			/// GJK 충돌 감지
 			/// </summary>
-			bool GJKCollisionDetection(Collider*, Collider*);
+			static bool GJKCollisionDetection(Collider*, Collider*, Manifold&);
 			// bool CollisionCheck2(Collider*, Collider*);
 			
 			/// <summary>
 			/// EPA 침투 깊이 계산
 			/// </summary>
-			void EPAComputePenetrationDepth();
-			void EPAComputePenetrationDepth(Manifold* _manifold);
-			Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
-			void FindContactPoint(Manifold*, const Vector3D&);
+			static void EPAComputePenetrationDepth(Manifold& _manifold);
 
-			std::map<Manifold*, Simplex*>& GetManifold();
+
+			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
+			static void FindContactPoint(Manifold*, const Vector3D&);
 
 		private:
 			enum GJK : size_t
@@ -45,27 +44,23 @@ namespace Hyrule
 				TETRAHEDRON = 4,
 			};
 
-			std::map<Manifold*, Simplex*> detectionInfo;
+			static bool DoSimplex(Simplex&, Vector3D&);
+			static bool DoSimplex2(Simplex&, Vector3D&);
+			static bool DoSimplex3(Simplex&, Vector3D&);
+			static bool DoSimplex4(Simplex&, Vector3D&);
 
-			bool DoSimplex(Simplex&, Vector3D&);
-			bool DoSimplex2(Simplex&, Vector3D&);
-			bool DoSimplex3(Simplex&, Vector3D&);
-			bool DoSimplex4(Simplex&, Vector3D&);
-
-			void FaceClip(Face& _incident, const Edge& _refEdge, const Vector3D& _refNormal);
-			void EdgeClip(Edge&, const Vector3D&, const Vector3D&, bool);
+			static void FaceClip(Face& _incident, const Edge& _refEdge, const Vector3D& _refNormal);
+			static void EdgeClip(Edge&, const Vector3D&, const Vector3D&, bool);
 
 		/// <summary>
 		/// 충돌 대응 부분.
 		/// </summary>
 		public:
-			void CollisionRespone(float);
+			static void ComputeImpulse(Manifold&);
+			static void ResolveCollision(Manifold&);
 
 		private:
-			void ComputeVelocity();
-			void ComputeImpulse();
-			void ComputePosition();
-			void ResolveCollision();
+			static float ComputeFriction(float, float);
 		};
 	}
 }

@@ -2,6 +2,7 @@
 #include "IRigidBody.h"
 
 #include "HyruleMath.h"
+#include <string>
 
 namespace Hyrule
 {
@@ -21,9 +22,15 @@ namespace Hyrule
 
 		public:
 			bool isActive();
+			Object* GetObject();
+			std::wstring GetObjectName() noexcept;
 			virtual void OnEnable() noexcept override;
 			virtual void OnDisable() noexcept override;
 			virtual void OnDestroy() noexcept override;
+			
+		private:
+			Vector3D position;
+			Quaternion rotation;
 
 		private:
 			/// <summary>
@@ -56,9 +63,16 @@ namespace Hyrule
 			Hyrule::Vector3D torque;					// ≈‰≈©
 
 		public:
+			float GetInvMass() noexcept;
+			float GetStaticFriction() noexcept;
+			float GetDynamicFriction() noexcept;
+			float GetRestitution() noexcept;
+			Matrix3x3 GetInvInertia() noexcept;
+
+		public:
 			void ApplyImpulse(const Hyrule::Vector3D&, const Hyrule::Vector3D&) noexcept;
-			void ApplyForceAndTorque(Vector3D _gravity, float) noexcept;
-			void ApplyVelocity(float) noexcept;
+			void ComputeVelocity(Vector3D _gravity, float) noexcept;
+			void ComputePosition(float) noexcept;
 			virtual void AddForce(const Hyrule::Vector3D&) noexcept override;
 			virtual void AddTorque(const Hyrule::Vector3D&) noexcept override;
 
@@ -81,7 +95,7 @@ namespace Hyrule
 			virtual bool isSleeping() const noexcept override;
 			virtual void isSleeping(const bool) noexcept override;
 
-			virtual Matrix4x4 Apply() const noexcept override;
+			virtual Matrix4x4 Apply() noexcept override;
 #pragma endregion GetSet
 		};
 	}

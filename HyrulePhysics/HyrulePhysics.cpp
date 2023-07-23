@@ -41,11 +41,6 @@ namespace Hyrule
 			return ObjectManager::GetInstance().CreateRigidBody(_name);
 		}
 
-		std::vector<Manifold*> HyrulePhysics::GetCollisionData()
-		{
-			return std::vector<Manifold*>();
-		}
-
 		long HyrulePhysics::Initialize()
 		{
 			gravity = Hyrule::Vector3D(0.f, -9.81f, 0.f);
@@ -58,42 +53,83 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::CollisionDetection()
 		{
-			CollisionSystem::GetInstance().Clear();
-
-			// CollisionSystem::GetInstance()
-			// 
-			// 이 함수가 호출되기 전에 콜라이더들은 월드TM을 업데이트 받을 것이다.
-			// 이전 TM과 현재 TM을 비교해보고 변경이 되었으면
-			// 트리 안에 있는 오브젝트를 삭제시키고 다시 넣음.
-			// TM은 맵으로 할 예정.
-
-			/// 우선 엔진이 옥트리를 사용할지 안할지에 따라서
-			/// 배열을 전부 탐색할지 판단함.
-
-			/// 옥트리의 노드를 구분함.
-			/// 노드 안에 데이터가 0~1개면 패스.
-			/// 2개 ~ 4개까지는 그냥 순회하면서 충돌 감지 하려고 함.
-			/// 5개 넘어가면 자식을 탐색.
-
-			Octree<Object, 4> octree;
-
 			auto& colliders = ObjectManager::GetInstance().GetColliders();
-			for (auto i = 0; i < colliders.size() - 1; i++)
+
+			/// ICollosion을 전부 클리어 해야함.
+			for (auto& e : colliders)
 			{
-				bool detect = CollisionSystem::GetInstance().GJKCollisionDetection(colliders[i], colliders[i + 1]);
-				if (detect == true)
+				e->SetCollied(false);
+				e->CollisionInfoClear();
+			}
+			colliderTable.clear();
+			collisionInfo.clear();
+
+
+			auto& nodes{ ObjectManager::GetInstance().GetNodeContainer() };
+
+			// 옥트리에서 꺼낸 컨테이너를 순회함.
+			for (auto& e : nodes)
+			{
+
+				// 노드 안에 있는 콜라이더만 체크함
+				for (auto itr = e.begin(); itr != e.end(); itr++)
 				{
-					colliders[i]->SetCollied(true);
-					colliders[i + 1]->SetCollied(true);
-				}
-				else
-				{
-					colliders[i]->SetCollied(false);
-					colliders[i + 1]->SetCollied(false);
+					for (auto itr2 = e.begin(); itr2 != e.end(); itr2++)
+					{
+						if (itr == itr2)
+						{
+							continue;
+						}
+
+						// 두 콜라이더가 검사를 한 적이 있는가?
+						auto colliderPair0{ std::make_pair(*itr, *itr2) };
+						auto colliderPair1{ std::make_pair(*itr2, *itr) };
+
+						if (colliderTable.count(colliderPair0) != 0 || colliderTable.count(colliderPair1) != 0)
+						{
+							continue;
+						}
+
+						// 활성화 되어있지 않으면 넘김
+						if ((*itr2)->isActive() == false || (*itr)->isActive() == false)
+						{
+							continue;
+						}
+
+						Manifold manifold{ *itr, *itr2 };
+
+						colliderTable.insert(std::make_pair(*itr, *itr2));
+
+						if (CollisionSystem::GJKCollisionDetection(*itr, *itr2, manifold) == false)
+						{
+							continue;
+						}
+
+						/// 둘 중 하나라도 리지드 바디를 가지고 있다면 EPA를 실행 시킨다.
+						if ((*itr)->hasRigidBody() || (*itr2)->hasRigidBody())
+						{
+							collisionInfo.push_back(manifold);
+							CollisionSystem::EPAComputePenetrationDepth(manifold);
+						}
+
+						/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
+						if ((*itr)->hasRigidBody() && (*itr2)->hasRigidBody())
+						{
+							manifold.Apply();
+						}
+
+						(*itr)->SetCollied(true);
+						(*itr2)->SetCollied(true);
+					}
 				}
 			}
 
-			CollisionSystem::GetInstance().EPAComputePenetrationDepth();
+			for (auto& e : collisionInfo)
+			{
+				e.Clear();
+			}
+
+			ObjectManager::GetInstance().NodeContainerClear();
 		}
 
 		/// <summary>
@@ -101,12 +137,37 @@ namespace Hyrule
 		/// </summary>
 		void HyrulePhysics::CollisionResponse(const float _deltaTime)
 		{
-			/*
-			계층 구조를 가지는 강체는 트랜스폼 정보를 어떻게 가지고 어떻게 업데이트를 해야할까?
-			물리 업데이트를 받기 전, 우선 월드 트랜스폼을 전달 받는다.
-			강체 시뮬레이션을 통해서 월드 트랜스폼 정보가 변경이 된다.
-			부모의 월드 트랜스폼 정보를 기반으로 로컬 트랜스폼 정보를 업데이트 한다.
-			*/
+			auto& rigidbodis = ObjectManager::GetInstance().GetRigidbodies();
+
+			/// 속력 계산
+			for (auto& e : rigidbodis)
+			{
+				e->ComputeVelocity(gravity, _deltaTime);
+			}
+
+			/// 강체, 콜라이더 충돌 대응
+			for (auto& e : collisionInfo)
+			{
+				// 충돌
+
+			}
+
+			/// 계산된 속력을 위치, 각도에 적용
+			for (auto& e : rigidbodis)
+			{
+				e->ComputePosition(_deltaTime);
+			}
+
+			/// 밀어냄
+			for (auto& e : collisionInfo)
+			{
+				
+			}
+		}
+
+		void HyrulePhysics::ApplyObjectDestroy()
+		{
+			ObjectManager::GetInstance().RemoveQueue();
 		}
 
 		void HyrulePhysics::Finalize()

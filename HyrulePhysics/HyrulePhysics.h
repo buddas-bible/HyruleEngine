@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 
 #include "HyruleMath.h"
 
@@ -18,6 +19,7 @@ namespace Hyrule
 		class Collider;
 		class ICollider;
 		class Object;
+		class Simplex;
 
 		struct COLLIDER_INFO;
 
@@ -31,17 +33,19 @@ namespace Hyrule
 			virtual ICollider* CreateCollider(const std::wstring&, COLLIDER_INFO*) override;	// 오브젝트에 콜라이더를 추가함.
 			virtual IRigidBody* CreateRigidBody(const std::wstring&) override;					// 오브젝트에 강체를 추가함
 
-			virtual std::vector<Manifold*> GetCollisionData() override;
-
 		public:
 			virtual long Initialize() override;
 			virtual void CollisionDetection() override;										// 콜리전 체크
 			virtual void CollisionResponse(float) override;									// 강체 시뮬레이션
+			virtual void ApplyObjectDestroy() override;
 			virtual void Finalize() override;
 
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;					// 월드 중력을 설정함.
 
 		private:
+			std::set<std::pair<Collider*, Collider*>> colliderTable;
+			std::vector<Manifold> collisionInfo;
+
 			Hyrule::Vector3D gravity;
 
 			bool useOctree{ true };

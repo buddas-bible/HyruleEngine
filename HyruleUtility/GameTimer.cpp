@@ -5,7 +5,7 @@ namespace Hyrule
 	GameTimer::GameTimer() noexcept
 		: mSecondsPerCount(0.0), mDeltaTime(-1.0), mStopped(false)
 	{
-		auto countsPerSec = std::chrono::high_resolution_clock::period::den;
+		auto countsPerSec = std::chrono::steady_clock::period::den;
 		mSecondsPerCount = 1.0 / static_cast<double>(countsPerSec);
 	}
 
@@ -14,12 +14,12 @@ namespace Hyrule
 		std::chrono::duration<double> totalTime;
 		if (mStopped)
 		{
-			totalTime = std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>(
+			totalTime = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
 				(mStopTime - mPausedTime) - mBaseTime.time_since_epoch());
 		}
 		else
 		{
-			totalTime = std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>(
+			totalTime = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
 				(mCurrTime - mPausedTime) - mBaseTime.time_since_epoch());
 		}
 
@@ -38,26 +38,26 @@ namespace Hyrule
 
 	void GameTimer::Reset()
 	{
-		mBaseTime = std::chrono::high_resolution_clock::now();
+		mBaseTime = std::chrono::steady_clock::now();
 		mPrevTime = mBaseTime;
-		mStopTime = std::chrono::high_resolution_clock::time_point();
+		mStopTime = std::chrono::steady_clock::time_point();
 		mStopped = false;
 	}
 
 	void GameTimer::Start()
 	{
-		auto startTime = std::chrono::high_resolution_clock::now();
+		auto startTime = std::chrono::steady_clock::now();
 
 		if (mStopped)
 		{
 			auto pausedDuration = 
-				std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>(
+				std::chrono::duration_cast<std::chrono::steady_clock::duration>(
 				startTime - mStopTime
 				);
 			mPausedTime += pausedDuration;
 
 			mPrevTime = startTime;
-			mStopTime = std::chrono::high_resolution_clock::time_point();
+			mStopTime = std::chrono::steady_clock::time_point();
 			mStopped = false;
 		}
 	}
@@ -66,7 +66,7 @@ namespace Hyrule
 	{
 		if (!mStopped)
 		{
-			mStopTime = std::chrono::high_resolution_clock::now();
+			mStopTime = std::chrono::steady_clock::now();
 			mStopped = true;
 		}
 	}
@@ -79,9 +79,9 @@ namespace Hyrule
 			return;
 		}
 
-		mCurrTime = std::chrono::high_resolution_clock::now();
+		mCurrTime = std::chrono::steady_clock::now();
 
-		std::chrono::duration<double> deltaTime = mCurrTime - mPrevTime;
+		second deltaTime = mCurrTime - mPrevTime;
 		mDeltaTime = deltaTime.count();
 
 		mPrevTime = mCurrTime;

@@ -18,6 +18,9 @@ namespace Hyrule
 	namespace Physics
 	{
 
+		ObjectManager::ObjectManager() noexcept : octree({}, 10000.f)
+		{}
+
 		ICollider* ObjectManager::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _info)
 		{
 			Object* obj = this->GetObject(_name);
@@ -30,6 +33,7 @@ namespace Hyrule
 			Collider* collider = this->AddCollider(obj, _info);
 
 			colliders.push_back(collider);
+			octree.Insert(collider);
 
 			return (ICollider*)collider;
 		}
@@ -139,15 +143,89 @@ namespace Hyrule
 			}
 		}
 
-
 		std::vector<Collider*>& ObjectManager::GetColliders() noexcept
 		{
 			return this->colliders;
 		}
 
+		std::vector<std::list<Collider*>>& ObjectManager::GetNodeContainer() noexcept
+		{
+			return octree.GetDataList();
+		}
+
+		void ObjectManager::NodeContainerClear() noexcept
+		{
+			octree.DataListClear();
+		}
+
 		std::vector<RigidBody*>& ObjectManager::GetRigidbodies() noexcept
 		{
 			return this->rigidBodies;
+		}
+
+		void ObjectManager::AddRemoveQueue(Collider* _collider)
+		{
+			ToDestroyCollider.push(_collider);
+		}
+
+		void ObjectManager::AddRemoveQueue(RigidBody* _rigidbody)
+		{
+			ToDestroyRigidBody.push(_rigidbody);
+		}
+
+		void ObjectManager::RemoveQueue()
+		{
+			for (auto i = 0; i < ToDestroyCollider.size(); i++)
+			{
+				Collider* e{ ToDestroyCollider.front() };
+				// auto itr = std::find(colliders.begin(), colliders.end(), e);
+				// if (itr != colliders.end())
+				// {
+				// 	colliders.erase(itr);
+				// }
+				octree.Remove(e);
+
+				Object* obj{ e->GetObject() };
+				obj->RemoveCollider(e);
+
+				if (obj->Empty())
+				{
+					this->RemoveObject(obj->GetName());
+					delete obj;
+					obj = nullptr;
+				}
+
+				ToDestroyCollider.pop();
+			}
+
+			for (auto i = 0; i < ToDestroyRigidBody.size(); i++)
+			{
+				auto e{ ToDestroyRigidBody.front() };
+				auto itr = std::find(rigidBodies.begin(), rigidBodies.end(), e);
+				if (itr != rigidBodies.end())
+				{
+					rigidBodies.erase(itr);
+				}
+
+				auto obj{ e->GetObject() };
+				obj->RemoveRigidBody();
+
+				if (obj->Empty())
+				{
+					this->RemoveObject(obj->GetName());
+					delete obj;
+					obj = nullptr;
+				}
+
+				ToDestroyRigidBody.pop();	
+			}
+		}
+
+		void ObjectManager::OctreeResearch(Collider* _collider)
+		{
+			// 옥트리에 있는 콜라이더 지우고 다시 설정.
+			octree.Remove(_collider);
+			octree.Insert(_collider);
 		}
 
 		Collider* ObjectManager::AddCollider(Object* _obj, COLLIDER_INFO* _info)

@@ -25,6 +25,11 @@ namespace Hyrule
 #endif
 	}
 
+	void Renderer::OnCollisionStay()
+	{
+		// meshData->On
+	}
+
 	void Renderer::OnCollisionExit()
 	{
 #if _DEBUG

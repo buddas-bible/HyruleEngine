@@ -50,14 +50,20 @@ namespace Hyrule
 		/// </summary>
 		bool AABB::CollidingAABB(const AABB& _other) const noexcept
 		{
-			if (this->max.x < _other.min.x || this->min.x > _other.max.x)
-				return false;
-			if (this->max.y < _other.min.y || this->min.y > _other.max.y)
-				return false;
-			if (this->max.z < _other.min.z || this->min.z > _other.max.z)
-				return false;
+// 			if (this->max.x < _other.min.x || this->min.x > _other.max.x)
+// 				return false;
+// 			if (this->max.y < _other.min.y || this->min.y > _other.max.y)
+// 				return false;
+// 			if (this->max.z < _other.min.z || this->min.z > _other.max.z)
+// 				return false;
+// 
+// 			return true;
 
-			return true;
+			return (
+					this->min.x <= _other.max.x && this->max.x >= _other.min.x &&
+					this->min.y <= _other.max.y && this->max.y >= _other.min.y &&
+					this->min.z <= _other.max.z && this->max.z >= _other.min.z
+				);
 		}
 	}
 }

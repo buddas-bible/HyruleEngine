@@ -60,22 +60,22 @@ namespace Hyrule
 		Quaternion currR = controlObject->GetTransform()->GetLocalQuaternion();
 		if (input.KeyPress(VK_UP))
 		{
-			auto q = ToQuaternion(Vector3D::Right(), -10.f * dt);
+			auto q = ToQuaternion(Vector3D::Right(), -1.f * dt);
 			currR *= q;
 		}
 		if (input.KeyPress(VK_DOWN))
 		{
-			auto q = ToQuaternion(Vector3D::Right(), 10.f * dt);
+			auto q = ToQuaternion(Vector3D::Right(), 1.f * dt);
 			currR *= q;
 		}
 		if (input.KeyPress(VK_LEFT))
 		{
-			auto q = ToQuaternion(Vector3D::Up(), -10.f * dt);
+			auto q = ToQuaternion(Vector3D::Up(), -1.f * dt);
 			currR *= q;
 		}
 		if (input.KeyPress(VK_RIGHT))
 		{
-			auto q = ToQuaternion(Vector3D::Up(), 10.f * dt);
+			auto q = ToQuaternion(Vector3D::Up(), 1.f * dt);
 			currR *= q;
 		}
 		controlObject->GetTransform()->SetLocalQuaternion(currR);
@@ -84,23 +84,23 @@ namespace Hyrule
 		Vector3D currP = controlObject->GetTransform()->GetLocalPosition();
 		if (input.KeyPress('W'))
 		{
-			currP +=  mat.Look() * 10.f * dt;
+			currP +=  mat.Look() * 1.f * dt;
 		}
 		if (input.KeyPress('S'))
 		{
-			currP -= mat.Look() * 10.f * dt;
+			currP -= mat.Look() * 1.f * dt;
 		}
 		if (input.KeyPress('D'))
 		{
-			currP += mat.Right() * 10.f * dt;
+			currP += mat.Right() * 1.f * dt;
 		}
 		if (input.KeyPress('A'))
 		{
-			currP -= mat.Right() * 10.f * dt;
+			currP -= mat.Right() * 1.f * dt;
 		}
 		if (input.KeyPress('E'))
 		{
-			currP += mat.Up() * 10.f * dt;
+			currP += mat.Up() * 1.f * dt;
 		}
 		if (input.KeyPress('Q'))
 		{

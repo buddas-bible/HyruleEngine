@@ -32,12 +32,13 @@ namespace Hyrule
 			/// </summary>
 			virtual IRigidBody* CreateRigidBody(const std::wstring&) abstract;
 
-			virtual std::vector<Manifold*> GetCollisionData() abstract;
+			/// virtual std::vector<Manifold*> GetCollisionData() abstract;
 
 		public:
 			virtual long Initialize() abstract;
 			virtual void CollisionDetection() abstract;
 			virtual void CollisionResponse(float) abstract;
+			virtual void ApplyObjectDestroy() abstract;
 			virtual void Finalize() abstract;
 
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) abstract;

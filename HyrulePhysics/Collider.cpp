@@ -4,6 +4,8 @@
 #include <string>
 
 #include "ObjectManager.h"
+#include "Collision.h"
+#include "Manifold.h"
 
 namespace Hyrule
 {
@@ -14,6 +16,53 @@ namespace Hyrule
 			center(), size(0.5f, 0.5f, 0.5f), isTrigger(false),
 			inertia(), centerOfMass(), activate(true), collied(false)
 		{}
+
+		Vector3D Collider::GetPosition()
+		{
+			return object->GetWorldTM().Pos();
+		}
+
+		float Collider::GetLength()
+		{
+			Matrix4x4 nonPos{ object->GetWorldTM() };
+
+			Vector4D row00{ nonPos.m[0].m };
+			float rl00 = row00.Length();
+			Vector4D row01{ nonPos.m[1].m };
+			float rl01 = row01.Length();
+			Vector4D row02{ nonPos.m[2].m };
+			float rl02 = row02.Length();
+
+			float max = rl00 > rl01 ? rl00 : rl01;
+			max = max > rl02 ? max : rl02;
+
+			return max * 0.5f;
+		}
+
+		Object* Collider::GetObject()
+		{
+			return object;
+		}
+
+		RigidBody* Collider::GetRigidBody()
+		{
+			return object->GetRigidBody();
+		}
+
+		void Collider::CollisionInfoClear()
+		{
+			for (auto& e : collisionInfo)
+			{
+				delete e;
+			}
+
+			collisionInfo.clear();
+		}
+
+		bool Collider::hasRigidBody()
+		{
+			return object->rigidbody != nullptr;
+		}
 
 		bool Collider::isActive()
 		{
@@ -42,11 +91,22 @@ namespace Hyrule
 
 		void Collider::OnDestroy() noexcept
 		{
-			// 이걸 어떻게 삭제를 시켜야하나...
-			// 함수가 호출될 때, 오브젝트 리스트에서 이친구를 지우는건 알겠는데
-			// 객체를 삭제시키는 건 어떻게 해야할까...
-			// 우선 오브젝트 리스트에서 지워버리고 삭제큐에 넣어놨다가
-			// 프레임 막판에 삭제하는 함수를 호출해달라고 팀원에게 말해야하나...
+			ObjectManager::GetInstance().AddRemoveQueue(this);
+		}
+
+		std::vector<ICollision*> Collider::GetCollisionInfo() noexcept
+		{
+			return collisionInfo;
+		}
+
+		void Collider::AddCollisionInfo(Collider* _collider, Manifold& _manifold)
+		{
+			Collision* collision = new Collision();
+			collision->collider = _collider;
+			collision->contactPoints = _manifold.GetContactPoints();
+			collision->normal = _manifold.GetNormal();
+
+			collisionInfo.push_back(collision);
 		}
 
 		void Collider::SetWorldTransform(const Matrix4x4& _mat)
@@ -58,6 +118,7 @@ namespace Hyrule
 
 			// 같지 않다면 노드를 다시 설정해야함.
 			this->object->SetWorldTM(_mat);
+			ObjectManager::GetInstance().OctreeResearch(this);
 		}
 
 		void Collider::SetTrigger(bool _trigger)

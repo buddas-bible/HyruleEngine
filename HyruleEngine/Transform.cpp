@@ -15,6 +15,18 @@ namespace Hyrule
 		return this->position;
 	}
 
+	Vector3D Transform::GetWorldPosition() noexcept
+	{
+		if (parent != nullptr)
+		{
+			return this->position * parent->GetWorldMatrix();
+		}
+		else
+		{
+			return this->position;
+		}
+	}
+
 	void Transform::SetLocalPosition(const Vector3D& _pos) noexcept
 	{
 		this->position = _pos;
@@ -30,26 +42,38 @@ namespace Hyrule
 		return this->rotation;
 	}
 
+	Quaternion Transform::GetWorldQuaternion() noexcept
+	{
+		if (parent != nullptr)
+		{
+			return this->rotation * parent->GetWorldQuaternion();
+		}
+		else
+		{
+			return this->rotation;
+		}
+	}
+
 	void Transform::SetLocalQuaternion(const Quaternion& _q) noexcept
 	{
 		this->rotation = _q;
 	}
 
-	Quaternion Transform::GetWorldQuaternion() noexcept
-	{
-		Quaternion q = Quaternion::Identity();
-
-		if (parent != nullptr)
-		{
-			q = parent->GetWorldQuaternion();
-		}
-
-		return q * GetLocalQuaternion();
-	}
-
 	Vector3D Transform::GetLocalScale() noexcept
 	{
 		return this->scale;
+	}
+
+	Vector3D Transform::GetWorldScale() noexcept
+	{
+		if (parent != nullptr)
+		{
+			return this->scale;
+		}
+		else
+		{
+			return this->scale;
+		}
 	}
 
 	void Transform::SetLocalScale(const Vector3D& _scl) noexcept
@@ -59,54 +83,39 @@ namespace Hyrule
 
 	Vector3D Transform::GetUp() noexcept
 	{
-		Quaternion q = Quaternion::Identity();
-
 		if (parent != nullptr)
 		{
-			q = parent->GetWorldQuaternion();
+			return Vector3D::Up() * ToMatrix4(parent->GetWorldQuaternion());
 		}
-		return Vector3D{ 0.f, 1.f, 0.f };
+		else
+		{
+			return Vector3D::Up();
+		}
 	 }
-
-	// 	void Transform::SetUp(const Vector3D& _vec) noexcept
-	// 	{
-	// 		
-	// 	}
  
 	Vector3D Transform::GetForward() noexcept
 	{
-		Quaternion q = Quaternion::Identity();
-
 		if (parent != nullptr)
 		{
-			q = parent->GetWorldQuaternion();
+			return Vector3D::Forward() * ToMatrix4(parent->GetWorldQuaternion());
 		}
-
-		return Vector3D{ 0.f, 0.f, 1.f };
+		else
+		{
+			return Vector3D::Forward();
+		}
 	 }
-	
-// 	void Transform::SetForward(const Vector3D& _vec) noexcept
-// 	{
-// 		// Vector3D forward = _vec.Normalized();
-// 		// Quaternion q = 
-// 	}
 
 	Vector3D Transform::GetRight() noexcept
 	{
-		Quaternion q = Quaternion::Identity();
-
 		if (parent != nullptr)
 		{
-			q = parent->GetWorldQuaternion();
+			return Vector3D::Right() * ToMatrix4(parent->GetWorldQuaternion());
 		}
-
-		return Vector3D{ 1.f, 0.f, 0.f };
+		else
+		{
+			return Vector3D::Right();
+		}
 	 }
-
-	// 	void Transform::SetRight(const Vector3D& _vec) noexcept
-	// 	{
-	// 		// this->quaternion =
-	// 	}
 
 	Matrix4x4 Transform::GetLocalMatrix() noexcept
 	{
@@ -115,14 +124,14 @@ namespace Hyrule
 
 	Matrix4x4 Transform::GetWorldMatrix() noexcept
 	{
-		Matrix4x4 w = Matrix4x4::Identity();
-
 		if (parent != nullptr)
 		{
-			w = parent->GetWorldMatrix();
+			return GetLocalMatrix() * parent->GetWorldMatrix();
 		}
-
-		return GetLocalMatrix() * w;
+		else
+		{
+			return GetLocalMatrix();
+		}
 	}
 
 	Transform* Transform::GetParent() noexcept
@@ -197,7 +206,7 @@ namespace Hyrule
 		// 자식을 전부 파괴함.
 		for (auto& e : children)
 		{	
-			//e->gameObject->GetScene()->
+			e->gameObject->OnDestroy();
 		}
 	}
 }

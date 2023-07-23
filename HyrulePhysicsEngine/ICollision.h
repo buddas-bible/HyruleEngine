@@ -1,21 +1,23 @@
 #pragma once
+#include <vector>
 
 namespace Hyrule
 {
 	struct Vector3D;
 
-
 	namespace Physics
 	{
-		class ICollsion
+		class ICollider;
+
+		class ICollision
 		{
 		public:
-			ICollsion()	noexcept = default;
-			virtual ~ICollsion() noexcept = default;
+			ICollision()	noexcept = default;
+			virtual ~ICollision() noexcept = default;
 
 		public:
+			virtual ICollider* Collider() noexcept abstract;
 			virtual Vector3D Impulse() noexcept abstract;
-			virtual Vector3D RelativeVelocity() noexcept abstract;
 			virtual std::vector<Vector3D> Contacts() noexcept abstract;
 			virtual Vector3D Contact(size_t) noexcept abstract;
 			virtual size_t ContactCount() noexcept abstract;

@@ -42,7 +42,7 @@
 #include "Scene01.h"
 #include "SceneManager.h"
 
-int APIENTRY WinMain(
+int APIENTRY main(
 	_In_ HINSTANCE _hInstance, 
 	_In_opt_ HINSTANCE _hPrevInstance, 
 	_In_ LPSTR _lpCmdLine, 

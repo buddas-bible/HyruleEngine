@@ -1,5 +1,6 @@
 #pragma once
 #include <sal.h>
+
 namespace Hyrule
 {
 	struct Vector2D

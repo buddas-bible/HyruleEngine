@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include <queue>
+#include "Octree.h"
 
 namespace Hyrule
 {
@@ -17,20 +18,22 @@ namespace Hyrule
 
 		class ICollider;
 		class Collider;
+
+		class IRigidBody;
+		class RigidBody;
+
 		class SphereCollider;
 		class BoxCollider;
 		class PlaneCollider;
 		class SphereCollider;
 
-		class IRigidBody;
-		class RigidBody;
 
 		struct COLLIDER_INFO;
 
 		class ObjectManager : public Manager<ObjectManager>
 		{
 		public:
-			ObjectManager() noexcept = default;
+			ObjectManager() noexcept;
 			~ObjectManager() noexcept = default;
 			ObjectManager(const ObjectManager&) = delete;
 			void operator=(const ObjectManager&) = delete;
@@ -39,6 +42,12 @@ namespace Hyrule
 			std::map<std::wstring, Object*> objectMap;
 			std::vector<Collider*> colliders;					// 활성화된 콜라이더
 			std::vector<RigidBody*> rigidBodies;				// 시뮬레이션 예정인 강체
+
+		private:
+			std::queue<Collider*> ToDestroyCollider;
+			std::queue<RigidBody*> ToDestroyRigidBody;
+
+			Octree<Collider*> octree;
 
 		public:
 			ICollider* CreateCollider(const std::wstring&, COLLIDER_INFO*);	// 오브젝트에 콜라이더를 추가함.
@@ -51,6 +60,16 @@ namespace Hyrule
 
 			std::vector<Collider*>& GetColliders() noexcept;
 			std::vector<RigidBody*>& GetRigidbodies() noexcept;
+
+			std::vector<std::list<Collider*>>& GetNodeContainer() noexcept;
+			void NodeContainerClear() noexcept;
+
+		public:
+			void AddRemoveQueue(Collider*);
+			void AddRemoveQueue(RigidBody*);
+			void RemoveQueue();
+
+			void OctreeResearch(Collider*);
 
 		private:
 			Collider* AddCollider(Object*, COLLIDER_INFO*);						// 콜라이더를 만듬

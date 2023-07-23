@@ -56,7 +56,6 @@ namespace Hyrule
 		{
 			gameObject->OnCollisionExit();
 		}
-
 	}
 
 	void BoxCollider::OnEnable()
@@ -73,9 +72,4 @@ namespace Hyrule
 	{
 		collider->OnDestroy();
 	}
-
-// 	bool BoxCollider::IsColliding()
-// 	{
-// 		return collider->IsColliding();
-// 	}
 }

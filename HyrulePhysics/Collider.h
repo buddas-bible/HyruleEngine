@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "HyruleMath.h"
+#include "ICollision.h"
 
 namespace Hyrule
 {
@@ -14,6 +15,9 @@ namespace Hyrule
 		struct Vertex;
 		struct Edge;
 		struct Face;
+		class ICollision;
+		class Manifold;
+		class RigidBody;
 
 		class Collider : public ICollider
 		{
@@ -25,6 +29,7 @@ namespace Hyrule
 		protected:
 			Object* object;
 
+			// 콜라이더 중심과 크기를 바꿀 일이 없다고 생각하자....
 			Vector3D center;
 			Vector3D size;
 			bool isTrigger;
@@ -35,13 +40,27 @@ namespace Hyrule
 
 			bool collied;
 
+			std::vector<ICollision*> collisionInfo;
+
 		public:
+			Vector3D GetPosition();
+			float GetLength();
+
+			Object* GetObject();
+			RigidBody* GetRigidBody();
+			void CollisionInfoClear();
+			bool hasRigidBody();
 			bool isActive();
 			void SetCollied(bool);
+
+		public:
 			virtual bool isCollision() noexcept final;
 			virtual void OnEnable() noexcept final;
 			virtual void OnDisable() noexcept final;
 			virtual void OnDestroy() noexcept final;
+			virtual std::vector<ICollision*> GetCollisionInfo() noexcept final;
+
+			void AddCollisionInfo(Collider*, Manifold&);
 
 		public:
 			virtual void SetWorldTransform(const Matrix4x4& _mat) final;

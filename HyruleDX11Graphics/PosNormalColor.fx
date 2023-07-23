@@ -15,6 +15,7 @@ cbuffer cbPerObject
 cbuffer cbPerFrame
 {
     float3 lightDirection;
+    float4 meshColor;
     // float3 eyePosW;
     // float3 lightPosition;
     // float4 lightColor;
@@ -46,7 +47,7 @@ VertexOut VS(VertexIn vin)
 
 float4 PS(VertexOut pin) : SV_Target
 {
-    float4 c = float4(1.f, 1.f, 1.f, 0.5f);
+    float4 c = meshColor;
     return c * pin.Diffuse;
 }
 

@@ -3,9 +3,8 @@
 #include <vector>
 #include <set>
 #include "HyruleMath.h"
-#include "Simplex.h"
-#include "Manifold.h"
 #include "Collider.h"
+#include "RigidBody.h"
 #include "Face.h"
 #include "Edge.h"
 
@@ -16,25 +15,10 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-
-		void CollisionSystem::Clear()
-		{
-			for (auto e : detectionInfo)
-			{
-				auto manifold = e.first;
-				auto simpelx = e.second;
-
-				delete manifold;
-				delete simpelx;
-			}
-
-			detectionInfo.clear();
-		}
-
 		/// <summary>
 		/// Casey's GJK
 		/// </summary>
-		bool CollisionSystem::GJKCollisionDetection(Collider* _colliderA, Collider* _colliderB)
+		bool CollisionSystem::GJKCollisionDetection(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
 		{
 			size_t count{};
 
@@ -48,7 +32,6 @@ namespace Hyrule
 			direction = -support.Normalized();
 
 			while (count < GJK_MAX)
-			// while (1)
 			{
 				// 방향 벡터로부터 서포트 포인터를 구하는건 공통임
 				support = FindSupportPoint(_colliderA, _colliderB, direction);
@@ -69,9 +52,8 @@ namespace Hyrule
 				if (DoSimplex(*simplex, direction))
 				{
 					// 심플렉스 안에 원점이 존재한다면 충돌함.
-					Manifold* newManifold = new Manifold(_colliderA, _colliderB);
-
-					detectionInfo.insert(std::make_pair(newManifold, simplex));
+					// detectionInfo.insert(std::make_pair(_manifold, simplex));
+					_manifold.SetSimplex(simplex);
 					return true;
 				}
 				count++;
@@ -99,64 +81,65 @@ namespace Hyrule
 		/// <summary>
 		/// EPA
 		/// </summary>
-		void CollisionSystem::EPAComputePenetrationDepth(Manifold* _manifold)
+		void CollisionSystem::EPAComputePenetrationDepth(Manifold& _manifold)
 		{
 			// 심플렉스의 면을 일단 구분함
-			Simplex polytope{ *detectionInfo[_manifold] };
+			Simplex polytope{ _manifold.GetSimplex() };
 			polytope.SetFace();
 
 			size_t count{};
 
-			while (count < EPA_MAX)
+			while (count < EPA_MAX && polytope.faceMap.size() < 64)
 			{
 				// 면들과의 노말과 거리를 계산할 수 있음.
  				Vector3D normal{ polytope.faceMap.begin()->second.normal };
 				Vector3D support{ FindSupportPoint(
-					_manifold->GetColliderA(),
-					_manifold->GetColliderB(),
+					_manifold.GetColliderA(),
+					_manifold.GetColliderB(),
 					normal) 
 				};
 
 				float faceDist{ polytope.faceMap.begin()->first };
 				float supportDist{ support.Dot(normal) };
 
-				// 서포트 포인트가 면과 맞닿아있을 때
-				if (supportDist < 0.01f)
+				auto itr = 
+					std::find(
+					polytope.points.begin(), 
+					polytope.points.end(),
+					support
+					);
+
+				if (itr != polytope.points.end())
 				{
-					float depth{ polytope.faceMap.begin()->first };
-					Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
-					_manifold->SetDepth(depth + Epsilon);
-					_manifold->SetNormal(detectNormal);
+					float depth{ faceDist };
+					Vector3D detectNormal{ normal };
 					return;
 				}
-
+				
 				// 계산된 dist만 비교해서 가장 짧은 면과 서포트 포인트의 거리를 비교함
-				if (supportDist - faceDist < 0.01f)
+				if (std::fabs(supportDist - faceDist) <= Epsilon)
 				{
 					// 유사하면 해당 깊이와 노말만 반환
-					float depth{ polytope.faceMap.begin()->first };
-					Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
-					_manifold->SetDepth(depth + Epsilon);
-					_manifold->SetNormal(detectNormal);
+					float depth{ faceDist };
+					Vector3D detectNormal{ normal };
+					_manifold.SetDepth(depth + Epsilon);
+					_manifold.SetNormal(detectNormal);
 					return;
 				}
 				else
 				{
 					std::list<Edge> edges;
 
-					// 우선 구한 서포트 포인트를 폴리토프에 넣고 폴리토프의 페이스를 순회한다.
 					// 면들과 서포트 포인트를 비교하면서 확장 가능성을 본다.
-					polytope.push_back(support);
-
 					for (auto itr = polytope.faceMap.begin(); itr != polytope.faceMap.end(); itr++)
 					{
-						float distance = itr->first;
+						float faceDist = itr->first;
 						Face f = itr->second;
 
 						float supportDist = f.normal.Dot(support);
 
-						// 면과 거리 < 면의 노말 벡터 Dot 서포트 포인트 = 확장 가능성이 있음.
-						if (distance < supportDist)
+						// 서포트 포인트 거리 - 면 거리 > 오차범위보다 크다면 확장 가능성이 있음.
+						if (f.normal.Dot(support.Normalized()) > 0.f)
 						{
 							itr = polytope.faceMap.erase(itr);
 
@@ -182,6 +165,8 @@ namespace Hyrule
 						}
 					}
 
+					polytope.push_back(support);
+
 					for (auto& edge : edges)
 					{
 						polytope.AddFace(edge.index1, edge.index2, polytope.size() - 1);
@@ -189,15 +174,10 @@ namespace Hyrule
 				}
 				count++;
 			}
-			return;
-		}
 
-		void CollisionSystem::EPAComputePenetrationDepth()
-		{
-			for (auto& e : detectionInfo)
-			{
-				EPAComputePenetrationDepth(e.first);
-			}
+			float depth{ polytope.faceMap.begin()->first };
+			Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
+			return;
 		}
 
 		/// <summary>
@@ -269,11 +249,6 @@ namespace Hyrule
 
 			delete reference;
 			delete incident;
-		}
-
-		std::map<Manifold*, Simplex*>& CollisionSystem::GetManifold()
-		{
-			return this->detectionInfo;
 		}
 
 		/// <summary>
@@ -411,7 +386,7 @@ namespace Hyrule
 					{
 						// CBA 노말 방향으로 점 D를 탐색
 						_simplex = { A, B, C };
-						_direction = CBA.Normalized();
+						_direction = CBA;
 					}
 					else
 					{
@@ -419,7 +394,7 @@ namespace Hyrule
 						// 방향은 반대라서
 						// CBA -노말 방향으로 점 D를 탐색
 						_simplex = { B, A, C };
-						_direction = -CBA.Normalized();
+						_direction = -CBA;
 					}
 				}
 			}
@@ -449,27 +424,27 @@ namespace Hyrule
 			{
 				// 노말 방향에 원점이 존재한다면...
 				// DAB 공간안에 원점이 있음
-				// 해당 면의 
 				_simplex = { A, B, D };
-				_direction = DBA.Normalized();
+				_direction = DBA;
 				return false;
 			}
 
 			if (DAC.Dot(DO) > 0.f)
 			{
 				_simplex = { A, C, D };
-				_direction = DAC.Normalized();
+				_direction = DAC;
 				return false;
 			}
 
 			if (DCB.Dot(DO) > 0.f)
 			{
 				_simplex = { B, C, D };
-				_direction = DCB.Normalized();
+				_direction = DCB;
 				return false;
 			}
 
-			return true;		}
+			return true;		
+		}
 
 		void CollisionSystem::FaceClip(Face& _incident, const Edge& _refEdge, const Vector3D& _refNormal)
 		{
@@ -530,133 +505,135 @@ namespace Hyrule
 			}
 		}
 
-		void CollisionSystem::CollisionRespone(float)
-		{
-			for (auto& e : detectionInfo)
-			{
-				e.first->GetColliderA();
-				e.first->GetColliderB();
-				e.first->GetNormal();
-				e.first->GetDepth();
-			}
-
-			// 속력 업데이트
-			this->ComputeVelocity();
-			// 충돌 대응
-			this->ComputeImpulse();
-			// 위치 업데이트
-			this->ComputePosition();
-			// 밀어냄
-			this->ResolveCollision();
-			// 힘 초기화
-
-		}
-
-		void CollisionSystem::ComputeVelocity()
-		{
-			// 각 물체들이 가지고 있는 힘으로 속력을 계산함.
-
-			// auto& rigidbodies = ObjectManager::GetInstance().GetRigidbodies();
-			// for (auto& e : rigidbodies)
-			// {
-			// 	e->ApplyForce();
-			// 	e->ApplyTorque();
-			// }
-		}
-
-		void CollisionSystem::ComputeImpulse()
+		void CollisionSystem::ComputeImpulse(Manifold& _manifold)
 		{
 			// 각 물체들이 가지고 있는 속력으로 충격량을 계산함
 
-			// A, B의 질량이 0이라면 운동을 하지 않음
-// 			if (((A->GetInvMass() + B->GetInvMass()) - 0.f) <= 0.000001f)
-// 			{
-// 				A->SetVelocity({ 0.f, 0.f });
-// 				B->SetVelocity({ 0.f, 0.f });
-// 				return;
-// 			}
-// 
-// 			this->sfriction = GetFriction(A->GetStaticFriction(), B->GetStaticFriction());
-// 			this->dfriction = GetFriction(A->GetDynamicFriction(), B->GetDynamicFriction());
-// 			this->e = GetRestitution(A->GetCOR(), B->GetCOR());
-// 
-// 			for (size_t i = 0; i < contactPoints.size(); i++)
-// 			{
-// 				// 질량 중심에서 충돌 지점까지의 벡터
-// 				Vector3D AtoContactPoint = contactPoints[i] - A->GetPosition();
-// 				Vector3D BtoContactPoint = contactPoints[i] - B->GetPosition();
-// 
-// 				// 상대속도
-// 				Vector3D Av = A->GetVelocity() + Cross(A->GetAngularVelocity(), AtoContactPoint);
-// 				Vector3D Bv = B->GetVelocity() + Cross(B->GetAngularVelocity(), BtoContactPoint);
-// 				Vector3D Sv = Bv - Av;
-// 
-// 				// 충돌 지점에서 노말 방향으로의 상대 속도
-// 				float Cv = Sv.Dot(normal);
-// 
-// 				if (Cv > 0.f)
-// 				{
-// 					return;
-// 				}
-// 
-// 				/// 임펄스 공식의 분모 부분임.
-// 				Vector3D AN = AtoContactPoint.Cross(normal);
-// 				Vector3D BN = BtoContactPoint.Cross(normal);
-// 				float invMass = A->GetInvMass() + B->GetInvMass();
-// 				Matrix3x3 invInertia = (AN * AN) * A->GetInvInertia() + (BN * BN) * B->GetInvInertia();
-// 				float numerator = invMass + invInertia;
-// 
-// 				float j = -(1.f + e) * Cv;
-// 
-// 				j /= numerator;
-// 				j /= contactPoints.size();
-// 
-// 				Vector3D impulse = normal * j;
-// 				A->ApplyImpulse(-1.f * impulse, AtoContactPoint);
-// 				B->ApplyImpulse(impulse, BtoContactPoint);
-// 
-// 				/// 마찰
-// 				Av = A->GetVelocity() + Cross(A->GetAngularVelocity(), AtoContactPoint);
-// 				Bv = B->GetVelocity() + Cross(B->GetAngularVelocity(), BtoContactPoint);
-// 				Sv = Bv - Av;
-// 
-// 				// 노말 방향의 상대속도를 구해서 상대속도에서 빼면 그에 수직인 벡터가 나옴
-// 				// Vector3D tangent = tangentVector;
-// 				Vector3D nSv = normal * Sv.Dot(normal);
-// 				Vector3D tangent = (Sv - nSv).Normalize();
-// 
-// 				float jtangent = 1.f * Sv.Dot(tangent);
-// 				jtangent /= numerator;
-// 				jtangent /= contactPoints.size();
-// 
-// 				if (std::fabs(jtangent - 0.0f) <= 0.000001f)
-// 				{
-// 					return;
-// 				}
-// 
-// 				Vector3D tangentImpulse;
-// 				if (std::fabs(jtangent) < (j * sfriction))
-// 				{
-// 					tangentImpulse = tangent * jtangent * -1.f;
-// 				}
-// 				else
-// 				{
-// 					tangentImpulse = tangent * -1.f * j * dfriction;
-// 				}
-// 
-// 				A->ApplyImpulse(-1.f * tangentImpulse, AtoContactPoint);
-// 				B->ApplyImpulse(tangentImpulse, BtoContactPoint);
+			RigidBody* A{ _manifold.GetColliderA()->GetRigidBody() };
+			RigidBody* B{ _manifold.GetColliderB()->GetRigidBody() };
+
+			float systemMass{ A->GetInvMass() + B->GetInvMass() };
+
+			if (systemMass <= Epsilon)
+			{
+				return;
+			}
+
+			float sfriction = ComputeFriction(A->GetStaticFriction(), B->GetStaticFriction());
+			float dfriction = ComputeFriction(A->GetDynamicFriction(), B->GetDynamicFriction());
+			float restitution = A->GetRestitution() < B->GetRestitution() ? B->GetRestitution() : A->GetRestitution();
+
+			for (size_t i = 0; i < _manifold.GetContactPoints().size(); i++)
+			{
+				/// 임펄스 기반 반응 모델
+				// 질량 중심에서 충돌 지점까지의 벡터
+				Vector3D r_1 = _manifold.GetContactPoints()[i]/* - A->GetPosition()*/;
+				Vector3D r_2 = _manifold.GetContactPoints()[i]/* - B->GetPosition()*/;
+
+				// 상대속도
+				Vector3D v_p1 = A->GetVelocity() + A->GetAngularVelocity().Cross(r_1);
+				Vector3D v_p2 = B->GetVelocity() + B->GetAngularVelocity().Cross(r_2);
+				Vector3D v_r = v_p2 - v_p1;
+
+				// 충돌 지점에서 노말 방향으로의 상대 속도
+				float contactVelocity = v_r.Dot(_manifold.GetNormal());
+
+				if (contactVelocity > 0.f)
+				{
+					return;
+				}
+
+				/// 임펄스 공식의 분모 부분.
+				Vector3D inertiaA = (r_1.Cross(_manifold.GetNormal()) * A->GetInvInertia()).Cross(r_1);
+				Vector3D inertiaB = (r_2.Cross(_manifold.GetNormal()) * B->GetInvInertia()).Cross(r_2);
+				float numerator = systemMass + (inertiaA + inertiaB).Dot(_manifold.GetNormal());
+
+				// 임펄스 크기
+				float j = -(1.f + restitution) * contactVelocity;
+				j /= numerator;
+
+				// 임펄스 벡터
+				Vector3D impulse = _manifold.GetNormal() * j;
+				A->ApplyImpulse(-impulse, r_1);
+				B->ApplyImpulse(impulse, r_2);
+
+
+				/// 임펄스 기반 마찰 모델
+				// 마찰 임펄스 방향.
+				// 이 공식은 contactVelocity != 0 일 때 적용되는 공식
+				Vector3D tangent = v_r - (_manifold.GetNormal() * contactVelocity);
+
+				if (tangent == Vector3D::Zero())
+				{
+					return;
+				}
+
+				tangent.Normalize();
+
+				// 임펄스 크기
+				// contactVelocity를 구했던 v_r Dot normal과 비슷하지만 음수가 붙은 점이 다름.
+				float j_t = -v_r.Dot(tangent);
+
+				// 고민이 되는 점은 임펄스 크기를 구하는거면
+				j_t /= numerator;
+
+				//임펄스 벡터
+				Vector3D frictionImpulse;
+
+				// 마찰력 = 수직항력 * 마찰계수
+				// 순간 힘이 일정 마찰력을 넘어간다면 동적 마찰력으로 계산함
+				// m * Dot (v_r, t) <= j_s 
+				if (std::abs(j_t) < j * sfriction)
+				{
+					// j_f = - (m * Dot(v_r, t) * t 
+					frictionImpulse = tangent * j_t;
+				}
+				else
+				{
+					// j_f = - j_d * t
+					frictionImpulse = tangent * -j * dfriction;
+				}
+
+				A->ApplyImpulse(-frictionImpulse, r_1);
+				B->ApplyImpulse(frictionImpulse, r_2);
+			}
 		}
 
-		void CollisionSystem::ComputePosition()
+		void CollisionSystem::ResolveCollision(Manifold& _manifold)
 		{
-			// 각 물체들이 가지고 있는 속력으로 위치를 계산함.
+			RigidBody* A{ _manifold.GetColliderA()->GetRigidBody() };
+			RigidBody* B{ _manifold.GetColliderB()->GetRigidBody() };
+			
+			float invMass{ A->GetInvMass() + B->GetInvMass() };
+
+			if (invMass <= Epsilon)
+			{
+				return;
+			}
+
+			Vector3D resolve;
+			float dist;
+			
+			if ((_manifold.GetDepth() - 0.05f) > Epsilon)
+			{
+				dist = _manifold.GetDepth() - 0.05f;
+			}
+			else
+			{
+				dist = 0.f;
+			}
+
+			resolve = _manifold.GetNormal() * dist / invMass;
+
+			Vector3D Adist = -resolve * A->GetInvMass();
+			Vector3D Bdist = resolve * B->GetInvMass();
 		}
 
-		void CollisionSystem::ResolveCollision()
+		float CollisionSystem::ComputeFriction(float _a, float _b)
 		{
-			// 겹친 만큼 밀어냄
+			return std::powf(_a * _b, 0.5f);
 		}
+
 	}
 }
 
