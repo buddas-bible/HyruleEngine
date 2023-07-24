@@ -29,14 +29,6 @@ namespace Hyrule
 		{
 			return points.size();
 		}
-// 
-// 		void Simplex::SetIndices()
-// 		{
-// 			index.insert({ 0, 2, 1 });
-// 			index.insert({ 0, 1, 3 });
-// 			index.insert({ 0, 3, 2 });
-// 			index.insert({ 2, 3, 1 });
-// 		}
 
 		void Simplex::SetFace()
 		{

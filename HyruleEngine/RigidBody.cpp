@@ -7,21 +7,14 @@
 #include "Vector3D.h"
 #include "IRigidBody.h"
 
+#include "PhysicsSystem.h"
+
 namespace Hyrule
 {
 	RigidBody::RigidBody(GameObject* _gameObject) noexcept :
 		Component(_gameObject), rigidbody()
 	{
-		
-	}
-
-	void RigidBody::LinkRigidBody()
-	{
-		auto g = gameObject->GetName();
-		auto s = gameObject->GetScene()->GetName();
-
-		// 여기서 씬 이름과 오브젝트 이름을 넘겨주고
-		// 해당 오브젝트의 리지드바디를 받아서?
+		rigidbody = PhysicsSystem::GetInstance().CreateRigidBody(gameObject->GetName());
 	}
 
 	void RigidBody::AddForce(const Hyrule::Vector3D& _force) const noexcept
@@ -69,11 +62,6 @@ namespace Hyrule
 		return rigidbody->isSleeping();
 	}
 
-	void RigidBody::isSleeping(const bool) noexcept
-	{
-
-	}
-
 	bool RigidBody::isKinematic() const noexcept
 	{
 		return false;
@@ -82,5 +70,20 @@ namespace Hyrule
 	void RigidBody::isKinematic(const bool) noexcept
 	{
 
+	}
+
+	void RigidBody::OnEnable()
+	{
+		rigidbody->OnEnable();
+	}
+
+	void RigidBody::OnDisable()
+	{
+		rigidbody->OnDisable();
+	}
+
+	void RigidBody::OnDestroy()
+	{
+		rigidbody->OnDestroy();
 	}
 }

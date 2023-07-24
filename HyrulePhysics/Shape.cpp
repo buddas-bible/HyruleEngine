@@ -26,8 +26,6 @@ namespace Hyrule
 
 		std::shared_ptr<ConvexShape> Shapes::CreateConvexShape(const std::wstring& _name, SHAPE_INPO* _info)
 		{
-			// (Shapes::convexShapes)[_name] = std::make_shared<ConvexShape>(_info);
-
 			return GetShape(_name);
 		}
 

@@ -2,6 +2,7 @@
 #include "Component.h"
 
 #include <map>
+#include <vector>
 
 namespace Hyrule
 {
@@ -15,8 +16,8 @@ namespace Hyrule
 		virtual ~Controller() noexcept = default;
 
 	private:
-		std::map<int, GameObject*> controlMap;
-		GameObject* controlObject;
+		std::map<int, std::vector<GameObject*>> controlMap;
+		std::vector<GameObject*> controlObject;
 
 
 

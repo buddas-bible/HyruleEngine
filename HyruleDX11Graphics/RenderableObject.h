@@ -24,6 +24,11 @@ namespace Hyrule
 		) noexcept;
 		~RenderableObject() noexcept = default;
 
+		template <typename T>
+		using Comptr = Microsoft::WRL::ComPtr<T>;
+
+		Comptr<ID3D11RasterizerState2> m_currRasterizerState;
+
 	public:
 		void SetTexture(const std::shared_ptr<DXTexture>) noexcept;
 		virtual void SetWorldTransform(const Matrix4x4&) noexcept override;

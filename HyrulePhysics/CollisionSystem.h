@@ -25,7 +25,6 @@ namespace Hyrule
 			/// GJK 충돌 감지
 			/// </summary>
 			static bool GJKCollisionDetection(Collider*, Collider*, Manifold&);
-			// bool CollisionCheck2(Collider*, Collider*);
 			
 			/// <summary>
 			/// EPA 침투 깊이 계산

@@ -22,7 +22,6 @@ namespace Hyrule
 	private:
 		Physics::IRigidBody* rigidbody;
 
-		void LinkRigidBody();
 
 	public:
 		void AddForce(const Vector3D&) const noexcept;
@@ -42,7 +41,6 @@ namespace Hyrule
 		Hyrule::Vector3D GetAngularVelocity() const noexcept;
 
 		bool isSleeping() const noexcept;
-		void isSleeping(const bool) noexcept;
 
 		bool isKinematic() const noexcept;
 		void isKinematic(const bool) noexcept;
@@ -72,9 +70,9 @@ namespace Hyrule
 		virtual void OnCollisionStay() override {}
 		virtual void OnCollisionExit() override {}
 
-		virtual void OnEnable() override {}
-		virtual void OnDisable() override {}
-		virtual void OnDestroy() override {};
+		virtual void OnEnable() override;
+		virtual void OnDisable() override;
+		virtual void OnDestroy() override;
 	};
 }
 

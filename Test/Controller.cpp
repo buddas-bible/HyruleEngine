@@ -9,7 +9,7 @@
 namespace Hyrule
 {
 	Controller::Controller(GameObject* _gameObject) noexcept : 
-		Component(_gameObject), controlMap()
+		Component(_gameObject)
 	{
 
 	}
@@ -21,7 +21,7 @@ namespace Hyrule
 			return;
 		}
 
-		controlMap.insert(std::make_pair(_key, _obj));
+		controlMap[_key].push_back(_obj);
 	}
 
 	void Controller::Awake()
@@ -52,11 +52,66 @@ namespace Hyrule
 			}
 		}
 
-		if (controlObject == nullptr)
+		if (controlObject.empty())
 		{
 			return;
 		}
 
+		for (auto& e : controlObject)
+		{
+			Quaternion currR = e->GetTransform()->GetLocalQuaternion();
+			if (input.KeyPress(VK_UP))
+			{
+				auto q = ToQuaternion(Vector3D::Right(), -5.f * dt);
+				currR *= q;
+			}
+			if (input.KeyPress(VK_DOWN))
+			{
+				auto q = ToQuaternion(Vector3D::Right(), 5.f * dt);
+				currR *= q;
+			}
+			if (input.KeyPress(VK_LEFT))
+			{
+				auto q = ToQuaternion(Vector3D::Up(), -5.f * dt);
+				currR *= q;
+			}
+			if (input.KeyPress(VK_RIGHT))
+			{
+				auto q = ToQuaternion(Vector3D::Up(), 5.f * dt);
+				currR *= q;
+			}
+			e->GetTransform()->SetLocalQuaternion(currR);
+
+			Matrix4x4 mat = ToMatrix4(currR);
+			Vector3D currP = e->GetTransform()->GetLocalPosition();
+			if (input.KeyPress('W'))
+			{
+				currP += mat.Look() * 5.f * dt;
+			}
+			if (input.KeyPress('S'))
+			{
+				currP -= mat.Look() * 5.f * dt;
+			}
+			if (input.KeyPress('D'))
+			{
+				currP += mat.Right() * 5.f * dt;
+			}
+			if (input.KeyPress('A'))
+			{
+				currP -= mat.Right() * 5.f * dt;
+			}
+			if (input.KeyPress('E'))
+			{
+				currP += mat.Up() * 5.f * dt;
+			}
+			if (input.KeyPress('Q'))
+			{
+				currP -= mat.Up() * 5.f * dt;
+			}
+			e->GetTransform()->SetLocalPosition(currP);
+		}
+
+		/*
 		Quaternion currR = controlObject->GetTransform()->GetLocalQuaternion();
 		if (input.KeyPress(VK_UP))
 		{
@@ -84,7 +139,7 @@ namespace Hyrule
 		Vector3D currP = controlObject->GetTransform()->GetLocalPosition();
 		if (input.KeyPress('W'))
 		{
-			currP +=  mat.Look() * 1.f * dt;
+			currP += mat.Look() * 1.f * dt;
 		}
 		if (input.KeyPress('S'))
 		{
@@ -107,6 +162,7 @@ namespace Hyrule
 			currP -= mat.Up() * 10.f * dt;
 		}
 		controlObject->GetTransform()->SetLocalPosition(currP);
+		*/
 	}
 
 	void Controller::LateUpdate()

@@ -10,11 +10,11 @@
 // class has_Length
 // {
 // 	template <typename T>
-// 	static float Length(decltype(&T::GetLength));
+// 	static float Length(decltype(&T::ㅍGetLength));
 // 
 // 	template <typename T>
 // 	static char Length();
-// 
+// ㅍ
 // public:
 // 	enum
 // 	{
@@ -62,16 +62,16 @@ namespace Hyrule
 				Node() noexcept = delete;
 				Node(const Vector3D& _centre, float _length, size_t _depth) :
 					aabb(_centre, _length),
-					depth(_depth), child(), dataList()
+					depth(_depth), children(), dataList()
 				{}
 				~Node() noexcept
 				{
-					for (auto& e : child)
+					for (auto& child : children)
 					{
-						if (e != nullptr)
+						if (child != nullptr)
 						{
-							delete e;
-							e = nullptr;
+							delete child;
+							child = nullptr;
 						}
 					}
 				}
@@ -79,7 +79,7 @@ namespace Hyrule
 			private:
 				const size_t depth;				// 현재 깊이
 				AABB aabb;
-				Node* child[8]{};				// 자식 노드
+				Node* children[8];				// 자식 노드
 				std::list<DataType> dataList;
 
 			public:
@@ -92,6 +92,12 @@ namespace Hyrule
 				// 콜라이더 체크를 위해서 반환하는 것임.
 				void GetDataList(std::vector<std::list<DataType>>& _container)
 				{
+					if (depth == 0)
+					{
+						_container.push_back(dataList);
+						return;
+					}
+
 					// 노드에 데이터 개수가 2개 이하면 패스
 					if (dataList.size() < 2)
 					{
@@ -99,23 +105,23 @@ namespace Hyrule
 					}
 
 					// 노드에 데이터 개수가 6개 이상이면 자식 탐색
-					if (dataList.size() > 5)
-					{
-						for (auto& e : child)
-						{
-							if (e == nullptr)
-							{
-								continue;
-							}
-
-							e->GetDataList(_container);
-						}
-					}
-					else
-					{
+					// if (dataList.size() > 5)
+					// {
+					// 	for (auto& e : children)
+					// 	{
+					// 		if (e == nullptr)
+					// 		{
+					// 			continue;
+					// 		}
+					// 
+					// 		e->GetDataList(_container);
+					// 	}
+					// }
+					// else
+					// {
 						_container.push_back(dataList);
 						return;
-					}
+					// }
 				}
 
 				/// <summary>
@@ -133,9 +139,9 @@ namespace Hyrule
 					}
 
 					Vector3D pos{ _data->GetPosition() };
-					float L{ _data->GetLength() * 2.f };
+					float length{ _data->GetLength() * 2.f };
 
-					AABB dataBoundingBox{ pos, L };
+					AABB dataBoundingBox{ pos, length };
 
 					for (size_t i = 0; i < 8; ++i)
 					{
@@ -144,16 +150,19 @@ namespace Hyrule
 
 						this->GetChildCenter(i, tempCenter, tempHalfLength);
 
-						AABB childBoundingBox{ tempCenter - tempHalfLength, tempCenter + tempHalfLength };
+						AABB childBoundingBox{ tempCenter, aabb.length / 2 };
 
 						// 자식 노드의 AABB를 계산해서 데이터의 AABB와 충돌 하는지 체크
 						if (childBoundingBox.CollidingAABB(dataBoundingBox))
 						{
 							// 충돌하면 노드를 생성함.
-							child[i] = new Node(tempCenter - tempHalfLength, aabb.length * 0.5f, _depth - 1);
+							if (children[i] == nullptr)
+							{
+								children[i] = new Node(tempCenter, aabb.length / 2, _depth - 1);
+							}
 
 							// 해당 노드의 AddData를 호출함.
-							child[i]->AddData(child[i], _data, _depth - 1);
+							children[i]->AddData(children[i], _data, _depth - 1);
 						}
 					}
 				}
@@ -176,7 +185,7 @@ namespace Hyrule
 
 					// for문으로 자식 노드에 데이터 삭제 함수를 호출
 					// 재귀 돌면서 자식 노드의 데이터를 삭제
-					for (auto& e : child)
+					for (auto& e : children)
 					{
 						if (e == nullptr)
 							continue;
@@ -232,7 +241,7 @@ namespace Hyrule
 
 		private:
 			const size_t DepthLimit;
-			Node* root{};
+			Node* root;
 			
 		public:
 			std::vector<std::list<DataType>> searchDataContainer;
@@ -261,7 +270,11 @@ namespace Hyrule
 
 			void DataListClear()
 			{
-				Octree::searchDataContainer.clear();
+				for (auto e : searchDataContainer)
+				{
+					e.clear();
+				}
+				searchDataContainer.clear();
 			}
 		};
 	}

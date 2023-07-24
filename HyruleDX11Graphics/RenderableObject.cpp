@@ -58,12 +58,12 @@ namespace Hyrule
 #if _DEBUG
 	void RenderableObject::OnCollisionEnter() noexcept
 	{
-		currState->SetWireState();
+		m_currRasterizerState = currState->GetWireRasterizerState();
 	}
 
 	void RenderableObject::OnCollisionExit() noexcept
 	{
-		currState->SetSolidState();
+		m_currRasterizerState = currState->GetSolidRasterizerState();
 	}
 #endif
 
@@ -74,7 +74,7 @@ namespace Hyrule
 
 	void RenderableObject::Render() noexcept
 	{
-		device->GetDeviceContext()->RSSetState(currState->GetCurrRasterizerState());
+		device->GetDeviceContext()->RSSetState(m_currRasterizerState.Get());
 		device->GetDeviceContext()->IASetInputLayout(InputLayouts::PUNLayout->GetInputLayout());
 		device->GetDeviceContext()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

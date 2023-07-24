@@ -63,6 +63,10 @@ namespace Hyrule
 			}
 			colliderTable.clear();
 			collisionInfo.clear();
+			for (auto& e : collisionInfo)
+			{
+				e.Clear();
+			}
 
 
 			auto& nodes{ ObjectManager::GetInstance().GetNodeContainer() };
@@ -110,6 +114,12 @@ namespace Hyrule
 						{
 							collisionInfo.push_back(manifold);
 							CollisionSystem::EPAComputePenetrationDepth(manifold);
+
+							// 접촉점도 찾아야함.
+						}
+						else
+						{
+							manifold.Clear();
 						}
 
 						/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
@@ -122,11 +132,6 @@ namespace Hyrule
 						(*itr2)->SetCollied(true);
 					}
 				}
-			}
-
-			for (auto& e : collisionInfo)
-			{
-				e.Clear();
 			}
 
 			ObjectManager::GetInstance().NodeContainerClear();

@@ -8,6 +8,7 @@
 #include "SphereCollider.h"
 #include "CubeRenderer.h"
 #include "SphereRenderer.h"
+#include "RigidBody.h"
 
 #include "Controller.h"
 #include "Camera.h"
@@ -20,52 +21,44 @@ namespace Hyrule
 
 	void Scene01::Load() noexcept
 	{
-		GameObject* box = CreateGameObject(L"Box01");
-		box->AddComponent<CubeRenderer>();
-		box->GetTransform()->SetLocalPosition(Vector3D(3.f, 0.f, 0.f));
-		box->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-		box->AddComponent<BoxCollider>();
+		GameObject* controller = CreateGameObject(L"Controller");
+		Controller* con = controller->AddComponent<Controller>();
 
+		float x = 1.f;
+		float y = 1.f;
+		float z = 1.f;
 
+		for (auto i = 0; i < 10; i++)
+		{
+			if (i & 1)
+			{
+				x *= -1.f;
+			}
+			if (i & 2)
+			{
+				y *= -1.f;
+			}
+			if (i & 4)
+			{
+				z *= -1.f;
+			}
 
-		GameObject* box02 = CreateGameObject(L"Box02");
-		box02->AddComponent<CubeRenderer>();
-		box02->GetTransform()->SetLocalPosition(Vector3D(100.f, 10.f, 100.f));
-		box02->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-		box02->AddComponent<BoxCollider>();
+			GameObject* box = CreateGameObject(L"Box0" + std::to_wstring(i));
+			box->AddComponent<CubeRenderer>();
+			box->GetTransform()->SetLocalPosition(Vector3D(0.f + 5.f * x * i, 0.f + 5.f * y * i, 0.f + 5.f * z * i));
+			box->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+			box->AddComponent<BoxCollider>();
 
-		GameObject* box03 = CreateGameObject(L"Box03");
-		box03->AddComponent<CubeRenderer>();
-		box03->GetTransform()->SetLocalPosition(Vector3D(-100.f, 10.f, 100.f));
-		box03->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-		box03->AddComponent<BoxCollider>();
-
-		GameObject* box04 = CreateGameObject(L"Box04");
-		box04->AddComponent<CubeRenderer>();
-		box04->GetTransform()->SetLocalPosition(Vector3D(100.f, -10.f, -100.f));
-		box04->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-		box04->AddComponent<BoxCollider>();
-
-		GameObject* box05 = CreateGameObject(L"Box05");
-		box05->AddComponent<CubeRenderer>();
-		box05->GetTransform()->SetLocalPosition(Vector3D(-100.f, 10.f, -100.f));
-		box05->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-		box05->AddComponent<BoxCollider>();
-
-
+			con->AddControllableObject(VK_F1, box);
+		}
 
 		GameObject* sphere = CreateGameObject(L"Sphere01");
 		sphere->AddComponent<SphereRenderer>();
 		sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
 		sphere->AddComponent<SphereCollider>();
-	
+		sphere->AddComponent<RigidBody>();
 
-
-		GameObject* controller = CreateGameObject(L"Controller");
-		Controller* con = controller->AddComponent<Controller>();
-		con->AddControllableObject(VK_F1, box);
 		con->AddControllableObject(VK_F2, sphere);
-		con->AddControllableObject(VK_F3, mainCamera->gameObject);
+		con->AddControllableObject(VK_F1, mainCamera->gameObject);
 	}
-
 }
