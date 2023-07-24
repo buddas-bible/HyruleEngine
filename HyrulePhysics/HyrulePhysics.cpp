@@ -63,6 +63,7 @@ namespace Hyrule
 			}
 			colliderTable.clear();
 			collisionInfo.clear();
+
 			for (auto& e : collisionInfo)
 			{
 				e.Clear();
