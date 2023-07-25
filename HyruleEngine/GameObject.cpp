@@ -114,6 +114,30 @@ namespace Hyrule
 		}
 	}
 
+	void GameObject::PrePhysicsUpdate()
+	{
+		for (auto& e : components)
+		{
+			e.second->PrePhysicsUpdate();
+		}
+	}
+
+	void GameObject::PhysicsUpdate()
+	{
+		for (auto& e : components)
+		{
+			e.second->PhysicsUpdate();
+		}
+	}
+
+	void GameObject::LatePhysicsUpdate()
+	{
+		for (auto& e : components)
+		{
+			e.second->LatePhysicsUpdate();
+		}
+	}
+
 	void GameObject::Update()
 	{
 		for (auto& e : components)

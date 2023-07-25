@@ -58,6 +58,11 @@ namespace Hyrule
 #if _DEBUG
 	void RenderableObject::OnCollisionEnter() noexcept
 	{
+
+	}
+
+	void RenderableObject::OnCollisionStay() noexcept
+	{
 		m_currRasterizerState = currState->GetWireRasterizerState();
 	}
 

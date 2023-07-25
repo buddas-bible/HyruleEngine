@@ -31,8 +31,8 @@ namespace Hyrule
 			virtual void OnDestroy() noexcept override;
 			
 		private:
-			Vector3D position;
-			Quaternion rotation{ 1.f, 0.f, 0.f, 0.f };
+			// Vector3D position;
+			// Quaternion rotation{ 1.f, 0.f, 0.f, 0.f };
 
 		private:
 			/// <summary>

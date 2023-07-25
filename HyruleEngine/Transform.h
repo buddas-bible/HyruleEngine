@@ -41,14 +41,16 @@ namespace Hyrule
 		Vector3D GetLocalScale() noexcept;
 		Vector3D GetWorldScale() noexcept;
 		void SetLocalScale(const Vector3D&) noexcept;
-		
+
+		Matrix4x4 GetParentWorldMatrix() noexcept;
+
 		Vector3D GetUp() noexcept;
 		Vector3D GetForward() noexcept;
 		Vector3D GetRight() noexcept;
-		
+
 		Matrix4x4 GetLocalMatrix() noexcept;
 		Matrix4x4 GetWorldMatrix() noexcept;
-		
+
 
 	public:
 		/// <summary>
@@ -67,12 +69,15 @@ namespace Hyrule
 		Transform* FindChild(const std::wstring&) noexcept;
 
 	public:
-		virtual void Awake() override {}
-		virtual void Start() override {}
-		virtual void FixedUpdate() override {}
-		virtual void Update() override {}
-		virtual void LateUpdate() override {}
-		virtual void Render() override {}
+		virtual void Awake() final {}
+		virtual void Start() final {}
+		virtual void FixedUpdate() final {}
+		virtual void PrePhysicsUpdate() final {};
+		virtual void PhysicsUpdate() final {};
+		virtual void LatePhysicsUpdate() final {};
+		virtual void Update() final {}
+		virtual void LateUpdate() final {}
+		virtual void Render() final {}
 
 		// 		virtual void OnTriggerEnter(Collider*) override {}
 		// 		virtual void OnTriggerStay(Collider*) override {}
@@ -82,17 +87,17 @@ namespace Hyrule
 		// 		virtual void OnTriggerStay() override;
 		// 		virtual void OnTriggerExit() override;
 
-		virtual void OnCollisionEnter(Collider*) override {}
-		virtual void OnCollisionStay(Collider*) override {}
-		virtual void OnCollisionExit(Collider*) override {}
+		virtual void OnCollisionEnter(Collider*) final {}
+		virtual void OnCollisionStay(Collider*) final {}
+		virtual void OnCollisionExit(Collider*) final {}
 
-		virtual void OnCollisionEnter() override {}
-		virtual void OnCollisionStay() override {}
-		virtual void OnCollisionExit() override {}
+		virtual void OnCollisionEnter() final {}
+		virtual void OnCollisionStay() final {}
+		virtual void OnCollisionExit() final {}
 
-		virtual void OnEnable() override {}
-		virtual void OnDisable() override {}
-		virtual void OnDestroy() override;
+		virtual void OnEnable() final {}
+		virtual void OnDisable() final {}
+		virtual void OnDestroy() final;
 	};
 }
 

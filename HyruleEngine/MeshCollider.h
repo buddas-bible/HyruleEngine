@@ -19,7 +19,7 @@ namespace Hyrule
 		virtual ~MeshCollider() noexcept;
 
 	private:
-		// bool isColliding;
+		bool isColliding;
 		Physics::ICollider* collider;
 
 	public:
@@ -33,6 +33,9 @@ namespace Hyrule
 		// virtual void Awake() abstract;
 		// virtual void Start() abstract;
 		virtual void FixedUpdate() override;
+		virtual void PrePhysicsUpdate() override;
+		virtual void PhysicsUpdate() override;
+		virtual void LatePhysicsUpdate() override;
 		virtual void Update() override;
 		// virtual void LateUpdate() abstract;
 		// virtual void Render() abstract;

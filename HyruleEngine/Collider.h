@@ -30,6 +30,9 @@ namespace Hyrule
 		virtual void Awake() final {};
 		virtual void Start() final {};
 		virtual void FixedUpdate() abstract;
+		virtual void PrePhysicsUpdate() abstract;
+		virtual void PhysicsUpdate() abstract;
+		virtual void LatePhysicsUpdate() abstract;
 		virtual void Update() abstract;
 		virtual void LateUpdate() final {};
 		virtual void Render() final {};

@@ -81,6 +81,18 @@ namespace Hyrule
 		this->scale = _scl;
 	}
 
+	Matrix4x4 Transform::GetParentWorldMatrix() noexcept
+	{
+		if (parent)
+		{
+			return parent->GetWorldMatrix();
+		}
+		else
+		{
+			return Matrix4x4::Identity();
+		}
+	}
+
 	Vector3D Transform::GetUp() noexcept
 	{
 		if (parent != nullptr)

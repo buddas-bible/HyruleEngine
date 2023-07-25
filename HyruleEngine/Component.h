@@ -19,6 +19,9 @@ namespace Hyrule
 		virtual void Awake() abstract;
 		virtual void Start() abstract;
 		virtual void FixedUpdate() abstract;
+		virtual void PrePhysicsUpdate() abstract;
+		virtual void PhysicsUpdate() abstract;
+		virtual void LatePhysicsUpdate() abstract;
 		virtual void Update() abstract;
 		virtual void LateUpdate() abstract;
 		virtual void Render() abstract;

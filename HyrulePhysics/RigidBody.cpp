@@ -47,9 +47,16 @@ namespace Hyrule
 			return this->invMess;
 		}
 
-		Hyrule::Vector3D RigidBody::GetPosition() noexcept
+		Vector3D RigidBody::GetPosition() noexcept
 		{
-			return this->position;
+			if (object)
+			{
+				return object->GetPosition();
+			}
+			else
+			{
+				return Vector3D();
+			}
 		}
 
 		void RigidBody::SetPosition(const Vector3D& _pos) noexcept
@@ -59,7 +66,7 @@ namespace Hyrule
 				return;
 			}
 
-			this->position = _pos;
+			object->GetPosition() = _pos;
 		}
 
 		float RigidBody::GetStaticFriction() noexcept
@@ -139,9 +146,12 @@ namespace Hyrule
 				return;
 			}
 
-			this->position += this->velocity * _dt;
+			Vector3D& position{ object->GetPosition() };
+			Quaternion& rotation{ object->GetRotation() };
 
-			this->rotation *= ToQuaternion(
+			position += this->velocity * _dt;
+
+			rotation *= ToQuaternion(
 				this->angularVelocity.Normalized(), 
 				this->angularVelocity.Length() * _dt
 			);
@@ -253,11 +263,7 @@ namespace Hyrule
 
 		Hyrule::Matrix4x4 RigidBody::Apply() noexcept
 		{
-			Matrix4x4 mat{ ToTransformMatrix(position, rotation, 1.f) * this->object->GetWorldTM() };
-			this->position = {};
-			this->rotation = { 1.f, 0.f, 0.f, 0.f };
-			
-			return mat;
+			return object->GetWorldTM();
 		}
 #pragma endregion GetSet
 

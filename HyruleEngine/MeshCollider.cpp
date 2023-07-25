@@ -41,19 +41,39 @@ namespace Hyrule
 
 	void MeshCollider::FixedUpdate()
 	{
+
+	}
+
+	void MeshCollider::PrePhysicsUpdate()
+	{
 		collider->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
+	}
+
+	void MeshCollider::PhysicsUpdate()
+	{
+		if (isCollision() == true || isColliding == false)
+		{
+			gameObject->OnCollisionEnter();
+		}
+		else if (isCollision() == true || isColliding == true)
+		{
+			gameObject->OnCollisionStay();
+		}
+		else if (isCollision() == false || isColliding == true)
+		{
+			gameObject->OnCollisionExit();
+		}
+
+		isColliding = this->isCollision();
+	}
+
+	void MeshCollider::LatePhysicsUpdate()
+	{
+
 	}
 
 	void MeshCollider::Update()
 	{
-		if (isCollision() == true)
-		{
-			gameObject->OnCollisionEnter();
-		}
-		else
-		{
-			gameObject->OnCollisionExit();
-		}
 	}
 
 	void MeshCollider::OnEnable()

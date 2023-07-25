@@ -36,11 +36,13 @@ namespace Hyrule
 				while (accumulatedTime >= fixedDeltaTime)
 				{
 					SceneManager::GetInstance().FixedUpdate();
+					
+					/// 콜라이더랑 리지드바디만 따로 모아서 관리할 수 있으면 좋을거 같긴 함.
+					SceneManager::GetInstance().PrePhysicsUpdate();				// 콜라이더 매트릭스 업데이트
 					PhysicsSystem::GetInstance().CollisionDetection();
-
-					/// 이쯤 어딘가에서 Manifold 가지고 뭔가를 해야함.
-
+					SceneManager::GetInstance().PhysicsUpdate();				// 콜라이더 충돌 여부 확인
 					PhysicsSystem::GetInstance().CollisionResponse(TimeSystem::GetInstance().GetfDeltaTime());
+					SceneManager::GetInstance().LatePhysicsUpdate();			// 리지드바디 시뮬레이션 내용 적용
 
 					accumulatedTime -= fixedDeltaTime;
 

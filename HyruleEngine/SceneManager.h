@@ -38,8 +38,11 @@ namespace Hyrule
 		void OnDisable();
 
 		void Start();
-		void PhysicsUpdate();
 		void FixedUpdate();
+
+		void PrePhysicsUpdate();
+		void PhysicsUpdate();
+		void LatePhysicsUpdate();
 
 		void OnCollision();
 

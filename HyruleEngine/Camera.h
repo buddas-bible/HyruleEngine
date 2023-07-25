@@ -56,6 +56,9 @@ namespace Hyrule
 		virtual void Awake() override;
 		virtual void Start() override {};
 		virtual void FixedUpdate() override {};
+		virtual void PrePhysicsUpdate() override {};
+		virtual void PhysicsUpdate() override {};
+		virtual void LatePhysicsUpdate() override {};
 		virtual void Update() override {};
 		virtual void LateUpdate() override;
 		virtual void Render() override {};

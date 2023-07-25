@@ -65,6 +65,35 @@ namespace Hyrule
 		return ToScaleMatrix(_scl) * ToMatrix4(_rot) * ToTranslateMatrix(_pos);
 	}
 
+
+	Vector3D DecomposPosition(const Matrix4x4& _mat) noexcept
+	{
+		return Vector3D(_mat.e30, _mat.e31, _mat.e32);
+	}
+
+	Quaternion DecomposRotation(const Matrix4x4& _mat) noexcept
+	{
+		Vector3D scl{ DecomposScale(_mat) };
+
+		Matrix1x3 row00{ _mat.e00, _mat.e01, _mat.e02 };
+		row00 /= scl.x;
+		Matrix1x3 row01{ _mat.e10, _mat.e11, _mat.e12 };
+		row01 /= scl.y;
+		Matrix1x3 row02{ _mat.e20, _mat.e21, _mat.e22 };
+		row02 /= scl.z;
+
+		return ToQuaternion({ row00 , row01, row02 });
+	}
+
+	Vector3D DecomposScale(const Matrix4x4& _mat) noexcept
+	{
+		return Vector3D(
+			Vector3D(_mat.e00, _mat.e01, _mat.e02).Length(), 
+			Vector3D(_mat.e10, _mat.e11, _mat.e12).Length(), 
+			Vector3D(_mat.e20, _mat.e21, _mat.e22).Length()
+		);
+	}
+
 	/// <summary>
 	/// 트랜스폼 행렬 분해?
 	/// </summary>
@@ -87,11 +116,13 @@ namespace Hyrule
 		rotationMatrix.m[2] /= _scl.z;
 
 		// 회전 행렬을 쿼터니언으로 변환
-		_rot = ToQuaternion({
-			rotationMatrix.e00, rotationMatrix.e01, rotationMatrix.e02,
-			rotationMatrix.e10, rotationMatrix.e11, rotationMatrix.e12,
-			rotationMatrix.e20, rotationMatrix.e21, rotationMatrix.e22
-			});
+		_rot = ToQuaternion(
+			{
+				rotationMatrix.e00, rotationMatrix.e01, rotationMatrix.e02,
+				rotationMatrix.e10, rotationMatrix.e11, rotationMatrix.e12,
+				rotationMatrix.e20, rotationMatrix.e21, rotationMatrix.e22
+			}
+		);
 	}
 
 	/// <summary>
@@ -171,10 +202,20 @@ namespace Hyrule
 		return ((factorA * q1N) + (factorB * q2N)).Normalized();
 	}
 
+	Vector3D VectorRotateFromQuaternion(const Vector3D& _vec, const Quaternion& _q) noexcept
+	{
+		Quaternion q_con{ _q.Conjugate() };
+		Quaternion vec{ 0.f, _vec.x, _vec.y, _vec.z };
+
+		Quaternion result{ _q * vec * q_con };
+
+		return Vector3D(result.x, result.y, result.z);
+	}
+
 	/// <summary>
 	/// 벡터를 목표하는 벡터로 변환하기 위한 쿼터니언을 반환
 	/// </summary>
-	Quaternion RotateVectorToVectorQuaternion(const Vector3D& _from, const Vector3D& _to)
+	Quaternion RotateVectorToVectorQuaternion(const Vector3D& _from, const Vector3D& _to) noexcept
 	{
 		Vector3D normalizedFrom = _from.Normalized();
 		Vector3D normalizedTo = _to.Normalized();
@@ -220,31 +261,26 @@ namespace Hyrule
 	/// </summary>
 	Quaternion ToQuaternion(const Vector4D& _axisAngle) noexcept
 	{
-		float angleRad = ToRadian(_axisAngle.w);
-
-		// 쿼터니언 회전을 할 때
-		// 쿼터니언을 앞에서 곱하는 것과 뒤에서 곱하는 것이 다른 쿼터니언의 특성을 살려서
-		// 각도를 반으로 나눠서 샌드위치로 감싸는 것.
-		// 덕분에 실수부는 유지가 되고 회전이 가능하게 됨.
-		float halfAngle = angleRad * 0.5f;
-		float sinHalfAngle = std::sin(halfAngle);
-
 		Vector3D axis = Vector3D(_axisAngle.x, _axisAngle.y, _axisAngle.z).Normalized();
-		Quaternion q;
-		q.w = std::cos(halfAngle);
-		q.x = axis.x * sinHalfAngle;
-		q.y = axis.y * sinHalfAngle;
-		q.z = axis.z * sinHalfAngle;
+		float halfAngle = _axisAngle.w * 0.5f;
+		float sinhalf = std::sinf(halfAngle);
+		float coshalf = std::cosf(halfAngle);
 
-		return q;
+		return Quaternion
+		{
+			coshalf,
+			axis.x* sinhalf,
+			axis.y* sinhalf,
+			axis.z* sinhalf
+		};
 	}
 
 	Quaternion ToQuaternion(const Vector3D& _axis, float _angle) noexcept
 	{
 		Vector3D axis = _axis.Normalized();
-		float half = _angle * 0.5f;
-		float sinhalf = std::sinf(half);
-		float coshalf = std::cosf(half);
+		float halfAngle = _angle * 0.5f;
+		float sinhalf = std::sinf(halfAngle);
+		float coshalf = std::cosf(halfAngle);
 
 		return Quaternion
 		(
@@ -259,6 +295,48 @@ namespace Hyrule
 	/// 회전 행렬을 쿼터니언으로 바꿈
 	/// </summary>
 	Quaternion ToQuaternion(const Matrix3x3& _rotMatrix) noexcept
+	{
+		Quaternion quaternion;
+
+		float trace = _rotMatrix.e00 + _rotMatrix.e11 + _rotMatrix.e22;
+
+		if (trace > 0.0f) {
+			float s = 0.5f / std::sqrt(trace + 1.0f);
+			quaternion.w = 0.25f / s;
+			quaternion.x = (_rotMatrix.e21 - _rotMatrix.e12) * s;
+			quaternion.y = (_rotMatrix.e02 - _rotMatrix.e20) * s;
+			quaternion.z = (_rotMatrix.e10 - _rotMatrix.e01) * s;
+		}
+		else
+		{
+			if (_rotMatrix.e00 > _rotMatrix.e11 && _rotMatrix.e00 > _rotMatrix.e22)
+			{
+				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e00 - _rotMatrix.e11 - _rotMatrix.e22);
+				quaternion.w = (_rotMatrix.e21 - _rotMatrix.e12) / s;
+				quaternion.x = 0.25f * s;
+				quaternion.y = (_rotMatrix.e01 + _rotMatrix.e10) / s;
+				quaternion.z = (_rotMatrix.e02 + _rotMatrix.e20) / s;
+			}
+			else if (_rotMatrix.e11 > _rotMatrix.e22) {
+				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e11 - _rotMatrix.e00 - _rotMatrix.e22);
+				quaternion.w = (_rotMatrix.e02 - _rotMatrix.e20) / s;
+				quaternion.x = (_rotMatrix.e01 + _rotMatrix.e10) / s;
+				quaternion.y = 0.25f * s;
+				quaternion.z = (_rotMatrix.e12 + _rotMatrix.e21) / s;
+			}
+			else {
+				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e22 - _rotMatrix.e00 - _rotMatrix.e11);
+				quaternion.w = (_rotMatrix.e10 - _rotMatrix.e01) / s;
+				quaternion.x = (_rotMatrix.e02 + _rotMatrix.e20) / s;
+				quaternion.y = (_rotMatrix.e12 + _rotMatrix.e21) / s;
+				quaternion.z = 0.25f * s;
+			}
+		}
+
+		return quaternion;
+	}
+
+	Quaternion ToQuaternion(const Matrix4x4& _rotMatrix) noexcept
 	{
 		Quaternion quaternion;
 
@@ -329,6 +407,9 @@ namespace Hyrule
 		return euler;
 	}
 
+	/// <summary>
+	/// 쿼터니언을 축각으로 바꿈
+	/// </summary>
 	Vector4D ToAxisAngle(const Quaternion& _q) noexcept
 	{
 		float squaredLength = _q.LengthSquare();
@@ -344,6 +425,39 @@ namespace Hyrule
 		float sinAngle = std::sqrt(1.0f - _q.w * _q.w) * inverseLength;
 
 		return Vector4D(_q.x * inverseLength, _q.y * inverseLength, _q.z * inverseLength, angle);
+	}
+
+	/// <summary>
+	/// 쿼터니언을 행렬로 바꿈
+	/// </summary>
+	Matrix3x3 ToMatrix3(const Quaternion& _q) noexcept
+	{
+		Matrix3x3 matrix;
+
+		const float w2 = _q.w * _q.w;
+		const float x2 = _q.x * _q.x;
+		const float y2 = _q.y * _q.y;
+		const float z2 = _q.z * _q.z;
+		const float xy = _q.x * _q.y;
+		const float xz = _q.x * _q.z;
+		const float yz = _q.y * _q.z;
+		const float wx = _q.w * _q.x;
+		const float wy = _q.w * _q.y;
+		const float wz = _q.w * _q.z;
+
+		matrix.e00 = 1.0f - 2.0f * (y2 + z2);
+		matrix.e01 = 2.0f * (xy + wz);
+		matrix.e02 = 2.0f * (xz - wy);
+
+		matrix.e10 = 2.0f * (xy - wz);
+		matrix.e11 = 1.0f - 2.0f * (x2 + z2);
+		matrix.e12 = 2.0f * (yz + wx);
+
+		matrix.e20 = 2.0f * (xz + wy);
+		matrix.e21 = 2.0f * (yz - wx);
+		matrix.e22 = 1.0f - 2.0f * (x2 + y2);
+
+		return matrix;
 	}
 
 	Matrix4x4 ToMatrix4(const Quaternion& _q) noexcept
@@ -384,7 +498,10 @@ namespace Hyrule
 		return matrix;
 	}
 
-	Hyrule::Matrix3x3 ToMatrix3(const Vector3D& _axis, const float _angle) noexcept
+	/// <summary>
+	/// 축각을 행렬로 바꿈
+	/// </summary>
+	Matrix3x3 ToMatrix3(const Vector3D& _axis, const float _angle) noexcept
 	{
 		float cos = std::cos(_angle);
 		float sin = std::sin(_angle);
@@ -407,7 +524,7 @@ namespace Hyrule
 		);
 	}
 
-	Hyrule::Matrix4x4 ToMatrix4(const Vector3D& _axis, const float _angle) noexcept
+	Matrix4x4 ToMatrix4(const Vector3D& _axis, const float _angle) noexcept
 	{
 		float cos = std::cos(_angle);
 		float sin = std::sin(_angle);
@@ -437,43 +554,6 @@ namespace Hyrule
 			1.f
 		);
 	}
-
-	// 	Vector4D& operator*=(Vector4D& _vec, const Matrix4x4& _mat) noexcept
-	// 	{
-	// 		__m128 m = _vec.m;
-	// 		Matrix4x4 temp1(_mat.Inverse());
-	// 
-	// 		_vec.x = _mm_cvtss_f32(_mm_dp_ps(m, temp1.m[0].m, 0xFF));
-	// 		_vec.y = _mm_cvtss_f32(_mm_dp_ps(m, temp1.m[1].m, 0xFF));
-	// 		_vec.z = _mm_cvtss_f32(_mm_dp_ps(m, temp1.m[2].m, 0xFF));
-	// 		_vec.w = _mm_cvtss_f32(_mm_dp_ps(m, temp1.m[3].m, 0xFF));
-	// 
-	// 		return _vec;
-	// 	}
-	// 
-	// 	Vector4D operator*(const Vector4D& _vec, const Matrix4x4& _mat) noexcept
-	// 	{
-	// 		Vector4D temp(_vec);
-	// 
-	// 		return temp *= _mat;
-	// 	}
-	// 
-	// 	Vector3D& operator*=(Vector3D& _vec, const Matrix4x4& _mat) noexcept
-	// 	{
-	// 		Vector4D temp(_vec, 1.f);
-	// 		temp *= _mat;
-	// 
-	// 		_vec.x = temp.x;
-	// 		_vec.y = temp.y;
-	// 		_vec.z = temp.z;
-	// 
-	// 		return _vec;
-	// 	}
-	// 
-	// 	Vector3D operator*(const Vector3D& _vec, const Matrix4x4& _mat) noexcept
-	// 	{
-	// 		return Vector3D(_vec) *= _mat;
-	// 	}
 
 	// ToEuler (축각)
 	// ToEuler (행렬)

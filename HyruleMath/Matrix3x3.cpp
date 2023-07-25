@@ -2,40 +2,6 @@
 
 namespace Hyrule
 {
-// 	constexpr Matrix3x3::Matrix3x3() noexcept :
-// 		e{}
-// 	{
-// 
-// 	}
-// 
-// 	constexpr Matrix3x3::Matrix3x3(
-// 		float _e00, float _e01, float _e02, 
-// 		float _e10, float _e11, float _e12, 
-// 		float _e20, float _e21, float _e22) noexcept : 
-// 		e
-// 		{
-// 			_e00, _e01, _e02, 
-// 			_e10, _e11, _e12, 
-// 			_e20, _e21, _e22
-// 		}
-// 	{
-// 
-// 	}
-
-// 	constexpr Matrix3x3::Matrix3x3(
-// 		const Matrix1x3& _m1, 
-// 		const Matrix1x3& _m2, 
-// 		const Matrix1x3& _m3) noexcept : 
-// 		e
-// 		{
-// 			_m1.e00, _m1.e01, _m1.e02,
-// 			_m2.e00, _m2.e01, _m2.e02,
-// 			_m3.e00, _m3.e01, _m3.e02,
-// 		}
-// 	{
-// 
-// 	}
-
 	Matrix3x3 Matrix3x3::Transpose() noexcept
 	{
 		return Matrix3x3

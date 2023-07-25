@@ -27,7 +27,9 @@ namespace Hyrule
 
 	void Renderer::OnCollisionStay()
 	{
-		// meshData->On
+#if _DEBUG
+		meshData->OnCollisionStay();
+#endif
 	}
 
 	void Renderer::OnCollisionExit()

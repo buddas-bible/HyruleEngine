@@ -42,7 +42,7 @@ namespace Hyrule
 		rigidbody->SetVelocity(_velo);
 	}
 
-	Hyrule::Vector3D RigidBody::GetVelocity() const noexcept
+	Vector3D RigidBody::GetVelocity() const noexcept
 	{
 		return rigidbody->GetVelocity();
 	}
@@ -52,7 +52,7 @@ namespace Hyrule
 		rigidbody->SetAngularVelocity(_angularVelo);
 	}
 
-	Hyrule::Vector3D RigidBody::GetAngularVelocity() const noexcept
+	Vector3D RigidBody::GetAngularVelocity() const noexcept
 	{
 		return rigidbody->GetAngularVelocity();
 	}
@@ -72,17 +72,34 @@ namespace Hyrule
 
 	}
 
-	void RigidBody::Update()
+	void RigidBody::PrePhysicsUpdate()
 	{
-		auto matrix = rigidbody->Apply();
+
+	}
+
+	void RigidBody::PhysicsUpdate()
+	{
+
+	}
+
+	void RigidBody::LatePhysicsUpdate()
+	{
+		Matrix4x4 matrix = rigidbody->Apply();
+		Matrix4x4 parent{ gameObject->GetTransform()->GetParentWorldMatrix() };
+		matrix /= parent;	// ºÎ¸ðÀÇ ¿ªÇà·ÄÀ» °öÇØ¼­ ·ÎÄÃÀ» »Ì¾Æ³¿
 
 		Vector3D pos;
 		Quaternion rot;
 		Vector3D scl;
 		Decompose(matrix, pos, rot, scl);
+
 		gameObject->GetTransform()->SetLocalPosition(pos);;
 		gameObject->GetTransform()->SetLocalQuaternion(rot);
-		gameObject->GetTransform()->SetLocalPosition(scl);
+ 		gameObject->GetTransform()->SetLocalPosition(scl);
+	}
+
+	void RigidBody::Update()
+	{
 	}
 
 	void RigidBody::OnEnable()

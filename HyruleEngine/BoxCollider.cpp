@@ -43,19 +43,42 @@ namespace Hyrule
 
 	void BoxCollider::FixedUpdate()
 	{
+
+	}
+
+	void BoxCollider::PrePhysicsUpdate()
+	{
 		collider->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
+	}
+
+	void BoxCollider::PhysicsUpdate()
+	{
+		bool curr{ isCollision() };
+
+		if (curr == true && isColliding == false)
+		{
+			gameObject->OnCollisionEnter();
+		}
+		else if (curr == true && isColliding == true)
+		{
+			gameObject->OnCollisionStay();
+		}
+		else if (curr == false && isColliding == true)
+		{
+			gameObject->OnCollisionExit();
+		}
+
+		isColliding = curr;
+	}
+
+	void BoxCollider::LatePhysicsUpdate()
+	{
+
 	}
 
 	void BoxCollider::Update()
 	{
-		if (isCollision() == true)
-		{
-			gameObject->OnCollisionEnter();
-		}
-		else
-		{
-			gameObject->OnCollisionExit();
-		}
+
 	}
 
 	void BoxCollider::OnEnable()

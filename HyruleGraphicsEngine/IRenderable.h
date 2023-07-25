@@ -21,6 +21,7 @@ namespace Hyrule
 		virtual bool isActive() noexcept abstract;
 		
 		virtual void OnCollisionEnter() noexcept abstract;
+		virtual void OnCollisionStay() noexcept abstract;
 		virtual void OnCollisionExit() noexcept abstract;
 	};
 }

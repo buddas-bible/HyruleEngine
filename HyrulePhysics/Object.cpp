@@ -15,6 +15,21 @@ namespace Hyrule
 
 		}
 
+		Vector3D& Object::GetPosition()
+		{
+			return position;
+		}
+
+		Quaternion& Object::GetRotation()
+		{
+			return rotation;
+		}
+
+		Vector3D& Object::GetScale()
+		{
+			return scale;
+		}
+
 		Collider* Object::GetCollider(size_t _index)
 		{
 			if ((colliders.size() - 1 < _index) || colliders.empty())
@@ -73,24 +88,16 @@ namespace Hyrule
 			return this->name;
 		}
 
-		// 		void Object::SetCollided(bool _co)
-		// 		{
-		// 			this->isColliding = _co;
-		// 		}
-		// 
-		// 		bool Object::IsColliding()
-		// 		{
-		// 			return isColliding;
-		// 		}
-
 		void Object::SetWorldTM(const Matrix4x4& _TM)
 		{
 			this->worldTM = _TM;
+
+			Decompose(_TM, position, rotation, scale);
 		}
 
 		Matrix4x4 Object::GetWorldTM()
 		{
-			return this->worldTM;
+			return ToTransformMatrix(position, rotation, scale);
 		}
 
 		Matrix3x3 Object::GetInertiaTensor(float _mess)

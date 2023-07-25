@@ -25,12 +25,22 @@ namespace Hyrule
 
 		private:
 			std::wstring name;
+
+			Vector3D position;
+			Quaternion rotation;
+			Vector3D scale;
+
 			Matrix4x4 worldTM;
 			bool isColliding;
 
 		public:
 			RigidBody* rigidbody;
 			std::vector<Collider*> colliders;
+
+		public:
+			Vector3D& GetPosition();
+			Quaternion& GetRotation();
+			Vector3D& GetScale();
 
 		public:
 			Collider* GetCollider(size_t);

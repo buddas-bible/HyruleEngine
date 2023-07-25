@@ -29,7 +29,7 @@ namespace Hyrule
 		box->GetTransform()->SetLocalPosition(Vector3D(7.f, 7.f, 7.f));
 		box->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
 		box->AddComponent<BoxCollider>();
-		box->AddComponent<RigidBody>();
+		// box->AddComponent<RigidBody>();
 
 		// GameObject* sphere = CreateGameObject(L"Sphere01");
 		// sphere->AddComponent<SphereRenderer>();

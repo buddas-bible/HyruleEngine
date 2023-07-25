@@ -39,6 +39,7 @@ namespace Hyrule
 
 #if _DEBUG
 		virtual void OnCollisionEnter() noexcept override;
+		virtual void OnCollisionStay() noexcept override; 		
 		virtual void OnCollisionExit() noexcept override;
 #endif
 

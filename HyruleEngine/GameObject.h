@@ -49,6 +49,9 @@ namespace Hyrule
 
 		void Start();
 		void FixedUpdate();
+		void PrePhysicsUpdate();
+		void PhysicsUpdate();
+		void LatePhysicsUpdate();
 		void Update();
 		void LateUpdate();
 		void Render();

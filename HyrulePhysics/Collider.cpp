@@ -19,19 +19,21 @@ namespace Hyrule
 
 		Vector3D Collider::GetPosition()
 		{
-			return object->GetWorldTM().Pos();
+			return object->GetPosition();
+		}
+
+		Quaternion Collider::GetRotation()
+		{
+			return object->GetRotation();
 		}
 
 		float Collider::GetLength()
 		{
-			Matrix4x4 nonPos{ object->GetWorldTM() };
+			Vector3D scl{ object->GetScale() };
 
-			Vector4D row00{ nonPos.m[0].m };
-			float rl00 = row00.Length();
-			Vector4D row01{ nonPos.m[1].m };
-			float rl01 = row01.Length();
-			Vector4D row02{ nonPos.m[2].m };
-			float rl02 = row02.Length();
+			float rl00 = scl.x;
+			float rl01 = scl.x;
+			float rl02 = scl.x;
 
 			float max = rl00 > rl01 ? rl00 : rl01;
 			max = max > rl02 ? max : rl02;
@@ -76,7 +78,7 @@ namespace Hyrule
 
 		bool Collider::isCollision() noexcept
 		{
-			return collied;
+			return this->collied;
 		}
 
 		void Collider::OnEnable() noexcept

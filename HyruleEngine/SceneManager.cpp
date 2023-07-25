@@ -166,12 +166,34 @@ namespace Hyrule
 		}
 	}
 
+	void SceneManager::PrePhysicsUpdate()
+	{
+		for (auto& e : currentScene->SceneObjects())
+		{
+			if (e.second->Activated() != true)
+				continue;
+			e.second->PrePhysicsUpdate();
+		}
+	}
+
 	void SceneManager::PhysicsUpdate()
 	{
-		// for (auto& e : currentScene->GetGameObjectList())
-		// {
-		// 	e->P();
-		// }
+		for (auto& e : currentScene->SceneObjects())
+		{
+			if (e.second->Activated() != true)
+				continue;
+			e.second->PhysicsUpdate();
+		}
+	}
+
+	void SceneManager::LatePhysicsUpdate()
+	{
+		for (auto& e : currentScene->SceneObjects())
+		{
+			if (e.second->Activated() != true)
+				continue;
+			e.second->LatePhysicsUpdate();
+		}
 	}
 
 	void SceneManager::FixedUpdate()

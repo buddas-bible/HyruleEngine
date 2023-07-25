@@ -24,6 +24,9 @@ namespace Hyrule
 		virtual void OnDisable() final;
 		virtual void Start() final {};
 		virtual void FixedUpdate() final {};
+		virtual void PrePhysicsUpdate() final {};
+		virtual void PhysicsUpdate() final {};
+		virtual void LatePhysicsUpdate() final {};
 		virtual void Update() abstract;
 		virtual void LateUpdate() final {};
 		virtual void Render() final {};
