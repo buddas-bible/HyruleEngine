@@ -124,9 +124,9 @@ namespace Hyrule
 
 	void DXCamera::SetWorldTransform(const Matrix4x4& _mat) noexcept
 	{
-		m_right = _mat.Right();
-		m_up = _mat.Up();
-		m_look = _mat.Look();
+		m_right = _mat.Right().Normalized();
+		m_up = _mat.Up().Normalized();
+		m_look = _mat.Look().Normalized();
 		m_pos = _mat.Pos();
 
 		// this->UpdateLUR();

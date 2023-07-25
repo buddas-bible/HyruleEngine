@@ -8,6 +8,8 @@
 #include "Face.h"
 #include "Edge.h"
 
+#include <iostream>
+
 constexpr size_t GJK_MAX = 50;
 constexpr size_t EPA_MAX = 50;
 
@@ -18,7 +20,7 @@ namespace Hyrule
 		/// <summary>
 		/// Casey's GJK
 		/// </summary>
-		bool CollisionSystem::GJKCollisionDetection(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+		bool CollisionSystem::GJKCollisionDetection(Collider* _colliderA, Collider* _colliderB, Manifold* _manifold)
 		{
 			size_t count{};
 
@@ -53,7 +55,7 @@ namespace Hyrule
 				{
 					// 심플렉스 안에 원점이 존재한다면 충돌함.
 					// detectionInfo.insert(std::make_pair(_manifold, simplex));
-					_manifold.SetSimplex(simplex);
+					_manifold->SetSimplex(simplex);
 					return true;
 				}
 				count++;
@@ -81,21 +83,21 @@ namespace Hyrule
 		/// <summary>
 		/// EPA
 		/// </summary>
-		void CollisionSystem::EPAComputePenetrationDepth(Manifold& _manifold)
+		void CollisionSystem::EPAComputePenetrationDepth(Manifold* _manifold)
 		{
 			// 심플렉스의 면을 일단 구분함
-			Simplex polytope{ _manifold.GetSimplex() };
+			Simplex polytope{ _manifold->GetSimplex() };
 			polytope.SetFace();
 
 			size_t count{};
 
-			while (count < EPA_MAX && polytope.faceMap.size() < 64)
+			while (count < EPA_MAX)
 			{
 				// 면들과의 노말과 거리를 계산할 수 있음.
  				Vector3D normal{ polytope.faceMap.begin()->second.normal };
 				Vector3D support{ FindSupportPoint(
-					_manifold.GetColliderA(),
-					_manifold.GetColliderB(),
+					_manifold->GetColliderA(),
+					_manifold->GetColliderB(),
 					normal) 
 				};
 
@@ -113,6 +115,8 @@ namespace Hyrule
 				{
 					float depth{ faceDist };
 					Vector3D detectNormal{ normal };
+					_manifold->SetDepth(depth + Epsilon);
+					_manifold->SetNormal(detectNormal);
 					return;
 				}
 				
@@ -122,8 +126,8 @@ namespace Hyrule
 					// 유사하면 해당 깊이와 노말만 반환
 					float depth{ faceDist };
 					Vector3D detectNormal{ normal };
-					_manifold.SetDepth(depth + Epsilon);
-					_manifold.SetNormal(detectNormal);
+					_manifold->SetDepth(depth + Epsilon);
+					_manifold->SetNormal(detectNormal);
 					return;
 				}
 				else
@@ -139,23 +143,32 @@ namespace Hyrule
 						float supportDist = f.normal.Dot(support);
 
 						// 서포트 포인트 거리 - 면 거리 > 오차범위보다 크다면 확장 가능성이 있음.
-						if (f.normal.Dot(support.Normalized()) > 0.f)
+						float radian{ f.normal.Dot(support.Normalized()) };
+						
+						if (radian <= Epsilon)
 						{
-							itr = polytope.faceMap.erase(itr);
+							continue;
+						}
 
-							// 겹치는 변이 있다면 두 면 이상이 연속된 것이기 때문에 변을 뺌.
-							for (auto& edge : f.edge)
-							{
-								auto fIter = std::find(edges.begin(), edges.end(), edge);
+						if (supportDist <= faceDist + Epsilon)
+						{
+							continue;
+						}
+
+						itr = polytope.faceMap.erase(itr);
+
+						// 겹치는 변이 있다면 두 면 이상이 연속된 것이기 때문에 변을 뺌.
+						for (auto& edge : f.edge)
+						{
+							auto fIter = std::find(edges.begin(), edges.end(), edge);
 							
-								if (fIter != edges.end())
-								{
-									edges.erase(fIter);
-								}
-								else
-								{
-									edges.push_back(edge);
-								}
+							if (fIter != edges.end())
+							{
+								edges.erase(fIter);
+							}
+							else
+							{
+								edges.push_back(edge);
 							}
 						}
 
@@ -163,6 +176,15 @@ namespace Hyrule
 						{
 							break;
 						}
+					}
+
+					if (edges.empty())
+					{
+						float depth{ polytope.faceMap.begin()->first };
+						Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
+						_manifold->SetDepth(depth + Epsilon);
+						_manifold->SetNormal(detectNormal);
+						return;
 					}
 
 					polytope.push_back(support);
@@ -177,6 +199,8 @@ namespace Hyrule
 
 			float depth{ polytope.faceMap.begin()->first };
 			Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
+			_manifold->SetDepth(depth + Epsilon);
+			_manifold->SetNormal(detectNormal);
 			return;
 		}
 
@@ -249,6 +273,21 @@ namespace Hyrule
 
 			delete reference;
 			delete incident;
+		}
+
+
+		bool CollisionSystem::SphereToSphere(Collider* _colliderA, Collider* _colliderB, Manifold* _manifold)
+		{
+			float total{ _colliderA->GetLength() + _colliderB->GetLength() };
+			
+			Vector3D gap{ _colliderA->GetPosition() - _colliderB->GetPosition() };
+
+			if (total >= gap.Length() )
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -505,12 +544,11 @@ namespace Hyrule
 			}
 		}
 
-		void CollisionSystem::ComputeImpulse(Manifold& _manifold)
+		void CollisionSystem::ComputeImpulse(Manifold* _manifold)
 		{
 			// 각 물체들이 가지고 있는 속력으로 충격량을 계산함
-
-			RigidBody* A{ _manifold.GetColliderA()->GetRigidBody() };
-			RigidBody* B{ _manifold.GetColliderB()->GetRigidBody() };
+			RigidBody* A{ _manifold->RigidBodyA() };
+			RigidBody* B{ _manifold->RigidBodyB() };
 
 			float systemMass{ A->GetInvMass() + B->GetInvMass() };
 
@@ -521,39 +559,47 @@ namespace Hyrule
 
 			float sfriction = ComputeFriction(A->GetStaticFriction(), B->GetStaticFriction());
 			float dfriction = ComputeFriction(A->GetDynamicFriction(), B->GetDynamicFriction());
-			float restitution = A->GetRestitution() < B->GetRestitution() ? B->GetRestitution() : A->GetRestitution();
+			float restitution = std::max(A->GetRestitution(), B->GetRestitution());
 
-			for (size_t i = 0; i < _manifold.GetContactPoints().size(); i++)
-			{
+			Vector3D P_a{ A->GetPosition() };
+			Vector3D P_b{ B->GetPosition() };
+			Vector3D V_a{ A->GetVelocity() };
+			Vector3D V_b{ B->GetVelocity() };
+			Vector3D W_a{ A->GetAngularVelocity() };
+			Vector3D W_b{ B->GetAngularVelocity() };
+			Vector3D Normal{ _manifold->GetNormal() };
+
+			const auto& contactPoints{ _manifold->GetContactPoints() };
+			for (const auto& contactPoint : contactPoints)
+			{							
 				/// 임펄스 기반 반응 모델
 				// 질량 중심에서 충돌 지점까지의 벡터
-				Vector3D r_1 = _manifold.GetContactPoints()[i]/* - A->GetPosition()*/;
-				Vector3D r_2 = _manifold.GetContactPoints()[i]/* - B->GetPosition()*/;
+				Vector3D r_1 = contactPoint - P_a;
+				Vector3D r_2 = contactPoint - P_b;
 
 				// 상대속도
-				Vector3D v_p1 = A->GetVelocity() + A->GetAngularVelocity().Cross(r_1);
-				Vector3D v_p2 = B->GetVelocity() + B->GetAngularVelocity().Cross(r_2);
+				Vector3D v_p1 = V_a + W_a.Cross(r_1);
+				Vector3D v_p2 = V_b + W_b.Cross(r_2);
 				Vector3D v_r = v_p2 - v_p1;
 
 				// 충돌 지점에서 노말 방향으로의 상대 속도
-				float contactVelocity = v_r.Dot(_manifold.GetNormal());
+				float contactVelocity = v_r.Dot(Normal);
 
 				if (contactVelocity > 0.f)
 				{
-					return;
+					continue;;
 				}
 
 				/// 임펄스 공식의 분모 부분.
-				Vector3D inertiaA = (r_1.Cross(_manifold.GetNormal()) * A->GetInvInertia()).Cross(r_1);
-				Vector3D inertiaB = (r_2.Cross(_manifold.GetNormal()) * B->GetInvInertia()).Cross(r_2);
-				float numerator = systemMass + (inertiaA + inertiaB).Dot(_manifold.GetNormal());
+				Vector3D inertiaA = (r_1.Cross(Normal) * A->GetInvInertia()).Cross(r_1);
+				Vector3D inertiaB = (r_2.Cross(Normal) * B->GetInvInertia()).Cross(r_2);
+				float numerator = systemMass + (inertiaA + inertiaB).Dot(Normal);
 
 				// 임펄스 크기
-				float j = -(1.f + restitution) * contactVelocity;
-				j /= numerator;
+				float j = -(1.f + restitution) * contactVelocity / numerator;
 
 				// 임펄스 벡터
-				Vector3D impulse = _manifold.GetNormal() * j;
+				Vector3D impulse = Normal * j;
 				A->ApplyImpulse(-impulse, r_1);
 				B->ApplyImpulse(impulse, r_2);
 
@@ -561,21 +607,11 @@ namespace Hyrule
 				/// 임펄스 기반 마찰 모델
 				// 마찰 임펄스 방향.
 				// 이 공식은 contactVelocity != 0 일 때 적용되는 공식
-				Vector3D tangent = v_r - (_manifold.GetNormal() * contactVelocity);
-
-				if (tangent == Vector3D::Zero())
-				{
-					return;
-				}
-
-				tangent.Normalize();
+				Vector3D tangent = (v_r - (Normal * contactVelocity)).Normalized();
 
 				// 임펄스 크기
 				// contactVelocity를 구했던 v_r Dot normal과 비슷하지만 음수가 붙은 점이 다름.
-				float j_t = -v_r.Dot(tangent);
-
-				// 고민이 되는 점은 임펄스 크기를 구하는거면
-				j_t /= numerator;
+				float j_t = -v_r.Dot(tangent) / numerator;
 
 				//임펄스 벡터
 				Vector3D frictionImpulse;
@@ -599,41 +635,49 @@ namespace Hyrule
 			}
 		}
 
-		void CollisionSystem::ResolveCollision(Manifold& _manifold)
+		void CollisionSystem::ResolveCollision(Manifold* _manifold)
 		{
-			RigidBody* A{ _manifold.GetColliderA()->GetRigidBody() };
-			RigidBody* B{ _manifold.GetColliderB()->GetRigidBody() };
+			RigidBody* A{ _manifold->RigidBodyA() };
+			RigidBody* B{ _manifold->RigidBodyB() };
 			
-			float invMass{ A->GetInvMass() + B->GetInvMass() };
+			float InvMassA = (A == nullptr) ? 0.f : A->GetInvMass();
+			float InvMassB = (B == nullptr) ? 0.f : B->GetInvMass();
+			
+			float systemMass{ InvMassA + InvMassB };
 
-			if (invMass <= Epsilon)
+			if (systemMass <= Epsilon)
 			{
 				return;
 			}
 
-			Vector3D resolve;
-			float dist;
+			float depth{ _manifold->GetDepth() };
+			Vector3D normal{ _manifold->GetNormal() };
 			
-			if ((_manifold.GetDepth() - 0.05f) > Epsilon)
-			{
-				dist = _manifold.GetDepth() - 0.05f;
-			}
-			else
-			{
-				dist = 0.f;
-			}
+			float dist = depth + 2.f;
+			Vector3D resolve;
 
-			resolve = _manifold.GetNormal() * dist / invMass;
+			// if (depth - 0.05f > Epsilon)
+			// {
+			// 	dist = depth - 0.05f;
+			// }
+			// else
+			// {
+			// 	dist = 0.f;
+			// }
 
-			Vector3D Adist = -resolve * A->GetInvMass();
-			Vector3D Bdist = resolve * B->GetInvMass();
+			resolve = normal * dist / systemMass;
+
+			Vector3D Adist = -resolve * InvMassA;
+			A->SetPosition(A->GetPosition() + Adist);
+
+			Vector3D Bdist = resolve * InvMassB;
+			B->SetPosition(B->GetPosition() + Bdist);
 		}
 
 		float CollisionSystem::ComputeFriction(float _a, float _b)
 		{
 			return std::powf(_a * _b, 0.5f);
 		}
-
 	}
 }
 

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <unordered_set>
 #include <set>
 
 #include "HyruleMath.h"
@@ -14,13 +15,14 @@ namespace Hyrule
 
 	namespace Physics
 	{
-		class RigidBody;
 		class IRigidBody;
-		class Collider;
+		class RigidBody;
+
 		class ICollider;
+		class Collider;
+		
 		class Object;
 		class Simplex;
-
 		struct COLLIDER_INFO;
 
 		class HyrulePhysics : public IPhysics
@@ -44,7 +46,7 @@ namespace Hyrule
 
 		private:
 			std::set<std::pair<Collider*, Collider*>> colliderTable;
-			std::vector<Manifold> collisionInfo;
+			std::vector<Manifold*> manifoldArray;
 
 			Hyrule::Vector3D gravity;
 

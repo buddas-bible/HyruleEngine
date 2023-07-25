@@ -72,6 +72,19 @@ namespace Hyrule
 
 	}
 
+	void RigidBody::Update()
+	{
+		auto matrix = rigidbody->Apply();
+
+		Vector3D pos;
+		Quaternion rot;
+		Vector3D scl;
+		Decompose(matrix, pos, rot, scl);
+		gameObject->GetTransform()->SetLocalPosition(pos);;
+		gameObject->GetTransform()->SetLocalQuaternion(rot);
+		gameObject->GetTransform()->SetLocalPosition(scl);
+	}
+
 	void RigidBody::OnEnable()
 	{
 		rigidbody->OnEnable();

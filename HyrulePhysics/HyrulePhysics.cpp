@@ -45,6 +45,7 @@ namespace Hyrule
 		{
 			gravity = Hyrule::Vector3D(0.f, -9.81f, 0.f);
 			Shapes::Initalize();
+			NonRigidBody::Init();
 			return (long)0L;
 		}
 
@@ -61,13 +62,14 @@ namespace Hyrule
 				e->SetCollied(false);
 				e->CollisionInfoClear();
 			}
-			colliderTable.clear();
-			collisionInfo.clear();
 
-			for (auto& e : collisionInfo)
+			for (auto& e : manifoldArray)
 			{
-				e.Clear();
+				delete e;
 			}
+			manifoldArray.clear();
+			colliderTable.clear();
+
 
 
 			auto& nodes{ ObjectManager::GetInstance().GetNodeContainer() };
@@ -75,62 +77,58 @@ namespace Hyrule
 			// 옥트리에서 꺼낸 컨테이너를 순회함.
 			for (auto& e : nodes)
 			{
-
 				// 노드 안에 있는 콜라이더만 체크함
 				for (auto itr = e.begin(); itr != e.end(); itr++)
 				{
-					for (auto itr2 = e.begin(); itr2 != e.end(); itr2++)
+					if((*itr)->isActive() == false)
+						continue;
+
+					for (auto itr2 = std::next(itr); itr2 != e.end(); itr2++)
 					{
-						if (itr == itr2)
-						{
-							continue;
-						}
-
-						// 두 콜라이더가 검사를 한 적이 있는가?
-						auto colliderPair0{ std::make_pair(*itr, *itr2) };
-						auto colliderPair1{ std::make_pair(*itr2, *itr) };
-
-						if (colliderTable.count(colliderPair0) != 0 || colliderTable.count(colliderPair1) != 0)
-						{
-							continue;
-						}
-
 						// 활성화 되어있지 않으면 넘김
-						if ((*itr2)->isActive() == false || (*itr)->isActive() == false)
-						{
+						if ((*itr2)->isActive() == false)
 							continue;
-						}
 
-						Manifold manifold{ *itr, *itr2 };
+						auto colliderPair = std::make_pair(*itr, *itr2);
+						if (colliderTable.count(colliderPair) != 0)
+							continue;
+
+						colliderPair = std::make_pair(*itr2, *itr);
+						if (colliderTable.count(colliderPair) != 0)
+							continue;
+
+						Manifold* manifold = new Manifold{ *itr, *itr2 };
 
 						colliderTable.insert(std::make_pair(*itr, *itr2));
 
-						if (CollisionSystem::GJKCollisionDetection(*itr, *itr2, manifold) == false)
+						if (CollisionSystem::GJKCollisionDetection(*itr, *itr2, manifold))
 						{
-							continue;
-						}
+							/// 둘 중 하나라도 리지드 바디를 가지고 있다면 EPA를 실행 시킨다.
+							if ((*itr)->hasRigidBody() || (*itr2)->hasRigidBody())
+							{
+								manifoldArray.push_back(manifold);
+								CollisionSystem::EPAComputePenetrationDepth(manifold);
 
-						/// 둘 중 하나라도 리지드 바디를 가지고 있다면 EPA를 실행 시킨다.
-						if ((*itr)->hasRigidBody() || (*itr2)->hasRigidBody())
-						{
-							collisionInfo.push_back(manifold);
-							CollisionSystem::EPAComputePenetrationDepth(manifold);
+								// 접촉점도 찾아야함.
+							}
+							else
+							{
+								delete manifold;
+							}
 
-							// 접촉점도 찾아야함.
+							/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
+							if ((*itr)->hasRigidBody() && (*itr2)->hasRigidBody())
+							{
+								manifold->Apply();
+							}
+
+							(*itr)->SetCollied(true);
+							(*itr2)->SetCollied(true);
 						}
 						else
 						{
-							manifold.Clear();
+							delete manifold;
 						}
-
-						/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
-						if ((*itr)->hasRigidBody() && (*itr2)->hasRigidBody())
-						{
-							manifold.Apply();
-						}
-
-						(*itr)->SetCollied(true);
-						(*itr2)->SetCollied(true);
 					}
 				}
 			}
@@ -152,10 +150,10 @@ namespace Hyrule
 			}
 
 			/// 강체, 콜라이더 충돌 대응
-			for (auto& e : collisionInfo)
+			for (auto& e : manifoldArray)
 			{
 				// 충돌
-
+				CollisionSystem::ComputeImpulse(e);
 			}
 
 			/// 계산된 속력을 위치, 각도에 적용
@@ -165,9 +163,9 @@ namespace Hyrule
 			}
 
 			/// 밀어냄
-			for (auto& e : collisionInfo)
+			for (auto& e : manifoldArray)
 			{
-				
+				CollisionSystem::ResolveCollision(e);
 			}
 		}
 

@@ -35,7 +35,7 @@ namespace Hyrule
 
 	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const float _scl) noexcept;
 
-	void Decompose(Vector4D& _pos, Quaternion& _rot, Vector4D& _scl, const Matrix4x4& _matrix) noexcept;
+	void Decompose(const Matrix4x4& _matrix, Vector3D& _pos, Quaternion& _rot, Vector3D& _scl) noexcept;
 
 	Quaternion Lerp(const Quaternion& q1, const Quaternion& q2, float t) noexcept;
 

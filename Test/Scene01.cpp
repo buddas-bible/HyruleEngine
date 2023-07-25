@@ -24,41 +24,28 @@ namespace Hyrule
 		GameObject* controller = CreateGameObject(L"Controller");
 		Controller* con = controller->AddComponent<Controller>();
 
-		float x = 1.f;
-		float y = 1.f;
-		float z = 1.f;
+		GameObject* box = CreateGameObject(L"Box01");
+		box->AddComponent<CubeRenderer>();
+		box->GetTransform()->SetLocalPosition(Vector3D(7.f, 7.f, 7.f));
+		box->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		box->AddComponent<BoxCollider>();
+		box->AddComponent<RigidBody>();
 
-		for (auto i = 0; i < 10; i++)
-		{
-			if (i & 1)
-			{
-				x *= -1.f;
-			}
-			if (i & 2)
-			{
-				y *= -1.f;
-			}
-			if (i & 4)
-			{
-				z *= -1.f;
-			}
+		// GameObject* sphere = CreateGameObject(L"Sphere01");
+		// sphere->AddComponent<SphereRenderer>();
+		// sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		// sphere->AddComponent<SphereCollider>();
+		// sphere->AddComponent<RigidBody>();
 
-			GameObject* box = CreateGameObject(L"Box0" + std::to_wstring(i));
-			box->AddComponent<CubeRenderer>();
-			box->GetTransform()->SetLocalPosition(Vector3D(0.f + 5.f * x * i, 0.f + 5.f * y * i, 0.f + 5.f * z * i));
-			box->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-			box->AddComponent<BoxCollider>();
+		GameObject* box2 = CreateGameObject(L"Box02");
+		box2->AddComponent<CubeRenderer>();
+		box2->GetTransform()->SetLocalPosition(Vector3D(0.f, 0.f, 0.f));
+		box2->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		box2->AddComponent<BoxCollider>();
+		box2->AddComponent<RigidBody>();
 
-			con->AddControllableObject(VK_F1, box);
-		}
-
-		GameObject* sphere = CreateGameObject(L"Sphere01");
-		sphere->AddComponent<SphereRenderer>();
-		sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-		sphere->AddComponent<SphereCollider>();
-		sphere->AddComponent<RigidBody>();
-
-		con->AddControllableObject(VK_F2, sphere);
-		con->AddControllableObject(VK_F1, mainCamera->gameObject);
+		// GetMainCamera()->gameObject->SetParent(box);
+		con->AddControllableObject(VK_F1, box);
+		con->AddControllableObject(VK_F2, box2);
 	}
 }

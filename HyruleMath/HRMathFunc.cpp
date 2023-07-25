@@ -68,32 +68,30 @@ namespace Hyrule
 	/// <summary>
 	/// 트랜스폼 행렬 분해?
 	/// </summary>
-	void Decompose(Vector4D& _pos, Quaternion& _rot, Vector4D& _scl, const Matrix4x4& _matrix) noexcept
+	void Decompose(const Matrix4x4& _matrix, Vector3D& _pos, Quaternion& _rot, Vector3D& _scl) noexcept
 	{
-		// transformTM = S * R * T
-		Matrix4x4 temp{ _matrix };
+		// 월드 행렬의 포지션 요소
+		_pos.x = _matrix.m[3].e00;
+		_pos.y = _matrix.m[3].e01;
+		_pos.z = _matrix.m[3].e02;
 
-		// 이동값 먼저 뺌
-		_pos.m = _matrix.m[3].m;
-		temp.m[3] = { 0.f, 0.f, 0.f, 1.f };
+		// 월드 행렬의 각 기저의 크기가 스케일 값
+		_scl.x = Vector3D(_matrix.e00, _matrix.e10, _matrix.e20).Length();
+		_scl.y = Vector3D(_matrix.e01, _matrix.e11, _matrix.e21).Length();
+		_scl.z = Vector3D(_matrix.e02, _matrix.e12, _matrix.e22).Length();
 
-		// 스케일 값은 각 기저의 크기로 하면 됨
-		// temp = temp.Transpose();				// 이부분도 전치하면 보기 더 깔끔해질듯
-		_scl.x = Vector3D{ _matrix.m[0].e[0], _matrix.m[1].e[0], _matrix.m[2].e[0] }.Length();
-		_scl.y = Vector3D{ _matrix.m[0].e[1], _matrix.m[1].e[1], _matrix.m[2].e[1] }.Length();
-		_scl.z = Vector3D{ _matrix.m[0].e[2], _matrix.m[1].e[2], _matrix.m[2].e[2] }.Length();
-		_scl.w = 0.f;
+		// 정규화해서 회전값만 남김
+		Matrix4x4 rotationMatrix = _matrix;
+		rotationMatrix.m[0] /= _scl.x;
+		rotationMatrix.m[1] /= _scl.y;
+		rotationMatrix.m[2] /= _scl.z;
 
-		// 회전 행렬만 남기기 위해 스케일 값 나눠줌
-		temp.m[0] /= _scl.x;
-		temp.m[1] /= _scl.y;
-		temp.m[2] /= _scl.z;
-
-		// _rot = ToQuaternion({
-		// 	temp.m[0].e00, temp.m[0].e01, temp.m[0].e02 ,
-		// 	temp.m[1].e00, temp.m[1].e01, temp.m[1].e02,
-		// 	temp.m[2].e00, temp.m[2].e01, temp.m[2].e02
-		// 	});
+		// 회전 행렬을 쿼터니언으로 변환
+		_rot = ToQuaternion({
+			rotationMatrix.e00, rotationMatrix.e01, rotationMatrix.e02,
+			rotationMatrix.e10, rotationMatrix.e11, rotationMatrix.e12,
+			rotationMatrix.e20, rotationMatrix.e21, rotationMatrix.e22
+			});
 	}
 
 	/// <summary>
@@ -264,43 +262,40 @@ namespace Hyrule
 	{
 		Quaternion quaternion;
 
-		// 	float trace = _rotMatrix.e[0][0] + _rotMatrix.e[1][1] + _rotMatrix.e[2][2];
-		// 
-		// 	if (trace > 0.0f)
-		// 	{
-		// 		float s = 0.5f / sqrtf(trace + 1.0f);
-		// 		quaternion.w = 0.25f / s;
-		// 		quaternion.x = (_rotMatrix.e[2][1] - _rotMatrix.e[1][2]) * s;
-		// 		quaternion.y = (_rotMatrix.e[0][2] - _rotMatrix.e[2][0]) * s;
-		// 		quaternion.z = (_rotMatrix.e[1][0] - _rotMatrix.e[0][1]) * s;
-		// 	}
-		// 	else
-		// 	{
-		// 		if (_rotMatrix.e[0][0] > _rotMatrix.e[1][1] && _rotMatrix.e[0][0] > _rotMatrix.e[2][2])
-		// 		{
-		// 			float s = 2.0f * sqrtf(1.0f + _rotMatrix.e[0][0] - _rotMatrix.e[1][1] - _rotMatrix.e[2][2]);
-		// 			quaternion.w = (_rotMatrix.e[2][1] - _rotMatrix.e[1][2]) / s;
-		// 			quaternion.x = 0.25f * s;
-		// 			quaternion.y = (_rotMatrix.e[0][1] + _rotMatrix.e[1][0]) / s;
-		// 			quaternion.z = (_rotMatrix.e[0][2] + _rotMatrix.e[2][0]) / s;
-		// 		}
-		// 		else if (_rotMatrix.e[1][1] > _rotMatrix.e[2][2])
-		// 		{
-		// 			float s = 2.0f * sqrtf(1.0f + _rotMatrix.e[1][1] - _rotMatrix.e[0][0] - _rotMatrix.e[2][2]);
-		// 			quaternion.w = (_rotMatrix.e[0][2] - _rotMatrix.e[2][0]) / s;
-		// 			quaternion.x = (_rotMatrix.e[0][1] + _rotMatrix.e[1][0]) / s;
-		// 			quaternion.y = 0.25f * s;
-		// 			quaternion.z = (_rotMatrix.e[1][2] + _rotMatrix.e[2][1]) / s;
-		// 		}
-		// 		else
-		// 		{
-		// 			float s = 2.0f * sqrtf(1.0f + _rotMatrix.e[2][2] - _rotMatrix.e[0][0] - _rotMatrix.e[1][1]);
-		// 			quaternion.w = (_rotMatrix.e[1][0] - _rotMatrix.e[0][1]) / s;
-		// 			quaternion.x = (_rotMatrix.e[0][2] + _rotMatrix.e[2][0]) / s;
-		// 			quaternion.y = (_rotMatrix.e[1][2] + _rotMatrix.e[2][1]) / s;
-		// 			quaternion.z = 0.25f * s;
-		// 		}
-		// 	}
+		float trace = _rotMatrix.e00 + _rotMatrix.e11 + _rotMatrix.e22;
+
+		if (trace > 0.0f) {
+			float s = 0.5f / std::sqrt(trace + 1.0f);
+			quaternion.w = 0.25f / s;
+			quaternion.x = (_rotMatrix.e21 - _rotMatrix.e12) * s;
+			quaternion.y = (_rotMatrix.e02 - _rotMatrix.e20) * s;
+			quaternion.z = (_rotMatrix.e10 - _rotMatrix.e01) * s;
+		}
+		else
+		{
+			if (_rotMatrix.e00 > _rotMatrix.e11 && _rotMatrix.e00 > _rotMatrix.e22)
+			{
+				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e00 - _rotMatrix.e11 - _rotMatrix.e22);
+				quaternion.w = (_rotMatrix.e21 - _rotMatrix.e12) / s;
+				quaternion.x = 0.25f * s;
+				quaternion.y = (_rotMatrix.e01 + _rotMatrix.e10) / s;
+				quaternion.z = (_rotMatrix.e02 + _rotMatrix.e20) / s;
+			}
+			else if (_rotMatrix.e11 > _rotMatrix.e22) {
+				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e11 - _rotMatrix.e00 - _rotMatrix.e22);
+				quaternion.w = (_rotMatrix.e02 - _rotMatrix.e20) / s;
+				quaternion.x = (_rotMatrix.e01 + _rotMatrix.e10) / s;
+				quaternion.y = 0.25f * s;
+				quaternion.z = (_rotMatrix.e12 + _rotMatrix.e21) / s;
+			}
+			else {
+				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e22 - _rotMatrix.e00 - _rotMatrix.e11);
+				quaternion.w = (_rotMatrix.e10 - _rotMatrix.e01) / s;
+				quaternion.x = (_rotMatrix.e02 + _rotMatrix.e20) / s;
+				quaternion.y = (_rotMatrix.e12 + _rotMatrix.e21) / s;
+				quaternion.z = 0.25f * s;
+			}
+		}
 
 		return quaternion;
 	}

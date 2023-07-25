@@ -73,12 +73,12 @@ namespace Hyrule
 			if (input.KeyPress(VK_LEFT))
 			{
 				auto q = ToQuaternion(Vector3D::Up(), -5.f * dt);
-				currR *= q;
+				currR = q * currR;
 			}
 			if (input.KeyPress(VK_RIGHT))
 			{
 				auto q = ToQuaternion(Vector3D::Up(), 5.f * dt);
-				currR *= q;
+				currR = q * currR;
 			}
 			e->GetTransform()->SetLocalQuaternion(currR);
 

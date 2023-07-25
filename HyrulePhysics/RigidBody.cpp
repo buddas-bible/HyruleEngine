@@ -8,6 +8,10 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		RigidBody::RigidBody(Object* _object) noexcept : 
+			object(_object)
+		{}
+
 		bool RigidBody::isActive()
 		{
 			return this->activate;
@@ -15,12 +19,12 @@ namespace Hyrule
 
 		Object* RigidBody::GetObject()
 		{
-			return object;
+			return this->object;
 		}
 
 		std::wstring RigidBody::GetObjectName() noexcept
 		{
-			return object->GetName();
+			return this->object->GetName();
 		}
 
 		void RigidBody::OnEnable() noexcept
@@ -40,32 +44,47 @@ namespace Hyrule
 
 		float RigidBody::GetInvMass() noexcept
 		{
-			return invMess;
+			return this->invMess;
+		}
+
+		Hyrule::Vector3D RigidBody::GetPosition() noexcept
+		{
+			return this->position;
+		}
+
+		void RigidBody::SetPosition(const Vector3D& _pos) noexcept
+		{
+			if (invMess == 0.f)
+			{
+				return;
+			}
+
+			this->position = _pos;
 		}
 
 		float RigidBody::GetStaticFriction() noexcept
 		{
-			return sfriction;
+			return this->sfriction;
 		}
 
 		float RigidBody::GetDynamicFriction() noexcept
 		{
-			return dfriction;
+			return this->dfriction;
 		}
 
 		float RigidBody::GetRestitution() noexcept
 		{
-			return restitution;
+			return this->restitution;
 		}
 
 		Hyrule::Matrix3x3 RigidBody::GetInvInertia() noexcept
 		{
-			return invInertiaTensor;
+			return this->invInertiaTensor;
 		}
 
 		void RigidBody::ApplyImpulse(const Vector3D& _impulse, const Vector3D& _contact) noexcept
 		{
-			if (activate == false || invMess == 0.f)
+			if (this->activate == false || this->invMess == 0.f)
 			{
 				return;
 			}
@@ -101,9 +120,11 @@ namespace Hyrule
 				this->velocity += _gravity * _dt;
 			}
 
+			// 힘을 속력으로 변환
 			this->velocity += (this->force * this->invMess) * _dt;
 			this->angularVelocity += (this->torque * this->invInertiaTensor) * _dt;
 			
+			// 감쇠
 			this->velocity *= std::exp(-0.1 * _dt);
 			this->angularVelocity *= std::exp(-0.1 * _dt);
 
@@ -111,24 +132,19 @@ namespace Hyrule
 			this->torque = Vector3D::Zero();
 		}
 
-// 		void RigidBody::ApplyTorque(float _dt) noexcept
-// 		{
-// 			if (activate == false || invMess == 0.f)
-// 			{
-// 				return;
-// 			}
-// 
-// 			this->angularVelocity += this->torque * this->invInertiaTensor * _dt;
-// 			this->torque = Vector3D::Zero();
-// 		}
-
 		void RigidBody::ComputePosition(float _dt) noexcept
 		{
-			Vector3D dL{ this->velocity * _dt };
-			position += dL;
+			if (invMess == 0.f)
+			{
+				return;
+			}
 
-			Vector3D dW{ this->angularVelocity * _dt };
-			rotation *= ToQuaternion(dW);
+			this->position += this->velocity * _dt;
+
+			this->rotation *= ToQuaternion(
+				this->angularVelocity.Normalized(), 
+				this->angularVelocity.Length() * _dt
+			);
 		}
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept
@@ -146,9 +162,12 @@ namespace Hyrule
 		/// </summary>
 		void RigidBody::CalculateInertiaTensor(float _mess)
 		{
-			inertiaTensor = object->GetInertiaTensor(_mess);
-			invInertiaTensor = inertiaTensor.Inverse();
-			centerOfMass = object->GetCenterOfMess();
+			if (object != nullptr)
+			{
+				inertiaTensor = object->GetInertiaTensor(_mess);
+				invInertiaTensor = inertiaTensor.Inverse();
+				centerOfMass = object->GetCenterOfMess();
+			}
 		}
 
 		void RigidBody::CalculateInertiaTensor()
@@ -190,6 +209,11 @@ namespace Hyrule
 
 		void RigidBody::SetVelocity(const Vector3D& _velo) noexcept
 		{
+			if (invMess == 0.f)
+			{
+				return;
+			}
+
 			this->velocity = _velo;
 		}
 
@@ -200,6 +224,11 @@ namespace Hyrule
 
 		void RigidBody::SetAngularVelocity(const Vector3D& _angular) noexcept
 		{
+			if (invMess == 0.f)
+			{
+				return;
+			}
+
 			this->angularVelocity = _angular;
 		}
 
@@ -210,6 +239,10 @@ namespace Hyrule
 
 		bool RigidBody::isSleeping() const noexcept
 		{
+			// 표면에서 물체가 반복적인 충돌을 하게 되면
+			// 속력에 한계가 있을텐데
+			// thresold를 설정해서 thresold에 도달하면 타이머를 재기 시작함.
+			// 2~3초라는 설정 시간이 흐르게 되면 Sleep 상태가 되어서 물리 연산을 쉰다.
 			return this->sleep;
 		}
 
@@ -220,12 +253,24 @@ namespace Hyrule
 
 		Hyrule::Matrix4x4 RigidBody::Apply() noexcept
 		{
-			auto mat{ ToTransformMatrix(position, rotation, 1.f) * this->object->GetWorldTM() };
+			Matrix4x4 mat{ ToTransformMatrix(position, rotation, 1.f) * this->object->GetWorldTM() };
 			this->position = {};
-			this->rotation = {};
+			this->rotation = { 1.f, 0.f, 0.f, 0.f };
 			
 			return mat;
 		}
 #pragma endregion GetSet
+
+		RigidBody* NonRigidBody::nonRigidBody = nullptr;
+
+		void NonRigidBody::Init()
+		{
+			if (NonRigidBody::nonRigidBody == nullptr)
+			{
+				nonRigidBody = new RigidBody;
+			}
+
+			nonRigidBody->SetMess(0.f);
+		}
 	}
 }

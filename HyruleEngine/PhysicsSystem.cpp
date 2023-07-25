@@ -87,10 +87,12 @@ namespace Hyrule
 	Physics::IRigidBody* PhysicsSystem::CreateRigidBody(const std::wstring& _name)
 	{
 		auto rigidbody = physicsEngine->CreateRigidBody(_name);
+
 		if (!rigidbody)
 		{
 			return nullptr;
 		}
+
 		return rigidbody;
 	}
 }

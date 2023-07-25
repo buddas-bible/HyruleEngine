@@ -22,7 +22,6 @@ namespace Hyrule
 	private:
 		Physics::IRigidBody* rigidbody;
 
-
 	public:
 		void AddForce(const Vector3D&) const noexcept;
 		void AddTorque(const Vector3D&) const noexcept;
@@ -50,7 +49,7 @@ namespace Hyrule
 		virtual void Awake() override {}
 		virtual void Start() override {}
 		virtual void FixedUpdate() override {}
-		virtual void Update() override {}
+		virtual void Update() override;
 		virtual void LateUpdate() override {}
 		virtual void Render() override {}
 

@@ -8,6 +8,7 @@ namespace Hyrule
 	namespace Physics
 	{
 		class Collider;
+		class RigidBody;
 		class Simplex;
 
 		/// <summary>
@@ -42,6 +43,12 @@ namespace Hyrule
 			bool collided;
 
 			Simplex* simplex{};
+
+		public:
+			RigidBody* RigidBodyA();
+			RigidBody* RigidBodyB();
+			Vector3D PositionA();
+			Vector3D PositionB();
 
 		public:
 			void Apply();

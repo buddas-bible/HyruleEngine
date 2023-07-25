@@ -10,10 +10,12 @@ namespace Hyrule
 	{
 		struct Object;
 
+
 		class RigidBody : public IRigidBody
 		{
 		public:
 			RigidBody() noexcept = default;
+			RigidBody(Object*) noexcept;
 			virtual ~RigidBody() noexcept = default;
 
 		private:
@@ -30,7 +32,7 @@ namespace Hyrule
 			
 		private:
 			Vector3D position;
-			Quaternion rotation;
+			Quaternion rotation{ 1.f, 0.f, 0.f, 0.f };
 
 		private:
 			/// <summary>
@@ -41,16 +43,16 @@ namespace Hyrule
 			/// 계속 업데이트 받는건 불편하고
 			/// 참조로 받아오는건...?
 			/// </summary>
-			Hyrule::Vector3D centerOfMass;
+			Vector3D centerOfMass;
 			float mess{ 10.f };							// 질량
 			float invMess{ 1 / 10.f };					// 역 질량
-			Hyrule::Vector3D velocity;					// 속도
-			Hyrule::Vector3D angularVelocity;			// 각속도
-			float dfriction;							// 마찰
-			float sfriction;							// 마찰
-			float restitution;							// 반발계수
-			Hyrule::Matrix3x3 inertiaTensor;			// 관성텐서
-			Hyrule::Matrix3x3 invInertiaTensor;			// 역관성텐서
+			Vector3D velocity;							// 속도
+			Vector3D angularVelocity;					// 각속도
+			float dfriction{ 0.1f };					// 마찰
+			float sfriction{ 0.2f };					// 마찰
+			float restitution{ 0.2f };					// 반발계수
+			Matrix3x3 inertiaTensor;					// 관성텐서
+			Matrix3x3 invInertiaTensor;					// 역관성텐서
 
 			bool sleep;									// 잠지고 있는 상태인가?
 			bool kinematic;								// 다른 물체에게 외력을 받을 수 있는가?
@@ -59,11 +61,13 @@ namespace Hyrule
 			bool freezeRot[3];
 
 		private:
-			Hyrule::Vector3D force;						// 힘
-			Hyrule::Vector3D torque;					// 토크
+			Vector3D force;						// 힘
+			Vector3D torque;					// 토크
 
 		public:
 			float GetInvMass() noexcept;
+			Vector3D GetPosition() noexcept;
+			void SetPosition(const Vector3D&) noexcept;
 			float GetStaticFriction() noexcept;
 			float GetDynamicFriction() noexcept;
 			float GetRestitution() noexcept;
@@ -97,6 +101,14 @@ namespace Hyrule
 
 			virtual Matrix4x4 Apply() noexcept override;
 #pragma endregion GetSet
+		};
+
+		class NonRigidBody
+		{
+		public:
+			static RigidBody* nonRigidBody;
+
+			static void Init();
 		};
 	}
 }

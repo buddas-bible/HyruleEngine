@@ -24,18 +24,20 @@ namespace Hyrule
 			/// <summary>
 			/// GJK 충돌 감지
 			/// </summary>
-			static bool GJKCollisionDetection(Collider*, Collider*, Manifold&);
+			static bool GJKCollisionDetection(Collider*, Collider*, Manifold*);
 			
 			/// <summary>
 			/// EPA 침투 깊이 계산
 			/// </summary>
-			static void EPAComputePenetrationDepth(Manifold& _manifold);
+			static void EPAComputePenetrationDepth(Manifold*);
 
 
 			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
 			static void FindContactPoint(Manifold*, const Vector3D&);
 
 		private:
+			static bool SphereToSphere(Collider*, Collider*, Manifold*);
+
 			enum GJK : size_t
 			{
 				LINE = 2,
@@ -55,8 +57,8 @@ namespace Hyrule
 		/// 충돌 대응 부분.
 		/// </summary>
 		public:
-			static void ComputeImpulse(Manifold&);
-			static void ResolveCollision(Manifold&);
+			static void ComputeImpulse(Manifold*);
+			static void ResolveCollision(Manifold*);
 
 		private:
 			static float ComputeFriction(float, float);

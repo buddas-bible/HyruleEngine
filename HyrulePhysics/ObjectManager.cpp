@@ -272,7 +272,7 @@ namespace Hyrule
 
 		RigidBody* ObjectManager::AddRigidBody(Object* _obj)
 		{
-			_obj->rigidbody = new RigidBody;
+			_obj->rigidbody = new RigidBody(_obj);
 
 			return _obj->rigidbody;
 		}
