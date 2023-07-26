@@ -253,9 +253,26 @@ namespace Hyrule
 			
 			// 페이스의 노말 벡터와 변의 벡터를 외적해서 변과 수직인 방향 벡터를 구해냄
 			// incident 면의 변들을 비교해서 넘는 친구들을 잘라내기 시작함.
+			// 	FaceClip(*incident, edge, reference->normal);
+			// }
+
 			for (auto& edge : reference->edge)
 			{
-				FaceClip(*incident, edge, reference->normal);
+				for (auto i = 0; i < incident->vec.size(); i++)
+				{
+					auto j = (i + 1) % incident->vec.size();
+
+					// 벗어난 친구들은 다르게 처리 해줌
+					EdgeClip(incident->vec[i], incident->vec[j], edge.vectorA, edge.normal, false);
+				}
+			}
+
+			// 레퍼런스 페이스의 노말 방향으로 잘라냄
+			for (auto i = 0; i < incident->vec.size(); i++)
+			{
+				auto j = (i + 1) % incident->vec.size();
+
+				EdgeClip(incident->vec[i], incident->vec[j], reference->vec[0], -reference->normal, true);
 			}
 
 			Vector3D contactPoint;
@@ -263,24 +280,26 @@ namespace Hyrule
 
 			for (auto i = 0; i < incident->vec.size(); i++)
 			{
-				auto j = i + 1 % incident->vec.size() - 1;
+				auto j = (i + 1) % incident->vec.size();
 
 				if (Edge(incident->vec[i], incident->vec[j], i, j).GetLengthSquare() <= Epsilon)
 				{
 					++count;
-					contactPoint = incident->vec[i];
+					contactPoint += incident->vec[i];
 				}
 				else
 				{
 					count += 2;
-					contactPoint = incident->vec[i] + incident->vec[j];
+					contactPoint += incident->vec[i] + incident->vec[j];
 				}
 			}
 
 			contactPoint /= count;
+			_manifold->AddContactPoint(contactPoint);
+			// _manifold->GetContactPoints();
 
-			delete reference;
-			delete incident;
+			// delete reference;
+			// delete incident;
 		}
 
 		bool CollisionSystem::SphereToSphere(Collider* _colliderA, Collider* _colliderB, Manifold* _manifold)
@@ -476,7 +495,7 @@ namespace Hyrule
 			// 걸쳐있는 친구는 잘라내고, 벗어난 친구는 없애고 
 			for (auto i = 0; i < _incident.vec.size(); i++)
 			{
-				auto j = i + 1 % _incident.vec.size() - 1;
+				auto j = ( i + 1 ) % _incident.vec.size();
 
 				// 벗어난 친구들은 다르게 처리 해줌
 				EdgeClip(_incident.vec[i], _incident.vec[j], _refEdge.vectorA, _refEdge.normal, false);
@@ -485,7 +504,7 @@ namespace Hyrule
 			// 레퍼런스 페이스의 노말 방향으로 잘라냄
 			for (auto i = 0; i < _incident.vec.size(); i++)
 			{
-				auto j = i + 1 % _incident.vec.size() - 1;
+				auto j = (i + 1) % _incident.vec.size();
 
 				EdgeClip(_incident.vec[i], _incident.vec[j], _refEdge.vectorA, -_refFaceNormal, true);
 			}
@@ -502,7 +521,7 @@ namespace Hyrule
 			Vector3D B{ edgeB };
 
 			// 노말 방향으로 길이가 둘 다 음수인 경우엔 자르지 않음
-			if (!_remove && dA <= 0.f && dB <= 0.f)
+			if (dA <= 0.f && dB <= 0.f)
 			{
 				return;
 			}
@@ -560,8 +579,8 @@ namespace Hyrule
 			float dfriction = ComputeFriction(A->GetDynamicFriction(), B->GetDynamicFriction());
 			float restitution = std::max(A->GetRestitution(), B->GetRestitution());
 
-			Vector3D P_a{ A->GetPosition() };
-			Vector3D P_b{ B->GetPosition() };
+			Vector3D P_a{ _manifold->GetColliderA()->GetPosition() };
+			Vector3D P_b{ _manifold->GetColliderB()->GetPosition() };
 			Vector3D V_a{ A->GetVelocity() };
 			Vector3D V_b{ B->GetVelocity() };
 			Vector3D W_a{ A->GetAngularVelocity() };

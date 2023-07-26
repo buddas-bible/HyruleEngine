@@ -46,11 +46,27 @@ namespace Hyrule
 			}
 		}
 
-		std::vector<Hyrule::Vector3D> BoxShape::GetPoints() noexcept
+		const std::vector<Vector3D>& BoxShape::GetPoints() noexcept
 		{
 			return this->points;
 		}
 
+		std::vector<Vector3D> BoxShape::GetPoints(const Matrix4x4& _matrix) noexcept
+		{
+			std::vector<Vector3D> point;
+
+			for (auto& p : points)
+			{
+				point.push_back(p * _matrix);
+			}
+
+			return point;
+		}
+
+		const std::vector<size_t>& BoxShape::GetIndies() noexcept
+		{
+			return this->index;
+		}
 
 		std::vector<Face> BoxShape::GetFaces(const Matrix4x4& _matrix) noexcept
 		{
@@ -97,12 +113,29 @@ namespace Hyrule
 			}
 		}
 
-		std::vector<Hyrule::Vector3D> PlaneShape::GetPoints() noexcept
+		const std::vector<Vector3D>& PlaneShape::GetPoints() noexcept
 		{
 			return this->points;
 		}
 
-		ConvexShape::ConvexShape(SHAPE_INPO* _info) noexcept : 
+		std::vector<Vector3D> PlaneShape::GetPoints(const Matrix4x4& _matrix) noexcept
+		{
+			std::vector<Vector3D> point;
+
+			for (auto& p : points)
+			{
+				point.push_back(p * _matrix);
+			}
+
+			return point;
+		}
+
+		const std::vector<size_t>& PlaneShape::GetIndies() noexcept
+		{
+			return this->index;
+		}
+
+		ConvexShape::ConvexShape(SHAPE_INPO* _info) noexcept :
 			points(_info->pPointArr, _info->pPointArr + _info->pPointArrSize),
 			index(_info->pIndexArr, _info->pIndexArr + _info->pIndexArrSize)
 		{
@@ -121,9 +154,26 @@ namespace Hyrule
 			}
 		}
 
-		std::vector<Hyrule::Vector3D> ConvexShape::GetPoints() noexcept
+		const std::vector<Vector3D>& ConvexShape::GetPoints() noexcept
 		{
 			return this->points;
+		}
+
+		std::vector<Hyrule::Vector3D> ConvexShape::GetPoints(const Matrix4x4& _matrix) noexcept
+		{
+			std::vector<Vector3D> point;
+
+			for (auto& p : points)
+			{
+				point.push_back(p * _matrix);
+			}
+
+			return point;
+		}
+
+		const std::vector<size_t>& ConvexShape::GetIndies() noexcept
+		{
+			return this->index;
 		}
 
 		std::shared_ptr<BoxShape> Shapes::boxShape{};

@@ -32,7 +32,9 @@ namespace Hyrule
 			~Shape() noexcept = default;
 
 		public:
-			virtual std::vector<Vector3D> GetPoints() noexcept abstract;
+			virtual const std::vector<Vector3D>& GetPoints() noexcept abstract;
+			virtual std::vector<Vector3D> GetPoints(const Matrix4x4&) noexcept abstract;
+			virtual const std::vector<size_t>& GetIndies() noexcept abstract;
 		};
 	
 		class BoxShape : public Shape
@@ -42,7 +44,9 @@ namespace Hyrule
 			~BoxShape() noexcept = default;
 
 		public:
-			virtual std::vector<Vector3D> GetPoints() noexcept override;
+			virtual const std::vector<Vector3D>& GetPoints() noexcept override;
+			virtual std::vector<Vector3D> GetPoints(const Matrix4x4&) noexcept override;
+			virtual const std::vector<size_t>& GetIndies() noexcept override;
 			virtual std::vector<Face> GetFaces(const Matrix4x4&) noexcept;
 
 		private:
@@ -83,7 +87,9 @@ namespace Hyrule
 			~PlaneShape() noexcept = default;
 
 		public:
-			virtual std::vector<Vector3D> GetPoints() noexcept override;
+			virtual const std::vector<Vector3D>& GetPoints() noexcept override;
+			virtual std::vector<Vector3D> GetPoints(const Matrix4x4&) noexcept override;
+			virtual const std::vector<size_t>& GetIndies() noexcept override;
 
 		private:
 			std::vector<Vector3D> points{
@@ -107,7 +113,9 @@ namespace Hyrule
 			~ConvexShape() noexcept = default;
 
 		public:
-			virtual std::vector<Vector3D> GetPoints() noexcept override;
+			virtual const std::vector<Vector3D>& GetPoints() noexcept override;
+			virtual std::vector<Vector3D> GetPoints(const Matrix4x4&) noexcept override;
+			virtual const std::vector<size_t>& GetIndies() noexcept override;
 
 		private:
 			std::vector<Vector3D> points;

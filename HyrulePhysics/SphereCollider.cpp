@@ -28,5 +28,15 @@ namespace Hyrule
 		{
 			return Face(Vector3D(), Vector3D(), Vector3D(), 0, 1, 2);
 		}
+
+		Matrix3x3 SphereCollider::GetInertiaTensor(float) noexcept
+		{
+			return inertia =
+			{
+				1.f, 0.f, 0.f,
+				0.f, 1.f, 0.f,
+				0.f, 0.f, 1.f
+			};
+		}
 	}
 }

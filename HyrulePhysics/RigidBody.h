@@ -31,10 +31,6 @@ namespace Hyrule
 			virtual void OnDestroy() noexcept override;
 			
 		private:
-			// Vector3D position;
-			// Quaternion rotation{ 1.f, 0.f, 0.f, 0.f };
-
-		private:
 			/// <summary>
 			/// 여기서 포지션과 로테이션은 트렌스폼 정보인데
 			/// 어떻게 할 것인지 고민해봐야함
@@ -44,15 +40,18 @@ namespace Hyrule
 			/// 참조로 받아오는건...?
 			/// </summary>
 			Vector3D centerOfMass;
-			float mess{ 10.f };							// 질량
-			float invMess{ 1 / 10.f };					// 역 질량
-			Vector3D velocity;							// 속도
-			Vector3D angularVelocity;					// 각속도
-			float dfriction{ 0.1f };					// 마찰
-			float sfriction{ 0.2f };					// 마찰
-			float restitution{ 0.2f };					// 반발계수
-			Matrix3x3 inertiaTensor;					// 관성텐서
-			Matrix3x3 invInertiaTensor;					// 역관성텐서
+			float mass{ 10.f };									// 질량
+			float invMass{ 1 / 10.f };							// 역 질량
+			Vector3D velocity;									// 속도
+			Vector3D angularVelocity;							// 각속도
+			float dfriction{ 0.1f };							// 마찰
+			float sfriction{ 0.2f };							// 마찰
+			float restitution{ 0.2f };							// 반발계수
+			Matrix3x3 inertiaTensor{ Matrix3x3::Identity() };	// 관성텐서
+			Matrix3x3 invInertiaTensor{ Matrix3x3::Identity() };// 역관성텐서
+
+			float linerDamping{ 0.1f };
+			float m_angularDamping{ 0.1f };
 
 			bool sleep;									// 잠지고 있는 상태인가?
 			bool kinematic;								// 다른 물체에게 외력을 받을 수 있는가?
@@ -64,12 +63,17 @@ namespace Hyrule
 			Vector3D force;						// 힘
 			Vector3D torque;					// 토크
 
+			bool tensorUpdate{ false };
+
 		public:
 			float GetInvMass() noexcept;
+
 			Vector3D GetPosition() noexcept;
 			void SetPosition(const Vector3D&) noexcept;
+
 			float GetStaticFriction() noexcept;
 			float GetDynamicFriction() noexcept;
+
 			float GetRestitution() noexcept;
 			Matrix3x3 GetInvInertia() noexcept;
 
@@ -87,8 +91,8 @@ namespace Hyrule
 
 #pragma region GetSet
 		public:
-			virtual void SetMess(const float) noexcept override;
-			virtual float GetMess() const noexcept override;
+			virtual void SetMass(const float) noexcept override;
+			virtual float GetMass() const noexcept override;
 
 			virtual void SetVelocity(const Hyrule::Vector3D&) noexcept override;
 			virtual Hyrule::Vector3D GetVelocity() const noexcept override;

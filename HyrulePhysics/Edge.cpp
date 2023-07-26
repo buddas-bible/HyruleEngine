@@ -35,6 +35,8 @@ namespace Hyrule
 			this->index2 = _other.index2;
 			this->direction = _other.direction;
 			this->normal = _other.normal;
+
+			return *this;
 		}
 
 		Edge& Edge::operator=(Edge&& _other) noexcept
@@ -48,6 +50,8 @@ namespace Hyrule
 				this->direction = _other.direction;
 				this->normal = _other.normal;
 			}
+
+			return *this;
 		}
 
 		void Edge::Initialze() noexcept

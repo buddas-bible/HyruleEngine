@@ -6,7 +6,10 @@ namespace Hyrule
 {
 	class GameObject;
 
-
+	namespace Physics
+	{
+		class ICollider;
+	}
 
 	class SphereCollider : public Collider
 	{

@@ -6,7 +6,8 @@ namespace Hyrule
 	class GameObject;
 	class Vector3D;
 
-	namespace Physics {
+	namespace Physics
+	{
 		class IRigidBody;
 	}
 
@@ -17,10 +18,8 @@ namespace Hyrule
 		RigidBody(GameObject*) noexcept;
 		virtual ~RigidBody() = default;
 
-		/// 그저 물리엔진에서의 강체와 이벤트를 연결해주는 무언가.
-		/// 강체에 이벤트가... 있던가...?
 	private:
-		Physics::IRigidBody* rigidbody;
+		Physics::IRigidBody* iRigidBody;
 
 	public:
 		void AddForce(const Vector3D&) const noexcept;
@@ -30,14 +29,14 @@ namespace Hyrule
 		/// <summary>
 		/// 물리량 조절
 		/// </summary>
-		void SetMess(const float) noexcept;
-		float GetMess() const noexcept;
+		void SetMass(const float) noexcept;
+		float GetMass() const noexcept;
 
-		void SetVelocity(const Hyrule::Vector3D&) noexcept;
-		Hyrule::Vector3D GetVelocity() const noexcept;
+		void SetVelocity(const Vector3D&) noexcept;
+		Vector3D GetVelocity() const noexcept;
 
-		void SetAngularVelocity(const Hyrule::Vector3D&) noexcept;
-		Hyrule::Vector3D GetAngularVelocity() const noexcept;
+		void SetAngularVelocity(const Vector3D&) noexcept;
+		Vector3D GetAngularVelocity() const noexcept;
 
 		bool isSleeping() const noexcept;
 

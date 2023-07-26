@@ -12,54 +12,54 @@
 namespace Hyrule
 {
 	RigidBody::RigidBody(GameObject* _gameObject) noexcept :
-		Component(_gameObject), rigidbody()
+		Component(_gameObject), iRigidBody()
 	{
-		rigidbody = PhysicsSystem::GetInstance().CreateRigidBody(gameObject->GetName());
+		iRigidBody = PhysicsSystem::GetInstance().CreateRigidBody(gameObject->GetName());
 	}
 
 	void RigidBody::AddForce(const Hyrule::Vector3D& _force) const noexcept
 	{
-		rigidbody->AddForce(_force);
+		iRigidBody->AddForce(_force);
 	}
 
 	void RigidBody::AddTorque(const Hyrule::Vector3D& _torque) const noexcept
 	{
-		rigidbody->AddTorque(_torque);
+		iRigidBody->AddTorque(_torque);
 	}
 
-	void RigidBody::SetMess(const float _mess) noexcept
+	void RigidBody::SetMass(const float _mess) noexcept
 	{
-		rigidbody->SetMess(_mess);
+		iRigidBody->SetMass(_mess);
 	}
 
-	float RigidBody::GetMess() const noexcept
+	float RigidBody::GetMass() const noexcept
 	{
-		return rigidbody->GetMess();
+		return iRigidBody->GetMass();
 	}
 
 	void RigidBody::SetVelocity(const Hyrule::Vector3D& _velo) noexcept
 	{
-		rigidbody->SetVelocity(_velo);
+		iRigidBody->SetVelocity(_velo);
 	}
 
 	Vector3D RigidBody::GetVelocity() const noexcept
 	{
-		return rigidbody->GetVelocity();
+		return iRigidBody->GetVelocity();
 	}
 
 	void RigidBody::SetAngularVelocity(const Hyrule::Vector3D& _angularVelo) noexcept
 	{
-		rigidbody->SetAngularVelocity(_angularVelo);
+		iRigidBody->SetAngularVelocity(_angularVelo);
 	}
 
 	Vector3D RigidBody::GetAngularVelocity() const noexcept
 	{
-		return rigidbody->GetAngularVelocity();
+		return iRigidBody->GetAngularVelocity();
 	}
 
 	bool RigidBody::isSleeping() const noexcept
 	{
-		return rigidbody->isSleeping();
+		return iRigidBody->isSleeping();
 	}
 
 	bool RigidBody::isKinematic() const noexcept
@@ -84,7 +84,7 @@ namespace Hyrule
 
 	void RigidBody::LatePhysicsUpdate()
 	{
-		Matrix4x4 matrix = rigidbody->Apply();
+		Matrix4x4 matrix = iRigidBody->Apply();
 		Matrix4x4 parent{ gameObject->GetTransform()->GetParentWorldMatrix() };
 		matrix /= parent;	// ºÎ¸ðÀÇ ¿ªÇà·ÄÀ» °öÇØ¼­ ·ÎÄÃÀ» »Ì¾Æ³¿
 
@@ -104,16 +104,16 @@ namespace Hyrule
 
 	void RigidBody::OnEnable()
 	{
-		rigidbody->OnEnable();
+		iRigidBody->OnEnable();
 	}
 
 	void RigidBody::OnDisable()
 	{
-		rigidbody->OnDisable();
+		iRigidBody->OnDisable();
 	}
 
 	void RigidBody::OnDestroy()
 	{
-		rigidbody->OnDestroy();
+		iRigidBody->OnDestroy();
 	}
 }

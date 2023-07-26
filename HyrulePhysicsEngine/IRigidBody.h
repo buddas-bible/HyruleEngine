@@ -27,8 +27,8 @@ namespace Hyrule
 			/// <summary>
 			/// 외부에서 물리량을 조절하고 싶을 때.
 			/// </summary>
-			virtual void SetMess(const float) noexcept abstract;					// 질량
-			virtual float GetMess() const noexcept abstract;
+			virtual void SetMass(const float) noexcept abstract;					// 질량
+			virtual float GetMass() const noexcept abstract;
 
 			virtual void SetVelocity(const Hyrule::Vector3D&) noexcept abstract;
 			virtual Hyrule::Vector3D GetVelocity() const noexcept abstract;

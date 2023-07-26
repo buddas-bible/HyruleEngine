@@ -44,7 +44,7 @@ namespace Hyrule
 
 		float RigidBody::GetInvMass() noexcept
 		{
-			return this->invMess;
+			return this->invMass;
 		}
 
 		Vector3D RigidBody::GetPosition() noexcept
@@ -61,7 +61,7 @@ namespace Hyrule
 
 		void RigidBody::SetPosition(const Vector3D& _pos) noexcept
 		{
-			if (invMess == 0.f)
+			if (invMass == 0.f)
 			{
 				return;
 			}
@@ -89,12 +89,18 @@ namespace Hyrule
 
 		Hyrule::Matrix3x3 RigidBody::GetInvInertia() noexcept
 		{
+			if (!tensorUpdate)
+			{
+				this->CalculateInertiaTensor();
+				tensorUpdate = true;
+			}
+
 			return this->invInertiaTensor;
 		}
 
 		void RigidBody::ApplyImpulse(const Vector3D& _impulse, const Vector3D& _contact) noexcept
 		{
-			if (this->activate == false || this->invMess == 0.f)
+			if (this->activate == false || this->invMass == 0.f)
 			{
 				return;
 			}
@@ -102,7 +108,7 @@ namespace Hyrule
 			// 선형 운동
 			// 충격량 = (F * dt) = (m * a * dt) = (m * dV) = dP
 			// dV = 충격량 / m
-			Vector3D dV = _impulse * this->invMess;
+			Vector3D dV = _impulse * this->invMass;
 			this->velocity += dV;
 
 			// 회전 운동
@@ -120,7 +126,7 @@ namespace Hyrule
 
 		void RigidBody::ComputeVelocity(Vector3D _gravity, float _dt) noexcept
 		{
-			if (this->activate == false || this->invMess == 0.f)
+			if (this->activate == false || this->invMass == 0.f)
 			{
 				return;
 			}
@@ -131,12 +137,12 @@ namespace Hyrule
 			}
 
 			// 힘을 속력으로 변환
-			this->velocity += (this->force * this->invMess) * _dt;
+			this->velocity += (this->force * this->invMass) * _dt;
 			this->angularVelocity += (this->torque * this->invInertiaTensor) * _dt;
 			
 			// 감쇠
-			// this->velocity *= std::exp(-0.1 * _dt);
-			// this->angularVelocity *= std::exp(-0.1 * _dt);
+			this->velocity *= std::exp(-0.1 * _dt);
+			this->angularVelocity *= std::exp(-0.1 * _dt);
 
 			this->force = Vector3D::Zero();
 			this->torque = Vector3D::Zero();
@@ -144,7 +150,7 @@ namespace Hyrule
 
 		void RigidBody::ComputePosition(float _dt) noexcept
 		{
-			if (invMess == 0.f)
+			if (invMass == 0.f)
 			{
 				return;
 			}
@@ -185,7 +191,7 @@ namespace Hyrule
 
 		void RigidBody::CalculateInertiaTensor()
 		{
-			CalculateInertiaTensor(this->mess);
+			CalculateInertiaTensor(this->mass);
 		}
 
 		/// <summary>
@@ -193,37 +199,43 @@ namespace Hyrule
 		/// </summary>
 		Matrix3x3 RigidBody::GetInertia()
 		{
+			if (!tensorUpdate)
+			{
+				CalculateInertiaTensor();
+				tensorUpdate = true;
+			}
+
 			return this->inertiaTensor;
 		}
 
 #pragma region GetSet
-		void RigidBody::SetMess(const float _mess) noexcept
+		void RigidBody::SetMass(const float _mass) noexcept
 		{
-			if (_mess == 0.f)
+			if (_mass == 0.f)
 			{
-				this->invMess = 0.f;
+				this->invMass = 0.f;
 			}
 			else
 			{
-				this->invMess = 1 / _mess;
+				this->invMass = 1 / _mass;
 			}
 
 			/// SetMess를 시도하면
 			/// inertia Tensor를 새로 구하도록 해야함.
-			this->CalculateInertiaTensor(_mess);
-
-			this->mess = _mess;
+			tensorUpdate = false;
+			this->mass = _mass;
 		}
 
-		float RigidBody::GetMess() const noexcept
+		float RigidBody::GetMass() const noexcept
 		{
-			return this->mess;
+			return this->mass;
 		}
 
 		void RigidBody::SetVelocity(const Vector3D& _velo) noexcept
 		{
-			if (invMess == 0.f)
+			if (invMass == 0.f)
 			{
+				velocity = Vector3D();
 				return;
 			}
 
@@ -237,8 +249,9 @@ namespace Hyrule
 
 		void RigidBody::SetAngularVelocity(const Vector3D& _angular) noexcept
 		{
-			if (invMess == 0.f)
+			if (invMass == 0.f)
 			{
+				angularVelocity = Vector3D();
 				return;
 			}
 
@@ -280,7 +293,7 @@ namespace Hyrule
 				nonRigidBody = new RigidBody;
 			}
 
-			nonRigidBody->SetMess(0.f);
+			nonRigidBody->SetMass(0.f);
 		}
 	}
 }

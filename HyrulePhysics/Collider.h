@@ -55,6 +55,10 @@ namespace Hyrule
 			bool isActive();
 			void SetCollied(bool);
 
+			virtual Vector3D GetCenterOfMass() noexcept final;
+			virtual Matrix3x3 GetInertiaTensor(float) noexcept abstract;
+			virtual void Subexpressions(float, float, float, float&, float&, float&, float&, float&, float&) final;
+
 		public:
 			virtual bool isCollision() noexcept final;
 			virtual void OnEnable() noexcept final;

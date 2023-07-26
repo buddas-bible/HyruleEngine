@@ -6,6 +6,11 @@ namespace Hyrule
 {
 	class GameObject;
 
+	namespace Physics
+	{
+		class ICollider;
+	}
+
 	class BoxCollider : public Collider
 	{
 	public:

@@ -76,6 +76,26 @@ namespace Hyrule
 			this->collied = _bool;
 		}
 
+		Hyrule::Vector3D Collider::GetCenterOfMass() noexcept
+		{
+			return centerOfMass;
+		}
+
+		void Collider::Subexpressions(float w0, float w1, float w2, float& f0, float& f1, float& f2, float& g0, float& g1, float& g2)
+		{
+			auto w0Plusw1 = w0 + w1;
+			f0 = w0Plusw1 + w2;
+
+			auto w0Sqrt = w0 * w0;
+			auto temp2 = w0Sqrt + (w1 * w0Plusw1);
+			f1 = temp2 + (w2 * f0);
+			f2 = (w0 * w0Sqrt) + (w1 * temp2) + (w2 * f1);
+
+			g0 = f1 + w0 * (f0 + w0);
+			g1 = f1 + w1 * (f0 + w1);
+			g2 = f1 + w2 * (f0 + w2);
+		}
+
 		bool Collider::isCollision() noexcept
 		{
 			return this->collied;

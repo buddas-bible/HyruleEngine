@@ -98,15 +98,14 @@ namespace Hyrule
 			return ToTransformMatrix(position, rotation, scale);
 		}
 
-		Matrix3x3 Object::GetInertiaTensor(float _mess)
+		Matrix3x3 Object::GetInertiaTensor(float _mass)
 		{
 			if (colliders.size())
 			{
-				// 아직은 하나만 할거임...
-				// return colliders[0]->GetInertiaTensor(_mess);
+				return colliders[0]->GetInertiaTensor(_mass);
 			}
 
-			return Matrix3x3();
+			return Matrix3x3::Identity();
 		}
 
 		Vector3D Object::GetCenterOfMess()
