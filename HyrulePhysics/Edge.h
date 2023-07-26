@@ -9,6 +9,10 @@ namespace Hyrule
 		{
 			Edge() noexcept = default;
 			Edge(const Vector3D&, const Vector3D&, size_t, size_t) noexcept;
+			Edge(const Edge&) noexcept;
+			Edge(Edge&&) noexcept;
+			Edge& operator=(const Edge&) noexcept;
+			Edge& operator=(Edge&&) noexcept;
 			~Edge() noexcept = default;
 
 			void Initialze() noexcept;

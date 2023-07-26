@@ -28,6 +28,7 @@ namespace Hyrule
 
 		protected:
 			Object* object;
+			Matrix4x4 preTM;
 
 			// 콜라이더 중심과 크기를 바꿀 일이 없다고 생각하자....
 			Vector3D center;

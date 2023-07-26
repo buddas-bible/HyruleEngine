@@ -30,7 +30,6 @@ namespace Hyrule
 			Quaternion rotation;
 			Vector3D scale;
 
-			Matrix4x4 worldTM;
 			bool isColliding;
 
 		public:

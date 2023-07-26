@@ -110,6 +110,7 @@ namespace Hyrule
 								CollisionSystem::EPAComputePenetrationDepth(manifold);
 
 								// 접촉점도 찾아야함.
+								CollisionSystem::FindContactPoint(manifold);
 							}
 							else
 							{

@@ -16,29 +16,12 @@ namespace Hyrule
 
 		Vector3D SphereCollider::FindFarthestPoint(const Vector3D& _direction)
 		{
-			Matrix4x4 world = object->GetWorldTM();
-			Vector3D pos{ world.e[3] };
+			Vector3D pos{ object->GetPosition() };
+			Vector3D scl{ object->GetScale() };
 
-			Vector3D scl{ world.e[0] };
-			float max{ scl.Length() };
+			float max = std::max(std::max(scl.x, scl.y), scl.z);
 
-			for (auto i = 1; i < 3; i++)
-			{
-				scl = world.e[i];
-				float temp{ scl.Length() };
-
-				if (max < temp)
-				{
-					max = temp;
-				}
-			}
-
-
-			auto tt = _direction * 0.5f * max + pos;
-			
-
-			// tt += Vector3D::Zero();
-			return tt;
+			return _direction * 0.5f * max + pos;
 		}
 
 		Face SphereCollider::FindSupportFace(const Vector3D&)

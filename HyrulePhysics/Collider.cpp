@@ -113,16 +113,14 @@ namespace Hyrule
 
 		void Collider::SetWorldTransform(const Matrix4x4& _mat)
 		{
-			if (_mat != object->GetWorldTM())
+			if (_mat == preTM)
 			{
-				// 같지 않다면 노드를 다시 설정해야함.
-				this->object->SetWorldTM(_mat);
-				ObjectManager::GetInstance().OctreeResearch(this);
+				return;
 			}
-			else
-			{
-				this->object->SetWorldTM(_mat);
-			}
+			
+			preTM = _mat;
+			this->object->SetWorldTM(_mat);
+			ObjectManager::GetInstance().OctreeResearch(this);
 		}
 
 		void Collider::SetTrigger(bool _trigger)

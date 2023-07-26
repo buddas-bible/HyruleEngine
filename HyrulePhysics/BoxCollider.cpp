@@ -23,16 +23,16 @@ namespace Hyrule
 		/// </summary>
 		Vector3D BoxCollider::FindFarthestPoint(const Vector3D& _direction)
 		{
-			Matrix4x4 world = object->GetWorldTM();
-			Matrix4x4 local = ToTransformMatrix(center, Quaternion::Identity(), size);
+			Matrix4x4 objectTM = object->GetWorldTM();
+			Matrix4x4 colliderTM = ToTransformMatrix(center, Quaternion::Identity(), size);
 
-			Matrix4x4 invWorld = local *= world;
-			invWorld.m[3] = {0.f, 0.f, 0.f, 1.f};
-			invWorld = invWorld.Inverse();
+			Matrix4x4 colliderWorld = colliderTM *= objectTM;
+			colliderWorld.m[3] = {0.f, 0.f, 0.f, 1.f};
+			Matrix4x4 invColliderWorld = colliderWorld.Inverse();
 
 			float maxDist{ FLT_MIN };
 			size_t index{ 0 };
-			Vector3D dir{ (_direction * invWorld).Normalized() };
+			Vector3D dir{ (_direction * invColliderWorld).Normalized() };
 
 			for (size_t i = 0; i < shape->GetPoints().size(); i++)
 			{
@@ -45,12 +45,62 @@ namespace Hyrule
 				}
 			}
 
-			return shape->GetPoints()[index] * local;
+			return shape->GetPoints()[index] * colliderTM;
 		}
 
-		Face BoxCollider::FindSupportFace(const Vector3D&)
+		Face BoxCollider::FindSupportFace(const Vector3D& _direction)
 		{
-			return Face(Vector3D(), Vector3D(), Vector3D(), 0, 1, 2);
+			// 방향에 있는 점을 포함하고 있는 면을 찾아야함.
+			Matrix4x4 world = object->GetWorldTM();
+
+			// std::map<float, Face> facesMap;
+
+			auto faces = shape->GetFaces(world);
+			float max{ FLT_MIN };
+			Vector3D normal{};
+
+			// 페이스를 탐색하면서 방향벡터랑 페이스의 노말과 최대한 평행한 것을 찾는다.
+			for (auto& e : faces)
+			{
+				float radius{ e.normal.Dot(_direction) };
+
+				if (radius > max)
+				{
+					max = radius;
+					normal = e.normal;
+				}
+			}
+
+			std::vector<Edge> edges;
+			std::vector<Face> same;
+
+			for (auto& e : faces)
+			{
+				float radius{ 1.f - e.normal.Dot(normal) };
+				// float error{ std::fabs(max - radius) };
+
+				// 오차가 입실론보다 작다면 같은 면임.
+				if (radius <= Epsilon)
+				{
+					same.push_back(e);
+
+					for (auto& edge : e.edge)
+					{
+						auto itr = std::find(edges.begin(), edges.end(), edge);
+
+						if (itr != edges.end())
+						{
+							edges.erase(itr);
+						}
+						else
+						{
+							edges.push_back(edge);
+						}
+					}
+				}
+			}
+
+			return Face(edges);
 		}
 	}
 }

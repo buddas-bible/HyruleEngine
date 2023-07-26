@@ -44,7 +44,7 @@ namespace Hyrule
 		box2->AddComponent<BoxCollider>();
 		box2->AddComponent<RigidBody>();
 
-		// GetMainCamera()->gameObject->SetParent(box);
+		GetMainCamera()->gameObject->SetParent(box);
 		con->AddControllableObject(VK_F1, box);
 		con->AddControllableObject(VK_F2, box2);
 	}

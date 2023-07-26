@@ -33,10 +33,27 @@ namespace Hyrule
 
 
 			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
-			static void FindContactPoint(Manifold*, const Vector3D&);
+
+			static void FindContactPoint(Manifold*);
 
 		private:
 			static bool SphereToSphere(Collider*, Collider*, Manifold*);
+			static bool SphereToBox(Collider*, Collider*, Manifold*);
+			static bool SphereToCapsule(Collider*, Collider*, Manifold*);
+			static bool SphereToConvex(Collider*, Collider*, Manifold*);
+			static bool SphereToMesh(Collider*, Collider*, Manifold*);
+			
+			static bool BoxToBox(Collider*, Collider*, Manifold*);
+			static bool BoxToCapsule(Collider*, Collider*, Manifold*);
+			static bool BoxToConvex(Collider*, Collider*, Manifold*);
+			static bool BoxToMesh(Collider*, Collider*, Manifold*);
+
+			static bool CapsuleToCapsule(Collider*, Collider*, Manifold*);
+			static bool CapsuleToConvex(Collider*, Collider*, Manifold*);
+			static bool CapsuleToMesh(Collider*, Collider*, Manifold*);
+			
+			static bool ConvexToConvex(Collider*, Collider*, Manifold*);
+
 
 			enum GJK : size_t
 			{
@@ -51,7 +68,7 @@ namespace Hyrule
 			static bool DoSimplex4(Simplex&, Vector3D&);
 
 			static void FaceClip(Face& _incident, const Edge& _refEdge, const Vector3D& _refNormal);
-			static void EdgeClip(Edge&, const Vector3D&, const Vector3D&, bool);
+			static void EdgeClip(Vector3D& edgeA, Vector3D& edgeB, const Vector3D&, const Vector3D&, bool);
 
 		/// <summary>
 		/// 충돌 대응 부분.

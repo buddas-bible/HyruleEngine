@@ -17,27 +17,29 @@ namespace Hyrule
 
 		Vector3D PlaneCollider::FindFarthestPoint(const Vector3D& _direction)
 		{
-			Matrix4x4 invWorld = object->GetWorldTM();
-			Matrix4x4 world = invWorld;
-			invWorld.m[3] = { 0.f, 0.f, 0.f, 1.f };
-			invWorld = invWorld.Inverse();
+			Matrix4x4 objectTM = object->GetWorldTM();
+			Matrix4x4 colliderTM = ToTransformMatrix(center, Quaternion::Identity(), size);
 
-			float minDist{ FLT_MIN };
+			Matrix4x4 colliderWorld = colliderTM *= objectTM;
+			colliderWorld.m[3] = { 0.f, 0.f, 0.f, 1.f };
+			Matrix4x4 invColliderWorld = colliderWorld.Inverse();
+
+			float maxDist{ FLT_MIN };
 			size_t index{ 0 };
-			Vector3D dir{ (_direction * invWorld).Normalized() };
+			Vector3D dir{ (_direction * invColliderWorld).Normalized() };
 
 			for (size_t i = 0; i < shape->GetPoints().size(); i++)
 			{
 				float dist{ shape->GetPoints()[i].Dot(dir) };
 
-				if (dist < minDist)
+				if (dist > maxDist)
 				{
-					minDist = dist;
+					maxDist = dist;
 					index = i;
 				}
 			}
 
-			return shape->GetPoints()[index] * world;
+			return shape->GetPoints()[index] * colliderTM;
 		}
 
 		Face PlaneCollider::FindSupportFace(const Vector3D&)

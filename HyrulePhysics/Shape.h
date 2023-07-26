@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include "HyruleMath.h"
+#include "Face.h"
 
 enum class ShapeType : int
 {
@@ -42,6 +43,7 @@ namespace Hyrule
 
 		public:
 			virtual std::vector<Vector3D> GetPoints() noexcept override;
+			virtual std::vector<Face> GetFaces(const Matrix4x4&) noexcept;
 
 		private:
 			std::vector<Vector3D> points{
@@ -70,6 +72,8 @@ namespace Hyrule
 				1, 0, 4,		// аб
 				1, 4, 5,
 			};
+
+			std::vector<Face> faces;
 		};
 	
 		class PlaneShape : public Shape
@@ -91,6 +95,8 @@ namespace Hyrule
 				0, 3, 2,
 				0, 2, 1,
 			};
+
+			std::vector<Face> faces;
 		};
 
 		class ConvexShape : public Shape
@@ -106,6 +112,7 @@ namespace Hyrule
 		private:
 			std::vector<Vector3D> points;
 			std::vector<size_t> index;
+			std::vector<Face> faces;
 		};
 
 		class Shapes

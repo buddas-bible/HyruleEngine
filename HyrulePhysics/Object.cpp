@@ -90,8 +90,6 @@ namespace Hyrule
 
 		void Object::SetWorldTM(const Matrix4x4& _TM)
 		{
-			this->worldTM = _TM;
-
 			Decompose(_TM, position, rotation, scale);
 		}
 

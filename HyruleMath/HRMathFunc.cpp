@@ -116,13 +116,7 @@ namespace Hyrule
 		rotationMatrix.m[2] /= _scl.z;
 
 		// 회전 행렬을 쿼터니언으로 변환
-		_rot = ToQuaternion(
-			{
-				rotationMatrix.e00, rotationMatrix.e01, rotationMatrix.e02,
-				rotationMatrix.e10, rotationMatrix.e11, rotationMatrix.e12,
-				rotationMatrix.e20, rotationMatrix.e21, rotationMatrix.e22
-			}
-		);
+		_rot = ToQuaternion(rotationMatrix);
 	}
 
 	/// <summary>

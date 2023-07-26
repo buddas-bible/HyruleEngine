@@ -95,7 +95,7 @@ namespace Hyrule
 
 		gameObject->GetTransform()->SetLocalPosition(pos);;
 		gameObject->GetTransform()->SetLocalQuaternion(rot);
- 		gameObject->GetTransform()->SetLocalPosition(scl);
+ 		gameObject->GetTransform()->SetLocalScale(scl);
 	}
 
 	void RigidBody::Update()

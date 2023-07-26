@@ -66,7 +66,10 @@ namespace Hyrule
 				return;
 			}
 
-			object->GetPosition() = _pos;
+			if (object)
+			{
+				object->GetPosition() = _pos;
+			}
 		}
 
 		float RigidBody::GetStaticFriction() noexcept
@@ -132,8 +135,8 @@ namespace Hyrule
 			this->angularVelocity += (this->torque * this->invInertiaTensor) * _dt;
 			
 			// °¨¼è
-			this->velocity *= std::exp(-0.1 * _dt);
-			this->angularVelocity *= std::exp(-0.1 * _dt);
+			// this->velocity *= std::exp(-0.1 * _dt);
+			// this->angularVelocity *= std::exp(-0.1 * _dt);
 
 			this->force = Vector3D::Zero();
 			this->torque = Vector3D::Zero();
@@ -265,6 +268,7 @@ namespace Hyrule
 		{
 			return object->GetWorldTM();
 		}
+
 #pragma endregion GetSet
 
 		RigidBody* NonRigidBody::nonRigidBody = nullptr;
