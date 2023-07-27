@@ -121,7 +121,7 @@ namespace Hyrule
 			// dw = dL / I
 			// dw = (r X dP) / I_impulse
 			Vector3D rXdP{ _contact.Cross(_impulse) };
-			Vector3D dw{ rXdP * this->invInertiaTensor };
+			Vector3D dw{ rXdP * this->GetInvInertia() };
 			this->angularVelocity += dw;
 		}
 
@@ -161,6 +161,7 @@ namespace Hyrule
 
 			position += this->velocity * _dt;
 
+			// rotation *= ToQuaternion(angularVelocity * _dt);
 			rotation *= ToQuaternion(this->angularVelocity.Normalized(), -this->angularVelocity.Length() * _dt);
 		}
 
