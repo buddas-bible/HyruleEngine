@@ -28,6 +28,9 @@ namespace Hyrule
 
 		virtual  void SetWorldTransform(const Matrix4x4&) noexcept override;
 
+		virtual void ZoomIn(float) override;
+		virtual void ZoomOut(float) override;
+
 		virtual  void SetPerspectiveView() override;
 		virtual  void SetOrthographicView() override;
 
@@ -43,6 +46,7 @@ namespace Hyrule
 		Vector3D m_look;		// 카메라 z
 		Vector3D m_up;			// 카메라 y
 		Vector3D m_right;		// 카메라 x
+		float zoom{ 1.f };
 
 		Matrix4x4 m_View;
 		Matrix4x4 m_persProj;

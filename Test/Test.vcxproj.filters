@@ -7,7 +7,7 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{94256cfe-7fc9-4d99-a20d-6c89f1d32e37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Component">
+    <Filter Include="Component">
       <UniqueIdentifier>{05ec9709-630e-4380-9534-711277997756}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -18,7 +18,9 @@
     <ClCompile Include="Scene01.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Controller.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -27,6 +29,8 @@
     <ClInclude Include="Scene01.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h" />
+    <ClInclude Include="Controller.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

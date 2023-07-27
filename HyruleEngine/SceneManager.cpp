@@ -61,6 +61,14 @@ namespace Hyrule
 		first = true;
 	}
 
+	void SceneManager::UnloadScene() noexcept
+	{
+		if (currentScene != nullptr)
+		{
+			currentScene->Clear();
+		}
+	}
+
 	void SceneManager::ClearScene()
 	{
 		if (currentScene != nullptr)
@@ -250,16 +258,7 @@ namespace Hyrule
 		for (size_t i = 0; i < currentScene->DeactivatedQueue().size(); i++)
 		{
 			auto obj = currentScene->DeactivatedQueue().front();
-			currentScene->ActivatedQueue().pop();
-
-// 			auto itr = std::find(
-// 				currentScene->GetActivtedObject().begin(), 
-// 				currentScene->GetActivtedObject().end(), 
-// 				obj
-// 			);
-// 
-// 			currentScene->GetActivtedObject().erase(itr);
-			
+			currentScene->ActivatedQueue().pop();			
 			obj->OnDisable();
 		}
 

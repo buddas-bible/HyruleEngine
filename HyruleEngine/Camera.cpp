@@ -4,6 +4,7 @@
 #include "InputSystem.h"
 #include <windows.h>
 #include "RendererSystem.h"
+#include "TimeSystem.h"
 
 #include "GameObject.h"
 #include "Transform.h"
@@ -70,15 +71,30 @@ namespace Hyrule
 		gameObject->GetTransform()->SetLocalQuaternion(RotateVectorToVectorQuaternion(Vector3D::Forward(), (at - eye).Normalized()));
 	}
 
+	void Camera::Update()
+	{
+		auto& input = InputSystem::GetInstance();
+		auto dt = TimeSystem::GetInstance().GetfDeltaTime();
+
+		if (input.KeyPressedNow('Z'))
+		{
+			camera->ZoomIn(1.f * dt);
+		}
+		if (input.KeyPressedNow('X'))
+		{
+			camera->ZoomOut(1.f * dt);
+		}
+	}
+
 	void Camera::LateUpdate()
 	{
 		auto& input = InputSystem::GetInstance();
 
-		if (input.KeyPressedNow(VK_F9))
+		if (input.KeyPressedNow(VK_F7))
 		{
 			camera->SetPerspectiveView();
 		}
-		if (input.KeyPressedNow(VK_F10))
+		if (input.KeyPressedNow(VK_F8))
 		{
 			camera->SetOrthographicView();
 		}

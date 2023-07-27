@@ -59,6 +59,8 @@ namespace Hyrule
 
 			Collider* GetColliderA();
 			Collider* GetColliderB();
+			void SetColliderA(Collider*);
+			void SetColliderB(Collider*);
 
 			Vector3D GetNormal() const noexcept;
 			void SetNormal(const Vector3D& _normal) noexcept;

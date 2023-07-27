@@ -48,11 +48,6 @@ namespace Hyrule
 		return this->gameObjecs;
 	}
 
-	// 	std::vector<GameObject*>& Scene::GetActivtedObject()
-	// 	{
-	// 		return this->activatedObject;
-	// 	}
-
 	std::queue<GameObject*>& Scene::ActivatedQueue()
 	{
 		return this->objectsToDeactivate;
@@ -144,12 +139,5 @@ namespace Hyrule
 		{
 			e.second->OnDestroy();
 		}
-
-		for (auto& e : gameObjecs)
-		{
-			delete e.second;
-		}
-
-		gameObjecs.clear();
 	}
 }

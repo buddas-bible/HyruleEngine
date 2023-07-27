@@ -1,5 +1,3 @@
-#include "RigidBody.h"
-
 #include "GameObject.h"
 #include "Transform.h"
 #include "Scene.h"
@@ -8,6 +6,8 @@
 #include "IRigidBody.h"
 
 #include "PhysicsSystem.h"
+
+#include "RigidBody.h"
 
 namespace Hyrule
 {

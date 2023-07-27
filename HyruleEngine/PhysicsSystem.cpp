@@ -62,6 +62,12 @@ namespace Hyrule
 		physicsEngine->CollisionDetection();
 	}
 
+
+	void PhysicsSystem::ApplyObjectDestroy() noexcept
+	{
+		physicsEngine->ApplyObjectDestroy();
+	}
+
 	/// <summary>
 	/// 충돌 대응
 	/// 

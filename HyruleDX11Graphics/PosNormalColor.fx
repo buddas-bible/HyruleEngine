@@ -40,7 +40,7 @@ VertexOut VS(VertexIn vin)
     float3 N = mul(vin.Normal, (float3x3)invTworldViewProj);
     float3 L = lightDirection;
     vout.PosH = mul(float4(vin.PosL, 1.0f), worldViewProj);
-    vout.Diffuse = dot(N, L) * 0.5f + 0.5f;
+    vout.Diffuse = dot(N, L) * 0.5f + 0.7f;
 
     return vout;
 }

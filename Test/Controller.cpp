@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "windows.h"
+#include "SceneManager.h"
 
 namespace Hyrule
 {

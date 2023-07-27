@@ -31,6 +31,7 @@ namespace Hyrule
 		bool LoadPhysicsDLL(const std::wstring&, HWND);
 
 		void CollisionDetection() noexcept;
+		void ApplyObjectDestroy() noexcept;
 		void CollisionResponse(float) noexcept;
 		void Finalize();
 

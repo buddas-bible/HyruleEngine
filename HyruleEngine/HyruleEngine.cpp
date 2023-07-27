@@ -32,6 +32,8 @@ namespace Hyrule
 	{
 		MSG msg;
 		
+		TimeSystem::GetInstance().Tick();
+
 		while (isRunning)
 		{
 			if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))

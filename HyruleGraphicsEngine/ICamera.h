@@ -30,6 +30,9 @@ namespace Hyrule
 
 		virtual  void SetWorldTransform(const Matrix4x4&) noexcept abstract;
 
+		virtual void ZoomIn(float) abstract;
+		virtual void ZoomOut(float) abstract;
+
 		virtual  void SetPerspectiveView()abstract;
 		virtual  void SetOrthographicView()abstract;
 	};

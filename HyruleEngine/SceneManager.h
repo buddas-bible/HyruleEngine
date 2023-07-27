@@ -28,6 +28,7 @@ namespace Hyrule
 
 		void LoadScene(const std::wstring&) noexcept;
 		void LoadScene(IScene*) noexcept;
+		void UnloadScene() noexcept;
 		void ClearScene();
 
 	public:

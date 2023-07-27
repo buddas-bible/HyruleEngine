@@ -97,6 +97,18 @@ namespace Hyrule
 			return this->B;
 		}
 
+
+		void Manifold::SetColliderA(Collider* _collider)
+		{
+			this->A = _collider;
+		}
+
+
+		void Manifold::SetColliderB(Collider* _collider)
+		{
+			this->B = _collider;
+		}
+
 		Vector3D Manifold::GetNormal() const noexcept
 		{
 			return this->normal;

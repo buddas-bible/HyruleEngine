@@ -178,11 +178,11 @@ namespace Hyrule
 			for (auto i = 0; i < ToDestroyCollider.size(); i++)
 			{
 				Collider* e{ ToDestroyCollider.front() };
-				// auto itr = std::find(colliders.begin(), colliders.end(), e);
-				// if (itr != colliders.end())
-				// {
-				// 	colliders.erase(itr);
-				// }
+				auto itr = std::find(colliders.begin(), colliders.end(), e);
+				if (itr != colliders.end())
+				{
+					colliders.erase(itr);
+				}
 				octree.Remove(e);
 
 				Object* obj{ e->GetObject() };

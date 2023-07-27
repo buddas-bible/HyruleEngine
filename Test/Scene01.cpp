@@ -1,5 +1,3 @@
-#include "Scene01.h"
-
 #pragma comment(lib, "HyruleMath.lib")
 
 #include "GameObject.h"
@@ -16,6 +14,7 @@
 #include "Controller.h"
 #include "Camera.h"
 
+#include "Scene01.h"
 
 namespace Hyrule
 {
@@ -30,11 +29,12 @@ namespace Hyrule
 
 		GameObject* box = CreateGameObject(L"Box01");
 		box->AddComponent<CubeRenderer>();
-		box->GetTransform()->SetLocalPosition(Vector3D(0.f, 0.f, 10.f));
-		box->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		box->GetTransform()->SetLocalPosition(Vector3D(-0.45f, 0.0f, -0.45f));
+		box->GetTransform()->SetLocalScale(Vector3D(1.f, 0.5f, 1.f));
 		box->AddComponent<BoxCollider>();
-		box->AddComponent<RigidBody>();
-		// rigidBox01->SetVelocity({ 0.f, 0.f, 3.f });
+		Hyrule::RigidBody* rigidBox01 = box->AddComponent<RigidBody>();
+		// rigidBox01->SetVelocity({ 2.f, 0.f, 0.f });
+		rigidBox01->SetMass(0.f);
 
 		// GameObject* sphere = CreateGameObject(L"Sphere01");
 		// sphere->AddComponent<SphereRenderer>();
@@ -44,15 +44,16 @@ namespace Hyrule
 
 		GameObject* box2 = CreateGameObject(L"Box02");
 		box2->AddComponent<CubeRenderer>();
-		box2->GetTransform()->SetLocalPosition(Vector3D(0.f, 0.f, 0.f));
-		box2->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		box2->GetTransform()->SetLocalPosition(Vector3D(0.f, 5.f, 0.f));
+		box2->GetTransform()->SetLocalScale(Vector3D(1.f, 1.f, 1.f));
 		box2->AddComponent<BoxCollider>();
 		Hyrule::RigidBody* rigidBox02 = box2->AddComponent<RigidBody>();
-		rigidBox02->SetVelocity(Vector3D{ 0.f, 0.f, 3.f });
+		// rigidBox02->SetVelocity(Vector3D{ -2.f, 0.f, 0.f });
 
 
-		GetMainCamera()->gameObject->SetParent(box);
+		// GetMainCamera()->gameObject->SetParent(box2);
 		con->AddControllableObject(VK_F1, box);
 		con->AddControllableObject(VK_F2, box2);
+		con->AddControllableObject(VK_F3, GetMainCamera()->gameObject);
 	}
 }

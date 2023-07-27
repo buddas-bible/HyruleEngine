@@ -15,6 +15,15 @@ namespace Hyrule
 		static double accumulatedTime = 0.f;
 		static const double fixedDeltaTime = 1.f / 120.f;
 
+		auto& input = InputSystem::GetInstance();
+
+		if (!first && input.KeyPressedNow('P'))
+		{
+			SceneManager::GetInstance().UnloadScene();
+			first = true;
+			state = DECOMISSIONING;
+		}
+
 		switch (state)
 		{
 			case INITIALIZATION:
@@ -29,7 +38,8 @@ namespace Hyrule
 			}
 			case PHYSICS:
 			{
-				double deltaTime = (double)TimeSystem::GetInstance().GetfDeltaTime();
+				// double deltaTime = (double)TimeSystem::GetInstance().GetfDeltaTime();
+				double deltaTime = 0.003f;
 				accumulatedTime += deltaTime;
 
 				// 프레임마다 한 번 호출되도록 함.
@@ -41,7 +51,7 @@ namespace Hyrule
 					SceneManager::GetInstance().PrePhysicsUpdate();				// 콜라이더 매트릭스 업데이트
 					PhysicsSystem::GetInstance().CollisionDetection();
 					SceneManager::GetInstance().PhysicsUpdate();				// 콜라이더 충돌 여부 확인
-					PhysicsSystem::GetInstance().CollisionResponse(TimeSystem::GetInstance().GetfDeltaTime());
+					PhysicsSystem::GetInstance().CollisionResponse(deltaTime);
 					SceneManager::GetInstance().LatePhysicsUpdate();			// 리지드바디 시뮬레이션 내용 적용
 
 					accumulatedTime -= fixedDeltaTime;
@@ -95,6 +105,7 @@ namespace Hyrule
 			{
 				// 씬에서 파괴되거나 비활성화 된 게임 오브젝트를 처리
 				SceneManager::GetInstance().Decommissioning();
+				PhysicsSystem::GetInstance().ApplyObjectDestroy();
 				
 				if (TimeSystem::GetInstance().GetfDeltaTime() != 0.f)
 				{

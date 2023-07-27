@@ -42,7 +42,7 @@ namespace Hyrule
 			Vector3D AC{ edge[1].direction };
 
 			normal = AB.Cross(AC);
-			center /= vec.size();
+			center /= (float)vec.size();
 		}
 
 		Face::~Face() noexcept

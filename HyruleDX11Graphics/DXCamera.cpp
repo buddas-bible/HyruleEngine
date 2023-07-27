@@ -80,7 +80,7 @@ namespace Hyrule
 
 	void DXCamera::CameraPerspectiveFovLH(float _angleY, float _ratio, float _near, float _far)
 	{
-		float nearH = 2.f * _near * std::tanf(_angleY * 0.5f);		// 니어까지의 거리 * 탄젠트 반시야각 (-1 1로 바꿔주기 위해 2곱함)
+		float nearH = 2.f * _near * std::tanf(_angleY * zoom * 0.5f);		// 니어까지의 거리 * 탄젠트 반시야각 (-1 1로 바꿔주기 위해 2곱함)
 		float nearW = nearH * _ratio;						// 화면 비율에 높이를 곱하니까 너비가 나옴
 		float scaleX = 2.f * _near / nearW;					// 2 * n / w
 		float scaleY = 2.f * _near / nearH;					// 2 * n / h
@@ -103,8 +103,8 @@ namespace Hyrule
 
 	void DXCamera::CameraOrthographicLH(float _width, float _height, float _near, float _far)
 	{
-		float scaleX = 2.f / _width;
-		float scaleY = 2.f / _height;
+		float scaleX = 2.f / (_width * zoom);
+		float scaleY = 2.f / (_height * zoom);
 		float scaleZ = 1.f / (_far - _near);
 		float translate = -_near * scaleZ;
 
@@ -131,6 +131,27 @@ namespace Hyrule
 
 		// this->UpdateLUR();
 		this->UpdateViewMatrix();
+	}
+
+	void DXCamera::ZoomIn(float _angle)
+	{
+		this->zoom -= _angle;
+
+		if (zoom < 0.f)
+		{
+			zoom = 0.f;
+		}
+
+		this->CameraPerspectiveFovLH(m_angle, m_ratio, m_near, m_far);
+		this->CameraOrthographicLH(m_width, m_height, m_near, m_far);
+	}
+
+	void DXCamera::ZoomOut(float _angle)
+	{
+		this->zoom += _angle;
+
+		this->CameraPerspectiveFovLH(m_angle, m_ratio, m_near, m_far);
+		this->CameraOrthographicLH(m_width, m_height, m_near, m_far);
 	}
 
 // 	void DXCamera::moveWorld(const Vector3D& _move)

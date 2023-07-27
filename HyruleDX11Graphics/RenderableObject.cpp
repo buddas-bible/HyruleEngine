@@ -63,7 +63,7 @@ namespace Hyrule
 
 	void RenderableObject::OnCollisionStay() noexcept
 	{
-		m_currRasterizerState = currState->GetWireRasterizerState();
+		// m_currRasterizerState = currState->GetWireRasterizerState();
 	}
 
 	void RenderableObject::OnCollisionExit() noexcept
@@ -111,7 +111,7 @@ namespace Hyrule
 				Effects::PUNEffect->SetMeshColor(DXColor::AliceBlue);
 				break;
 			case 1:
-				Effects::PUNEffect->SetMeshColor(DXColor::Beige);
+				Effects::PUNEffect->SetMeshColor(DXColor::MediumTurquoise);
 				break;
 			case 2:
 				Effects::PUNEffect->SetMeshColor(DXColor::Blue);

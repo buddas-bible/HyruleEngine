@@ -59,7 +59,7 @@ namespace Hyrule
 		virtual void PrePhysicsUpdate() override {};
 		virtual void PhysicsUpdate() override {};
 		virtual void LatePhysicsUpdate() override {};
-		virtual void Update() override {};
+		virtual void Update() override;
 		virtual void LateUpdate() override;
 		virtual void Render() override {};
 

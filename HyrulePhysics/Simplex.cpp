@@ -71,20 +71,6 @@ namespace Hyrule
 				float dist{ (face.normal).Dot(A) };
 				faceMap.insert(std::make_pair(dist, face));
 			}
-
-			// // ABC 노말 방향과 원점에서 C의 방향이 같으면 노말이 맞음.
-			// 	if (ABC.Dot(OA) >= Epsilon)
-			// 	{
-			// 	Face face = Face(A, B, C, _i0, _i1, _i2);
-			// 	float dist = (face.normal).Dot(A);
-			// 	faceMap.insert(std::make_pair(dist, face));
-			// 	}
-			// 	else
-			// 	{
-			// 		Face face = Face(A, C, B, _i0, _i2, _i1);
-			// 		float dist = (face.normal).Dot(A);
-			// 		faceMap.insert(std::make_pair(dist, face));
-			// 	}
 		}
 
 		std::vector<Vector3D>& Simplex::operator=(const std::vector<Vector3D>& _points)

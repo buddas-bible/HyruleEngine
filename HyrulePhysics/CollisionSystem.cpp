@@ -44,8 +44,7 @@ namespace Hyrule
 				// (원점을 포함하는 심플렉스를 만들 수가 없음)
 				if (OP.Dot(direction) < 0.f)
 				{
-					delete simplex;
-					return false;
+					break;
 				}
 
 				// 서포트 포인터가 구해졌으면 심플렉스에 넣는다.
@@ -57,6 +56,11 @@ namespace Hyrule
 					// detectionInfo.insert(std::make_pair(_manifold, simplex));
 					_manifold->SetSimplex(simplex);
 					return true;
+				}
+
+				if (direction == Vector3D::Zero())
+				{
+					break;
 				}
 				count++;
 			}
@@ -233,6 +237,9 @@ namespace Hyrule
 		{
 			Vector3D direction = _manifold->GetNormal();
 
+			Collider* _cA{ _manifold->GetColliderA() };
+			Collider* _cB{ _manifold->GetColliderB() };
+
 			// 충돌에 관여한 면을 찾아냄
 			Face A = _manifold->GetColliderA()->FindSupportFace(direction);
 			Face B = _manifold->GetColliderB()->FindSupportFace(-direction);
@@ -246,6 +253,9 @@ namespace Hyrule
 			// 1에 제일 가까운 면을 기준면으로 삼음
 			if (aPerpendicular < bPerpendicular)
 			{
+				// _manifold->SetColliderA(_cB);
+				// _manifold->SetColliderB(_cA);
+				// _manifold->SetNormal(-direction);
 				reference = &B;
 				incident = &A;
 				direction = -direction;
@@ -275,27 +285,21 @@ namespace Hyrule
 				EdgeClip(incident->vec[i], incident->vec[j], reference->vec[0], -reference->normal, true);
 			}
 
-			Vector3D contactPoint;
-			size_t count{};
+			// Vector3D contactPoint;
+			// size_t count{};
 
 			for (auto i = 0; i < incident->vec.size(); i++)
 			{
-				auto j = (i + 1) % incident->vec.size();
+				auto itr = std::find(_manifold->GetContactPoints().begin(), _manifold->GetContactPoints().end(), incident->vec[i]);
 
-				if (Edge(incident->vec[i], incident->vec[j], i, j).GetLengthSquare() <= Epsilon)
+				if (itr == _manifold->GetContactPoints().end())
 				{
-					++count;
-					contactPoint += incident->vec[i];
-				}
-				else
-				{
-					count += 2;
-					contactPoint += incident->vec[i] + incident->vec[j];
+					_manifold->AddContactPoint(incident->vec[i]);
 				}
 			}
 
-			contactPoint /= count;
-			_manifold->AddContactPoint(contactPoint);
+			// contactPoint /= (float)incident->vec.size();
+			// _manifold->AddContactPoint(contactPoint);
 			// _manifold->GetContactPoints();
 
 			// delete reference;
@@ -361,10 +365,16 @@ namespace Hyrule
 			// 선분과 원점을 향한 벡터가 이루는 각이 90도 보다 작다면
 			// 원점을 포함하는 심플렉스를 만들 가능성이 있기 때문에
 			// 그의 수직인 방향으로 서포트 포인트를 찾는다.
-			if (BA.Dot(BO) > 0.f)
+			float dot{ BA.Dot(BO) };
+
+			if (dot > 0.f)
 			{
 				_direction = BA.Cross(BO).Cross(BA).Normalized();
 			}
+			else if (dot < 0.f)
+			{
+				_direction = Vector3D::Zero();
+ 			}
 			else
 			{
 				_simplex = { B };
@@ -384,9 +394,15 @@ namespace Hyrule
 			Vector3D C = _simplex[2];
 			Vector3D CA = (A - C).Normalized();
 			Vector3D CB = (B - C).Normalized();
-			Vector3D CO = -C.Normalized();
 			Vector3D CBA = CB.Cross(CA).Normalized();
+			Vector3D CO = -C.Normalized();
 			
+			if (A == B || B == C)
+			{
+				_direction = Vector3D::Zero();
+				return false;
+			}
+
 			// ABC 삼각형의 노말 벡터를 구하고
 			// 삼각형 어느 방향에 원점이 있는지 판단.
 
@@ -579,17 +595,17 @@ namespace Hyrule
 			float dfriction = ComputeFriction(A->GetDynamicFriction(), B->GetDynamicFriction());
 			float restitution = std::max(A->GetRestitution(), B->GetRestitution());
 
-			Vector3D P_a{ _manifold->GetColliderA()->GetPosition() };
-			Vector3D P_b{ _manifold->GetColliderB()->GetPosition() };
-			Vector3D V_a{ A->GetVelocity() };
-			Vector3D V_b{ B->GetVelocity() };
-			Vector3D W_a{ A->GetAngularVelocity() };
-			Vector3D W_b{ B->GetAngularVelocity() };
-			Vector3D Normal{ _manifold->GetNormal() };
-
 			const auto& contactPoints{ _manifold->GetContactPoints() };
 			for (const auto& contactPoint : contactPoints)
 			{							
+				Vector3D P_a{ _manifold->GetColliderA()->GetPosition() };
+				Vector3D P_b{ _manifold->GetColliderB()->GetPosition() };
+				Vector3D V_a{ A->GetVelocity() };
+				Vector3D V_b{ B->GetVelocity() };
+				Vector3D W_a{ A->GetAngularVelocity() };
+				Vector3D W_b{ B->GetAngularVelocity() };
+				Vector3D Normal{ _manifold->GetNormal() };
+
 				/// 임펄스 기반 반응 모델
 				// 질량 중심에서 충돌 지점까지의 벡터
 				Vector3D r_1 = contactPoint - P_a;
@@ -605,16 +621,21 @@ namespace Hyrule
 
 				if (contactVelocity > 0.f)
 				{
-					continue;;
+					return;
 				}
 
+				Matrix3x3 inertiaTMA = A->GetInvInertia();
+				Matrix3x3 inertiaTMB = B->GetInvInertia();
+
 				/// 임펄스 공식의 분모 부분.
-				Vector3D inertiaA = (r_1.Cross(Normal) * A->GetInvInertia()).Cross(r_1);
-				Vector3D inertiaB = (r_2.Cross(Normal) * B->GetInvInertia()).Cross(r_2);
+				Vector3D inertiaA = (r_1.Cross(Normal).Cross(r_1)) * inertiaTMA;
+				Vector3D inertiaB = (r_2.Cross(Normal).Cross(r_2)) * inertiaTMB;
 				float numerator = systemMass + (inertiaA + inertiaB).Dot(Normal);
 
 				// 임펄스 크기
-				float j = -(1.f + restitution) * contactVelocity / numerator;
+				float j = -(1.f + restitution) * contactVelocity;
+				j /= numerator;
+				// j /= (float)contactPoints.size();
 
 				// 임펄스 벡터
 				Vector3D impulse = Normal * j;
@@ -629,7 +650,9 @@ namespace Hyrule
 
 				// 임펄스 크기
 				// contactVelocity를 구했던 v_r Dot normal과 비슷하지만 음수가 붙은 점이 다름.
-				float j_t = -v_r.Dot(tangent) / numerator;
+				float j_t = -v_r.Dot(tangent);
+				j_t /= numerator;
+				j_t /= (float)contactPoints.size();
 
 				//임펄스 벡터
 				Vector3D frictionImpulse;
@@ -649,7 +672,7 @@ namespace Hyrule
 				}
 
 				A->ApplyImpulse(-frictionImpulse, r_1);
-				B->ApplyImpulse(frictionImpulse, r_2);
+ 				B->ApplyImpulse(frictionImpulse, r_2);
 			}
 		}
 
@@ -674,16 +697,16 @@ namespace Hyrule
 			float dist;
 			Vector3D resolve;
 
-			if (depth - 0.05f > Epsilon)
-			{
-				dist = depth - 0.05f;
-			}
-			else
-			{
-				dist = 0.f;
-			}
+			// if ((depth - 0.05f) > Epsilon)
+			// {
+			// 	dist = depth - 0.05f;
+			// }
+			// else
+			// {
+				dist = depth;
+			// }
 
-			resolve = normal * dist / systemMass;
+			resolve = normal * (dist / systemMass) * 0.5f;
 
 			Vector3D Adist = -resolve * InvMassA;
 			A->SetPosition(A->GetPosition() + Adist);

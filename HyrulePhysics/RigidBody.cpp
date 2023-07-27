@@ -108,7 +108,7 @@ namespace Hyrule
 			// 선형 운동
 			// 충격량 = (F * dt) = (m * a * dt) = (m * dV) = dP
 			// dV = 충격량 / m
-			Vector3D dV = _impulse * this->invMass;
+			Vector3D dV{ _impulse * this->invMass };
 			this->velocity += dV;
 
 			// 회전 운동
@@ -119,8 +119,9 @@ namespace Hyrule
 			// dL = (t * dt) = r X dP
 			// dL = Ia * dt = I * dw
 			// dw = dL / I
-			// dw = (r X dP) / I
-			Vector3D dw = _contact.Cross(_impulse) * this->invInertiaTensor;
+			// dw = (r X dP) / I_impulse
+			Vector3D rXdP{ _contact.Cross(_impulse) };
+			Vector3D dw{ rXdP * this->invInertiaTensor };
 			this->angularVelocity += dw;
 		}
 
@@ -138,11 +139,11 @@ namespace Hyrule
 
 			// 힘을 속력으로 변환
 			this->velocity += (this->force * this->invMass) * _dt;
-			this->angularVelocity += (this->torque * this->invInertiaTensor) * _dt;
+			this->angularVelocity += (this->torque * this->GetInvInertia()) * _dt;
 			
 			// 감쇠
-			this->velocity *= std::exp(-0.1 * _dt);
-			this->angularVelocity *= std::exp(-0.1 * _dt);
+			this->velocity *= std::exp(-(linerDamping) * _dt);
+			this->angularVelocity *= std::exp(-(angularDamping) * _dt);
 
 			this->force = Vector3D::Zero();
 			this->torque = Vector3D::Zero();
@@ -160,10 +161,7 @@ namespace Hyrule
 
 			position += this->velocity * _dt;
 
-			rotation *= ToQuaternion(
-				this->angularVelocity.Normalized(), 
-				this->angularVelocity.Length() * _dt
-			);
+			rotation *= ToQuaternion(this->angularVelocity.Normalized(), -this->angularVelocity.Length() * _dt);
 		}
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept
@@ -179,11 +177,11 @@ namespace Hyrule
 		/// <summary>
 		/// 콜라이더가 가진 Shape으로 관성 텐서 계산
 		/// </summary>
-		void RigidBody::CalculateInertiaTensor(float _mess)
+		void RigidBody::CalculateInertiaTensor(float _mass)
 		{
 			if (object != nullptr)
 			{
-				inertiaTensor = object->GetInertiaTensor(_mess);
+				inertiaTensor = object->GetInertiaTensor(_mass);
 				invInertiaTensor = inertiaTensor.Inverse();
 				centerOfMass = object->GetCenterOfMess();
 			}
