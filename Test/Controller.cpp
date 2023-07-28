@@ -87,27 +87,27 @@ namespace Hyrule
 			Vector3D currP = e->GetTransform()->GetLocalPosition();
 			if (input.KeyPress('W'))
 			{
-				currP += mat.Look() * 5.f * dt;
+				currP += mat.Look() * 20.f * dt;
 			}
 			if (input.KeyPress('S'))
 			{
-				currP -= mat.Look() * 5.f * dt;
+				currP -= mat.Look() * 20.f * dt;
 			}
 			if (input.KeyPress('D'))
 			{
-				currP += mat.Right() * 5.f * dt;
+				currP += mat.Right() * 20.f * dt;
 			}
 			if (input.KeyPress('A'))
 			{
-				currP -= mat.Right() * 5.f * dt;
+				currP -= mat.Right() * 20.f * dt;
 			}
 			if (input.KeyPress('E'))
 			{
-				currP += mat.Up() * 5.f * dt;
+				currP += mat.Up() * 20.f * dt;
 			}
 			if (input.KeyPress('Q'))
 			{
-				currP -= mat.Up() * 5.f * dt;
+				currP -= mat.Up() * 20.f * dt;
 			}
 			e->GetTransform()->SetLocalPosition(currP);
 		}

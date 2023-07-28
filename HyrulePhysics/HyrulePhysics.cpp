@@ -147,26 +147,26 @@ namespace Hyrule
 			/// 속력 계산
 			for (auto& e : rigidbodis)
 			{
-				e->ComputeVelocity(gravity, _deltaTime);
+				// e->ComputeVelocity(gravity, _deltaTime);
 			}
 
 			/// 강체, 콜라이더 충돌 대응
 			for (auto& e : manifoldArray)
 			{
 				// 충돌
-				CollisionSystem::ComputeImpulse(e);
+				// CollisionSystem::ComputeImpulse(e);
 			}
 
 			/// 계산된 속력을 위치, 각도에 적용
 			for (auto& e : rigidbodis)
 			{
-				e->ComputePosition(_deltaTime);
+				// e->ComputePosition(_deltaTime);
 			}
 
 			/// 밀어냄
 			for (auto& e : manifoldArray)
 			{
-				CollisionSystem::ResolveCollision(e);
+				// CollisionSystem::ResolveCollision(e);
 			}
 		}
 

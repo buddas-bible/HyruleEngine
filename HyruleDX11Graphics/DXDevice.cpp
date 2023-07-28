@@ -322,9 +322,9 @@ namespace Hyrule
 			2.0f * std::atan(std::tan(ToRadian(70) * 0.5f) / aspectRatioY),
 			aspectRatioX,
 			0.01f,
-			100.0f
+			10000.0f
 		);
 
-		_camera->CameraOrthographicLH(4.5f, 3.f, 0.01f, 100.f);
+		_camera->CameraOrthographicLH(4.5f, 3.f, 0.01f, 10000.f);
 	}
 }

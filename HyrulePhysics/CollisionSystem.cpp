@@ -126,12 +126,12 @@ namespace Hyrule
 
 				// 노말방향으로 서포트 포인트를 찾았는데
 				// 그게 이미 찾았던 점이라면
-				if (polytope.faceMap.begin()->second.vec[0] == support ||
-					polytope.faceMap.begin()->second.vec[1] == support ||
-					polytope.faceMap.begin()->second.vec[2] == support)
-				{
-					break;
-				}
+// 				if (polytope.faceMap.begin()->second.vec[0] == support ||
+// 					polytope.faceMap.begin()->second.vec[1] == support ||
+// 					polytope.faceMap.begin()->second.vec[2] == support)
+// 				{
+// 					break;
+// 				}
 
 				// 노말 방향으로 서포트 포인트를 찾았는데 거리가 0에 가깝다면...
 				if (supportDist <= Epsilon)
@@ -197,7 +197,7 @@ namespace Hyrule
 				{
 					float depth{ polytope.faceMap.begin()->first };
 					Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
-					_manifold->SetDepth(depth + Epsilon);
+					_manifold->SetDepth(depth + 0.0001f);
 					_manifold->SetNormal(detectNormal);
 					return;
 				}
@@ -214,7 +214,7 @@ namespace Hyrule
 
 			float depth{ polytope.faceMap.begin()->first };
 			Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
-			_manifold->SetDepth(depth + Epsilon);
+			_manifold->SetDepth(depth + 0.0001f );
 			_manifold->SetNormal(detectNormal);
 			return;
 		}
@@ -263,18 +263,16 @@ namespace Hyrule
 			
 			// 페이스의 노말 벡터와 변의 벡터를 외적해서 변과 수직인 방향 벡터를 구해냄
 			// incident 면의 변들을 비교해서 넘는 친구들을 잘라내기 시작함.
-			// for (auto& edge : reference->edge)
-			// {
-			// 	for (auto i = 0; i < incident->vec.size(); i++)
-			// 	{
-			// 		auto j = (i + 1) % incident->vec.size();
-			// 
-			// 		// 벗어난 친구들은 다르게 처리 해줌
-			// 		EdgeClip(incident->vec[i], incident->vec[j], edge.vectorA, edge.normal, false);
-			// 	}
-			// }
+			for (auto& edge : reference->edge)
+			{
+				for (auto i = 0; i < incident->vec.size(); i++)
+				{
+					auto j = (i + 1) % incident->vec.size();
 
-
+					// 벗어난 친구들은 다르게 처리 해줌
+					EdgeClip(incident->vec[i], incident->vec[j], edge.vectorA, edge.normal, false);
+				}
+			}
 
 			// 레퍼런스 페이스의 노말 방향으로 잘라냄
 			for (auto i = 0; i < incident->vec.size(); i++)
@@ -385,12 +383,6 @@ namespace Hyrule
 			Vector3D CB = (B - C).Normalized();
 			Vector3D CBA = CB.Cross(CA).Normalized();
 			Vector3D CO = -C.Normalized();
-			
-			if (A == B || B == C)
-			{
-				_direction = Vector3D::Zero();
-				return false;
-			}
 
 			// ABC 삼각형의 노말 벡터를 구하고
 			// 삼각형 어느 방향에 원점이 있는지 판단.
@@ -584,13 +576,14 @@ namespace Hyrule
 
 			float sfriction = ComputeFriction(A->GetStaticFriction(), B->GetStaticFriction());
 			float dfriction = ComputeFriction(A->GetDynamicFriction(), B->GetDynamicFriction());
-			float restitution = std::max(A->GetRestitution(), B->GetRestitution());
+			float restitution = std::min(A->GetRestitution(), B->GetRestitution());
 
 			Vector3D P_a{ _manifold->GetColliderA()->GetPosition() };
 			Vector3D P_b{ _manifold->GetColliderB()->GetPosition() };
 
 			Vector3D V_a{ A->GetVelocity() };
 			Vector3D V_b{ B->GetVelocity() };
+
 			Vector3D W_a{ A->GetAngularVelocity() };
 			Vector3D W_b{ B->GetAngularVelocity() };
 
@@ -599,7 +592,6 @@ namespace Hyrule
 			const auto& contactPoints{ _manifold->GetContactPoints() };
 			for (const auto& contactPoint : contactPoints)
 			{							
-
 				/// 임펄스 기반 반응 모델
 				// 질량 중심에서 충돌 지점까지의 벡터
 				Vector3D r_1 = contactPoint - P_a;
@@ -622,8 +614,8 @@ namespace Hyrule
 				Matrix3x3 inertiaTMB = B->GetInvInertia();
 
 				/// 임펄스 공식의 분모 부분.
-				Vector3D inertiaA = r_1.Cross(Normal).Cross(r_1) * inertiaTMA;
-				Vector3D inertiaB = r_2.Cross(Normal).Cross(r_2) * inertiaTMB;
+				Vector3D inertiaA = (r_1.Cross(Normal) * inertiaTMA).Cross(r_1);
+				Vector3D inertiaB = (r_2.Cross(Normal) * inertiaTMB).Cross(r_2);
 				float numerator = systemMass + (inertiaA + inertiaB).Dot(Normal);
 
 				// 임펄스 크기
@@ -692,14 +684,15 @@ namespace Hyrule
 			float dist;
 			Vector3D resolve;
 
-			if ((depth - 0.001f) > Epsilon)
+			if ((depth - 0.01f) > Epsilon)
 			{
-				dist = depth - 0.001f;
+				dist = depth - 0.01f;
 			}
 			else
 			{
 				dist = 0.f;
 			}
+			// dist = depth + 0.01f;
 
 			resolve = normal * (dist / systemMass) * 0.5f;
 

@@ -16,6 +16,11 @@ namespace Hyrule
 		Component(_gameObject)
 	{
 		camera = RendererSystem::GetInstance().GetCamera();
+
+		Vector3D eye{ 0.0f, 8.f, -9.f };
+		Vector3D at{ 0.0f, 6.f, 0.0f };
+		gameObject->GetTransform()->SetLocalPosition(eye);
+		gameObject->GetTransform()->SetLocalQuaternion(RotateVectorToVectorQuaternion(Vector3D::Forward(), (at - eye).Normalized()));
 	}
 
 	Matrix4x4 Camera::GetViewMatrix() const
@@ -65,10 +70,7 @@ namespace Hyrule
 
 	void Camera::Awake()
 	{
-		Vector3D eye{ 0.0f, 8.f, -9.f };
-		Vector3D at{ 0.0f, 6.f, 0.0f };
-		gameObject->GetTransform()->SetLocalPosition(eye);
-		gameObject->GetTransform()->SetLocalQuaternion(RotateVectorToVectorQuaternion(Vector3D::Forward(), (at - eye).Normalized()));
+
 	}
 
 	void Camera::Update()
