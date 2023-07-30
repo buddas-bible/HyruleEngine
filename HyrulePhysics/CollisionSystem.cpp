@@ -46,10 +46,7 @@ namespace Hyrule
 				float dot{ OP.Dot(direction) };
 				if (dot < 0.f)
 				{
-					// if (std::fabs(dot) > Epsilon)
-					// {
-						break;
-					// }
+					break;
 				}
 
 				// 서포트 포인터가 구해졌으면 심플렉스에 넣는다.
@@ -213,11 +210,6 @@ namespace Hyrule
 			float depth{ polytope.faceMap.begin()->first };
 			Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
 
-			// if (_manifold->GetColliderB()->GetObject()->GetName() == L"Box04")
-			// {
-			// 	std::cout << detectNormal.x << " " << detectNormal.y << " " << detectNormal.z << std::endl;
- 			// }
-
 			_manifold->SetDepth(depth + Epsilon );
 			_manifold->SetNormal(detectNormal);
 			return;
@@ -277,20 +269,6 @@ namespace Hyrule
 			// 레퍼런스 페이스의 노말 방향으로 잘라냄
 
 			contactPoint = FaceClip(contactPoint, reference->edge[0], reference->normal, true);
-
-			// float newDepth{ _manifold->GetDepth() };
-
-			// for (auto& e : contactPoint)
-			// {
-			// 	float depth{ (reference->vec[0] - e).Dot(reference->normal) };
-			// 
-			// 	if (newDepth < std::fabs(depth))
-			// 	{
-			// 		newDepth = depth;
-			// 	}
-			// }
-
-			// _manifold->SetDepth(newDepth);
 
 			for (auto i = 0; i < contactPoint.size(); i++)
 			{

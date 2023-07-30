@@ -134,14 +134,6 @@ namespace Hyrule
 			// dw = (r X dP) / I_impulse
 			Vector3D rXdP{ _contact.Cross(_impulse) };
 			Vector3D dw{ rXdP * this->GetInvInertia() };
-			
-			if (object->GetName() == L"Box02")
-			{
-				static Vector3D predW;
-
-				std::cout << dw.x << " " << dw.y << " " << dw.z << std::endl;
-			}
-			
 			this->angularVelocity += dw;
 		}
 
@@ -179,39 +171,37 @@ namespace Hyrule
 			Vector3D& position{ object->GetPosition() };
 			Quaternion& rotation{ object->GetRotation() };
 
-			position += this->velocity * _dt;
 
-			// rotation *= ToQuaternion(angularVelocity.Normalized(), angularVelocity.Length() * _dt);
-			// rotation.Normalize();
-			// 쿼터니언 미분
+			/// 중력가속도 외에 다른 힘을 받는게 없다면
+			/// 적용시키지 않아야겠어
+//			Vector3D dV;
+//
+// 			float v{ velocity.Length() };
+// 			if (v < Epsilon)
+// 			{
+// 				dV = {};
+// 			}
+// 			else
+// 			{
+// 				dV = velocity * _dt;
+// 			}
+// 			position += dV;
+			position += velocity * _dt;
 
-			// Quaternion q(0.f, angularVelocity.x, angularVelocity.y, angularVelocity.z);
+			Vector3D dW{};
+			float angle = angularVelocity.Length();
+			if (angle < Epsilon)
+			{
+				dW = {};
+			}
+			else
+			{
+				dW = angularVelocity * _dt;
+			}
 
-			// rotation = rotation * q * rotation.Conjugate();
-
- 			Vector3D axis;
- 			float angle = angularVelocity.Length();
-			
- 			if (angle * _dt > 0.5f * (PI<float> / 2))
- 			{
- 				angle = 0.5f * (PI<float> / 2) / _dt;
- 			}
- 
- 			if (angle < Epsilon)
- 			{
- 				axis = angularVelocity * (0.5f * _dt - (_dt * _dt * _dt) * 0.020833333333f * angle * angle);
- 			}
- 			else
- 			{
- 				axis = angularVelocity * (std::sin(0.5f * angle * _dt) / angle);
- 			}
- 
- 			Quaternion dorn(std::cos(angle * _dt * 0.5f), axis.x, axis.y, axis.z);
- 			Quaternion orn0 = dorn * rotation;
- 
- 			orn0.Normalize();
- 
- 			rotation = orn0;
+			rotation = 
+				ToQuaternion(dW.Normalized(), dW.Length())
+				* rotation;
 		}
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept

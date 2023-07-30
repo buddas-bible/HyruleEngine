@@ -263,9 +263,9 @@ namespace Hyrule
 		return Quaternion
 		{
 			coshalf,
-			axis.x* sinhalf,
-			axis.y* sinhalf,
-			axis.z* sinhalf
+			axis.x * sinhalf,
+			axis.y * sinhalf,
+			axis.z * sinhalf
 		};
 	}
 

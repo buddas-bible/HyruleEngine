@@ -101,20 +101,20 @@ namespace Hyrule
 
 	void RigidBody::Update()
 	{
-		Vector3D pos{ gameObject->GetTransform()->GetLocalPosition() };
-		
-		if (std::fabs(gameObject->GetTransform()->GetWorldPosition().x)  < 400.f)
-		{
-
-		}
-		if (std::fabs(gameObject->GetTransform()->GetWorldPosition().y) < 400.f)
-		{
-
-		}
-		if (std::abs(gameObject->GetTransform()->GetWorldPosition().z) < -400.f)
-		{
-
-		}
+// 		Vector3D pos{ gameObject->GetTransform()->GetLocalPosition() };
+// 		
+// 		if (std::fabs(gameObject->GetTransform()->GetWorldPosition().x)  < 400.f)
+// 		{
+// 
+// 		}
+// 		if (std::fabs(gameObject->GetTransform()->GetWorldPosition().y) < 400.f)
+// 		{
+// 
+// 		}
+// 		if (std::abs(gameObject->GetTransform()->GetWorldPosition().z) < -400.f)
+// 		{
+// 
+// 		}
 	}
 
 	void RigidBody::OnEnable()
