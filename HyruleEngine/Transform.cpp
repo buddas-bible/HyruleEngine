@@ -59,6 +59,26 @@ namespace Hyrule
 		this->rotation = _q;
 	}
 
+	void Transform::SetLocalRotationFromEuler(const Vector3D& _euler) noexcept
+	{
+		this->rotation = ToQuaternion(_euler);
+	}
+
+	void Transform::SetLocalRotationFromDegree(const Vector3D& _degree) noexcept
+	{
+		const float radX{ ToRadian(_degree.x) };
+		const float radY{ ToRadian(_degree.y) };
+		const float radZ{ ToRadian(_degree.z) };
+		const float inv2{ 1.f / 2.f };
+
+
+		Quaternion qx{ std::cos(radX * inv2), std::sin(radX * inv2), 0.f, 0.f };
+		Quaternion qy{ std::cos(radY * inv2), 0.f, std::sin(radY * inv2), 0.f };
+		Quaternion qz{ std::cos(radZ * inv2), 0.f, 0.f, std::sin(radZ * inv2) };
+
+		rotation = qx * qy * qz;
+	}
+
 	Vector3D Transform::GetLocalScale() noexcept
 	{
 		return this->scale;

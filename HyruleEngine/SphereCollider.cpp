@@ -48,7 +48,11 @@ namespace Hyrule
 
 	void SphereCollider::PrePhysicsUpdate()
 	{
-		collider->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
+		collider->SetTransform(
+			gameObject->GetTransform()->GetWorldPosition(),
+			gameObject->GetTransform()->GetWorldQuaternion(),
+			gameObject->GetTransform()->GetWorldScale()
+		);
 	}
 
 	void SphereCollider::PhysicsUpdate()

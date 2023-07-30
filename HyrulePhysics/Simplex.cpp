@@ -54,11 +54,11 @@ namespace Hyrule
 			Vector3D C{ points[_i2] };
 			Vector3D AB{ B - A };
 			Vector3D AC{ C - A };
-			Vector3D ABC{ AB.Cross(AC).Normalized() };
+			Vector3D ABC{ AB.Cross(AC) };
 			Vector3D OA{ A.Normalized() };
 
-			Vector3D normal{ AB.Cross(AC).Normalized() };
-			float dist0{ normal.Dot(A) };
+			// Vector3D normal{ AB.Cross(AC) };
+			float dist0{ ABC.Dot(A) };
 			if (dist0 >= 0.f)
 			{
 				Face face{ A, B, C, _i0, _i1, _i2 };

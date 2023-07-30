@@ -26,6 +26,10 @@ namespace Hyrule
 			bool isActive();
 			Object* GetObject();
 			std::wstring GetObjectName() noexcept;
+
+			virtual const Vector3D& ApplyPosition() noexcept override;
+			virtual const Quaternion& ApplyQuaternion() noexcept override;
+
 			virtual void OnEnable() noexcept override;
 			virtual void OnDisable() noexcept override;
 			virtual void OnDestroy() noexcept override;
@@ -44,14 +48,14 @@ namespace Hyrule
 			float invMass{ 1 / 10.f };							// 역 질량
 			Vector3D velocity;									// 속도
 			Vector3D angularVelocity;							// 각속도
-			float dfriction{ 0.1f };							// 마찰
-			float sfriction{ 0.2f };							// 마찰
+			float dfriction{ 0.4f };							// 마찰
+			float sfriction{ 0.5f };							// 마찰
 			float restitution{ 0.2f };							// 반발계수
 			Matrix3x3 inertiaTensor{ Matrix3x3::Identity() };	// 관성텐서
 			Matrix3x3 invInertiaTensor{ Matrix3x3::Identity() };// 역관성텐서
 
 			float linerDamping{ 0.1f };
-			float angularDamping{ 0.1f };
+			float angularDamping{ 0.3f };
 
 			bool sleep;									// 잠지고 있는 상태인가?
 			bool kinematic;								// 다른 물체에게 외력을 받을 수 있는가?
@@ -102,8 +106,6 @@ namespace Hyrule
 
 			virtual bool isSleeping() const noexcept override;
 			virtual void isSleeping(const bool) noexcept override;
-
-			virtual Matrix4x4 Apply() noexcept override;
 #pragma endregion GetSet
 		};
 

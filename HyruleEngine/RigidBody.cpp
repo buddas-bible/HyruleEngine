@@ -84,22 +84,37 @@ namespace Hyrule
 
 	void RigidBody::LatePhysicsUpdate()
 	{
-		Matrix4x4 matrix = iRigidBody->Apply();
-		Matrix4x4 parent{ gameObject->GetTransform()->GetParentWorldMatrix() };
-		matrix /= parent;	// ºÎ¸ðÀÇ ¿ªÇà·ÄÀ» °öÇØ¼­ ·ÎÄÃÀ» »Ì¾Æ³¿
+		Vector3D pos{ iRigidBody->ApplyPosition() };
+		Quaternion rot{ iRigidBody->ApplyQuaternion()};
 
-		Vector3D pos;
-		Quaternion rot;
-		Vector3D scl;
-		Decompose(matrix, pos, rot, scl);
+		auto parent = gameObject->GetTransform()->GetParent();
+
+		if (parent != nullptr)
+		{
+			pos -= parent->GetWorldPosition();
+			rot /= parent->GetWorldQuaternion();
+		}
 
 		gameObject->GetTransform()->SetLocalPosition(pos);;
 		gameObject->GetTransform()->SetLocalQuaternion(rot);
- 		gameObject->GetTransform()->SetLocalScale(scl);
 	}
 
 	void RigidBody::Update()
 	{
+		Vector3D pos{ gameObject->GetTransform()->GetLocalPosition() };
+		
+		if (std::fabs(gameObject->GetTransform()->GetWorldPosition().x)  < 400.f)
+		{
+
+		}
+		if (std::fabs(gameObject->GetTransform()->GetWorldPosition().y) < 400.f)
+		{
+
+		}
+		if (std::abs(gameObject->GetTransform()->GetWorldPosition().z) < -400.f)
+		{
+
+		}
 	}
 
 	void RigidBody::OnEnable()

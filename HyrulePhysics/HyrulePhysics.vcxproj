@@ -185,6 +185,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="framework.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="Hill_Climbing.cpp" />

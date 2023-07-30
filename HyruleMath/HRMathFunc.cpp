@@ -332,44 +332,95 @@ namespace Hyrule
 
 	Quaternion ToQuaternion(const Matrix4x4& _rotMatrix) noexcept
 	{
-		Quaternion quaternion;
+// 		Quaternion quaternion;
+// 
+// 		float trace = _rotMatrix.e00 + _rotMatrix.e11 + _rotMatrix.e22;
+// 
+// 		if (trace > 0.0f) {
+// 			float s = 0.5f / std::sqrt(trace + 1.0f);
+// 			quaternion.w = 0.25f / s;
+// 			quaternion.x = (_rotMatrix.e21 - _rotMatrix.e12) * s;
+// 			quaternion.y = (_rotMatrix.e02 - _rotMatrix.e20) * s;
+// 			quaternion.z = (_rotMatrix.e10 - _rotMatrix.e01) * s;
+// 		}
+// 		else
+// 		{
+// 			if (_rotMatrix.e00 > _rotMatrix.e11 && _rotMatrix.e00 > _rotMatrix.e22)
+// 			{
+// 				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e00 - _rotMatrix.e11 - _rotMatrix.e22);
+// 				quaternion.w = (_rotMatrix.e21 - _rotMatrix.e12) / s;
+// 				quaternion.x = 0.25f * s;
+// 				quaternion.y = (_rotMatrix.e01 + _rotMatrix.e10) / s;
+// 				quaternion.z = (_rotMatrix.e02 + _rotMatrix.e20) / s;
+// 			}
+// 			else if (_rotMatrix.e11 > _rotMatrix.e22) {
+// 				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e11 - _rotMatrix.e00 - _rotMatrix.e22);
+// 				quaternion.w = (_rotMatrix.e02 - _rotMatrix.e20) / s;
+// 				quaternion.x = (_rotMatrix.e01 + _rotMatrix.e10) / s;
+// 				quaternion.y = 0.25f * s;
+// 				quaternion.z = (_rotMatrix.e12 + _rotMatrix.e21) / s;
+// 			}
+// 			else {
+// 				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e22 - _rotMatrix.e00 - _rotMatrix.e11);
+// 				quaternion.w = (_rotMatrix.e10 - _rotMatrix.e01) / s;
+// 				quaternion.x = (_rotMatrix.e02 + _rotMatrix.e20) / s;
+// 				quaternion.y = (_rotMatrix.e12 + _rotMatrix.e21) / s;
+// 				quaternion.z = 0.25f * s;
+// 			}
+// 		}
+// 
+// 		return quaternion;
 
-		float trace = _rotMatrix.e00 + _rotMatrix.e11 + _rotMatrix.e22;
-
-		if (trace > 0.0f) {
-			float s = 0.5f / std::sqrt(trace + 1.0f);
-			quaternion.w = 0.25f / s;
-			quaternion.x = (_rotMatrix.e21 - _rotMatrix.e12) * s;
-			quaternion.y = (_rotMatrix.e02 - _rotMatrix.e20) * s;
-			quaternion.z = (_rotMatrix.e10 - _rotMatrix.e01) * s;
-		}
-		else
+		Quaternion q;
+		float r22 = _rotMatrix.e22;
+		if (r22 <= 0.f)  // x^2 + y^2 >= z^2 + w^2
 		{
-			if (_rotMatrix.e00 > _rotMatrix.e11 && _rotMatrix.e00 > _rotMatrix.e22)
+			float dif10 = _rotMatrix.e11 - _rotMatrix.e00;
+			float omr22 = 1.f - r22;
+			if (dif10 <= 0.f)  // x^2 >= y^2
 			{
-				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e00 - _rotMatrix.e11 - _rotMatrix.e22);
-				quaternion.w = (_rotMatrix.e21 - _rotMatrix.e12) / s;
-				quaternion.x = 0.25f * s;
-				quaternion.y = (_rotMatrix.e01 + _rotMatrix.e10) / s;
-				quaternion.z = (_rotMatrix.e02 + _rotMatrix.e20) / s;
+				float fourXSqr = omr22 - dif10;
+				float inv4x = 0.5f / sqrtf(fourXSqr);
+				q.w = fourXSqr * inv4x;
+				q.x = (_rotMatrix.e01 + _rotMatrix.e10) * inv4x;
+				q.y = (_rotMatrix.e02 + _rotMatrix.e20) * inv4x;
+				q.z = (_rotMatrix.e12 - _rotMatrix.e21) * inv4x;
 			}
-			else if (_rotMatrix.e11 > _rotMatrix.e22) {
-				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e11 - _rotMatrix.e00 - _rotMatrix.e22);
-				quaternion.w = (_rotMatrix.e02 - _rotMatrix.e20) / s;
-				quaternion.x = (_rotMatrix.e01 + _rotMatrix.e10) / s;
-				quaternion.y = 0.25f * s;
-				quaternion.z = (_rotMatrix.e12 + _rotMatrix.e21) / s;
+			else  // y^2 >= x^2
+			{
+				float fourYSqr = omr22 + dif10;
+				float inv4y = 0.5f / sqrtf(fourYSqr);
+				q.w = (_rotMatrix.e01 + _rotMatrix.e10) * inv4y;
+				q.x = fourYSqr * inv4y;
+				q.y = (_rotMatrix.e12 + _rotMatrix.e21) * inv4y;
+				q.z = (_rotMatrix.e20 - _rotMatrix.e02) * inv4y;
 			}
-			else {
-				float s = 2.0f * std::sqrt(1.0f + _rotMatrix.e22 - _rotMatrix.e00 - _rotMatrix.e11);
-				quaternion.w = (_rotMatrix.e10 - _rotMatrix.e01) / s;
-				quaternion.x = (_rotMatrix.e02 + _rotMatrix.e20) / s;
-				quaternion.y = (_rotMatrix.e12 + _rotMatrix.e21) / s;
-				quaternion.z = 0.25f * s;
+		}
+		else  // z^2 + w^2 >= x^2 + y^2
+		{
+			float sum10 = _rotMatrix.e11 + _rotMatrix.e00;
+			float opr22 = 1.f + r22;
+			if (sum10 <= 0.f)  // z^2 >= w^2
+			{
+				float fourZSqr = opr22 - sum10;
+				float inv4z = 0.5f / sqrtf(fourZSqr);
+				q.w = (_rotMatrix.e02 + _rotMatrix.e20) * inv4z;
+				q.x = (_rotMatrix.e12 + _rotMatrix.e21) * inv4z;
+				q.y = fourZSqr * inv4z;
+				q.z = (_rotMatrix.e01 - _rotMatrix.e10) * inv4z;
+			}
+			else  // w^2 >= z^2
+			{
+				float fourWSqr = opr22 + sum10;
+				float inv4w = 0.5f / sqrtf(fourWSqr);
+				q.w = (_rotMatrix.e12 - _rotMatrix.e21) * inv4w;
+				q.x = (_rotMatrix.e20 - _rotMatrix.e02) * inv4w;
+				q.y = (_rotMatrix.e01 - _rotMatrix.e10) * inv4w;
+				q.z = fourWSqr * inv4w;
 			}
 		}
 
-		return quaternion;
+		return q;
 	}
 
 	/// <summary>

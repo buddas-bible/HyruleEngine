@@ -41,6 +41,10 @@ namespace Hyrule
 			Quaternion& GetRotation();
 			Vector3D& GetScale();
 
+			void SetPosition(const Vector3D&);
+			void SetRotation(const Quaternion&);
+			void SetScale(const Vector3D&);
+
 		public:
 			Collider* GetCollider(size_t);
 			void RemoveCollider(size_t);
@@ -53,7 +57,6 @@ namespace Hyrule
 			std::wstring GetName();
 			// void SetCollided(bool);
 			// bool IsColliding();
-			void SetWorldTM(const Matrix4x4&);
 			Matrix4x4 GetWorldTM();
 			Matrix3x3 GetInertiaTensor(float);
 			Vector3D GetCenterOfMess();

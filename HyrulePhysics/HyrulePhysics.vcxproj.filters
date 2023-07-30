@@ -26,6 +26,9 @@
     <Filter Include="DataStruct">
       <UniqueIdentifier>{d7694bbb-ab07-4af1-8211-ec75f8e1520c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\Debug">
+      <UniqueIdentifier>{8f883ea9-ecdf-427c-bd33-5eac1f1eb97d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HyrulePhysics.h">
@@ -100,6 +103,9 @@
     <ClInclude Include="Octree.h">
       <Filter>DataStruct</Filter>
     </ClInclude>
+    <ClInclude Include="DebugDraw.h">
+      <Filter>헤더 파일\Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyrulePhysics.cpp">
@@ -170,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="Octree.cpp">
       <Filter>DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDraw.cpp">
+      <Filter>헤더 파일\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -38,8 +38,8 @@ namespace Hyrule
 			}
 			case PHYSICS:
 			{
-				double deltaTime = (double)TimeSystem::GetInstance().GetfDeltaTime();
-				// double deltaTime = 0.003f;
+				// double deltaTime = (double)TimeSystem::GetInstance().GetfDeltaTime();
+				double deltaTime = 0.016f;
 				accumulatedTime += deltaTime;
 
 				// 프레임마다 한 번 호출되도록 함.
@@ -49,10 +49,10 @@ namespace Hyrule
 					
 					/// 콜라이더랑 리지드바디만 따로 모아서 관리할 수 있으면 좋을거 같긴 함.
 					SceneManager::GetInstance().PrePhysicsUpdate();				// 콜라이더 매트릭스 업데이트
-					PhysicsSystem::GetInstance().CollisionDetection();
+					PhysicsSystem::GetInstance().CollisionDetection();			// 콜라이더 충돌 체크
 					SceneManager::GetInstance().PhysicsUpdate();				// 콜라이더 충돌 여부 확인
-					PhysicsSystem::GetInstance().CollisionResponse(deltaTime);
-					SceneManager::GetInstance().LatePhysicsUpdate();			// 리지드바디 시뮬레이션 내용 적용
+					PhysicsSystem::GetInstance().CollisionResponse(deltaTime);	// 강체 시뮬레이션
+					SceneManager::GetInstance().LatePhysicsUpdate();			// 강체 시뮬레이션 결과 적용
 
 					accumulatedTime -= fixedDeltaTime;
 

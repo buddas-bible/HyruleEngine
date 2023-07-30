@@ -54,6 +54,8 @@ namespace Hyrule
 			
 			static bool ConvexToConvex(Collider*, Collider*, Manifold*);
 
+			static float PointToSegmentDistance(const Vector3D p, const  Vector3D L1, const  Vector3D L2);
+
 
 			enum GJK : size_t
 			{
@@ -62,13 +64,25 @@ namespace Hyrule
 				TETRAHEDRON = 4,
 			};
 
+			enum Cliping : size_t
+			{
+				OutOut = 0,
+				InOut = 1,
+				OutIn = 2,
+				InIn = 3,
+			};
+
 			static bool DoSimplex(Simplex&, Vector3D&);
 			static bool DoSimplex2(Simplex&, Vector3D&);
 			static bool DoSimplex3(Simplex&, Vector3D&);
 			static bool DoSimplex4(Simplex&, Vector3D&);
 
-			static void FaceClip(Face& _incident, const Edge& _refEdge, const Vector3D& _refNormal);
-			static void EdgeClip(Vector3D& edgeA, Vector3D& edgeB, const Vector3D&, const Vector3D&, bool);
+			static std::vector<Vector3D> FaceClip(
+				const std::vector<Vector3D>& _incident, 
+				const Edge& _refEdge, const Vector3D& _refNormal, bool remove);
+
+			static size_t EdgeClip(Edge& edge, const Vector3D& _refP, const Vector3D& _d, bool _remove);
+
 
 		/// <summary>
 		/// 충돌 대응 부분.

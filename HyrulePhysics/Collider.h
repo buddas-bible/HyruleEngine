@@ -28,7 +28,10 @@ namespace Hyrule
 
 		protected:
 			Object* object;
-			Matrix4x4 preTM;
+
+			Vector3D prePos;
+			Quaternion preRot;
+			Vector3D preScl;
 
 			// 콜라이더 중심과 크기를 바꿀 일이 없다고 생각하자....
 			Vector3D center;
@@ -69,7 +72,7 @@ namespace Hyrule
 			void AddCollisionInfo(Collider*, Manifold&);
 
 		public:
-			virtual void SetWorldTransform(const Matrix4x4& _mat) final;
+			virtual void SetTransform(const Vector3D&, const Quaternion&, const Vector3D&) noexcept final;
 
 		public:
 			virtual void SetTrigger(bool) final;

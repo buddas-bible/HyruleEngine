@@ -19,11 +19,11 @@ namespace Hyrule
 			edge.push_back({ _A, _B, _i0, _i1 });
 			edge[0].SetNormal(AB.Cross(normal).Normalized());
 
-			edge.push_back({ _C, _A, _i2, _i0 });
-			edge[1].SetNormal(normal.Cross(AC).Normalized());
-			
 			edge.push_back({ _B, _C, _i1, _i2 });
-			edge[2].SetNormal(BC.Cross(normal).Normalized());
+			edge[1].SetNormal(BC.Cross(normal).Normalized());
+
+			edge.push_back({ _C, _A, _i2, _i0 });
+			edge[2].SetNormal(normal.Cross(AC).Normalized());
 
 			this->center = (_A + _B + _C) / 3;
 		}

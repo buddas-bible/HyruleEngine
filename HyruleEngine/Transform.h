@@ -37,6 +37,8 @@ namespace Hyrule
 		Quaternion GetLocalQuaternion() noexcept;
 		Quaternion GetWorldQuaternion() noexcept;
 		void SetLocalQuaternion(const Quaternion&) noexcept;
+		void SetLocalRotationFromEuler(const Vector3D&) noexcept;
+		void SetLocalRotationFromDegree(const Vector3D&) noexcept;
 
 		Vector3D GetLocalScale() noexcept;
 		Vector3D GetWorldScale() noexcept;

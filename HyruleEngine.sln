@@ -22,7 +22,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HyruleUtility", "HyruleUtil
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HyruleMath", "HyruleMath\HyruleMath.vcxproj", "{2071AD2A-F7E6-4223-9B01-D68042011708}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HyruleDX11Graphics", "HyruleDX11Graphics\HyruleDX11Graphics.vcxproj", "{1ABB04F8-0A37-4954-8B3B-53C70DB9538E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HyruleGraphicsDX11", "HyruleDX11Graphics\HyruleDX11Graphics.vcxproj", "{1ABB04F8-0A37-4954-8B3B-53C70DB9538E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1FFEB8AA-26C5-42E5-9B69-E08B7ABCC2A0} = {1FFEB8AA-26C5-42E5-9B69-E08B7ABCC2A0}
 		{2071AD2A-F7E6-4223-9B01-D68042011708} = {2071AD2A-F7E6-4223-9B01-D68042011708}
@@ -38,6 +38,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HyruleGraphicsEngine", "HyruleGraphicsEngine\HyruleGraphicsEngine.vcxproj", "{1FFEB8AA-26C5-42E5-9B69-E08B7ABCC2A0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HyrulePhysicsEngine", "HyrulePhysicsEngine\HyrulePhysicsEngine.vcxproj", "{EEA50D02-6AAA-4863-AC72-412228BAD863}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DebugDraw", "DebugDraw\DebugDraw.vcxproj", "{F2437C47-DB85-4E16-963E-C97AE6FC607C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,14 @@ Global
 		{EEA50D02-6AAA-4863-AC72-412228BAD863}.Release|x64.Build.0 = Release|x64
 		{EEA50D02-6AAA-4863-AC72-412228BAD863}.Release|x86.ActiveCfg = Release|Win32
 		{EEA50D02-6AAA-4863-AC72-412228BAD863}.Release|x86.Build.0 = Release|Win32
+		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Debug|x64.ActiveCfg = Debug|x64
+		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Debug|x64.Build.0 = Debug|x64
+		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Debug|x86.ActiveCfg = Debug|Win32
+		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Debug|x86.Build.0 = Debug|Win32
+		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Release|x64.ActiveCfg = Release|x64
+		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Release|x64.Build.0 = Release|x64
+		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Release|x86.ActiveCfg = Release|Win32
+		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -25,21 +25,20 @@ namespace Hyrule
 		Vector3D BoxCollider::FindFarthestPoint(const Vector3D& _direction)
 		{
 			Matrix4x4 objectTM = object->GetWorldTM();
-			// Matrix4x4 colliderTM = ToTransformMatrix(center, Quaternion::Identity(), size);
 
-			Matrix4x4 colliderWorld = /*colliderTM *= */objectTM;
+			Matrix4x4 colliderWorld = objectTM;
 			colliderWorld.m[3] = {0.f, 0.f, 0.f, 1.f};
 			Matrix4x4 invColliderWorld = colliderWorld.Inverse();
 
-			float maxDist{ FLT_MIN };
 			size_t index{ 0 };
-			Vector3D dir{ (_direction * invColliderWorld).Normalized() };
+			float maxDist{ (shape->GetPoints()[index] * objectTM).Dot(_direction) };
+			// Vector3D dir{ (_direction * invColliderWorld).Normalized() };
 
-			for (size_t i = 0; i < shape->GetPoints().size(); i++)
+			for (size_t i = 1; i < shape->GetPoints().size(); i++)
 			{
-				float dist{ shape->GetPoints()[i].Dot(dir) };
+				float dist{ (shape->GetPoints()[i] * objectTM).Dot(_direction) };
 
-				if (dist > maxDist)
+				if (dist >= maxDist)
 				{
 					maxDist = dist;
 					index = i;
@@ -82,7 +81,7 @@ namespace Hyrule
 				// float error{ std::fabs(max - radius) };
 
 				// 오차가 입실론보다 작다면 같은 면임.
-				if (radius <= Epsilon)
+				if (radius <= 0.01f)
 				{
 					// same.push_back(e);
 
@@ -110,9 +109,9 @@ namespace Hyrule
 			const auto& points{ shape->GetPoints( ToScaleMatrix( object->GetScale() ) ) };
 
 			Vector3D scl{ object->GetScale() };
-			const float width{ 0.5f * scl.x };
-			const float height{ 0.5f * scl.y };
-			const float depth{ 0.5f * scl.z };
+			const float width{ 1.f * scl.x };
+			const float height{ 1.f * scl.y };
+			const float depth{ 1.f * scl.z };
 
 			const float w2{ width * width };
 			const float h2{ height * height };

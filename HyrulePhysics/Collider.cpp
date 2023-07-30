@@ -131,15 +131,19 @@ namespace Hyrule
 			collisionInfo.push_back(collision);
 		}
 
-		void Collider::SetWorldTransform(const Matrix4x4& _mat)
+		void Collider::SetTransform(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept
 		{
-			if (_mat == preTM)
+			if (prePos == _pos && preRot == _rot && preScl== _scl)
 			{
 				return;
 			}
-			
-			preTM = _mat;
-			this->object->SetWorldTM(_mat);
+
+			this->prePos = _pos;
+			this->preRot = _rot;
+			this->preScl = _scl;
+			this->object->SetPosition(_pos);
+			this->object->SetRotation(_rot);
+			this->object->SetScale(_scl);
 			ObjectManager::GetInstance().OctreeResearch(this);
 		}
 

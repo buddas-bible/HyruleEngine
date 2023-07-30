@@ -5,6 +5,7 @@ namespace Hyrule
 {
 	struct Vector3D;
 	struct Vector4D;
+	struct Quaternion;
 	struct Matrix4x4;
 
 	namespace Physics
@@ -16,6 +17,9 @@ namespace Hyrule
 			virtual ~IRigidBody() noexcept = default;
 
 		public:
+			virtual const Vector3D& ApplyPosition() noexcept abstract;
+			virtual const Quaternion& ApplyQuaternion() noexcept abstract;
+
 			virtual void OnEnable() noexcept abstract;
 			virtual void OnDisable() noexcept abstract;
 			virtual void OnDestroy() noexcept abstract;
@@ -38,11 +42,6 @@ namespace Hyrule
 
 			virtual bool isSleeping() const noexcept abstract;
 			virtual void isSleeping(const bool) noexcept abstract;
-
-			/// <summary>
-			/// 강체 시뮬레이션으로 변화된 월드 트랜프폼 정보
-			/// </summary>
-			virtual Matrix4x4 Apply() noexcept abstract;
 		};
 	}
 }

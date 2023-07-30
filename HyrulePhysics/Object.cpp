@@ -20,14 +20,29 @@ namespace Hyrule
 			return position;
 		}
 
+		void Object::SetPosition(const Vector3D& _pos)
+		{
+			this->position = _pos;
+		}
+
 		Quaternion& Object::GetRotation()
 		{
 			return rotation;
 		}
 
+		void Object::SetRotation(const Quaternion& _rot)
+		{
+			this->rotation = _rot;
+		}
+
 		Vector3D& Object::GetScale()
 		{
 			return scale;
+		}
+
+		void Object::SetScale(const Vector3D& _scl)
+		{
+			this->scale = _scl;
 		}
 
 		Collider* Object::GetCollider(size_t _index)
@@ -86,11 +101,6 @@ namespace Hyrule
 		std::wstring Object::GetName()
 		{
 			return this->name;
-		}
-
-		void Object::SetWorldTM(const Matrix4x4& _TM)
-		{
-			Decompose(_TM, position, rotation, scale);
 		}
 
 		Matrix4x4 Object::GetWorldTM()

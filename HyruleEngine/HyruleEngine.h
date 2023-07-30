@@ -31,6 +31,7 @@ namespace Hyrule
 
 	private:
 		HWND hwnd;
+		HWND debughWnd;
 		bool isRunning;
 
 		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam) noexcept;

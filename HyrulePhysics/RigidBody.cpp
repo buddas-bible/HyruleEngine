@@ -4,6 +4,8 @@
 #include "Collider.h"
 #include "ObjectManager.h"
 
+#include <iostream>
+
 namespace Hyrule
 {
 	namespace Physics
@@ -25,6 +27,16 @@ namespace Hyrule
 		std::wstring RigidBody::GetObjectName() noexcept
 		{
 			return this->object->GetName();
+		}
+
+		const Hyrule::Vector3D& RigidBody::ApplyPosition() noexcept
+		{
+			return object->GetPosition();
+		}
+
+		const Hyrule::Quaternion& RigidBody::ApplyQuaternion() noexcept
+		{
+			return object->GetRotation();
 		}
 
 		void RigidBody::OnEnable() noexcept
@@ -122,6 +134,14 @@ namespace Hyrule
 			// dw = (r X dP) / I_impulse
 			Vector3D rXdP{ _contact.Cross(_impulse) };
 			Vector3D dw{ rXdP * this->GetInvInertia() };
+			
+			if (object->GetName() == L"Box02")
+			{
+				static Vector3D predW;
+
+				std::cout << dw.x << " " << dw.y << " " << dw.z << std::endl;
+			}
+			
 			this->angularVelocity += dw;
 		}
 
@@ -161,8 +181,37 @@ namespace Hyrule
 
 			position += this->velocity * _dt;
 
-			// rotation *= ToQuaternion(angularVelocity * _dt);
-			rotation *= ToQuaternion(this->angularVelocity.Normalized(), -this->angularVelocity.Length() * _dt);
+			// rotation *= ToQuaternion(angularVelocity.Normalized(), angularVelocity.Length() * _dt);
+			// rotation.Normalize();
+			// 쿼터니언 미분
+
+			// Quaternion q(0.f, angularVelocity.x, angularVelocity.y, angularVelocity.z);
+
+			// rotation = rotation * q * rotation.Conjugate();
+
+ 			Vector3D axis;
+ 			float angle = angularVelocity.Length();
+			
+ 			if (angle * _dt > 0.5f * (PI<float> / 2))
+ 			{
+ 				angle = 0.5f * (PI<float> / 2) / _dt;
+ 			}
+ 
+ 			if (angle < Epsilon)
+ 			{
+ 				axis = angularVelocity * (0.5f * _dt - (_dt * _dt * _dt) * 0.020833333333f * angle * angle);
+ 			}
+ 			else
+ 			{
+ 				axis = angularVelocity * (std::sin(0.5f * angle * _dt) / angle);
+ 			}
+ 
+ 			Quaternion dorn(std::cos(angle * _dt * 0.5f), axis.x, axis.y, axis.z);
+ 			Quaternion orn0 = dorn * rotation;
+ 
+ 			orn0.Normalize();
+ 
+ 			rotation = orn0;
 		}
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept
@@ -274,11 +323,6 @@ namespace Hyrule
 		void RigidBody::isSleeping(const bool _sleep) noexcept
 		{
 			this->sleep = _sleep;
-		}
-
-		Hyrule::Matrix4x4 RigidBody::Apply() noexcept
-		{
-			return object->GetWorldTM();
 		}
 
 #pragma endregion GetSet

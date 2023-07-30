@@ -64,16 +64,7 @@ namespace Hyrule
 	/// </summary>
 	void HyruleEngine::Finalize() noexcept
 	{
-		// if (rendererEngine != nullptr)
-		// {
-		// 	// renderer->Finalize();
-		// 	rendererEngine = nullptr;
-		// }
-		// if (physicsEngine != nullptr)
-		// {
-		// 	// physics->Finalize();
-		// 	physicsEngine = nullptr;
-		// }
+
 	}
 
 	/// <summary>
@@ -198,7 +189,7 @@ namespace Hyrule
 			{
 				// 윈도우가 비활성화 될 때
 				// 타임 스케일이 0.f로 게임을 정지시킴
-				TimeSystem::GetInstance().Stop();
+				// TimeSystem::GetInstance().Stop();
 			}
 			break;
 
@@ -208,7 +199,7 @@ namespace Hyrule
 				{
 					// 윈도우가 최소화될 때
 					// 타임 스케일이 0.f로 게임을 정지시킴
-					TimeSystem::GetInstance().Stop();
+					// TimeSystem::GetInstance().Stop();
 				}
 				else if (_wParam == SIZE_MAXIMIZED || _wParam == SIZE_RESTORED)
 				{

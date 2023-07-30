@@ -7,6 +7,7 @@
 #include "RigidBody.h"
 #include "Face.h"
 #include "Edge.h"
+#include "Object.h"
 
 #include <iostream>
 
@@ -42,9 +43,13 @@ namespace Hyrule
 				// 서포트 포인트와 방향벡터의 각도가 90도 이상이면 그냥 충돌 안하는 거임
 				// (해당 방향으로 원점을 넘는 점이 없기 때문에)
 				// (원점을 포함하는 심플렉스를 만들 수가 없음)
-				if (OP.Dot(direction) < 0.f)
+				float dot{ OP.Dot(direction) };
+				if (dot < 0.f)
 				{
-					break;
+					// if (std::fabs(dot) > Epsilon)
+					// {
+						break;
+					// }
 				}
 
 				// 서포트 포인터가 구해졌으면 심플렉스에 넣는다.
@@ -95,6 +100,11 @@ namespace Hyrule
 
 			size_t count{};
 
+			// 노말이 0이 나와서 거리도 0이 나오는 경우가 있다.
+			// 노말이 0이 나오는 경우는 삼각형을 이루지 못하고 직선이기 때문인데
+			// 사면체를 못만들었다는 
+
+
 			while (count < EPA_MAX)
 			{
 				// 면들과의 노말과 거리를 계산할 수 있음.
@@ -110,6 +120,8 @@ namespace Hyrule
 				// 만약 변 위에 있다면 거리가 0인 면이 2개가 생길 것이다.
 
 				float faceDist{ polytope.faceMap.begin()->first };
+				// Vector3D faceToP{ support - polytope.faceMap.begin()->second.vec[0] };
+				// float faceToPDist{ faceToP.Dot(normal) };
 				float supportDist{ support.Dot(normal) };
 
 				auto itr = 
@@ -124,17 +136,8 @@ namespace Hyrule
 					break;
 				}
 
-				// 노말방향으로 서포트 포인트를 찾았는데
-				// 그게 이미 찾았던 점이라면
-// 				if (polytope.faceMap.begin()->second.vec[0] == support ||
-// 					polytope.faceMap.begin()->second.vec[1] == support ||
-// 					polytope.faceMap.begin()->second.vec[2] == support)
-// 				{
-// 					break;
-// 				}
-
 				// 노말 방향으로 서포트 포인트를 찾았는데 거리가 0에 가깝다면...
-				if (supportDist <= Epsilon)
+				if (std::fabs(supportDist) <= Epsilon)
 				{
 					break;
 				}
@@ -157,12 +160,11 @@ namespace Hyrule
 				// 면들과 서포트 포인트를 비교하면서 확장 가능성을 본다.
 				for (auto itr = polytope.faceMap.begin(); itr != polytope.faceMap.end(); itr++)
 				{
-					// float faceDist = itr->first;
 					Face f = itr->second;
 
-					// float supportDist = f.normal.Dot(support);
+					Vector3D fToSupport{ support - f.vec[0] };
 
-					float radian{ f.normal.Dot(support.Normalized()) };
+					float radian{ f.normal.Dot(fToSupport) };
 						
 					// 서포트 포인트가 페이스 노말과 같은 방향인가?
 					if (radian <= 0.f)
@@ -195,11 +197,7 @@ namespace Hyrule
 
 				if (edges.empty())
 				{
-					float depth{ polytope.faceMap.begin()->first };
-					Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
-					_manifold->SetDepth(depth + 0.0001f);
-					_manifold->SetNormal(detectNormal);
-					return;
+					break;
 				}
 
 				polytope.push_back(support);
@@ -211,10 +209,16 @@ namespace Hyrule
 
 				count++;
 			}
-
+			 
 			float depth{ polytope.faceMap.begin()->first };
 			Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
-			_manifold->SetDepth(depth + 0.0001f );
+
+			// if (_manifold->GetColliderB()->GetObject()->GetName() == L"Box04")
+			// {
+			// 	std::cout << detectNormal.x << " " << detectNormal.y << " " << detectNormal.z << std::endl;
+ 			// }
+
+			_manifold->SetDepth(depth + Epsilon );
 			_manifold->SetNormal(detectNormal);
 			return;
 		}
@@ -261,35 +265,36 @@ namespace Hyrule
 				direction = -direction;
 			}
 			
-			// 페이스의 노말 벡터와 변의 벡터를 외적해서 변과 수직인 방향 벡터를 구해냄
-			// incident 면의 변들을 비교해서 넘는 친구들을 잘라내기 시작함.
+			std::vector<Vector3D> contactPoint{ incident->vec };
+
+			// 기준 면의 모서리를 순회하면서 면을 잘라냄
+			// 모서리 하나에 대해서 잘라내고 나면 face를 반환 받을 것.
 			for (auto& edge : reference->edge)
 			{
-				for (auto i = 0; i < incident->vec.size(); i++)
-				{
-					auto j = (i + 1) % incident->vec.size();
-
-					// 벗어난 친구들은 다르게 처리 해줌
-					EdgeClip(incident->vec[i], incident->vec[j], edge.vectorA, edge.normal, false);
-				}
+				contactPoint = FaceClip(contactPoint, edge, edge.normal, false);
 			}
 
 			// 레퍼런스 페이스의 노말 방향으로 잘라냄
-			for (auto i = 0; i < incident->vec.size(); i++)
+
+			contactPoint = FaceClip(contactPoint, reference->edge[0], reference->normal, true);
+
+			// float newDepth{ _manifold->GetDepth() };
+
+			// for (auto& e : contactPoint)
+			// {
+			// 	float depth{ (reference->vec[0] - e).Dot(reference->normal) };
+			// 
+			// 	if (newDepth < std::fabs(depth))
+			// 	{
+			// 		newDepth = depth;
+			// 	}
+			// }
+
+			// _manifold->SetDepth(newDepth);
+
+			for (auto i = 0; i < contactPoint.size(); i++)
 			{
-				auto j = (i + 1) % incident->vec.size();
-
-				EdgeClip(incident->vec[i], incident->vec[j], reference->vec[0], -reference->normal, true);
-			}
-
-			for (auto i = 0; i < incident->vec.size(); i++)
-			{
-				auto itr = std::find(_manifold->GetContactPoints().begin(), _manifold->GetContactPoints().end(), incident->vec[i]);
-
-				if (itr == _manifold->GetContactPoints().end())
-				{
-					_manifold->AddContactPoint(incident->vec[i]);
-				}
+				_manifold->AddContactPoint(contactPoint[i]);
 			}
 		}
 
@@ -308,6 +313,30 @@ namespace Hyrule
 			}
 
 			return false;
+		}
+
+		float CollisionSystem::PointToSegmentDistance(const Vector3D p, const Vector3D L1, const Vector3D L2)
+		{
+			// 선분이 아닐 때
+			const float l2{ (L2 - L1).LengthSquare() };
+			if (l2 == 0.f)
+			{
+				return (p - L1).Length();
+			}
+
+			// 
+			const float t{ (p - L1).Dot(L2 - L1) / l2 };
+			if (t < 0.f)
+			{
+				return (p - L1).Length();
+			}
+			else if (t > 1.f)
+			{
+				return (p - L2).Length();
+			}
+			const Vector3D proj{ L1 + (L2 - L1) * t };
+			
+			return (p - proj).Length();
 		}
 
 		/// <summary>
@@ -348,6 +377,13 @@ namespace Hyrule
 			Vector3D BA = (A - B).Normalized();
 			Vector3D BO = -B.Normalized();
 
+			// AB 직선에 원점이 존재하는 경우 충돌 한 것이지만..
+			if (BA.Cross(BO) == Vector3D::Zero() || BA == BO)
+			{
+				_direction = BA.Cross(Vector3D(1.f, 1.f, 1.f).Normalized());
+				return false;
+			}
+
 			// 서포트 포인트끼리 선을 그어보고 원점과 각도를 비교해본다.
 			// 선분과 원점을 향한 벡터가 이루는 각이 90도 보다 작다면
 			// 원점을 포함하는 심플렉스를 만들 가능성이 있기 때문에
@@ -360,8 +396,9 @@ namespace Hyrule
 			}
 			else if (dot < 0.f)
 			{
+				// B 너머에 원점이 존재함.
 				_direction = Vector3D::Zero();
- 			}
+  		}
 			else
 			{
 				_simplex = { B };
@@ -384,6 +421,19 @@ namespace Hyrule
 			Vector3D CBA = CB.Cross(CA).Normalized();
 			Vector3D CO = -C.Normalized();
 
+			if (A == C)
+			{
+				_simplex = { B, C };
+				_direction = CB.Cross(Vector3D(1.f, 1.f, 1.f).Normalized());
+				return false;
+			}
+			if (B == C)
+			{
+				_simplex = { A, C };
+				_direction = CA.Cross(Vector3D(1.f, 1.f, 1.f).Normalized());
+				return false;
+			}
+
 			// ABC 삼각형의 노말 벡터를 구하고
 			// 삼각형 어느 방향에 원점이 있는지 판단.
 
@@ -403,8 +453,8 @@ namespace Hyrule
 				{
 					// CB 공간에서 다시 탐색
 					_simplex = { B, C };
-					_direction = CB.Cross(CO).Cross(CB).Normalized();
-					// return DoSimplex2(_simplex, CO);
+					// _direction = CB.Cross(CO).Cross(CB);
+					return DoSimplex2(_simplex, CO);
 				}
 			}
 			else
@@ -415,8 +465,8 @@ namespace Hyrule
 					// CB 공간에 원점이 존재한다면
 					// 비버 집을 다시 지어야함.
 					_simplex = { B, C };
-					_direction = CB.Cross(CO).Cross(CB).Normalized();
-					// return DoSimplex2(_simplex, CO);
+					// _direction = CB.Cross(CO).Cross(CB);
+					return DoSimplex2(_simplex, CO);
 				}
 				
 				// CA, CB 공간에 원점이 존재하지 않는다면
@@ -432,7 +482,7 @@ namespace Hyrule
 					else
 					{
 						// CBA 공간 안에 원점은 있으나
-						// 방향은 반대라서
+						// 방향이 반대거나 삼각형 위에 원점이 있는 경우
 						// CBA -노말 방향으로 점 D를 탐색
 						_simplex = { B, A, C };
 						_direction = -CBA;
@@ -458,6 +508,27 @@ namespace Hyrule
 			Vector3D DAC{ DA.Cross(DC).Normalized() };
 			Vector3D DCB{ DC.Cross(DB).Normalized() };
 			Vector3D DO{ -D.Normalized() };
+
+			// 사면체를 만들지 못하는 경우
+			if (A == D)
+			{
+				_simplex = { B, C, D };
+				_direction = DCB.Cross(Vector3D(1.f, 1.f, 1.f).Normalized());
+				return false;
+			}
+			else if (B == D)
+			{
+				_simplex = { A, C, D };
+				_direction = DAC.Cross(Vector3D(1.f, 1.f, 1.f).Normalized());
+				return false;
+			}
+			else if (C == D)
+			{
+				_simplex = { A, B, D };
+				_direction = DBA.Cross(Vector3D(1.f, 1.f, 1.f).Normalized());
+				return false;
+			}
+
 
 			// 사면체를 이루는 각 면의 노말 벡터와
 			// 원점의 방향으로 사면체가 원점을 포함하고 있는지를 판단함.
@@ -487,77 +558,112 @@ namespace Hyrule
 			return true;		
 		}
 
-		void CollisionSystem::FaceClip(Face& _incident, const Edge& _refEdge, const Vector3D& _refFaceNormal)
+		std::vector<Vector3D> CollisionSystem::FaceClip(const std::vector<Vector3D>& _incident, const Edge& _refEdge, const Vector3D& _refFaceNormal, bool remove)
 		{
-			// 엣지의 노말에 따라서 페이스를 잘라야함.
-			// 어떻게 잘라내냐?
-			// 걸쳐있는 친구는 잘라내고, 벗어난 친구는 없애고 
-			for (auto i = 0; i < _incident.vec.size(); i++)
-			{
-				auto j = ( i + 1 ) % _incident.vec.size();
+			// Sutherland-Hodgman 알고리즘으로 페이스를 잘라낼 예정.
+			// 잘라야할 페이스 정보를 알고있음, 기준이 되는 페이스 정보도 알고 있음.
+			// 기준 면의 모서리 노말 방향에 따라 잘라내는데
+			// 음수, 양수면 둘 다 저장
+			// 양수, 음수면 잘린 점만 저장 (두 번째 점)
+			// 음수, 음수면 잘리지 않은 점만 저장 (두 번째 점)
+			// 양수, 양수면 저장하지 않음
+			
+			std::vector<Vector3D> points{};
 
-				// 벗어난 친구들은 다르게 처리 해줌
-				EdgeClip(_incident.vec[i], _incident.vec[j], _refEdge.vectorA, _refEdge.normal, false);
+			// 기준 면의 한 모서리에 대해서 노말 비교를 하고
+			// 모서리를 잘라낸다.
+			for (size_t i = 0; i < _incident.size(); i++)
+			{
+				size_t j = (i + 1) % _incident.size();
+				Edge edge{ _incident[i], _incident[j], i, j };
+				size_t state = EdgeClip(edge, _refEdge.vectorA, _refFaceNormal, remove);
+
+				switch (state)
+				{
+					case OutOut:
+					{}
+						break;
+					
+					case InOut:
+					{
+						if (!remove)
+						{
+							points.push_back(edge.vectorB);
+						}
+					}
+					break;
+
+					case InIn:
+					{
+						points.push_back(edge.vectorB);
+					}
+						break;
+					
+					case OutIn:
+					{
+						if (!remove)
+						{
+							points.push_back(edge.vectorA);
+						}
+						points.push_back(edge.vectorB);
+					}
+						break;
+
+					default:
+						break;
+				}
 			}
 
-			// 레퍼런스 페이스의 노말 방향으로 잘라냄
-			for (auto i = 0; i < _incident.vec.size(); i++)
-			{
-				auto j = (i + 1) % _incident.vec.size();
-
-				EdgeClip(_incident.vec[i], _incident.vec[j], _refEdge.vectorA, -_refFaceNormal, true);
-			}
+			return points;
 		}
 
-		void CollisionSystem::EdgeClip(Vector3D& edgeA, Vector3D& edgeB, const Vector3D& _point, const Vector3D& _direction, bool _remove)
+		size_t CollisionSystem::EdgeClip(Edge& _edge, const Vector3D& _point, const Vector3D& _direction, bool _remove)
 		{
 			// 레퍼런스 엣지의 한 점과 클리핑할 엣지의 점 간의 벡터를 구하고
-			// 디렉션 벡터에 내적해서 길이를 구함
-			float dA = (edgeA - _point).Dot(_direction);
-			float dB = (edgeB - _point).Dot(_direction);
+			// 디렉션 벡터에 내적해서 모서리의 길이를 구함
+			float dA = (_edge.vectorA - _point).Dot(_direction);
+			float dB = (_edge.vectorB - _point).Dot(_direction);
 
-			Vector3D A{ edgeA };
-			Vector3D B{ edgeB };
+			Vector3D A{ _edge.vectorA };
+			Vector3D B{ _edge.vectorB };
 
 			// 노말 방향으로 길이가 둘 다 음수인 경우엔 자르지 않음
 			if (dA <= 0.f && dB <= 0.f)
 			{
-				return;
+				return InIn;
 			}
 
-			// 노말 방향으로 둘다 양수인 경우엔 일단 넘기자..
-			if (!_remove && dA > 0.f && dB > 0.f)
+			// 노말 방향으로 둘다 양수인 경우엔 엣지를 삭제 해야함.
+			if (dA > 0.f && dB > 0.f)
 			{
-
-				// 다른 처리를 해줄려 했으나
-				// 버텍스 순서를 이미 정리한 페이스 정보라서
-				// 그냥 순서대로 엣지라고 보고 처리하기로 함.
-				// 엣지 형태로는 같은 버텍스인데 다르게 처리하는 경우가 생기니까..
-
-				return;
+				return OutOut;
 			}
 
 			if (dA > 0.f)
 			{
 				if (_remove)
 				{
-					edgeA = B;
+					_edge.vectorA = B;
 				}
 				else
 				{
-					edgeA = A + (B - A) * ( dA / (std::fabs(dA) + std::fabs(dB)) );
+					_edge.vectorA = A + (B - A) * ( dA / (std::fabs(dA) + std::fabs(dB)) );
 				}
+
+				return OutIn;
 			}
 			if (dB > 0.f)
 			{
 				if (_remove)
 				{
-					edgeB = A;
+					_edge.vectorB = A;
 				}
 				else
 				{
-					edgeB = B + (A - B) * ( dB / (std::fabs(dA) + std::fabs(dB)) );
+					_edge.vectorB = B + (A - B) * ( dB / (std::fabs(dA) + std::fabs(dB)) );
 				}
+
+				return InOut;
 			}
 		}
 
@@ -581,23 +687,24 @@ namespace Hyrule
 			Vector3D P_a{ _manifold->GetColliderA()->GetPosition() };
 			Vector3D P_b{ _manifold->GetColliderB()->GetPosition() };
 
-			Vector3D V_a{ A->GetVelocity() };
-			Vector3D V_b{ B->GetVelocity() };
-
-			Vector3D W_a{ A->GetAngularVelocity() };
-			Vector3D W_b{ B->GetAngularVelocity() };
-
 			Vector3D Normal{ _manifold->GetNormal() };
 
 			const auto& contactPoints{ _manifold->GetContactPoints() };
 			for (const auto& contactPoint : contactPoints)
 			{							
+				Vector3D V_a{ A->GetVelocity() };
+				Vector3D V_b{ B->GetVelocity() };
+
+				Vector3D W_a{ A->GetAngularVelocity() };
+				Vector3D W_b{ B->GetAngularVelocity() };
+
+
 				/// 임펄스 기반 반응 모델
 				// 질량 중심에서 충돌 지점까지의 벡터
 				Vector3D r_1 = contactPoint - P_a;
 				Vector3D r_2 = contactPoint - P_b;
 
-				// 상대속도
+				// 충돌 지점에서 속도와 상대 속도
 				Vector3D v_p1 = V_a + W_a.Cross(r_1);
 				Vector3D v_p2 = V_b + W_b.Cross(r_2);
 				Vector3D v_r = v_p2 - v_p1;
@@ -605,17 +712,17 @@ namespace Hyrule
 				// 충돌 지점에서 노말 방향으로의 상대 속도
 				float contactVelocity = v_r.Dot(Normal);
 
-				if (contactVelocity > 0.f)
+				if (contactVelocity > Epsilon)
 				{
-					return;
+					continue;
 				}
 
 				Matrix3x3 inertiaTMA = A->GetInvInertia();
 				Matrix3x3 inertiaTMB = B->GetInvInertia();
 
 				/// 임펄스 공식의 분모 부분.
-				Vector3D inertiaA = (r_1.Cross(Normal) * inertiaTMA).Cross(r_1);
-				Vector3D inertiaB = (r_2.Cross(Normal) * inertiaTMB).Cross(r_2);
+				Vector3D inertiaA = r_1.Cross(Normal).Cross(r_1) * inertiaTMA;
+				Vector3D inertiaB = r_2.Cross(Normal).Cross(r_2) * inertiaTMB;
 				float numerator = systemMass + (inertiaA + inertiaB).Dot(Normal);
 
 				// 임펄스 크기
@@ -646,7 +753,7 @@ namespace Hyrule
 				// 마찰력 = 수직항력 * 마찰계수
 				// 순간 힘이 일정 마찰력을 넘어간다면 동적 마찰력으로 계산함
 				// m * Dot (v_r, t) <= j_s 
-				if (std::abs(j_t) < j * sfriction)
+				if (std::fabs(j_t) < j * sfriction)
 				{
 					// j_f = - (m * Dot(v_r, t) * t 
 					frictionImpulse = tangent * j_t;
@@ -678,29 +785,23 @@ namespace Hyrule
 				return;
 			}
 
+			Vector3D p_A{ A->GetPosition() };
+			Vector3D p_B{ B->GetPosition() };
+
+			const float persent{ 0.8f };
+			const float threshold{ 0.00001f };
+
 			float depth{ _manifold->GetDepth() };
-			Vector3D normal{ _manifold->GetNormal() };
+			const Vector3D normal{ _manifold->GetNormal() };
 			
-			float dist;
-			Vector3D resolve;
-
-			if ((depth - 0.01f) > Epsilon)
-			{
-				dist = depth - 0.01f;
-			}
-			else
-			{
-				dist = 0.f;
-			}
-			// dist = depth + 0.01f;
-
-			resolve = normal * (dist / systemMass) * 0.5f;
+			const float dist{ std::max(depth - threshold, 0.0f) };
+			Vector3D resolve = normal * (dist / systemMass) * persent;
 
 			Vector3D Adist = -resolve * InvMassA;
-			A->SetPosition(A->GetPosition() + Adist);
+			A->SetPosition(p_A + Adist);
 
 			Vector3D Bdist = resolve * InvMassB;
-			B->SetPosition(B->GetPosition() + Bdist);
+			B->SetPosition(p_B + Bdist);
 		}
 
 		float CollisionSystem::ComputeFriction(float _a, float _b)
