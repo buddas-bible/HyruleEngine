@@ -106,8 +106,6 @@ namespace Hyrule
 
 		Matrix3x3 BoxCollider::GetInertiaTensor(float _mass) noexcept
 		{
-			const auto& points{ shape->GetPoints( ToScaleMatrix( object->GetScale() ) ) };
-
 			Vector3D scl{ object->GetScale() };
 			const float width{ 1.f * scl.x };
 			const float height{ 1.f * scl.y };

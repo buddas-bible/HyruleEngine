@@ -29,7 +29,7 @@ namespace Hyrule
 			float e[2];
 		};
 
-		static inline Vector2D Zero() noexcept
+		static constexpr inline Vector2D Zero() noexcept
 		{
 			return Vector2D();
 		}

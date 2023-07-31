@@ -43,7 +43,7 @@ namespace Hyrule
 
 		long HyrulePhysics::Initialize()
 		{
-			gravity = Hyrule::Vector3D(0.f, -2.f, 0.f);
+			gravity = Hyrule::Vector3D(0.f, -9.6f, 0.f);
 			Shapes::Initalize();
 			NonRigidBody::Init();
 			return (long)0L;

@@ -131,7 +131,7 @@ namespace Hyrule
 			// dL = (t * dt) = r X dP
 			// dL = Ia * dt = I * dw
 			// dw = dL / I
-			// dw = (r X dP) / I_impulse
+			// dw = (r X dP) / I
 			Vector3D rXdP{ _contact.Cross(_impulse) };
 			Vector3D dw{ rXdP * this->GetInvInertia() };
 			this->angularVelocity += dw;
@@ -199,9 +199,7 @@ namespace Hyrule
 				dW = angularVelocity * _dt;
 			}
 
-			rotation = 
-				ToQuaternion(dW.Normalized(), dW.Length())
-				* rotation;
+			rotation = ToQuaternion(dW.Normalized(), dW.Length()) * rotation;
 		}
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept

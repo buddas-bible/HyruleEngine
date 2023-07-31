@@ -91,30 +91,42 @@ namespace Hyrule
 
 		if (parent != nullptr)
 		{
-			pos -= parent->GetWorldPosition();
-			rot /= parent->GetWorldQuaternion();
+			pos *= parent->GetWorldMatrix().Inverse();
+			rot *= parent->GetWorldQuaternion().Inverse();
 		}
 
 		gameObject->GetTransform()->SetLocalPosition(pos);;
-		gameObject->GetTransform()->SetLocalQuaternion(rot);
+		gameObject->GetTransform()->SetLocalQuaternion(rot.Normalized());
 	}
 
 	void RigidBody::Update()
 	{
-// 		Vector3D pos{ gameObject->GetTransform()->GetLocalPosition() };
-// 		
-// 		if (std::fabs(gameObject->GetTransform()->GetWorldPosition().x)  < 400.f)
-// 		{
-// 
-// 		}
-// 		if (std::fabs(gameObject->GetTransform()->GetWorldPosition().y) < 400.f)
-// 		{
-// 
-// 		}
-// 		if (std::abs(gameObject->GetTransform()->GetWorldPosition().z) < -400.f)
-// 		{
-// 
-// 		}
+		Vector3D pos{ gameObject->GetTransform()->GetLocalPosition() };
+
+		if (gameObject->GetTransform()->GetLocalPosition().x > 400.f)
+		{
+			gameObject->GetTransform()->SetLocalPosition({ pos.x - 400.f, pos.y, pos.z });
+		}
+		else if (gameObject->GetTransform()->GetLocalPosition().x < -400.f)
+		{
+			gameObject->GetTransform()->SetLocalPosition({ pos.x + 400.f, pos.y, pos.z });
+		}
+		if (gameObject->GetTransform()->GetLocalPosition().y > 400.f)
+		{
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y - 400.f, pos.z });
+		}
+		else if (gameObject->GetTransform()->GetLocalPosition().y < -400.f)
+		{
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y + 400.f, pos.z });
+		}
+		if (gameObject->GetTransform()->GetLocalPosition().z > 400.f)
+		{
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, pos.z - 400.f });
+		}
+		else if (gameObject->GetTransform()->GetLocalPosition().z < -400.f)
+		{
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, pos.z + 400.f });
+ 		}
 	}
 
 	void RigidBody::OnEnable()

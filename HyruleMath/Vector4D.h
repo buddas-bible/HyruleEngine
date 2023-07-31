@@ -51,7 +51,7 @@ namespace Hyrule
 			__m128 m;
 		};
 
-		static inline Vector4D Zero() noexcept
+		static constexpr inline Vector4D Zero() noexcept
 		{
 			return Vector4D{};
 		}

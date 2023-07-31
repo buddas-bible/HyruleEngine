@@ -29,7 +29,7 @@ namespace Hyrule
 
 		GameObject* box = CreateGameObject(L"Box01");
 		box->AddComponent<CubeRenderer>();
-		box->GetTransform()->SetLocalPosition(Vector3D(4.f, 0.f, -4.f));
+		box->GetTransform()->SetLocalPosition(Vector3D(25.f, 0.f, -25.f));
 		box->GetTransform()->SetLocalScale(Vector3D(50.f, 10.f, 50.f));
 		box->AddComponent<BoxCollider>();
 		Hyrule::RigidBody* rigidBox01 = box->AddComponent<RigidBody>();
@@ -44,25 +44,29 @@ namespace Hyrule
 
 		GameObject* box2 = CreateGameObject(L"Box02");
 		box2->AddComponent<CubeRenderer>();
-		box2->GetTransform()->SetLocalPosition(Vector3D(0.f, 10.f, 0.f));
-		box2->GetTransform()->SetLocalRotationFromDegree(Vector3D(45.f, 0.f, 45.f));
-		box2->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		box2->GetTransform()->SetLocalPosition(Vector3D(0.f, 200.f, 0.f));
+		// box2->GetTransform()->SetLocalRotationFromDegree(Vector3D(45.f, 0.f, 45.f));
+		box2->GetTransform()->SetLocalScale(Vector3D(1.f, 1.f, 1.f));
 		box2->AddComponent<BoxCollider>();
 		Hyrule::RigidBody* rigidBox02 = box2->AddComponent<RigidBody>();
+		rigidBox02->SetMass(1.f);
 		// rigidBox02->SetVelocity(Vector3D{ -2.f, 0.f, 0.f });
 
 
-		for (auto i = 3; i < 6; i++)
-		{
-			GameObject* box4 = CreateGameObject(L"Box0" + std::to_wstring(i));
-			box4->AddComponent<CubeRenderer>();
-			box4->GetTransform()->SetLocalPosition(Vector3D(0.f, 20.f + 10.f * i, 0.f));
-			box4->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-			box4->AddComponent<BoxCollider>();
-			Hyrule::RigidBody* rigidBox03 = box4->AddComponent<RigidBody>();
-		}
+		// for (auto i = 3; i < 10; i++)
+		// {
+		// 	GameObject* box4 = CreateGameObject(L"Box0" + std::to_wstring(i));
+		// 	box4->AddComponent<CubeRenderer>();
+		// 	box4->GetTransform()->SetLocalPosition(Vector3D(0.f, 20.f + 10.f * i, 0.f));
+		// 	box4->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		// 	box4->AddComponent<BoxCollider>();
+		// 	Hyrule::RigidBody* rigidBox03 = box4->AddComponent<RigidBody>();
+		// }
 
-		// GetMainCamera()->gameObject->GetTransform()->SetLocalPosition({ 0, 0.5f, 1.f });
+		GetMainCamera()->gameObject->AddComponent<BoxCollider>();
+		GetMainCamera()->gameObject->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+
+		box2->SetParent(GetMainCamera()->gameObject);
 
 		// GetMainCamera()->gameObject->SetParent(box2);
 		con->AddControllableObject(VK_F1, box);

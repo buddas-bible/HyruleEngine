@@ -21,7 +21,7 @@ namespace Hyrule
 		PhysicsSystem() noexcept = default;
 		~PhysicsSystem() noexcept = default;
 		PhysicsSystem(const PhysicsSystem&) = delete;
-		void operator=(const PhysicsSystem&) = delete;
+		PhysicsSystem& operator=(const PhysicsSystem&) = delete;
 
 	private:
 		Physics::IPhysics* physicsEngine{};

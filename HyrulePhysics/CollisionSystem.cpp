@@ -669,13 +669,12 @@ namespace Hyrule
 
 			const auto& contactPoints{ _manifold->GetContactPoints() };
 			for (const auto& contactPoint : contactPoints)
-			{							
+			{			
 				Vector3D V_a{ A->GetVelocity() };
 				Vector3D V_b{ B->GetVelocity() };
 
 				Vector3D W_a{ A->GetAngularVelocity() };
 				Vector3D W_b{ B->GetAngularVelocity() };
-
 
 				/// 임펄스 기반 반응 모델
 				// 질량 중심에서 충돌 지점까지의 벡터

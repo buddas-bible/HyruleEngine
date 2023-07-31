@@ -1,8 +1,5 @@
 #pragma once
 
-// #define ToDegree(x) x * (180.0f / PI<float>)
-// #define ToRadian(x) x * (PI<float> / 180.f)
-
 namespace Hyrule
 {
 	template <typename T>

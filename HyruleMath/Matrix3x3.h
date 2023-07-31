@@ -62,7 +62,7 @@ namespace Hyrule
 		/// <summary>
 		/// 전역 함수
 		/// </summary>
-		static inline Matrix3x3 Identity() noexcept
+		static constexpr inline Matrix3x3 Identity() noexcept
 		{
 			return Matrix3x3
 			{
@@ -72,7 +72,7 @@ namespace Hyrule
 			};
 		}
 
-		static inline Matrix3x3 Zero() noexcept
+		static constexpr inline Matrix3x3 Zero() noexcept
 		{
 			return Matrix3x3{};
 		}

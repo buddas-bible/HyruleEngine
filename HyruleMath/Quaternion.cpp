@@ -234,7 +234,7 @@ namespace Hyrule
 	Quaternion& Quaternion::operator/=(const Quaternion& other) noexcept
 	{
 		Quaternion conjugate = other.Conjugate();
-		float temp = other.LengthSquare();
+		float temp = other.Length();
 
 		/// 사원수 나눗셈은 해당 사원수의 켤레를 곱하고
 		*this *= conjugate;

@@ -65,7 +65,7 @@ namespace Hyrule
 		/// <summary>
 		/// 전역 함수
 		/// </summary>
-		static inline Matrix4x4 Identity() noexcept
+		static constexpr inline Matrix4x4 Identity() noexcept
 		{
 			return Matrix4x4
 			{
@@ -76,10 +76,12 @@ namespace Hyrule
 			};
 		}
 
-		static inline Matrix4x4 Zero() noexcept
+		static constexpr inline Matrix4x4 Zero() noexcept
 		{
 			return Matrix4x4{};
 		}
+
+		// static const Matrix4x4 zero;
 		
 		/// <summary>
 		/// 멤버 함수
