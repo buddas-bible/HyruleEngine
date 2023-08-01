@@ -43,7 +43,7 @@ namespace Hyrule
 
 		long HyrulePhysics::Initialize()
 		{
-			gravity = Hyrule::Vector3D(0.f, -9.6f, 0.f);
+			gravity = Hyrule::Vector3D(0.f, -9.81f, 0.f);
 			Shapes::Initalize();
 			NonRigidBody::Init();
 			return (long)0L;
@@ -108,9 +108,6 @@ namespace Hyrule
 							{
 								manifoldArray.push_back(manifold);
 								CollisionSystem::EPAComputePenetrationDepth(manifold);
-
-								// 접촉점도 찾아야함.
-								CollisionSystem::FindContactPoint(manifold);
 							}
 							else
 							{
@@ -120,6 +117,8 @@ namespace Hyrule
 							/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
 							if ((*itr)->hasRigidBody() && (*itr2)->hasRigidBody())
 							{
+								// 접촉점도 찾아야함.
+								CollisionSystem::FindContactPoint(manifold);
 								manifold->Apply();
 							}
 
@@ -144,17 +143,20 @@ namespace Hyrule
 		{
 			auto& rigidbodis = ObjectManager::GetInstance().GetRigidbodies();
 
+			for (auto i = 0; i < 2; i++)
+			{
+				/// 강체, 콜라이더 충돌 대응
+				for (auto& e : manifoldArray)
+				{
+					// 충돌
+						CollisionSystem::ComputeImpulse(e);
+				}
+			}
+
 			/// 속력 계산
 			for (auto& e : rigidbodis)
 			{
 				e->ComputeVelocity(gravity, _deltaTime);
-			}
-
-			/// 강체, 콜라이더 충돌 대응
-			for (auto& e : manifoldArray)
-			{
-				// 충돌
-				CollisionSystem::ComputeImpulse(e);
 			}
 
 			/// 계산된 속력을 위치, 각도에 적용
@@ -183,12 +185,18 @@ namespace Hyrule
 		// 
 		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to)
 		{
+			return nullptr;
 
 		}
 
 		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to, const std::string& _name)
 		{
+			return nullptr;
+		}
 
+		void HyrulePhysics::Picking(const Vector2D&)
+		{
+			
 		}
 
 		/// <summary>

@@ -174,25 +174,32 @@ namespace Hyrule
 			Quaternion& rotation{ object->GetRotation() };
 
 			// 종단 속도
-			const float terminalVelocity = std::sqrtf(std::fabs(gravity.Length()) * mass);
-
-			// 중력 방향의 속력을 구함.
-			Vector3D g_d{ gravity.Normalized() };
-			float v{ g_d.Dot(velocity) };
-
-			// 중력 방향의 속력이 종단속도를 넘어가면 속력을 감쇠시킴
-			if (v > terminalVelocity)
-			{
-				velocity -= g_d * (v - terminalVelocity);
-			}
+// 			const float terminalVelocity = std::sqrtf(2 * std::fabs(gravity.Length()) * mass);
+// 
+// 			// 중력 방향의 속력을 구함.
+// 			Vector3D g_d{ gravity.Normalized() };
+// 			float v{ g_d.Dot(velocity) };
+// 
+// 			// 중력 방향의 속력이 종단속도를 넘어가면 속력을 감쇠시킴
+// 			if (v > terminalVelocity)
+// 			{
+// 				velocity -= g_d * (v - terminalVelocity);
+// 			}
 
 			Vector3D dV{ velocity * _dt };
-			float v_length{ velocity.Length() };
-			if (v_length < 0.01f)
-			{
-				dV = {};
-			}
+// 			float vx_length{ velocity.x * _dt };
+// 			float vz_length{ velocity.z * _dt };
+// 			if (vx_length < 0.02f)
+// 			{
+// 				dV.x = {};
+// 			}
+// 			if (vx_length < 0.02f)
+// 			{
+// 				dV.z = {};
+// 			}
  			position += dV;
+
+
 
 			Vector3D dW{ angularVelocity * _dt };
 			float angle = dW.Length();

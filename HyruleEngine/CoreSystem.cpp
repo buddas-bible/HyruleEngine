@@ -13,7 +13,7 @@ namespace Hyrule
 	bool CoreSystem::GameProcess() noexcept
 	{
 		static double accumulatedTime = 0.f;
-		static const double fixedDeltaTime = 1.f / 120.f;
+		static const double fixedDeltaTime = 1.f / 60.f;
 
 		auto& input = InputSystem::GetInstance();
 

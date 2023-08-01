@@ -215,7 +215,7 @@ namespace Hyrule
 			float depth{ polytope.faceMap.begin()->first };
 			Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
 
-			_manifold->SetDepth(depth + Epsilon );
+			_manifold->SetDepth(depth );
 			_manifold->SetNormal(detectNormal);
 			return;
 		}
@@ -747,13 +747,6 @@ namespace Hyrule
 
 			const auto& contactPoints{ _manifold->GetContactPoints() };
 
-			// Vector3D con{};
-			// for (const auto& contactPoint : contactPoints)
-			// {
-			// 	con += contactPoint;
-			// }
-			// con /= (float)contactPoints.size();
-
 			for (const auto& contactPoint : contactPoints)
 			{			
 				Vector3D V_a{ A->GetVelocity() };
@@ -775,7 +768,7 @@ namespace Hyrule
 				// 충돌 지점에서 노말 방향으로의 상대 속도
 				float contactVelocity = v_r.Dot(Normal);
 
-				if (contactVelocity > Epsilon)
+				if (contactVelocity > 0.f)
 				{
 					return;
 				}
@@ -791,7 +784,7 @@ namespace Hyrule
 				// 임펄스 크기
 				float j = -(1.f + restitution) * contactVelocity;
 				j /= numerator;
-				// j /= (float)contactPoints.size();
+				j /= (float)contactPoints.size();
 
 				// 임펄스 벡터
 				Vector3D impulse = Normal * j;
@@ -808,7 +801,7 @@ namespace Hyrule
 				// contactVelocity를 구했던 v_r Dot normal과 비슷하지만 음수가 붙은 점이 다름.
 				float j_t = -v_r.Dot(tangent);
 				j_t /= numerator;
-				// j_t /= (float)contactPoints.size();
+				j_t /= (float)contactPoints.size();
 
 				//임펄스 벡터
 				Vector3D frictionImpulse;

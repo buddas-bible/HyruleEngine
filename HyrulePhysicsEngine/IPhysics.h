@@ -5,6 +5,7 @@
 
 namespace Hyrule
 {
+	struct Vector2D;
 	struct Vector3D;
 
 	namespace Physics

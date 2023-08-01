@@ -46,6 +46,8 @@ namespace Hyrule
 			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&);
 			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const std::string&);
 
+			virtual void Picking(const Vector2D&) override;
+
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;					// 월드 중력을 설정함.
 
 		private:

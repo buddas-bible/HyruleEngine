@@ -32,12 +32,12 @@ namespace Hyrule
 			Matrix4x4 invColliderWorld = colliderWorld.Inverse();
 
 			size_t index{ 0 };
-			float maxDist{ (shape->GetPoints()[index] * objectTM).Dot(_direction) };
-			// Vector3D dir{ (_direction * invColliderWorld).Normalized() };
+			Vector3D dir{ (_direction * invColliderWorld).Normalized() };
+			float maxDist{ (shape->GetPoints()[index]).Dot(dir) };
 
 			for (size_t i = 1; i < shape->GetPoints().size(); i++)
 			{
-				float dist{ (shape->GetPoints()[i] * objectTM).Dot(_direction) };
+				float dist{ (shape->GetPoints()[i]).Dot(dir) };
 
 				if (dist >= maxDist)
 				{
