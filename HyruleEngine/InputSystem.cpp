@@ -27,4 +27,5 @@ namespace Hyrule
 		return keyInput.KeyReleasedNow(_input);
 	}
 
+
 }

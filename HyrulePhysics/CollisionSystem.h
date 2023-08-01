@@ -18,6 +18,12 @@ namespace Hyrule
 		struct Face;
 		struct Edge;
 
+		struct Ray;
+		struct BoxCollider;
+		struct PlaneCollider;
+		struct SphereCollider;
+		struct ConvexCollider;
+
 		class CollisionSystem
 		{
 		public:
@@ -37,6 +43,12 @@ namespace Hyrule
 			static void FindContactPoint(Manifold*);
 
 		private:
+			static bool Raycast(const Ray&, Collider*);
+			static bool RaycastToSphere(const Ray&, SphereCollider*);
+			static bool RaycastToBox(const Ray&, BoxCollider*);
+			static bool RaycastToPlane(const Ray&, PlaneCollider*);
+			static bool RaycastToConvex(const Ray&, ConvexCollider*);
+
 			static bool SphereToSphere(Collider*, Collider*, Manifold*);
 			static bool SphereToBox(Collider*, Collider*, Manifold*);
 			static bool SphereToCapsule(Collider*, Collider*, Manifold*);

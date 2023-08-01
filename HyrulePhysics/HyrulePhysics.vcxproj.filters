@@ -29,6 +29,9 @@
     <Filter Include="헤더 파일\Debug">
       <UniqueIdentifier>{8f883ea9-ecdf-427c-bd33-5eac1f1eb97d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. PhysicalyObject\Ray">
+      <UniqueIdentifier>{898fb1ed-f98d-486c-9660-c589d196d7e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HyrulePhysics.h">
@@ -46,13 +49,7 @@
     <ClInclude Include="Shape.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="ConvexShape.h">
-      <Filter>3. PhysicalyObject\Shape</Filter>
-    </ClInclude>
     <ClInclude Include="AABB.h">
-      <Filter>3. PhysicalyObject\Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxShape.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
     <ClInclude Include="Manifold.h">
@@ -94,9 +91,6 @@
     <ClInclude Include="Hill_Climbing.h">
       <Filter>2. Struct</Filter>
     </ClInclude>
-    <ClInclude Include="PlaneShape.h">
-      <Filter>3. PhysicalyObject\Shape</Filter>
-    </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>2. Struct</Filter>
     </ClInclude>
@@ -105,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="DebugDraw.h">
       <Filter>헤더 파일\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>2. Struct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -120,13 +117,7 @@
     <ClCompile Include="Shape.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
-    <ClCompile Include="ConvexShape.cpp">
-      <Filter>3. PhysicalyObject\Shape</Filter>
-    </ClCompile>
     <ClCompile Include="AABB.cpp">
-      <Filter>3. PhysicalyObject\Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxShape.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Manifold.cpp">
@@ -167,9 +158,6 @@
     </ClCompile>
     <ClCompile Include="Hill_Climbing.cpp">
       <Filter>2. Struct</Filter>
-    </ClCompile>
-    <ClCompile Include="PlaneShape.cpp">
-      <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>2. Struct</Filter>

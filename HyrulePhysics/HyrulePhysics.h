@@ -24,6 +24,7 @@ namespace Hyrule
 		class Object;
 		class Simplex;
 		struct COLLIDER_INFO;
+		struct RaycastInfo;
 
 		class HyrulePhysics : public IPhysics
 		{
@@ -41,6 +42,9 @@ namespace Hyrule
 			virtual void CollisionResponse(float) override;									// 강체 시뮬레이션
 			virtual void ApplyObjectDestroy() override;
 			virtual void Finalize() override;
+
+			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&);
+			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const std::string&);
 
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;					// 월드 중력을 설정함.
 

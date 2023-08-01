@@ -67,6 +67,8 @@ namespace Hyrule
 			Vector3D force;						// »˚
 			Vector3D torque;					// ≈‰≈©
 
+			Vector3D gravity;
+
 			bool tensorUpdate{ false };
 
 		public:

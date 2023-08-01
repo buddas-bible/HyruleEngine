@@ -181,7 +181,6 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="BoxCollider.h" />
-    <ClInclude Include="BoxShape.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionSystem.h" />
@@ -197,9 +196,8 @@
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Octree.h" />
     <ClInclude Include="PlaneCollider.h" />
-    <ClInclude Include="PlaneShape.h" />
-    <ClInclude Include="ConvexShape.h" />
     <ClInclude Include="ConvexCollider.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Simplex.h" />
@@ -208,7 +206,6 @@
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
-    <ClCompile Include="BoxShape.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
@@ -223,8 +220,6 @@
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Octree.cpp" />
     <ClCompile Include="PlaneCollider.cpp" />
-    <ClCompile Include="PlaneShape.cpp" />
-    <ClCompile Include="ConvexShape.cpp" />
     <ClCompile Include="ConvexCollider.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Shape.cpp" />

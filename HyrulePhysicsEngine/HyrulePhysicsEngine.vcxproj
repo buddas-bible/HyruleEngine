@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ICollision.h" />
+    <ClInclude Include="RaycastInfo.h" />
     <ClInclude Include="PHYSICALLYOBJECT_INFO.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IBuilder.h" />

@@ -12,6 +12,7 @@ namespace Hyrule
 		{
 			SetSize(_info->colliderSize);
 			SetCenter(_info->colliderCenter);
+			type = ColliderType::SPHERE;
 		}
 
 		Vector3D SphereCollider::FindFarthestPoint(const Vector3D& _direction)

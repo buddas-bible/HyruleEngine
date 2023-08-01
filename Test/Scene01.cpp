@@ -46,10 +46,10 @@ namespace Hyrule
 		box2->AddComponent<CubeRenderer>();
 		box2->GetTransform()->SetLocalPosition(Vector3D(0.f, 200.f, 0.f));
 		// box2->GetTransform()->SetLocalRotationFromDegree(Vector3D(45.f, 0.f, 45.f));
-		box2->GetTransform()->SetLocalScale(Vector3D(1.f, 1.f, 1.f));
+		box2->GetTransform()->SetLocalScale(Vector3D(10.f, 10.f, 10.f));
 		box2->AddComponent<BoxCollider>();
 		Hyrule::RigidBody* rigidBox02 = box2->AddComponent<RigidBody>();
-		rigidBox02->SetMass(1.f);
+		rigidBox02->SetMass(100.f);
 		// rigidBox02->SetVelocity(Vector3D{ -2.f, 0.f, 0.f });
 
 
@@ -63,10 +63,10 @@ namespace Hyrule
 		// 	Hyrule::RigidBody* rigidBox03 = box4->AddComponent<RigidBody>();
 		// }
 
-		GetMainCamera()->gameObject->AddComponent<BoxCollider>();
-		GetMainCamera()->gameObject->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		// GetMainCamera()->gameObject->AddComponent<BoxCollider>();
+		// GetMainCamera()->gameObject->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
 
-		box2->SetParent(GetMainCamera()->gameObject);
+		// box2->SetParent(GetMainCamera()->gameObject);
 
 		// GetMainCamera()->gameObject->SetParent(box2);
 		con->AddControllableObject(VK_F1, box);

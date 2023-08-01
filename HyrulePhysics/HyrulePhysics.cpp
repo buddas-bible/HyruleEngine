@@ -180,6 +180,17 @@ namespace Hyrule
 			
 		}
 
+		// 
+		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to)
+		{
+
+		}
+
+		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to, const std::string& _name)
+		{
+
+		}
+
 		/// <summary>
 		/// 중력 가속도 설정
 		/// </summary>

@@ -187,6 +187,8 @@
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="IScene.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="Picking.h" />
+    <ClInclude Include="Raycast.h" />
     <ClInclude Include="RendererSystem.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshCollider.h" />
@@ -216,6 +218,8 @@
     <ClCompile Include="HyruleEngine.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="Picking.cpp" />
+    <ClCompile Include="Raycast.cpp" />
     <ClCompile Include="RendererSystem.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshCollider.cpp" />

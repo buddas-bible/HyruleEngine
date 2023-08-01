@@ -41,6 +41,8 @@ namespace Hyrule
 			virtual void ApplyObjectDestroy() abstract;
 			virtual void Finalize() abstract;
 
+			virtual void Picking(const Vector2D&) abstract;
+
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) abstract;
 		};
 	}

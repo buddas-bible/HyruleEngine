@@ -10,6 +10,14 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		enum class ColliderType : size_t
+		{
+			BOX = 10,
+			SPHERE = 20,
+			PLANE = 30,
+			CONVEX = 40,
+		};
+
 		class Object;
 		class Shape;
 		struct Vertex;
@@ -44,6 +52,8 @@ namespace Hyrule
 
 			bool collied;
 
+			ColliderType type;
+
 			std::vector<ICollision*> collisionInfo;
 
 		public:
@@ -63,6 +73,7 @@ namespace Hyrule
 			virtual void Subexpressions(float, float, float, float&, float&, float&, float&, float&, float&) final;
 
 		public:
+			virtual ColliderType GetType() final;
 			virtual bool isCollision() noexcept final;
 			virtual void OnEnable() noexcept final;
 			virtual void OnDisable() noexcept final;

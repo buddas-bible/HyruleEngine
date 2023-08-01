@@ -14,6 +14,7 @@ namespace Hyrule
 			SetCenter(_info->colliderCenter);
 			
 			shape = Shapes::GetShape(_info->shapeName);
+			type = ColliderType::CONVEX;
 
 			if (shape == nullptr)
 			{

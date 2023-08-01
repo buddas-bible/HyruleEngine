@@ -9,6 +9,11 @@
 #include "Edge.h"
 #include "Object.h"
 
+#include "Ray.h"
+#include "SphereCollider.h"
+#include "BoxCollider.h"
+#include "PlaneCollider.h"
+
 #include <iostream>
 
 constexpr size_t GJK_MAX = 50;
@@ -274,6 +279,79 @@ namespace Hyrule
 			{
 				_manifold->AddContactPoint(contactPoint[i]);
 			}
+		}
+
+		bool CollisionSystem::Raycast(const Ray& _ray, Collider* _collider)
+		{
+			switch (_collider->GetType())
+			{
+				case ColliderType::BOX:
+					return RaycastToBox(_ray, (BoxCollider*)_collider);
+
+				case ColliderType::SPHERE:
+					return RaycastToSphere(_ray, (SphereCollider*)_collider);
+
+				case ColliderType::PLANE:
+					return RaycastToPlane(_ray, (PlaneCollider*)_collider);
+
+				case ColliderType::CONVEX:
+					return RaycastToConvex(_ray, (ConvexCollider*)_collider);
+
+				default:
+					return false;
+			}
+		}
+
+		/// <summary>
+		/// 레이가 스피어와 충돌 하는가?
+		/// </summary>
+		bool CollisionSystem::RaycastToSphere(const Ray& _ray, SphereCollider* _collider)
+		{
+			// 스피어 - 레이 벡터
+			Vector3D sphereToOrigin{ _ray.from - _collider->GetPosition() };
+
+			// 스피어까지의 거리에 스피어의 반지름을 뺀 것
+			float c{ sphereToOrigin.Dot(sphereToOrigin) - 
+				_collider->GetLength() * _collider->GetLength() 
+			};
+
+			// 거리가 짧다면 충돌
+			if (c <= 0.f)
+			{
+				return true;
+			}
+
+			// 
+			float b{ sphereToOrigin.Dot(_ray.direction) };
+
+			if (b > 0.f)
+			{
+				return false;
+			}
+
+			float disc{ b * b - c };
+			if (disc < 0.f)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		bool CollisionSystem::RaycastToBox(const Ray& _ray, BoxCollider* _collider)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::RaycastToPlane(const Ray& _ray, PlaneCollider* _collider)
+		{
+			// Vector3D ab{_ray.}
+			return false;
+		}
+
+		bool CollisionSystem::RaycastToConvex(const Ray& _ray, ConvexCollider* _collider)
+		{
+			return false;
 		}
 
 		bool CollisionSystem::SphereToSphere(Collider* _colliderA, Collider* _colliderB, Manifold* _manifold)
@@ -653,7 +731,7 @@ namespace Hyrule
 
 			float systemMass{ A->GetInvMass() + B->GetInvMass() };
 
-			if (systemMass <= Epsilon)
+			if (systemMass == 0.f)
 			{
 				return;
 			}
@@ -668,6 +746,14 @@ namespace Hyrule
 			Vector3D Normal{ _manifold->GetNormal() };
 
 			const auto& contactPoints{ _manifold->GetContactPoints() };
+
+			// Vector3D con{};
+			// for (const auto& contactPoint : contactPoints)
+			// {
+			// 	con += contactPoint;
+			// }
+			// con /= (float)contactPoints.size();
+
 			for (const auto& contactPoint : contactPoints)
 			{			
 				Vector3D V_a{ A->GetVelocity() };
@@ -691,7 +777,7 @@ namespace Hyrule
 
 				if (contactVelocity > Epsilon)
 				{
-					continue;
+					return;
 				}
 
 				Matrix3x3 inertiaTMA = A->GetInvInertia();
@@ -705,7 +791,7 @@ namespace Hyrule
 				// 임펄스 크기
 				float j = -(1.f + restitution) * contactVelocity;
 				j /= numerator;
-				j /= (float)contactPoints.size();
+				// j /= (float)contactPoints.size();
 
 				// 임펄스 벡터
 				Vector3D impulse = Normal * j;
@@ -722,7 +808,7 @@ namespace Hyrule
 				// contactVelocity를 구했던 v_r Dot normal과 비슷하지만 음수가 붙은 점이 다름.
 				float j_t = -v_r.Dot(tangent);
 				j_t /= numerator;
-				j_t /= (float)contactPoints.size();
+				// j_t /= (float)contactPoints.size();
 
 				//임펄스 벡터
 				Vector3D frictionImpulse;
@@ -757,7 +843,7 @@ namespace Hyrule
 			
 			float systemMass{ InvMassA + InvMassB };
 
-			if (systemMass <= Epsilon)
+			if (systemMass == 0.f)
 			{
 				return;
 			}

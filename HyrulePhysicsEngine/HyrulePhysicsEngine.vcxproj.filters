@@ -31,5 +31,8 @@
     <ClInclude Include="ICollision.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="RaycastInfo.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

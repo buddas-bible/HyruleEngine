@@ -15,6 +15,7 @@ namespace Hyrule
 			_obj->colliders.push_back(this);
 			this->SetSize(_info->colliderSize);
 			this->SetCenter(_info->colliderCenter);
+			type = ColliderType::BOX;
 		}
 
 		/// <summary>

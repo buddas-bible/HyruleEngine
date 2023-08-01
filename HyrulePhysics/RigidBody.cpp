@@ -5,6 +5,7 @@
 #include "ObjectManager.h"
 
 #include <iostream>
+#include "HyrulePhysics.h"
 
 namespace Hyrule
 {
@@ -147,6 +148,7 @@ namespace Hyrule
 			if (this->useGravity == true)
 			{
 				this->velocity += _gravity * _dt;
+				gravity = _gravity;
 			}
 
 			// 힘을 속력으로 변환
@@ -171,32 +173,37 @@ namespace Hyrule
 			Vector3D& position{ object->GetPosition() };
 			Quaternion& rotation{ object->GetRotation() };
 
+			// 종단 속도
+			const float terminalVelocity = std::sqrtf(std::fabs(gravity.Length()) * mass);
 
-			/// 중력가속도 외에 다른 힘을 받는게 없다면
-			/// 적용시키지 않아야겠어
-//			Vector3D dV;
-//
-// 			float v{ velocity.Length() };
-// 			if (v < Epsilon)
-// 			{
-// 				dV = {};
-// 			}
-// 			else
-// 			{
-// 				dV = velocity * _dt;
-// 			}
-// 			position += dV;
-			position += velocity * _dt;
+			// 중력 방향의 속력을 구함.
+			Vector3D g_d{ gravity.Normalized() };
+			float v{ g_d.Dot(velocity) };
 
-			Vector3D dW{};
-			float angle = angularVelocity.Length();
+			// 중력 방향의 속력이 종단속도를 넘어가면 속력을 감쇠시킴
+			if (v > terminalVelocity)
+			{
+				velocity -= g_d * (v - terminalVelocity);
+			}
+
+			Vector3D dV{ velocity * _dt };
+			float v_length{ velocity.Length() };
+			if (v_length < 0.01f)
+			{
+				dV = {};
+			}
+ 			position += dV;
+
+			Vector3D dW{ angularVelocity * _dt };
+			float angle = dW.Length();
+			if (angle > (PI<float> / 2))
+			{
+				angle = (PI<float> / 2) / _dt;
+			}
+
 			if (angle < Epsilon)
 			{
 				dW = {};
-			}
-			else
-			{
-				dW = angularVelocity * _dt;
 			}
 
 			rotation = ToQuaternion(dW.Normalized(), dW.Length()) * rotation;

@@ -59,6 +59,9 @@
     <Filter Include="3. Component\2. Renderer\Renderer">
       <UniqueIdentifier>{8c115b1e-6623-4e95-8df6-060610943628}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Picking">
+      <UniqueIdentifier>{1ee0ed29-6265-4432-af2f-9e11a5acea55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -148,6 +151,12 @@
     <ClInclude Include="Component.h">
       <Filter>3. Component\0. Base</Filter>
     </ClInclude>
+    <ClInclude Include="Raycast.h">
+      <Filter>3. Component\1. Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Picking.h">
+      <Filter>Object\Picking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -227,6 +236,12 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>3. Component\0. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Raycast.cpp">
+      <Filter>3. Component\1. Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Picking.cpp">
+      <Filter>Object\Picking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

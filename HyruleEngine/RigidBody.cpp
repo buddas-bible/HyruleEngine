@@ -105,27 +105,27 @@ namespace Hyrule
 
 		if (gameObject->GetTransform()->GetLocalPosition().x > 400.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x - 400.f, pos.y, pos.z });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x - 600.f, pos.y, pos.z });
 		}
 		else if (gameObject->GetTransform()->GetLocalPosition().x < -400.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x + 400.f, pos.y, pos.z });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x + 600.f, pos.y, pos.z });
 		}
 		if (gameObject->GetTransform()->GetLocalPosition().y > 400.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y - 400.f, pos.z });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y - 600.f, pos.z });
 		}
 		else if (gameObject->GetTransform()->GetLocalPosition().y < -400.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y + 400.f, pos.z });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y + 600.f, pos.z });
 		}
 		if (gameObject->GetTransform()->GetLocalPosition().z > 400.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, pos.z - 400.f });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, pos.z - 600.f });
 		}
 		else if (gameObject->GetTransform()->GetLocalPosition().z < -400.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, pos.z + 400.f });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, pos.z + 600.f });
  		}
 	}
 
