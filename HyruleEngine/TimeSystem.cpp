@@ -28,6 +28,17 @@ namespace Hyrule
 		return gameTimer.DeltaTime();
 	}
 
+	float TimeSystem::FrameStart()
+	{
+		return 0.f;
+	}
+
+	float TimeSystem::GetCurrTime()
+	{
+		return 0.f;
+
+	}
+
 	float TimeSystem::GetFPS()
 	{
 		return 1 / gameTimer.DeltaTime();

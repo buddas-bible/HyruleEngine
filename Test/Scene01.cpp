@@ -53,7 +53,7 @@ namespace Hyrule
 		// rigidBox02->SetVelocity(Vector3D{ -2.f, 0.f, 0.f });
 
 		
-		for (auto i = 2; i < 30; i++)
+		for (auto i = 2; i < 20; i++)
 		{
 			GameObject* box4 = CreateGameObject(L"Box0" + std::to_wstring(i));
 			box4->AddComponent<CubeRenderer>();

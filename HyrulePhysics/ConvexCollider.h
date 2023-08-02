@@ -6,8 +6,9 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		struct COLLIDER_INFO;
+		class AABB;
 		struct SHAPE_INPO;
+		struct COLLIDER_INFO;
 
 		class ConvexCollider : public Collider
 		{
@@ -20,6 +21,7 @@ namespace Hyrule
 			std::shared_ptr<ConvexShape> shape;
 
 		public:
+			virtual AABB GetAABB() override;
 			virtual Vector3D FindFarthestPoint(const Vector3D&) override;
 			virtual Face FindSupportFace(const Vector3D&) override;
 			virtual Matrix3x3 GetInertiaTensor(float) noexcept override;

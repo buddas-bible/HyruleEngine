@@ -13,6 +13,8 @@ namespace Hyrule
 		float DeltaTime() const;            // in seconds
 		float ScalingDeltaTime() const;     // in seconds
 
+		float CurrTime();
+
 		void Reset();                        // Call before message loop.
 		void Start();                       // Call when unpaused.
 		void Stop();                       // Call when paused.

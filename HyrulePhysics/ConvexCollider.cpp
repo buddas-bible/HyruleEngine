@@ -3,6 +3,8 @@
 #include "Object.h"
 #include "Face.h"
 
+#include "AABB.h"
+
 namespace Hyrule
 {
 	namespace Physics
@@ -21,6 +23,31 @@ namespace Hyrule
 				Shapes::CreateConvexShape(_info->shapeName, &_info->shapeInfo);
 			}
 
+		}
+
+		AABB ConvexCollider::GetAABB()
+		{
+			Matrix4x4 objectTM = object->GetWorldTM();
+
+			Vector3D p = shape->GetPoints()[0] * objectTM;
+
+			Vector3D Min = p;
+			Vector3D Max = p;
+
+			for (size_t i = 1; i < shape->GetPoints().size(); i++)
+			{
+				auto e = shape->GetPoints()[1] * objectTM;
+
+				e.x = std::min(Min.x, e.x);
+				e.y = std::min(Min.y, e.y);
+				e.z = std::min(Min.z, e.z);
+
+				e.x = std::max(Max.x, e.x);
+				e.y = std::max(Max.y, e.y);
+				e.z = std::max(Max.z, e.z);
+			}
+
+			return AABB(Min, Max);
 		}
 
 		Vector3D ConvexCollider::FindFarthestPoint(const Vector3D& _direction)

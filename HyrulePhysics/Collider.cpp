@@ -32,9 +32,11 @@ namespace Hyrule
 		{
 			Vector3D scl{ object->GetScale() };
 
-			float max = std::max (std::max(scl.x,  scl.y), scl.z);
+			float x = scl.x + 0.5f;
+			float y = scl.y + 0.5f;
+			float z = scl.z + 0.5f;
 
-			return max * 0.5f;
+			return std::powf(x * x + y * y + z * z, 0.5f);
 		}
 
 		Object* Collider::GetObject()
@@ -72,7 +74,7 @@ namespace Hyrule
 			this->collied = _bool;
 		}
 
-		Hyrule::Vector3D Collider::GetCenterOfMass() noexcept
+		Vector3D Collider::GetCenterOfMass() noexcept
 		{
 			return centerOfMass;
 		}
@@ -92,8 +94,7 @@ namespace Hyrule
 			g2 = f1 + w2 * (f0 + w2);
 		}
 
-
-		Hyrule::Physics::ColliderType Collider::GetType()
+		ColliderType Collider::GetType()
 		{
 			return type;
 		}
@@ -135,7 +136,7 @@ namespace Hyrule
 
 		void Collider::SetTransform(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept
 		{
-			if (prePos == _pos && preRot == _rot && preScl== _scl)
+			if (prePos == _pos && preRot == _rot && preScl == _scl)
 			{
 				return;
 			}

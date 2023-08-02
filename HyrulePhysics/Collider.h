@@ -26,6 +26,7 @@ namespace Hyrule
 		class ICollision;
 		class Manifold;
 		class RigidBody;
+		class AABB;
 
 		class Collider : public ICollider
 		{
@@ -71,6 +72,7 @@ namespace Hyrule
 			virtual Vector3D GetCenterOfMass() noexcept final;
 			virtual Matrix3x3 GetInertiaTensor(float) noexcept abstract;
 			virtual void Subexpressions(float, float, float, float&, float&, float&, float&, float&, float&) final;
+			virtual AABB GetAABB() abstract;
 
 		public:
 			virtual ColliderType GetType() final;

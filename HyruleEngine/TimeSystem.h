@@ -15,6 +15,8 @@ namespace Hyrule
 		void Reset();
 		void Tick();
 		float GetfDeltaTime();
+		float FrameStart();
+		float GetCurrTime();
 		float GetFPS();
 	};
 }

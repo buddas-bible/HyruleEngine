@@ -85,9 +85,6 @@
     <ClInclude Include="Face.h">
       <Filter>2. Struct</Filter>
     </ClInclude>
-    <ClInclude Include="Hill_Climbing.h">
-      <Filter>2. Struct</Filter>
-    </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>2. Struct</Filter>
     </ClInclude>
@@ -154,9 +151,6 @@
       <Filter>2. Struct</Filter>
     </ClCompile>
     <ClCompile Include="Face.cpp">
-      <Filter>2. Struct</Filter>
-    </ClCompile>
-    <ClCompile Include="Hill_Climbing.cpp">
       <Filter>2. Struct</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">

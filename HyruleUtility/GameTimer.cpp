@@ -36,6 +36,12 @@ namespace Hyrule
 		return static_cast<float>(mDeltaTime * timeScale);
 	}
 
+// 	float GameTimer::CurrTime()
+// 	{
+// 		return std::chrono::duration_cast<std::chrono::steady_clock::duration>
+// 			(std::chrono::steady_clock::now());
+// 	}
+
 	void GameTimer::Reset()
 	{
 		mBaseTime = std::chrono::steady_clock::now();
