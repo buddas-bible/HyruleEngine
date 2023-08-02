@@ -38,13 +38,13 @@ namespace Hyrule
 		}
 	}
 
-	void ObjectManager::Render()
+	void ObjectManager::Render(const Vector3D& eye)
 	{
 		for (auto& e : renderableList)
 		{
 			if (e->isActive())
 			{
-				e->Render();
+				e->Render(eye);
 			}
 		}
 	}

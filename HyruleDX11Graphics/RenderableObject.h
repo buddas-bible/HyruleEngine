@@ -44,7 +44,7 @@ namespace Hyrule
 #endif
 
 		void SetViewProjTM(const Matrix4x4&) noexcept;
-		void Render() noexcept;
+		void Render(const Vector3D& eye) noexcept;
 
 	private:
 		static UINT id;

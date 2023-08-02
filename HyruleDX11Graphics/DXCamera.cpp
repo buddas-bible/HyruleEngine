@@ -12,6 +12,12 @@ namespace Hyrule
 		m_angle(), m_ratio(), m_height(), m_width(), m_near(), m_far()
 	{}
 
+
+	Hyrule::Vector3D DXCamera::GetPosition() const
+	{
+		return m_pos;
+	}
+
 	void DXCamera::Update(float)
 	{}
 

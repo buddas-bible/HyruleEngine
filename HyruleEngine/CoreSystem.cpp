@@ -17,7 +17,7 @@ namespace Hyrule
 
 		auto& input = InputSystem::GetInstance();
 
-		if (!first && input.KeyPressedNow('P'))
+		if (!first && input.KeyDownNow('P'))
 		{
 			SceneManager::GetInstance().UnloadScene();
 			first = true;
@@ -43,8 +43,8 @@ namespace Hyrule
 				accumulatedTime += deltaTime;
 
 				// 프레임마다 한 번 호출되도록 함.
-				while (accumulatedTime >= fixedDeltaTime)
-				{
+				// while (accumulatedTime >= fixedDeltaTime)
+				// {
 					SceneManager::GetInstance().FixedUpdate();
 					
 					/// 콜라이더랑 리지드바디만 따로 모아서 관리할 수 있으면 좋을거 같긴 함.
@@ -56,13 +56,13 @@ namespace Hyrule
 
 					accumulatedTime -= fixedDeltaTime;
 
-					if (first == true)
-					{
-						first = false;
-						accumulatedTime = 0.f;
-						break;
-					}
-				}
+					// 	if (first == true)
+					// 	{
+					// 		first = false;
+					// 		accumulatedTime = 0.f;
+					// 		break;
+					// 	}
+					// }
 
 				state = INPUT;
 				break;

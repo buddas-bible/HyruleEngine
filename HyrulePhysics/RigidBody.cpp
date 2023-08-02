@@ -203,7 +203,7 @@ namespace Hyrule
 
 			Vector3D dW{ angularVelocity * _dt };
 			float angle = dW.Length();
-			if (angle > (PI<float> / 2))
+			if (angle > (PI<float> / 2) / _dt)
 			{
 				angle = (PI<float> / 2) / _dt;
 			}

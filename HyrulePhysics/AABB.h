@@ -32,8 +32,14 @@ namespace Hyrule
 
 		public:
 			bool ContainsPoint(const Vector3D&) const noexcept;
+			bool CollidingRay(const Vector3D&, const Vector3D&) const noexcept;
 			bool CollidingAABB(const AABB&) const noexcept;
 		};
+
+		float Area(const AABB&);
+		Vector3D Min(const Vector3D&, const Vector3D&);
+		Vector3D Max(const Vector3D&, const Vector3D&);
+		AABB Union(const AABB&, const AABB&);
 	}
 }
 

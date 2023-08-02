@@ -12,6 +12,13 @@ namespace Hyrule
 			Vector3D from;
 			Vector3D direction;
 		};
+
+		struct RaycastInfo
+		{
+			bool collision;
+			std::string name;
+			Vector3D position;
+		};
 	}
 }
 

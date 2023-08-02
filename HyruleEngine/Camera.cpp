@@ -78,11 +78,11 @@ namespace Hyrule
 		auto& input = InputSystem::GetInstance();
 		auto dt = TimeSystem::GetInstance().GetfDeltaTime();
 
-		if (input.KeyPressedNow('Z'))
+		if (input.KeyDownNow('Z'))
 		{
 			camera->ZoomIn(1.f * dt);
 		}
-		if (input.KeyPressedNow('X'))
+		if (input.KeyDownNow('X'))
 		{
 			camera->ZoomOut(1.f * dt);
 		}
@@ -92,11 +92,11 @@ namespace Hyrule
 	{
 		auto& input = InputSystem::GetInstance();
 
-		if (input.KeyPressedNow(VK_F7))
+		if (input.KeyDownNow(VK_F7))
 		{
 			camera->SetPerspectiveView();
 		}
-		if (input.KeyPressedNow(VK_F8))
+		if (input.KeyDownNow(VK_F8))
 		{
 			camera->SetOrthographicView();
 		}

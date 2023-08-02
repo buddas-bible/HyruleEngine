@@ -103,29 +103,31 @@ namespace Hyrule
 	{
 		Vector3D pos{ gameObject->GetTransform()->GetLocalPosition() };
 
-		if (gameObject->GetTransform()->GetLocalPosition().x > 400.f)
+		if (gameObject->GetTransform()->GetLocalPosition().x > 13.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x - 600.f, pos.y, pos.z });
+			gameObject->GetTransform()->SetLocalPosition({ 0.f, pos.y, pos.z });
 		}
-		else if (gameObject->GetTransform()->GetLocalPosition().x < -400.f)
+		else if (gameObject->GetTransform()->GetLocalPosition().x < -13.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x + 600.f, pos.y, pos.z });
+			gameObject->GetTransform()->SetLocalPosition({ 0.f, pos.y, pos.z });
 		}
-		if (gameObject->GetTransform()->GetLocalPosition().y > 400.f)
+		if (gameObject->GetTransform()->GetLocalPosition().y > 500.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y - 600.f, pos.z });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, 500.f, pos.z });
+			SetVelocity({ 0.f, 0.f, 0.f });
 		}
-		else if (gameObject->GetTransform()->GetLocalPosition().y < -400.f)
+		else if (gameObject->GetTransform()->GetLocalPosition().y < -50.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y + 600.f, pos.z });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, 500.f, pos.z });
+			SetVelocity({ 0.f, 0.f, 0.f });
 		}
-		if (gameObject->GetTransform()->GetLocalPosition().z > 400.f)
+		if (gameObject->GetTransform()->GetLocalPosition().z > 13.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, pos.z - 600.f });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, 0.f });
 		}
-		else if (gameObject->GetTransform()->GetLocalPosition().z < -400.f)
+		else if (gameObject->GetTransform()->GetLocalPosition().z < -13.f)
 		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, pos.z + 600.f });
+			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, 0.f });
  		}
 	}
 

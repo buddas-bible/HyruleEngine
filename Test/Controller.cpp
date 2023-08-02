@@ -47,7 +47,7 @@ namespace Hyrule
 
 		for (auto& e : controlMap)
 		{
-			if (input.KeyPressedNow(e.first))
+			if (input.KeyDownNow(e.first))
 			{
 				controlObject = e.second;
 			}
@@ -61,22 +61,22 @@ namespace Hyrule
 		for (auto& e : controlObject)
 		{
 			Quaternion currR = e->GetTransform()->GetLocalQuaternion();
-			if (input.KeyPress(VK_UP))
+			if (input.KeyDown(VK_UP))
 			{
 				auto q = ToQuaternion(Vector3D::Right(), -5.f * dt);
 				currR *= q;
 			}
-			if (input.KeyPress(VK_DOWN))
+			if (input.KeyDown(VK_DOWN))
 			{
 				auto q = ToQuaternion(Vector3D::Right(), 5.f * dt);
 				currR *= q;
 			}
-			if (input.KeyPress(VK_LEFT))
+			if (input.KeyDown(VK_LEFT))
 			{
 				auto q = ToQuaternion(Vector3D::Up(), -5.f * dt);
 				currR = q * currR;
 			}
-			if (input.KeyPress(VK_RIGHT))
+			if (input.KeyDown(VK_RIGHT))
 			{
 				auto q = ToQuaternion(Vector3D::Up(), 5.f * dt);
 				currR = q * currR;
@@ -85,27 +85,27 @@ namespace Hyrule
 
 			Matrix4x4 mat = ToMatrix4(currR);
 			Vector3D currP = e->GetTransform()->GetLocalPosition();
-			if (input.KeyPress('W'))
+			if (input.KeyDown('W'))
 			{
 				currP += mat.Look() * 20.f * dt;
 			}
-			if (input.KeyPress('S'))
+			if (input.KeyDown('S'))
 			{
 				currP -= mat.Look() * 20.f * dt;
 			}
-			if (input.KeyPress('D'))
+			if (input.KeyDown('D'))
 			{
 				currP += mat.Right() * 20.f * dt;
 			}
-			if (input.KeyPress('A'))
+			if (input.KeyDown('A'))
 			{
 				currP -= mat.Right() * 20.f * dt;
 			}
-			if (input.KeyPress('E'))
+			if (input.KeyDown('E'))
 			{
 				currP += mat.Up() * 20.f * dt;
 			}
-			if (input.KeyPress('Q'))
+			if (input.KeyDown('Q'))
 			{
 				currP -= mat.Up() * 20.f * dt;
 			}

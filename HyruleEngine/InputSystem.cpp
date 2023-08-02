@@ -7,25 +7,23 @@ namespace Hyrule
 		keyInput.Update();
 	}
 
-	bool InputSystem::KeyPress(int _input)
+	bool InputSystem::KeyDown(int _input)
 	{
 		return keyInput.KeyPress(_input);
 	}
 
-	bool InputSystem::KeyPressedNow(int _input)
+	bool InputSystem::KeyDownNow(int _input)
 	{
 		return keyInput.KeyPressedNow(_input);
 	}
 
-	bool InputSystem::KeyRelease(int _input)
+	bool InputSystem::KeyUpStay(int _input)
 	{
 		return keyInput.KeyRelease(_input);
 	}
 
-	bool InputSystem::KeyReleasedNow(int _input)
+	bool InputSystem::KeyUp(int _input)
 	{
 		return keyInput.KeyReleasedNow(_input);
 	}
-
-
 }

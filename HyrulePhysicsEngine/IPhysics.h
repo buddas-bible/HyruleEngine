@@ -29,11 +29,9 @@ namespace Hyrule
 			virtual ICollider* CreateCollider(const std::wstring&, COLLIDER_INFO*) abstract;
 			
 			/// <summary>
-			/// 오브젝트 이름, 강체 정보를 받음.
+			/// 오브젝트 이름을 받음.
 			/// </summary>
 			virtual IRigidBody* CreateRigidBody(const std::wstring&) abstract;
-
-			/// virtual std::vector<Manifold*> GetCollisionData() abstract;
 
 		public:
 			virtual long Initialize() abstract;
@@ -41,8 +39,6 @@ namespace Hyrule
 			virtual void CollisionResponse(float) abstract;
 			virtual void ApplyObjectDestroy() abstract;
 			virtual void Finalize() abstract;
-
-			virtual void Picking(const Vector2D&) abstract;
 
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) abstract;
 		};

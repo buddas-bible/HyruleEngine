@@ -143,13 +143,13 @@ namespace Hyrule
 		{
 			auto& rigidbodis = ObjectManager::GetInstance().GetRigidbodies();
 
-			for (auto i = 0; i < 2; i++)
+			for (auto i = 0; i < 5; i++)
 			{
 				/// 강체, 콜라이더 충돌 대응
 				for (auto& e : manifoldArray)
 				{
 					// 충돌
-						CollisionSystem::ComputeImpulse(e);
+					CollisionSystem::ComputeImpulse(e);
 				}
 			}
 
@@ -192,11 +192,6 @@ namespace Hyrule
 		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to, const std::string& _name)
 		{
 			return nullptr;
-		}
-
-		void HyrulePhysics::Picking(const Vector2D&)
-		{
-			
 		}
 
 		/// <summary>

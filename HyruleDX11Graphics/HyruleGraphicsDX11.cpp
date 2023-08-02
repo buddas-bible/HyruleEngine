@@ -139,7 +139,7 @@ namespace Hyrule
 		m_axis->Render();
 #endif
 
-		ObjectManager::GetInstance().Render();
+		ObjectManager::GetInstance().Render(m_camera->GetPosition());
 
 		///
 

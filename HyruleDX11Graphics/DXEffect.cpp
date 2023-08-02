@@ -49,12 +49,16 @@ namespace Hyrule
 
 		tech0 = effect->GetTechniqueByName("Tech");
 
-		worldViewProj = effect->GetVariableByName("worldViewProj")->AsMatrix();
 		world = effect->GetVariableByName("world")->AsMatrix();
+		worldViewProj = effect->GetVariableByName("worldViewProj")->AsMatrix();
 		worldInvTranspose = effect->GetVariableByName("invTworldViewProj")->AsMatrix();
-		// eyePosW = effect->GetVariableByName("eyePosW");
-		direction = effect->GetVariableByName("lightDirection");
+
+		eyePosW = effect->GetVariableByName("eyePosW");
 		meshColor = effect->GetVariableByName("meshColor");
+
+		lightDirection = effect->GetVariableByName("lightDirection");
+		lightPosition = effect->GetVariableByName("lightPosition");
+		lightColor = effect->GetVariableByName("lightColor");
 
 		return hr;
 	}
@@ -89,16 +93,25 @@ namespace Hyrule
 		eyePosW->SetRawValue(&_vec, 0, sizeof(Vector3D));
 	}
 
-	void DXEffect::SetDirectionLight(const Vector3D& _vec)
-	{
-		direction->SetRawValue(&_vec, 0, sizeof(Vector3D));
-	}
-
 	void DXEffect::SetMeshColor(const Vector4D& _vec)
 	{
 		meshColor->SetRawValue(&_vec, 0, sizeof(Vector4D));
 	}
 
+	void DXEffect::SetLightDirection(const Vector3D& _vec)
+	{
+		lightDirection->SetRawValue(&_vec, 0, sizeof(Vector3D));
+	}
+
+	void DXEffect::SetLightPosition(const Vector3D& _vec)
+	{
+		lightPosition->SetRawValue(&_vec, 0, sizeof(Vector3D));
+	}
+
+	void DXEffect::SetLightColor(const Vector4D& _vec)
+	{
+		lightColor->SetRawValue(&_vec, 0, sizeof(Vector4D));
+	}
 
 	std::shared_ptr<DXEffect> Effects::PCEffect{};
 	std::shared_ptr<DXEffect> Effects::PUNEffect{};

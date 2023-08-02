@@ -77,7 +77,7 @@ namespace Hyrule
 		this->viewProjTM = _viewProj;
 	}
 
-	void RenderableObject::Render() noexcept
+	void RenderableObject::Render(const Vector3D& eye) noexcept
 	{
 		device->GetDeviceContext()->RSSetState(m_currRasterizerState.Get());
 		device->GetDeviceContext()->IASetInputLayout(InputLayouts::PUNLayout->GetInputLayout());
@@ -100,12 +100,16 @@ namespace Hyrule
 		);
 
 		Matrix4x4 _worldViewProj{ worldTM * viewProjTM };
+
+		Effects::PUNEffect->SetWorld(worldTM);
 		Effects::PUNEffect->SetWorldViewProj(_worldViewProj);
 		Effects::PUNEffect->SetWorldInvTranspose(worldTM.Inverse().Transpose());
-		Effects::PUNEffect->SetWorld(worldTM);
-		Effects::PUNEffect->SetDirectionLight(Vector3D::Forward());
+		Effects::PUNEffect->SetEyePosW(eye);
+		Effects::PUNEffect->SetLightDirection(Vector3D::Forward());
+		Effects::PUNEffect->SetLightPosition(Vector3D(10.f, 10.f, 10.f));
+		Effects::PUNEffect->SetLightColor(DXColor::White);
 
-		switch (UID)
+		switch (UID % 4)
 		{
 			case 0:
 				Effects::PUNEffect->SetMeshColor(DXColor::AliceBlue);

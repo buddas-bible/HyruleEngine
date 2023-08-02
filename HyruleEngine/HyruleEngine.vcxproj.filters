@@ -157,6 +157,9 @@
     <ClInclude Include="Picking.h">
       <Filter>Object\Picking</Filter>
     </ClInclude>
+    <ClInclude Include="MouseInputSystem.h">
+      <Filter>2. Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -242,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="Picking.cpp">
       <Filter>Object\Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInputSystem.cpp">
+      <Filter>2. Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

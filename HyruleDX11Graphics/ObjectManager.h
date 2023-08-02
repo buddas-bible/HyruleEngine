@@ -6,6 +6,7 @@ namespace Hyrule
 {
 	class RenderableObject;
 	struct Matrix4x4;
+	struct Vector3D;
 
 	class ObjectManager
 	{
@@ -23,7 +24,7 @@ namespace Hyrule
 		// std::vector<RenderableObject*>& GetActivatedObjects();
 		void AddObject(RenderableObject*);
 		void Update(const Matrix4x4&);
-		void Render();
+		void Render(const Vector3D& eye);
 
 		// void DisableObject(RenderableObject*);
 		// void EnableObject(RenderableObject*);

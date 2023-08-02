@@ -48,8 +48,8 @@ namespace Hyrule
 			float invMass{ 1 / 10.f };							// 역 질량
 			Vector3D velocity;									// 속도
 			Vector3D angularVelocity;							// 각속도
-			float dfriction{ 0.2f };							// 마찰
-			float sfriction{ 0.3f };							// 마찰
+			float dfriction{ 0.1f };							// 마찰
+			float sfriction{ 0.2f };							// 마찰
 			float restitution{ 0.2f };							// 반발계수
 			Matrix3x3 inertiaTensor{ Matrix3x3::Identity() };	// 관성텐서
 			Matrix3x3 invInertiaTensor{ Matrix3x3::Identity() };// 역관성텐서

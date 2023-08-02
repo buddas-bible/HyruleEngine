@@ -190,6 +190,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Hill_Climbing.h" />
     <ClInclude Include="HyrulePhysics.h" />
+    <ClInclude Include="Island.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Manifold.h" />
     <ClInclude Include="Object.h" />

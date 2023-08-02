@@ -12,10 +12,10 @@ namespace Hyrule
 
 	public:
 		void Update();
-		bool KeyPress(int);
-		bool KeyPressedNow(int);
-		bool KeyRelease(int);
-		bool KeyReleasedNow(int);
+		bool KeyDown(int);
+		bool KeyDownNow(int);
+		bool KeyUp(int);
+		bool KeyUpStay(int);
 	};
 }
 

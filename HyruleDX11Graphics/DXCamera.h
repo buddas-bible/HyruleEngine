@@ -9,6 +9,7 @@ namespace Hyrule
 	public:
 		DXCamera();
 
+		Vector3D GetPosition() const;
 		virtual void Update(float) override;
 		virtual  Matrix4x4 GetViewMatrix() const override;
 		virtual  Matrix4x4 GetProjMatrix() const override;

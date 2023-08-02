@@ -14,9 +14,7 @@ namespace Hyrule
 			min(_center.x - _length / 2, _center.y - _length / 2, _center.z - _length / 2),
 			max(_center.x + _length / 2, _center.y + _length / 2, _center.z + _length / 2),
 			length(_length)
-		{
-
-		}
+		{}
 
 		/// <summary>
 		/// 최대 최소 값을 받아서 AABB를 만듬
@@ -26,9 +24,7 @@ namespace Hyrule
 			min(_min),
 			max(_max),
 			length(_max.x - _min.x)
-		{
-
-		}
+		{}
 
 		/// <summary>
 		/// AABB 안에 점이 있는가?
@@ -45,25 +41,56 @@ namespace Hyrule
 			return true;
 		}
 
+		bool AABB::CollidingRay(const Vector3D& _from, const Vector3D& _to) const noexcept
+		{
+
+			return true;
+		}
+
 		/// <summary>
 		/// 다른 AABB와 충돌 했는가?
 		/// </summary>
 		bool AABB::CollidingAABB(const AABB& _other) const noexcept
 		{
-// 			if (this->max.x < _other.min.x || this->min.x > _other.max.x)
-// 				return false;
-// 			if (this->max.y < _other.min.y || this->min.y > _other.max.y)
-// 				return false;
-// 			if (this->max.z < _other.min.z || this->min.z > _other.max.z)
-// 				return false;
-// 
-// 			return true;
+			if (this->max.x < _other.min.x || this->min.x > _other.max.x)
+				return false;
+			if (this->max.y < _other.min.y || this->min.y > _other.max.y)
+				return false;
+			if (this->max.z < _other.min.z || this->min.z > _other.max.z)
+				return false;
 
-			return (
-					this->min.x <= _other.max.x && this->max.x >= _other.min.x &&
-					this->min.y <= _other.max.y && this->max.y >= _other.min.y &&
-					this->min.z <= _other.max.z && this->max.z >= _other.min.z
+ 			return true;
+		}
+
+		float Area(const AABB& _A)
+		{
+			Vector3D d{ _A.max - _A.min };
+			return 2.f * (d.x * d.y + d.y * d.z + d.z * d.x);
+		}
+
+		Vector3D Min(const Vector3D& _A, const Vector3D& _B)
+		{
+			return
+				Vector3D(
+					std::min(_A.x, _B.x),
+					std::min(_A.y, _B.y),
+					std::min(_A.z, _B.z)
 				);
+		}
+
+		Vector3D Max(const Vector3D& _A, const Vector3D& _B)
+		{
+			return
+				Vector3D(
+					std::max(_A.x, _B.x),
+					std::max(_A.y, _B.y),
+					std::max(_A.z, _B.z)
+				);
+		}
+
+		AABB Union(const AABB& _A, const AABB& _B)
+		{
+			return AABB(Min(_A.min, _B.min), Max(_A.max, _B.max));
 		}
 	}
 }

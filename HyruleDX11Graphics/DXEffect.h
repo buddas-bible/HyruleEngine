@@ -38,12 +38,16 @@ namespace Hyrule
 		Comptr<ID3DX11Effect> effect;
 
 		Comptr<ID3DX11EffectTechnique> tech0;
-		Comptr<ID3DX11EffectMatrixVariable> worldViewProj;
 		Comptr<ID3DX11EffectMatrixVariable> world;
+		Comptr<ID3DX11EffectMatrixVariable> worldViewProj;
 		Comptr<ID3DX11EffectMatrixVariable> worldInvTranspose;
+
 		Comptr<ID3DX11EffectVariable> eyePosW;
-		Comptr<ID3DX11EffectVariable> direction;
 		Comptr<ID3DX11EffectVariable> meshColor;
+
+		Comptr<ID3DX11EffectVariable> lightDirection;
+		Comptr<ID3DX11EffectVariable> lightPosition;
+		Comptr<ID3DX11EffectVariable> lightColor;
 
 	public:
 		long CreateEffect();
@@ -51,12 +55,16 @@ namespace Hyrule
 		ID3DX11EffectTechnique* GetTechnique();
 
 	public:
-		void SetWorldViewProj(const Matrix4x4&);
 		void SetWorld(const Matrix4x4&);
+		void SetWorldViewProj(const Matrix4x4&);
 		void SetWorldInvTranspose(const Matrix4x4&);
+
 		void SetEyePosW(const Vector3D&);
-		void SetDirectionLight(const Vector3D&);
 		void SetMeshColor(const Vector4D&);
+
+		void SetLightDirection(const Vector3D&);
+		void SetLightPosition(const Vector3D&);
+		void SetLightColor(const Vector4D&);
 	};
 
 

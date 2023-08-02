@@ -49,9 +49,6 @@
     <ClInclude Include="Shape.h">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="AABB.h">
-      <Filter>3. PhysicalyObject\Shape</Filter>
-    </ClInclude>
     <ClInclude Include="Manifold.h">
       <Filter>2. Struct</Filter>
     </ClInclude>
@@ -103,6 +100,12 @@
     <ClInclude Include="Ray.h">
       <Filter>2. Struct</Filter>
     </ClInclude>
+    <ClInclude Include="AABB.h">
+      <Filter>2. Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Island.h">
+      <Filter>2. Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyrulePhysics.cpp">
@@ -115,9 +118,6 @@
       <Filter>3. PhysicalyObject</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
-      <Filter>3. PhysicalyObject\Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="AABB.cpp">
       <Filter>3. PhysicalyObject\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Manifold.cpp">
@@ -167,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="DebugDraw.cpp">
       <Filter>헤더 파일\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="AABB.cpp">
+      <Filter>2. Struct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
