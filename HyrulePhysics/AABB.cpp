@@ -26,23 +26,19 @@ namespace Hyrule
 			length(_max.x - _min.x)
 		{}
 
+		Vector3D AABB::GetCenter() const noexcept
+		{
+			return (min + max) * 0.5f;
+		}
+
 		/// <summary>
 		/// AABB 안에 점이 있는가?
 		/// </summary>
 		bool AABB::ContainsPoint(const Vector3D& _point) const noexcept
 		{
-			if (_point.x < this->min.x || _point.x > this->max.x)
-				return false;
-			if (_point.y < this->min.y || _point.y > this->max.y)
-				return false;
-			if (_point.z < this->min.z || _point.z > this->max.z)
-				return false;
-
-			return true;
-		}
-
-		bool AABB::CollidingRay(const Vector3D& _from, const Vector3D& _to) const noexcept
-		{
+			if ((this->min.x > _point.x) || (_point.x > this->max.x)) return false;
+			if ((this->min.y > _point.y) || (_point.y > this->max.y)) return false;
+			if ((this->min.z > _point.z) || (_point.z > this->max.z)) return false;
 
 			return true;
 		}
@@ -50,16 +46,68 @@ namespace Hyrule
 		/// <summary>
 		/// 다른 AABB와 충돌 했는가?
 		/// </summary>
-		bool AABB::CollidingAABB(const AABB& _other) const noexcept
+		bool AABB::Overlap(const AABB& _other) const noexcept
 		{
-			if (this->max.x < _other.min.x || this->min.x > _other.max.x)
-				return false;
-			if (this->max.y < _other.min.y || this->min.y > _other.max.y)
-				return false;
-			if (this->max.z < _other.min.z || this->min.z > _other.max.z)
-				return false;
+			if ((this->max.x < _other.min.x) || (_other.max.x < this->min.x)) return false;
+			if ((this->max.y < _other.min.y) || (_other.max.y < this->min.y)) return false;
+			if ((this->max.z < _other.min.z) || (_other.max.z < this->min.z)) return false;
 
  			return true;
+		}
+
+		/// <summary>
+		/// other의 AABB를 완전히 포함하는가?
+		/// </summary>
+		bool AABB::Contains(const AABB& _other)
+		{
+			return 
+				(this->min.x <= _other.min.x) &&
+				(this->max.x >= _other.max.x) &&
+				(this->min.y <= _other.min.y) &&
+				(this->max.y >= _other.max.y) &&
+				(this->min.z <= _other.min.z) &&
+				(this->max.z >= _other.max.z);
+		}
+
+		/// <summary>
+		/// AABB가 Ray와 충돌 했는가?
+		/// </summary>
+		bool AABB::TestRay(const Vector3D& _from, const Vector3D& _to) const noexcept
+		{
+			Vector3D direction = _to - _from;
+			Vector3D invDir = Vector3D(1.0f / direction.x, 1.0f / direction.y, 1.0f / direction.z);
+
+			float tMin = (min.x - _from.x) * invDir.x;
+			float tMax = (max.x - _from.x) * invDir.x;
+
+			if (tMin > tMax) 
+				std::swap(tMin, tMax);
+
+			float tYMin = (min.y - _from.y) * invDir.y;
+			float tYMax = (max.y - _from.y) * invDir.y;
+
+			if (tYMin > tYMax) 
+				std::swap(tYMin, tYMax);
+
+			if ((tMin > tYMax) || (tYMin > tMax)) 
+				return false;
+
+			if (tYMin > tMin) 
+				tMin = tYMin;
+
+			if (tYMax < tMax) 
+				tMax = tYMax;
+
+			float tZMin = (min.z - _from.z) * invDir.z;
+			float tZMax = (max.z - _from.z) * invDir.z;
+
+			if (tZMin > tZMax) 
+				std::swap(tZMin, tZMax);
+
+			if ((tMin > tZMax) || (tZMin > tMax)) 
+				return false;
+
+			return true;
 		}
 
 		float Area(const AABB& _A)

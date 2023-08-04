@@ -30,17 +30,17 @@ namespace Hyrule
 			/// <summary>
 			/// GJK 충돌 감지
 			/// </summary>
-			static bool GJKCollisionDetection(Collider*, Collider*, Manifold*);
+			static bool GJKCollisionDetection(Collider*, Collider*, Manifold&);
 			
 			/// <summary>
 			/// EPA 침투 깊이 계산
 			/// </summary>
-			static void EPAComputePenetrationDepth(Manifold*);
+			static void EPAComputePenetrationDepth(Manifold&);
 
 
 			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
 
-			static void FindContactPoint(Manifold*);
+			static void FindContactPoint(Manifold&);
 
 		private:
 			static bool Raycast(const Ray&, Collider*);
@@ -49,22 +49,22 @@ namespace Hyrule
 			static bool RaycastToPlane(const Ray&, PlaneCollider*);
 			static bool RaycastToConvex(const Ray&, ConvexCollider*);
 
-			static bool SphereToSphere(Collider*, Collider*, Manifold*);
-			static bool SphereToBox(Collider*, Collider*, Manifold*);
-			static bool SphereToCapsule(Collider*, Collider*, Manifold*);
-			static bool SphereToConvex(Collider*, Collider*, Manifold*);
-			static bool SphereToMesh(Collider*, Collider*, Manifold*);
+			static bool SphereToSphere(Collider*, Collider*, Manifold&);
+			static bool SphereToBox(Collider*, Collider*, Manifold&);
+			static bool SphereToCapsule(Collider*, Collider*, Manifold&);
+			static bool SphereToConvex(Collider*, Collider*, Manifold&);
+			static bool SphereToMesh(Collider*, Collider*, Manifold&);
 			
-			static bool BoxToBox(Collider*, Collider*, Manifold*);
-			static bool BoxToCapsule(Collider*, Collider*, Manifold*);
-			static bool BoxToConvex(Collider*, Collider*, Manifold*);
-			static bool BoxToMesh(Collider*, Collider*, Manifold*);
+			static bool BoxToBox(Collider*, Collider*, Manifold&);
+			static bool BoxToCapsule(Collider*, Collider*, Manifold&);
+			static bool BoxToConvex(Collider*, Collider*, Manifold&);
+			static bool BoxToMesh(Collider*, Collider*, Manifold&);
 
-			static bool CapsuleToCapsule(Collider*, Collider*, Manifold*);
-			static bool CapsuleToConvex(Collider*, Collider*, Manifold*);
-			static bool CapsuleToMesh(Collider*, Collider*, Manifold*);
+			static bool CapsuleToCapsule(Collider*, Collider*, Manifold&);
+			static bool CapsuleToConvex(Collider*, Collider*, Manifold&);
+			static bool CapsuleToMesh(Collider*, Collider*, Manifold&);
 			
-			static bool ConvexToConvex(Collider*, Collider*, Manifold*);
+			static bool ConvexToConvex(Collider*, Collider*, Manifold&);
 
 			static float PointToSegmentDistance(const Vector3D p, const  Vector3D L1, const  Vector3D L2);
 
@@ -100,8 +100,8 @@ namespace Hyrule
 		/// 충돌 대응 부분.
 		/// </summary>
 		public:
-			static void ComputeImpulse(Manifold*);
-			static void ResolveCollision(Manifold*);
+			static void ComputeImpulse(Manifold&);
+			static void ResolveCollision(Manifold&);
 
 		private:
 			static float ComputeFriction(float, float);

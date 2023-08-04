@@ -105,23 +105,23 @@ namespace Hyrule
 					}
 
 					// 노드에 데이터 개수가 6개 이상이면 자식 탐색
-					// if (dataList.size() > 5)
-					// {
-					// 	for (auto& e : children)
-					// 	{
-					// 		if (e == nullptr)
-					// 		{
-					// 			continue;
-					// 		}
-					// 
-					// 		e->GetDataList(_container);
-					// 	}
-					// }
-					// else
-					// {
+					if (dataList.size() > 5)
+					{
+						for (auto& e : children)
+						{
+							if (e == nullptr)
+							{
+								continue;
+							}
+
+							e->GetDataList(_container);
+						}
+					}
+					else
+					{
 						_container.push_back(dataList);
 						return;
-					// }
+					}
 				}
 
 				/// <summary>
@@ -153,7 +153,7 @@ namespace Hyrule
 						AABB childBoundingBox{ tempCenter, aabb.length / 2 };
 
 						// 자식 노드의 AABB를 계산해서 데이터의 AABB와 충돌 하는지 체크
-						if (childBoundingBox.CollidingAABB(dataBoundingBox))
+						if (childBoundingBox.Overlap(dataBoundingBox))
 						{
 							// 충돌하면 노드를 생성함.
 							if (children[i] == nullptr)
@@ -226,7 +226,7 @@ namespace Hyrule
 
 		public:
 			Octree() noexcept = default;
-			Octree(const Vector3D& _centre, float _length, size_t depth = 6) : root(), DepthLimit(6)
+			Octree(const Vector3D& _centre, float _length, size_t depth = 10) : root(), DepthLimit(6)
 			{
 				root = new Node(_centre, _length, DepthLimit);
 			}

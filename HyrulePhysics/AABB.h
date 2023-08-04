@@ -2,8 +2,6 @@
 #include "HyruleMath.h"
 
 
-
-
 /// <summary>
 /// AABB
 /// 
@@ -19,21 +17,27 @@ namespace Hyrule
 		class AABB
 		{
 		public:
-			AABB() = delete;
+			AABB() = default;
+			AABB(const AABB&) noexcept = default;
+			AABB(AABB&&) noexcept = default;
 			AABB(const Vector3D& _center, float _length) noexcept;
 			AABB(const Vector3D& _min, const Vector3D& _max) noexcept;
+			AABB& operator=(const AABB&) noexcept = default;
+			AABB& operator=(AABB&&) noexcept = default;
 			~AABB() noexcept = default;
 
 		public:
-			const Vector3D center;
-			const Vector3D min;
-			const Vector3D max;
-			const float length;
+			Vector3D center;
+			Vector3D min;
+			Vector3D max;
+			float length;
 
 		public:
+			Vector3D GetCenter() const noexcept;
 			bool ContainsPoint(const Vector3D&) const noexcept;
-			bool CollidingRay(const Vector3D&, const Vector3D&) const noexcept;
-			bool CollidingAABB(const AABB&) const noexcept;
+			bool TestRay(const Vector3D&, const Vector3D&) const noexcept;
+			bool Overlap(const AABB&) const noexcept;
+			bool Contains(const AABB&);
 		};
 
 		float Area(const AABB&);

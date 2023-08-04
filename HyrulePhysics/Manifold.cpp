@@ -11,20 +11,18 @@ namespace Hyrule
 	{
 		Manifold::Manifold(Collider*& _A, Collider*& _B) noexcept
 			: A(_A), B(_B),
-			normal{}, tangent{}, depth{},
-			contactPoints{},
-			contactNormal{}, friction{},
-			collided{ false }
+			normal{}, depth{},
+			contactPoints{}
 		{}
 
-		Manifold::~Manifold() noexcept
-		{
-			if (simplex != nullptr)
-			{
-				delete simplex;
-				simplex = nullptr;
-			}
-		}
+
+// 		Manifold::Manifold(const Manifold& _other) noexcept :
+// 			A(_other.A), B(_other.B),
+// 			normal(_other.normal),
+// 			depth(_other.depth),
+// 			contactPoints(_other.contactPoints),
+// 			simplex(_other.simplex)
+// 		{}
 
 		RigidBody* Manifold::RigidBodyA()
 		{
@@ -50,6 +48,7 @@ namespace Hyrule
 			return rigidB;
 		}
 
+
 		Vector3D Manifold::PositionA()
 		{
 			return A->GetPosition();
@@ -61,31 +60,29 @@ namespace Hyrule
 		}
 
 
-
 		void Manifold::Apply()
 		{
 			A->AddCollisionInfo(B, *this);
 			B->AddCollisionInfo(A, *this);
 		}
 
-		void Manifold::SetSimplex(Simplex* _simplex)
+
+		void Manifold::SetSimplex(const Simplex& _simplex)
 		{
 			this->simplex = _simplex;
 		}
 
 		Simplex& Manifold::GetSimplex()
 		{
-			return *simplex;
+			return simplex;
 		}
+
 
 		void Manifold::Clear()
 		{
-			if (simplex != nullptr)
-			{
-				delete simplex;
-				simplex = nullptr;
-			}
+
 		}
+
 
 		Collider* Manifold::GetColliderA()
 		{
@@ -103,11 +100,11 @@ namespace Hyrule
 			this->A = _collider;
 		}
 
-
 		void Manifold::SetColliderB(Collider* _collider)
 		{
 			this->B = _collider;
 		}
+
 
 		Vector3D Manifold::GetNormal() const noexcept
 		{
@@ -119,25 +116,6 @@ namespace Hyrule
 			this->normal = _normal;
 		}
 
-		Vector3D Manifold::GetTangent() const noexcept
-		{
-			return this->tangent;
-		}
-
-		void Manifold::SetTangent(const Vector3D& _tangent) noexcept
-		{
-			this->tangent = _tangent;
-		}
-
-		Vector3D Manifold::GetContactNormal() const noexcept
-		{
-			return this->contactNormal;
-		}
-
-		void Manifold::SetContactNormal(const Vector3D& _contactNormal) noexcept
-		{
-			this->contactNormal = _contactNormal;
-		}
 
 		float Manifold::GetDepth() const noexcept
 		{
@@ -148,6 +126,7 @@ namespace Hyrule
 		{
 			this->depth = _depth;
 		}
+
 
 		const std::vector<Vector3D>& Manifold::GetContactPoints() const
 		{

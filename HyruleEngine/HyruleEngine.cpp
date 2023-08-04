@@ -8,6 +8,8 @@
 
 namespace Hyrule
 {
+	bool HyruleEngine::focus = true;
+
 	HyruleEngine::HyruleEngine() noexcept : 
 		hwnd(), isRunning(true)
 	{
@@ -33,6 +35,7 @@ namespace Hyrule
 		MSG msg;
 		
 		TimeSystem::GetInstance().Tick();
+		HyruleEngine::focus = true;
 
 		while (isRunning)
 		{
@@ -43,7 +46,8 @@ namespace Hyrule
 			}
 			else
 			{
-				isRunning = CoreSystem::GetInstance().GameProcess();
+				if (HyruleEngine::focus)
+					isRunning = CoreSystem::GetInstance().GameProcess();
 			}
 		}
 	}
@@ -182,6 +186,7 @@ namespace Hyrule
 				// 윈도우가 포커스 될 때
 				// 타임 스케일이 1.f로 게임을 실행시킴
 				TimeSystem::GetInstance().Start();
+				HyruleEngine::focus = true;
 			}
  			break;
 
@@ -192,6 +197,7 @@ namespace Hyrule
 				// 윈도우가 비활성화 될 때
 				// 타임 스케일이 0.f로 게임을 정지시킴
 				TimeSystem::GetInstance().Stop();
+				HyruleEngine::focus = false;
 			}
 			break;
 
@@ -202,6 +208,7 @@ namespace Hyrule
 					// 윈도우가 최소화될 때
 					// 타임 스케일이 0.f로 게임을 정지시킴
 					TimeSystem::GetInstance().Stop();
+					HyruleEngine::focus = false;
 				}
 				else if (_wParam == SIZE_MAXIMIZED || _wParam == SIZE_RESTORED)
 				{

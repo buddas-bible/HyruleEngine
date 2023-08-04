@@ -26,9 +26,6 @@
     <Filter Include="DataStruct">
       <UniqueIdentifier>{d7694bbb-ab07-4af1-8211-ec75f8e1520c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Debug">
-      <UniqueIdentifier>{8f883ea9-ecdf-427c-bd33-5eac1f1eb97d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3. PhysicalyObject\Ray">
       <UniqueIdentifier>{898fb1ed-f98d-486c-9660-c589d196d7e8}</UniqueIdentifier>
     </Filter>
@@ -91,9 +88,6 @@
     <ClInclude Include="Octree.h">
       <Filter>DataStruct</Filter>
     </ClInclude>
-    <ClInclude Include="DebugDraw.h">
-      <Filter>헤더 파일\Debug</Filter>
-    </ClInclude>
     <ClInclude Include="Ray.h">
       <Filter>2. Struct</Filter>
     </ClInclude>
@@ -102,6 +96,12 @@
     </ClInclude>
     <ClInclude Include="Island.h">
       <Filter>2. Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="AABBTree.h">
+      <Filter>DataStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="Octree_v2.h">
+      <Filter>DataStruct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,11 +159,14 @@
     <ClCompile Include="Octree.cpp">
       <Filter>DataStruct</Filter>
     </ClCompile>
-    <ClCompile Include="DebugDraw.cpp">
-      <Filter>헤더 파일\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="AABB.cpp">
       <Filter>2. Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="AABBTree.cpp">
+      <Filter>DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree_v2.cpp">
+      <Filter>DataStruct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

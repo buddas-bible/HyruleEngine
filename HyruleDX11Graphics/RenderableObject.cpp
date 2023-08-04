@@ -55,7 +55,6 @@ namespace Hyrule
 	// 
 	// }
 
-#if _DEBUG
 	void RenderableObject::OnCollisionEnter() noexcept
 	{
 
@@ -70,6 +69,7 @@ namespace Hyrule
 	{
 		m_currRasterizerState = currState->GetSolidRasterizerState();
 	}
+#if _DEBUG
 #endif
 
 	void RenderableObject::SetViewProjTM(const Matrix4x4& _viewProj) noexcept

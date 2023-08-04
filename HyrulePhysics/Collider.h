@@ -46,16 +46,16 @@ namespace Hyrule
 			Vector3D center;
 			Vector3D size;
 			bool isTrigger;
+			bool activate;
+			std::vector<ICollision*> collisionInfo;
+
 
 			Matrix3x3 inertia;
 			Vector3D centerOfMass;
-			bool activate;
 
 			bool collied;
 
 			ColliderType type;
-
-			std::vector<ICollision*> collisionInfo;
 
 		public:
 			Vector3D GetPosition();
@@ -88,9 +88,9 @@ namespace Hyrule
 			virtual void SetTransform(const Vector3D&, const Quaternion&, const Vector3D&) noexcept final;
 
 		public:
-			virtual void SetTrigger(bool) final;
 			virtual void SetSize(const Vector3D&) final;
 			virtual void SetCenter(const Vector3D&) final;
+			virtual void SetTrigger(bool) final;
 
 		public:
 			virtual std::wstring GetObjectName() final;

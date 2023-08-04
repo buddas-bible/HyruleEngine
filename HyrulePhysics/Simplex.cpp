@@ -1,19 +1,17 @@
 #include "Simplex.h"
 
-#include "Face.h"
 
 namespace Hyrule
 {
 	namespace Physics
 	{
-		Simplex::~Simplex() noexcept
-		{
-			// for (auto& e : faceMap)
-			// {
-			// 	delete e.second;
-			// 	e.second = nullptr;
-			// }
-		}
+		Simplex::Simplex(const Simplex& rhs) noexcept : 
+			points(rhs.points), index(rhs.index), faceMap(rhs.faceMap)
+		{}
+
+		Simplex::Simplex(Simplex&& rhs) noexcept :
+			points(rhs.points), index(rhs.index), faceMap(rhs.faceMap)
+		{}
 
 		Hyrule::Vector3D& Simplex::operator[](int _i)
 		{

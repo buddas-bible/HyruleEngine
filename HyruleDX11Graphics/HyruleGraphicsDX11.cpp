@@ -88,7 +88,6 @@ namespace Hyrule
 
 		ResourceManager::GetInstance().Initialize(m_device);
 
-#if _DEBUG
 		HelerObject::InitHelperObject();
 		hr = CreateHelper();
 
@@ -96,6 +95,7 @@ namespace Hyrule
 		{
 			return hr;
 		}
+#if _DEBUG
 #endif
 
 		return hr;
@@ -118,9 +118,9 @@ namespace Hyrule
 
 	void HyruleGraphicsDX11::Update()
 	{
-#if _DEBUG
 		m_axis->SetViewProjTM(m_camera->GetViewProjMatrix());
 		m_gizmo->SetViewProjTM(m_camera->GetViewProjMatrix());
+#if _DEBUG
 #endif
 
 		ObjectManager::GetInstance().Update(m_camera->GetViewProjMatrix());
@@ -134,9 +134,9 @@ namespace Hyrule
 		m_renderTarget->Clear();
 		
 		///
-#if _DEBUG
 		m_gizmo->Render();
 		m_axis->Render();
+#if _DEBUG
 #endif
 
 		ObjectManager::GetInstance().Render(m_camera->GetPosition());

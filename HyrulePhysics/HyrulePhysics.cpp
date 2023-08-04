@@ -43,7 +43,7 @@ namespace Hyrule
 
 		long HyrulePhysics::Initialize()
 		{
-			gravity = Hyrule::Vector3D(0.f, -9.81f, 0.f);
+			gravity = Hyrule::Vector3D(0.f, -3.81f, 0.f);
 			Shapes::Initalize();
 			NonRigidBody::Init();
 			return (long)0L;
@@ -63,14 +63,8 @@ namespace Hyrule
 				e->CollisionInfoClear();
 			}
 
-			for (auto& e : manifoldArray)
-			{
-				delete e;
-			}
 			manifoldArray.clear();
 			colliderTable.clear();
-
-
 
 			auto& nodes{ ObjectManager::GetInstance().GetNodeContainer() };
 
@@ -89,45 +83,35 @@ namespace Hyrule
 						if ((*itr2)->isActive() == false)
 							continue;
 
-						auto colliderPair = std::make_pair(*itr, *itr2);
+						auto colliderPair = std::minmax(*itr, *itr2);
 						if (colliderTable.count(colliderPair) != 0)
 							continue;
 
-						colliderPair = std::make_pair(*itr2, *itr);
-						if (colliderTable.count(colliderPair) != 0)
-							continue;
+						Manifold manifold{ *itr, *itr2 };
 
-						Manifold* manifold = new Manifold{ *itr, *itr2 };
-
-						colliderTable.insert(std::make_pair(*itr, *itr2));
+						colliderTable.insert(colliderPair);
 
 						if (CollisionSystem::GJKCollisionDetection(*itr, *itr2, manifold))
 						{
 							/// 둘 중 하나라도 리지드 바디를 가지고 있다면 EPA를 실행 시킨다.
 							if ((*itr)->hasRigidBody() || (*itr2)->hasRigidBody())
 							{
-								manifoldArray.push_back(manifold);
 								CollisionSystem::EPAComputePenetrationDepth(manifold);
-							}
-							else
-							{
-								delete manifold;
-							}
+								manifoldArray.push_back(manifold);
 
-							/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
-							if ((*itr)->hasRigidBody() && (*itr2)->hasRigidBody())
-							{
-								// 접촉점도 찾아야함.
-								CollisionSystem::FindContactPoint(manifold);
-								manifold->Apply();
+								/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
+								if ((*itr)->hasRigidBody() && (*itr2)->hasRigidBody())
+								{
+									// 접촉점도 찾아야함.
+									CollisionSystem::FindContactPoint(manifold);
+									manifold.Apply();
+								}
+
+								manifoldArray.push_back(manifold);
 							}
 
 							(*itr)->SetCollied(true);
 							(*itr2)->SetCollied(true);
-						}
-						else
-						{
-							delete manifold;
 						}
 					}
 				}
@@ -143,7 +127,7 @@ namespace Hyrule
 		{
 			auto& rigidbodis = ObjectManager::GetInstance().GetRigidbodies();
 
-			for (auto i = 0; i < 5; i++)
+			for (auto i = 0; i < 4; i++)
 			{
 				/// 강체, 콜라이더 충돌 대응
 				for (auto& e : manifoldArray)

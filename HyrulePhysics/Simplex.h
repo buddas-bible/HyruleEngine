@@ -5,6 +5,7 @@
 #include <map>
 #include "HyruleMath.h"
 
+#include "Face.h"
 
 namespace Hyrule
 {
@@ -16,22 +17,21 @@ namespace Hyrule
 		{
 		public:
 			Simplex() noexcept = default;
-			~Simplex() noexcept;
-			Simplex(const Simplex&) = default;
-			Simplex(Simplex&&) = default;
-			Simplex& operator= (const Simplex&) = default;
-			Simplex& operator= (Simplex&&) = default;
-
+			Simplex(const Simplex&) noexcept;
+			Simplex(Simplex&&) noexcept;
+			Simplex& operator= (const Simplex&) noexcept = default;
+			Simplex& operator= (Simplex&&) noexcept = default;
 
 			Vector3D& operator[](int);
 			std::vector<Vector3D>& operator=(const std::vector<Vector3D>&);
 			std::vector<Vector3D>& operator=(std::vector<Vector3D>&&);
+
 			void push_back(const Vector3D&);
 			size_t size();
 
-			// void SetIndices();
 			void SetFace();
 			void AddFace(size_t, size_t, size_t);
+
 			std::map<float, Face> faceMap;
 
 			std::vector<Vector3D> points;

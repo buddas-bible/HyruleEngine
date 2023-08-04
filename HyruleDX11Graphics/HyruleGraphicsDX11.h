@@ -60,13 +60,13 @@ namespace Hyrule
 		long CreateCamera();
 		long CreateEffectAndInputLayout();
 
-#if _DEBUG
 		long CreateHelper();
 
 		virtual IRenderable* GetRenderableObject(RENDERABLE_DESC*) override;
 
 		Helper* m_axis;
 		Helper* m_gizmo;
+#if _DEBUG
 #endif
 	};
 

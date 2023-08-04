@@ -24,6 +24,8 @@ namespace Hyrule
 		void LoadGraphicsDLL(const std::wstring&) noexcept;
 		void LoadPhysicsDLL(const std::wstring&) noexcept;
 
+		static bool focus;
+
 	private:
 		long OnResize() noexcept;
 
@@ -31,7 +33,6 @@ namespace Hyrule
 
 	private:
 		HWND hwnd;
-		HWND debughWnd;
 		bool isRunning;
 
 		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam) noexcept;

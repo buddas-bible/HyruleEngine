@@ -14,13 +14,6 @@ namespace Hyrule
 
 		std::shared_ptr<ConvexShape> Shapes::GetShape(const std::wstring& _name)
 		{
-			// auto itr = (Shapes::convexShapes).find(_name);
-
-			// if (itr != (Shapes::convexShapes).end())
-			// {
-			// 	return itr->second;
-			// }
-
 			return nullptr;
 		}
 
@@ -28,6 +21,7 @@ namespace Hyrule
 		{
 			return GetShape(_name);
 		}
+
 
 		BoxShape::BoxShape() noexcept : Shape()
 		{
@@ -96,6 +90,7 @@ namespace Hyrule
 			return tempfaces;
 		}
 
+
 		PlaneShape::PlaneShape() noexcept : Shape()
 		{
 			for (auto i = 0; i < index.size(); i += 3)
@@ -134,6 +129,7 @@ namespace Hyrule
 		{
 			return this->index;
 		}
+
 
 		ConvexShape::ConvexShape(SHAPE_INPO* _info) noexcept :
 			points(_info->pPointArr, _info->pPointArr + _info->pPointArrSize),

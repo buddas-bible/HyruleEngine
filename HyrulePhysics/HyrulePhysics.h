@@ -50,7 +50,7 @@ namespace Hyrule
 
 		private:
 			std::set<std::pair<Collider*, Collider*>> colliderTable;
-			std::vector<Manifold*> manifoldArray;
+			std::vector<Manifold> manifoldArray;
 
 			Hyrule::Vector3D gravity;
 

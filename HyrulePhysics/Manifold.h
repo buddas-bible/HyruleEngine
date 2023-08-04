@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "HyruleMath.h"
+#include "Simplex.h"
 
 namespace Hyrule
 {
@@ -9,7 +10,6 @@ namespace Hyrule
 	{
 		class Collider;
 		class RigidBody;
-		class Simplex;
 
 		/// <summary>
 		/// 두 콜라이더의 충돌 정보를저장하는 클래스
@@ -21,7 +21,7 @@ namespace Hyrule
 			Manifold(Collider*& _A, Collider*& _B) noexcept;
 			Manifold(const Manifold&) noexcept = default;
 			Manifold(Manifold&&) noexcept = default;
-			~Manifold() noexcept;
+			~Manifold() noexcept = default;
 			Manifold& operator=(const Manifold&) = default;
 			Manifold& operator=(Manifold&&) = default;
 
@@ -32,17 +32,11 @@ namespace Hyrule
 
 			// 충돌 정보
 			Vector3D normal;								// 충돌의 노말 벡터
-			Vector3D tangent;								// 충돌의 탄젠트 벡터
-															// 충돌의 이선 벡터
+
 			float depth;									// 충돌의 깊이
 			std::vector<Vector3D> contactPoints;			// 충돌 접점
-			Vector3D contactNormal;							// 접점의 노말 벡터
 
-			float friction;
-
-			bool collided;
-
-			Simplex* simplex{};
+			Simplex simplex{};
 
 		public:
 			RigidBody* RigidBodyA();
@@ -53,7 +47,7 @@ namespace Hyrule
 		public:
 			void Apply();
 
-			void SetSimplex(Simplex*);
+			void SetSimplex(const Simplex& _simplex);
 			Simplex& GetSimplex();
 			void Clear();
 
@@ -64,9 +58,6 @@ namespace Hyrule
 
 			Vector3D GetNormal() const noexcept;
 			void SetNormal(const Vector3D& _normal) noexcept;
-
-			Vector3D GetTangent() const noexcept;
-			void SetTangent(const Vector3D& _tangent) noexcept;
 
 			Vector3D GetContactNormal() const noexcept;
 			void SetContactNormal(const Vector3D& _contactNormal) noexcept;

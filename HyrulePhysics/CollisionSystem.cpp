@@ -26,17 +26,17 @@ namespace Hyrule
 		/// <summary>
 		/// Casey's GJK
 		/// </summary>
-		bool CollisionSystem::GJKCollisionDetection(Collider* _colliderA, Collider* _colliderB, Manifold* _manifold)
+		bool CollisionSystem::GJKCollisionDetection(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
 		{
 			size_t count{};
 
-			Simplex* simplex = new Simplex;
+			Simplex simplex;
 
 			// 임의의 방향 벡터로 
 			Vector3D direction{ Vector3D::Right() };
 			Vector3D support{ FindSupportPoint(_colliderA, _colliderB, direction) };
 
-			simplex->push_back(support);
+			simplex.push_back(support);
 			direction = -support.Normalized();
 
 			while (count < GJK_MAX)
@@ -55,13 +55,12 @@ namespace Hyrule
 				}
 
 				// 서포트 포인터가 구해졌으면 심플렉스에 넣는다.
-				simplex->push_back(support);
+				simplex.push_back(support);
 
-				if (DoSimplex(*simplex, direction))
+				if (DoSimplex(simplex, direction))
 				{
 					// 심플렉스 안에 원점이 존재한다면 충돌함.
-					// detectionInfo.insert(std::make_pair(_manifold, simplex));
-					_manifold->SetSimplex(simplex);
+					_manifold.SetSimplex(std::move(simplex));
 					return true;
 				}
 
@@ -72,7 +71,6 @@ namespace Hyrule
 				count++;
 			}
 
-			delete simplex;
 			return false;
 		}
 
@@ -94,10 +92,10 @@ namespace Hyrule
 		/// <summary>
 		/// EPA
 		/// </summary>
-		void CollisionSystem::EPAComputePenetrationDepth(Manifold* _manifold)
+		void CollisionSystem::EPAComputePenetrationDepth(Manifold& _manifold)
 		{
 			// 심플렉스의 면을 일단 구분함
-			Simplex polytope{ _manifold->GetSimplex() };
+			Simplex polytope{ _manifold.GetSimplex() };
 			polytope.SetFace();
 
 			size_t count{};
@@ -112,8 +110,8 @@ namespace Hyrule
 				// 면들과의 노말과 거리를 계산할 수 있음.
  				Vector3D normal{ polytope.faceMap.begin()->second.normal };
 				Vector3D support{ FindSupportPoint(
-					_manifold->GetColliderA(),
-					_manifold->GetColliderB(),
+					_manifold.GetColliderA(),
+					_manifold.GetColliderB(),
 					normal) 
 				};
 
@@ -215,8 +213,8 @@ namespace Hyrule
 			float depth{ polytope.faceMap.begin()->first };
 			Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
 
-			_manifold->SetDepth(depth );
-			_manifold->SetNormal(detectNormal);
+			_manifold.SetDepth(depth );
+			_manifold.SetNormal(detectNormal);
 			return;
 		}
 
@@ -234,16 +232,16 @@ namespace Hyrule
 		/// 최대 6개까지 나올 수 있음
 		/// 삼각형끼리의 충돌을 예상하고 만듬.
 		/// </summary>
-		void CollisionSystem::FindContactPoint(Manifold* _manifold)
+		void CollisionSystem::FindContactPoint(Manifold& _manifold)
 		{
-			Vector3D direction = _manifold->GetNormal();
+			Vector3D direction = _manifold.GetNormal();
 
-			Collider* _cA{ _manifold->GetColliderA() };
-			Collider* _cB{ _manifold->GetColliderB() };
+			Collider* _cA{ _manifold.GetColliderA() };
+			Collider* _cB{ _manifold.GetColliderB() };
 
 			// 충돌에 관여한 면을 찾아냄
-			Face A = _manifold->GetColliderA()->FindSupportFace(direction);
-			Face B = _manifold->GetColliderB()->FindSupportFace(-direction);
+			Face A = _manifold.GetColliderA()->FindSupportFace(direction);
+			Face B = _manifold.GetColliderB()->FindSupportFace(-direction);
 
 			Face* reference = &A;
 			Face* incident = &B;
@@ -254,9 +252,9 @@ namespace Hyrule
 			// 1에 제일 가까운 면을 기준면으로 삼음
 			if (aPerpendicular < bPerpendicular)
 			{
-				_manifold->SetColliderA(_cB);
-				_manifold->SetColliderB(_cA);
-				_manifold->SetNormal(-direction);
+				_manifold.SetColliderA(_cB);
+				_manifold.SetColliderB(_cA);
+				_manifold.SetNormal(-direction);
 				reference = &B;
 				incident = &A;
 				direction = -direction;
@@ -277,7 +275,7 @@ namespace Hyrule
 
 			for (auto i = 0; i < contactPoint.size(); i++)
 			{
-				_manifold->AddContactPoint(contactPoint[i]);
+				_manifold.AddContactPoint(contactPoint[i]);
 			}
 		}
 
@@ -354,7 +352,7 @@ namespace Hyrule
 			return false;
 		}
 
-		bool CollisionSystem::SphereToSphere(Collider* _colliderA, Collider* _colliderB, Manifold* _manifold)
+		bool CollisionSystem::SphereToSphere(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
 		{
 			Vector3D AB{ _colliderB->GetPosition() - _colliderA->GetPosition() };
 
@@ -363,8 +361,8 @@ namespace Hyrule
 
 			if (total >= gap)
 			{
-				_manifold->SetDepth(total - gap);
-				_manifold->SetNormal(AB.Normalized());
+				_manifold.SetDepth(total - gap);
+				_manifold.SetNormal(AB.Normalized());
 				return true;
 			}
 
@@ -723,11 +721,11 @@ namespace Hyrule
 			}
 		}
 
-		void CollisionSystem::ComputeImpulse(Manifold* _manifold)
+		void CollisionSystem::ComputeImpulse(Manifold& _manifold)
 		{
 			// 각 물체들이 가지고 있는 속력으로 충격량을 계산함
-			RigidBody* A{ _manifold->RigidBodyA() };
-			RigidBody* B{ _manifold->RigidBodyB() };
+			RigidBody* A{ _manifold.RigidBodyA() };
+			RigidBody* B{ _manifold.RigidBodyB() };
 
 			float systemMass{ A->GetInvMass() + B->GetInvMass() };
 
@@ -740,12 +738,12 @@ namespace Hyrule
 			float dfriction = ComputeFriction(A->GetDynamicFriction(), B->GetDynamicFriction());
 			float restitution = std::min(A->GetRestitution(), B->GetRestitution());
 
-			Vector3D P_a{ _manifold->GetColliderA()->GetPosition() };
-			Vector3D P_b{ _manifold->GetColliderB()->GetPosition() };
+			Vector3D P_a{ _manifold.GetColliderA()->GetPosition() };
+			Vector3D P_b{ _manifold.GetColliderB()->GetPosition() };
 
-			Vector3D Normal{ _manifold->GetNormal() };
+			Vector3D Normal{ _manifold.GetNormal() };
 
-			const auto& contactPoints{ _manifold->GetContactPoints() };
+			const auto& contactPoints{ _manifold.GetContactPoints() };
 
 			for (const auto& contactPoint : contactPoints)
 			{			
@@ -826,10 +824,10 @@ namespace Hyrule
 
 		}
 
-		void CollisionSystem::ResolveCollision(Manifold* _manifold)
+		void CollisionSystem::ResolveCollision(Manifold& _manifold)
 		{
-			RigidBody* A{ _manifold->RigidBodyA() };
-			RigidBody* B{ _manifold->RigidBodyB() };
+			RigidBody* A{ _manifold.RigidBodyA() };
+			RigidBody* B{ _manifold.RigidBodyB() };
 			
 			float InvMassA = (A == nullptr) ? 0.f : A->GetInvMass();
 			float InvMassB = (B == nullptr) ? 0.f : B->GetInvMass();
@@ -847,8 +845,8 @@ namespace Hyrule
 			const float persent{ 0.8f };
 			const float threshold{ 0.00001f };
 
-			float depth{ _manifold->GetDepth() };
-			const Vector3D normal{ _manifold->GetNormal() };
+			float depth{ _manifold.GetDepth() };
+			const Vector3D normal{ _manifold.GetNormal() };
 			
 			const float dist{ std::max(depth - threshold, 0.0f) };
 			Vector3D resolve = normal * (dist / systemMass) * persent;

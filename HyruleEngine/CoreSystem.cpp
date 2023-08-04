@@ -43,8 +43,8 @@ namespace Hyrule
 				accumulatedTime += deltaTime;
 
 				// 프레임마다 한 번 호출되도록 함.
-				while (accumulatedTime >= fixedDeltaTime)
-				{
+				// while (accumulatedTime >= fixedDeltaTime)
+				// {
 					SceneManager::GetInstance().FixedUpdate();
 					
 					/// 콜라이더랑 리지드바디만 따로 모아서 관리할 수 있으면 좋을거 같긴 함.
@@ -55,14 +55,14 @@ namespace Hyrule
 					SceneManager::GetInstance().LatePhysicsUpdate();			// 강체 시뮬레이션 결과 적용
 
 					accumulatedTime -= fixedDeltaTime;
-
-					if (first == true)
-					{
-						first = false;
-						accumulatedTime = 0.f;
-						break;
-					}
-				}
+			// 
+			// 	if (first == true)
+			// 	{
+			// 		first = false;
+			// 		accumulatedTime = 0.f;
+			// 		break;
+			//	}
+			// }
 
 				state = INPUT;
 				break;
@@ -109,7 +109,29 @@ namespace Hyrule
 				
 				if (TimeSystem::GetInstance().GetfDeltaTime() != 0.f)
 				{
-					SetWindowText((HWND)hWnd, (L"fps : " + std::to_wstring((int)TimeSystem::GetInstance().GetFPS())).c_str());
+					static int currFPS = 0;
+					static float count = 0;
+					static int minFPS = FLT_MAX;
+					static int maxFPS = FLT_MIN;
+
+					minFPS = min(minFPS, currFPS);
+					maxFPS = max(maxFPS, currFPS);
+
+					currFPS = (int)TimeSystem::GetInstance().GetFPS();
+					count += TimeSystem::GetInstance().GetfDeltaTime();
+
+					if (count > 1.f)
+					{
+						SetWindowText((HWND)hWnd,
+							(
+								L"fps : " + std::to_wstring(currFPS) +
+								L", min : " + std::to_wstring(minFPS) +
+								L", max : " + std::to_wstring(maxFPS)
+								).c_str()
+							);
+						
+						count -= 1.f;
+					}
 				}
 				
 				state = INITIALIZATION;

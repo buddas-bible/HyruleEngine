@@ -37,10 +37,10 @@ namespace Hyrule
 		// virtual void OnDestory() noexcept override;
 		virtual bool isActive() noexcept override;
 
-#if _DEBUG
 		virtual void OnCollisionEnter() noexcept override;
 		virtual void OnCollisionStay() noexcept override; 		
 		virtual void OnCollisionExit() noexcept override;
+#if _DEBUG
 #endif
 
 		void SetViewProjTM(const Matrix4x4&) noexcept;
