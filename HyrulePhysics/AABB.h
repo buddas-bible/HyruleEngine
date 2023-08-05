@@ -27,10 +27,8 @@ namespace Hyrule
 			~AABB() noexcept = default;
 
 		public:
-			Vector3D center;
 			Vector3D min;
 			Vector3D max;
-			float length;
 
 		public:
 			Vector3D GetCenter() const noexcept;

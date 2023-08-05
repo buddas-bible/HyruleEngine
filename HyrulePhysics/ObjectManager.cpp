@@ -18,7 +18,7 @@ namespace Hyrule
 	namespace Physics
 	{
 
-		ObjectManager::ObjectManager() noexcept : octree({}, 10000.f)
+		ObjectManager::ObjectManager() noexcept : octree({ Vector3D(), 100000.f }, {Vector3D(), 500.f})
 		{}
 
 		ICollider* ObjectManager::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _info)
@@ -33,7 +33,7 @@ namespace Hyrule
 			Collider* collider = this->AddCollider(obj, _info);
 
 			colliders.push_back(collider);
-			octree.Insert(collider);
+			octree.Insert(collider, collider->GetAABB());
 
 			return (ICollider*)collider;
 		}
@@ -148,14 +148,37 @@ namespace Hyrule
 			return this->colliders;
 		}
 
-		std::vector<std::list<Collider*>>& ObjectManager::GetNodeContainer() noexcept
+		// std::vector<std::list<Collider*>>& ObjectManager::GetNodeContainer() noexcept
+		// {
+		// 	return octree.GetDataList();
+		// }
+
+		// void ObjectManager::NodeContainerClear() noexcept
+		// {
+		// 	octree.DataListClear();
+		// }
+
+		std::vector<Collider*> ObjectManager::QctreeQuery(Collider* _collider) noexcept
 		{
-			return octree.GetDataList();
+			// 지금은 딱 맞는 AABB로 하고 있지만
+			// 이것도 연산이 좀 필요하다보니까
+			// scale 값을 가지고 length를 구하고
+			// 임의의 AABB를 구해보는게 어떨까
+			// AABB aabb{ _collider->GetAABB() };
+
+			return octree.Query(_collider->GetAABB());
 		}
 
-		void ObjectManager::NodeContainerClear() noexcept
+		void ObjectManager::OctreeClear() noexcept
 		{
-			octree.DataListClear();
+			octree.Clear();
+		}
+
+		void ObjectManager::OctreeResearch(Collider* _collider)
+		{
+			// 옥트리에 있는 콜라이더 지우고 다시 설정.
+			octree.Remove(_collider);
+			octree.Insert(_collider, _collider->GetAABB());
 		}
 
 		std::vector<RigidBody*>& ObjectManager::GetRigidbodies() noexcept
@@ -219,13 +242,6 @@ namespace Hyrule
 
 				ToDestroyRigidBody.pop();	
 			}
-		}
-
-		void ObjectManager::OctreeResearch(Collider* _collider)
-		{
-			// 옥트리에 있는 콜라이더 지우고 다시 설정.
-			octree.Remove(_collider);
-			octree.Insert(_collider);
 		}
 
 		Collider* ObjectManager::AddCollider(Object* _obj, COLLIDER_INFO* _info)

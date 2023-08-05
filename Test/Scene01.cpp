@@ -30,7 +30,7 @@ namespace Hyrule
 		GameObject* box = CreateGameObject(L"Box01");
 		box->AddComponent<CubeRenderer>();
 		box->GetTransform()->SetLocalPosition(Vector3D(0.f, 0.f, 0.f));
-		box->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		box->GetTransform()->SetLocalScale(Vector3D(5.f, 20.f, 5.f));
 		box->AddComponent<BoxCollider>();
 		Hyrule::RigidBody* rigidBox01 = box->AddComponent<RigidBody>();
 		// rigidBox01->SetVelocity({ 2.f, 0.f, 0.f });
@@ -57,7 +57,7 @@ namespace Hyrule
 		{
 			GameObject* box4 = CreateGameObject(L"Box0" + std::to_wstring(i));
 			box4->AddComponent<CubeRenderer>();
-			box4->GetTransform()->SetLocalPosition(Vector3D(0.f, 10.f + 20.f * i, 0.f));
+			box4->GetTransform()->SetLocalPosition(Vector3D(0.f, 10.f + 110.f * i, 0.f));
 			box4->GetTransform()->SetLocalScale(Vector3D(1, 1, 1));
 			box4->AddComponent<BoxCollider>();
 			Hyrule::RigidBody* rigidBox03 = box4->AddComponent<RigidBody>();

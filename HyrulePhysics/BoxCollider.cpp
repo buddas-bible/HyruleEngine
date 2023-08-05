@@ -31,15 +31,15 @@ namespace Hyrule
 
 			for (size_t i = 1; i < shape->GetPoints().size(); i++)
 			{
-				auto e = shape->GetPoints()[1] * objectTM;
+				auto e = shape->GetPoints()[i] * objectTM;
 
-				e.x = std::min(Min.x, e.x);
-				e.y = std::min(Min.y, e.y);
-				e.z = std::min(Min.z, e.z);
+				Min.x = std::min(Min.x, e.x);
+				Min.y = std::min(Min.y, e.y);
+				Min.z = std::min(Min.z, e.z);
 
-				e.x = std::max(Max.x, e.x);
-				e.y = std::max(Max.y, e.y);
-				e.z = std::max(Max.z, e.z);
+				Max.x = std::max(Max.x, e.x);
+				Max.y = std::max(Max.y, e.y);
+				Max.z = std::max(Max.z, e.z);
 			}
 
 			return AABB(Min, Max);

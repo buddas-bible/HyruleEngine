@@ -6,7 +6,8 @@
 #include <vector>
 #include <memory>
 #include <queue>
-#include "Octree.h"
+// #include "Octree.h"
+#include "Octree_v2.h"
 
 namespace Hyrule
 {
@@ -47,7 +48,7 @@ namespace Hyrule
 			std::queue<Collider*> ToDestroyCollider;
 			std::queue<RigidBody*> ToDestroyRigidBody;
 
-			Octree<Collider*> octree;
+			Octree_v2<Collider*> octree;
 
 		public:
 			ICollider* CreateCollider(const std::wstring&, COLLIDER_INFO*);	// 오브젝트에 콜라이더를 추가함.
@@ -61,15 +62,16 @@ namespace Hyrule
 			std::vector<Collider*>& GetColliders() noexcept;
 			std::vector<RigidBody*>& GetRigidbodies() noexcept;
 
-			std::vector<std::list<Collider*>>& GetNodeContainer() noexcept;
-			void NodeContainerClear() noexcept;
+			// std::vector<std::list<Collider*>>& GetNodeContainer() noexcept;
+			// void NodeContainerClear() noexcept;
+			std::vector<Collider*> QctreeQuery(Collider*) noexcept;
+			void OctreeClear() noexcept;
+			void OctreeResearch(Collider*);
 
 		public:
 			void AddRemoveQueue(Collider*);
 			void AddRemoveQueue(RigidBody*);
 			void RemoveQueue();
-
-			void OctreeResearch(Collider*);
 
 		private:
 			Collider* AddCollider(Object*, COLLIDER_INFO*);						// 콜라이더를 만듬

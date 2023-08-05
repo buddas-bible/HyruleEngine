@@ -43,7 +43,7 @@ namespace Hyrule
 
 		long HyrulePhysics::Initialize()
 		{
-			gravity = Hyrule::Vector3D(0.f, -3.81f, 0.f);
+			gravity = Hyrule::Vector3D(0.f, -1.81f, 0.f);
 			Shapes::Initalize();
 			NonRigidBody::Init();
 			return (long)0L;
@@ -66,58 +66,145 @@ namespace Hyrule
 			manifoldArray.clear();
 			colliderTable.clear();
 
-			auto& nodes{ ObjectManager::GetInstance().GetNodeContainer() };
 
-			// 옥트리에서 꺼낸 컨테이너를 순회함.
-			for (auto& e : nodes)
+			// for (auto itr = colliders.begin(); itr != colliders.end(); itr++)
+			// {
+			// 	if ((*itr)->isActive() == false)
+			// 		continue;
+			// 
+			// 	for (auto itr2 = std::next(itr); itr2 != colliders.end(); itr2++)
+			// 	{
+			// 		if ((*itr2)->isActive() == false)
+			// 			continue;
+			// 
+			// 		auto colliderPair = std::minmax(*itr, *itr2);
+			// 		if (colliderTable.count(colliderPair) != 0)
+			// 			continue;
+			// 
+			// 		Manifold manifold{ *itr, *itr2 };
+			// 
+			// 		colliderTable.insert(colliderPair);
+			// 
+			// 		if (CollisionSystem::GJKCollisionDetection(*itr, *itr2, manifold))
+			// 		{
+			// 			/// 둘 중 하나라도 리지드 바디를 가지고 있다면 EPA를 실행 시킨다.
+			// 			if ((*itr)->hasRigidBody() || (*itr2)->hasRigidBody())
+			// 			{
+			// 				CollisionSystem::EPAComputePenetrationDepth(manifold);
+			// 				manifoldArray.push_back(manifold);
+			// 
+			// 				/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
+			// 				if ((*itr)->hasRigidBody() && (*itr2)->hasRigidBody())
+			// 				{
+			// 					// 접촉점도 찾아야함.
+			// 					CollisionSystem::FindContactPoint(manifold);
+			// 					manifold.Apply();
+			// 				}
+			// 
+			// 				manifoldArray.push_back(manifold);
+			// 			}
+			// 
+			// 			(*itr)->SetCollied(true);
+			// 			(*itr2)->SetCollied(true);
+			// 		}
+			// 	}
+			// }
+				
+			for (auto& e : colliders)
 			{
-				// 노드 안에 있는 콜라이더만 체크함
-				for (auto itr = e.begin(); itr != e.end(); itr++)
+				auto queryResult = ObjectManager::GetInstance().QctreeQuery(e);
+				for (auto& test : queryResult)
 				{
-					if((*itr)->isActive() == false)
+					if (e == test)
 						continue;
 
-					for (auto itr2 = std::next(itr); itr2 != e.end(); itr2++)
+					if (test->isActive() == false)
+						continue;
+
+					auto colliderPair = std::minmax(e, test);
+					if (colliderTable.count(colliderPair) != 0)
+						continue;
+
+					Manifold manifold{ e, test };
+					colliderTable.insert(colliderPair);
+
+					if (CollisionSystem::GJKCollisionDetection(e, test, manifold))
 					{
-						// 활성화 되어있지 않으면 넘김
-						if ((*itr2)->isActive() == false)
-							continue;
-
-						auto colliderPair = std::minmax(*itr, *itr2);
-						if (colliderTable.count(colliderPair) != 0)
-							continue;
-
-						Manifold manifold{ *itr, *itr2 };
-
-						colliderTable.insert(colliderPair);
-
-						if (CollisionSystem::GJKCollisionDetection(*itr, *itr2, manifold))
+						/// 둘 중 하나라도 리지드 바디를 가지고 있다면 EPA를 실행 시킨다.
+						if (e->hasRigidBody() || test->hasRigidBody())
 						{
-							/// 둘 중 하나라도 리지드 바디를 가지고 있다면 EPA를 실행 시킨다.
-							if ((*itr)->hasRigidBody() || (*itr2)->hasRigidBody())
+							CollisionSystem::EPAComputePenetrationDepth(manifold);
+							manifoldArray.push_back(manifold);
+
+							/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
+							if (e->hasRigidBody() && test->hasRigidBody())
 							{
-								CollisionSystem::EPAComputePenetrationDepth(manifold);
-								manifoldArray.push_back(manifold);
-
-								/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
-								if ((*itr)->hasRigidBody() && (*itr2)->hasRigidBody())
-								{
-									// 접촉점도 찾아야함.
-									CollisionSystem::FindContactPoint(manifold);
-									manifold.Apply();
-								}
-
-								manifoldArray.push_back(manifold);
+								// 접촉점도 찾아야함.
+								CollisionSystem::FindContactPoint(manifold);
+								manifold.Apply();
 							}
 
-							(*itr)->SetCollied(true);
-							(*itr2)->SetCollied(true);
+							manifoldArray.push_back(manifold);
 						}
+
+						e->SetCollied(true);
+						test->SetCollied(true);
 					}
 				}
 			}
 
-			ObjectManager::GetInstance().NodeContainerClear();
+			// auto& nodes{ ObjectManager::GetInstance().GetNodeContainer() };
+			// 
+			// // 옥트리에서 꺼낸 컨테이너를 순회함.
+			// for (auto& e : nodes)
+			// {
+			// 	// 노드 안에 있는 콜라이더만 체크함
+			// 	for (auto itr = e.begin(); itr != e.end(); itr++)
+			// 	{
+			// 		if((*itr)->isActive() == false)
+			// 			continue;
+			// 
+			// 		for (auto itr2 = std::next(itr); itr2 != e.end(); itr2++)
+			// 		{
+			// 			// 활성화 되어있지 않으면 넘김
+			// 			if ((*itr2)->isActive() == false)
+			// 				continue;
+			// 
+			// 			auto colliderPair = std::minmax(*itr, *itr2);
+			// 			if (colliderTable.count(colliderPair) != 0)
+			// 				continue;
+			// 
+			// 			Manifold manifold{ *itr, *itr2 };
+			// 
+			// 			colliderTable.insert(colliderPair);
+			// 
+			// 			if (CollisionSystem::GJKCollisionDetection(*itr, *itr2, manifold))
+			// 			{
+			// 				/// 둘 중 하나라도 리지드 바디를 가지고 있다면 EPA를 실행 시킨다.
+			// 				if ((*itr)->hasRigidBody() || (*itr2)->hasRigidBody())
+			// 				{
+			// 					CollisionSystem::EPAComputePenetrationDepth(manifold);
+			// 					manifoldArray.push_back(manifold);
+			// 
+			// 					/// 강체를 들고 있는 콜라이더는 충돌 정보를 콜라이더에게 넘겨줘야 한다.
+			// 					if ((*itr)->hasRigidBody() && (*itr2)->hasRigidBody())
+			// 					{
+			// 						// 접촉점도 찾아야함.
+			// 						CollisionSystem::FindContactPoint(manifold);
+			// 						manifold.Apply();
+			// 					}
+			// 
+			// 					manifoldArray.push_back(manifold);
+			// 				}
+			// 
+			// 				(*itr)->SetCollied(true);
+			// 				(*itr2)->SetCollied(true);
+			// 			}
+			// 		}
+			// 	}
+			// }
+			// 
+			// ObjectManager::GetInstance().NodeContainerClear();
 		}
 
 		/// <summary>
