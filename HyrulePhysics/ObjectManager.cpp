@@ -18,7 +18,7 @@ namespace Hyrule
 	namespace Physics
 	{
 
-		ObjectManager::ObjectManager() noexcept : octree({ Vector3D(), 100000.f }, {Vector3D(), 500.f})
+		ObjectManager::ObjectManager() noexcept : octree({ Vector3D(), 100000.f }, {Vector3D(), 100.f})
 		{}
 
 		ICollider* ObjectManager::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _info)

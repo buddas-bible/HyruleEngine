@@ -22,25 +22,30 @@ namespace Hyrule
 
 		AABB BoxCollider::GetAABB()
 		{
-			Matrix4x4 objectTM = object->GetWorldTM();
+			// Matrix4x4 objectTM = object->GetWorldTM();
 
-			Vector3D p = shape->GetPoints()[0] * objectTM;
+			float length = GetLength();
 
-			Vector3D Min = p;
-			Vector3D Max = p;
+// 			Vector3D p = shape->GetPoints()[0] * objectTM;
+// 
+			Vector3D Min = object->GetPosition();
+ 			Vector3D Max = Min;
 
-			for (size_t i = 1; i < shape->GetPoints().size(); i++)
-			{
-				auto e = shape->GetPoints()[i] * objectTM;
-
-				Min.x = std::min(Min.x, e.x);
-				Min.y = std::min(Min.y, e.y);
-				Min.z = std::min(Min.z, e.z);
-
-				Max.x = std::max(Max.x, e.x);
-				Max.y = std::max(Max.y, e.y);
-				Max.z = std::max(Max.z, e.z);
-			}
+			Min -= Vector3D(1.f, 1.f, 1.f) * length;
+			Max += Vector3D(1.f, 1.f, 1.f) * length;
+// 
+// 			for (size_t i = 1; i < shape->GetPoints().size(); i++)
+// 			{
+// 				auto e = shape->GetPoints()[i] * objectTM;
+// 
+// 				Min.x = std::min(Min.x, e.x);
+// 				Min.y = std::min(Min.y, e.y);
+// 				Min.z = std::min(Min.z, e.z);
+// 
+// 				Max.x = std::max(Max.x, e.x);
+// 				Max.y = std::max(Max.y, e.y);
+// 				Max.z = std::max(Max.z, e.z);
+// 			}
 
 			return AABB(Min, Max);
 		}

@@ -32,9 +32,9 @@ namespace Hyrule
 		{
 			Vector3D scl{ object->GetScale() };
 
-			float x = scl.x + 0.5f;
-			float y = scl.y + 0.5f;
-			float z = scl.z + 0.5f;
+			float x = scl.x * 0.5f;
+			float y = scl.y * 0.5f;
+			float z = scl.z * 0.5f;
 
 			return std::powf(x * x + y * y + z * z, 0.5f);
 		}
