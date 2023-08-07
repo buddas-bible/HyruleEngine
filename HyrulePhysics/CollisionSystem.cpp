@@ -23,10 +23,35 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		CollisionFunc* Detection[5][5];
+		RaycastFunc* raycast[4];
+
+		void CollisionSystem::DetectionFuncInitialize()
+		{
+			Detection[0][0] = &SphereToSphere;			// 구 충돌
+			Detection[0][1] = &SphereToBox;				// 분리축?
+			Detection[0][2] = &SphereToCapsule;			// 계획 없음
+			Detection[0][3] = &SphereToConvex;			// 고민중
+
+			Detection[1][1] = &BoxToBox;				// GJK
+			Detection[1][2] = &BoxToCapsule;			// 계획 없음
+			Detection[1][3] = &BoxToConvex;				// GJK
+
+			Detection[2][2] = &CapsuleToCapsule;		// 계획 없음	
+			Detection[2][3] = &CapsuleToConvex;			// 계획 없음
+
+			Detection[3][3] = &ConvexToConvex;			// GJK
+
+			raycast[0] = &RaycastToSphere;				// 
+			raycast[1] = &RaycastToBox;					// 
+			raycast[2] = &RaycastToCapsule;				// 
+			raycast[3] = &RaycastToConvex;				// 
+		}
+
 		/// <summary>
 		/// Casey's GJK
 		/// </summary>
-		bool CollisionSystem::GJKCollisionDetection(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+		bool CollisionSystem::GJK(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
 		{
 			size_t count{};
 
@@ -92,7 +117,7 @@ namespace Hyrule
 		/// <summary>
 		/// EPA
 		/// </summary>
-		void CollisionSystem::EPAComputePenetrationDepth(Manifold& _manifold)
+		void CollisionSystem::EPA(Manifold& _manifold)
 		{
 			// 심플렉스의 면을 일단 구분함
 			Simplex polytope{ _manifold.GetSimplex() };
@@ -103,7 +128,6 @@ namespace Hyrule
 			// 노말이 0이 나와서 거리도 0이 나오는 경우가 있다.
 			// 노말이 0이 나오는 경우는 삼각형을 이루지 못하고 직선이기 때문인데
 			// 사면체를 못만들었다는 
-
 
 			while (count < EPA_MAX)
 			{
@@ -228,9 +252,6 @@ namespace Hyrule
 
 		/// <summary>
 		/// 접촉점을 찾아냄
-		/// 
-		/// 최대 6개까지 나올 수 있음
-		/// 삼각형끼리의 충돌을 예상하고 만듬.
 		/// </summary>
 		void CollisionSystem::FindContactPoint(Manifold& _manifold)
 		{
@@ -281,29 +302,13 @@ namespace Hyrule
 
 		bool CollisionSystem::Raycast(const Ray& _ray, Collider* _collider)
 		{
-			switch (_collider->GetType())
-			{
-				case ColliderType::BOX:
-					return RaycastToBox(_ray, (BoxCollider*)_collider);
-
-				case ColliderType::SPHERE:
-					return RaycastToSphere(_ray, (SphereCollider*)_collider);
-
-				case ColliderType::PLANE:
-					return RaycastToPlane(_ray, (PlaneCollider*)_collider);
-
-				case ColliderType::CONVEX:
-					return RaycastToConvex(_ray, (ConvexCollider*)_collider);
-
-				default:
-					return false;
-			}
+			return raycast[(size_t)_collider->GetType()];
 		}
 
 		/// <summary>
 		/// 레이가 스피어와 충돌 하는가?
 		/// </summary>
-		bool CollisionSystem::RaycastToSphere(const Ray& _ray, SphereCollider* _collider)
+		bool CollisionSystem::RaycastToSphere(const Ray& _ray, Collider* _collider)
 		{
 			// 스피어 - 레이 벡터
 			Vector3D sphereToOrigin{ _ray.from - _collider->GetPosition() };
@@ -336,18 +341,22 @@ namespace Hyrule
 			return true;
 		}
 
-		bool CollisionSystem::RaycastToBox(const Ray& _ray, BoxCollider* _collider)
+		bool CollisionSystem::RaycastToBox(const Ray& _ray, Collider* _collider)
 		{
 			return false;
 		}
 
-		bool CollisionSystem::RaycastToPlane(const Ray& _ray, PlaneCollider* _collider)
+		bool CollisionSystem::RaycastToCapsule(const Ray&, Collider*)
 		{
-			// Vector3D ab{_ray.}
 			return false;
 		}
 
-		bool CollisionSystem::RaycastToConvex(const Ray& _ray, ConvexCollider* _collider)
+		bool CollisionSystem::RaycastToPlane(const Ray& _ray, Collider* _collider)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::RaycastToConvex(const Ray& _ray, Collider* _collider)
 		{
 			return false;
 		}
@@ -366,6 +375,51 @@ namespace Hyrule
 				return true;
 			}
 
+			return false;
+		}
+
+		bool CollisionSystem::SphereToBox(Collider*, Collider*, Manifold&)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::SphereToCapsule(Collider*, Collider*, Manifold&)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::SphereToConvex(Collider*, Collider*, Manifold&)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::BoxToBox(Collider*, Collider*, Manifold&)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::BoxToCapsule(Collider*, Collider*, Manifold&)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::BoxToConvex(Collider*, Collider*, Manifold&)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::CapsuleToCapsule(Collider*, Collider*, Manifold&)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::CapsuleToConvex(Collider*, Collider*, Manifold&)
+		{
+			return false;
+		}
+
+		bool CollisionSystem::ConvexToConvex(Collider*, Collider*, Manifold&)
+		{
 			return false;
 		}
 
@@ -860,7 +914,7 @@ namespace Hyrule
 
 		float CollisionSystem::ComputeFriction(float _a, float _b)
 		{
-			return std::powf(_a * _b, 0.5f);
+			return std::sqrtf(_a * _b);
 		}
 	}
 }

@@ -36,7 +36,7 @@ namespace Hyrule
 			float y = scl.y * 0.5f;
 			float z = scl.z * 0.5f;
 
-			return std::powf(x * x + y * y + z * z, 0.5f);
+			return std::sqrtf(x * x + y * y + z * z);
 		}
 
 		Object* Collider::GetObject()

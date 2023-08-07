@@ -32,6 +32,9 @@ namespace Hyrule
 		virtual void ZoomIn(float) override;
 		virtual void ZoomOut(float) override;
 
+		virtual float GetWindowWidth() override;
+		virtual float GetWindowHeight() override;
+
 		virtual  void SetPerspectiveView() override;
 		virtual  void SetOrthographicView() override;
 

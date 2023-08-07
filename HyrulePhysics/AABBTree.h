@@ -4,6 +4,16 @@ namespace Hyrule
 {
 	namespace Physics
 	{
+		struct AABBnode
+		{
+			AABBnode* parent;
+			AABBnode* left;
+			AABBnode* right;
+
+			bool isLeaf();
+		};
+
+
 		class AABBTree
 		{
 		public:

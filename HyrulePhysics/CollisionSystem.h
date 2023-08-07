@@ -24,18 +24,23 @@ namespace Hyrule
 		struct SphereCollider;
 		struct ConvexCollider;
 
+		typedef bool (CollisionFunc)(Collider*, Collider*, Manifold&);
+		typedef bool (RaycastFunc)(const Ray&, Collider*);
+
 		class CollisionSystem
 		{
 		public:
+			static void DetectionFuncInitialize();
+
 			/// <summary>
 			/// GJK 충돌 감지
 			/// </summary>
-			static bool GJKCollisionDetection(Collider*, Collider*, Manifold&);
+			static bool GJK(Collider*, Collider*, Manifold&);
 			
 			/// <summary>
 			/// EPA 침투 깊이 계산
 			/// </summary>
-			static void EPAComputePenetrationDepth(Manifold&);
+			static void EPA(Manifold&);
 
 
 			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
@@ -44,32 +49,31 @@ namespace Hyrule
 
 		private:
 			static bool Raycast(const Ray&, Collider*);
-			static bool RaycastToSphere(const Ray&, SphereCollider*);
-			static bool RaycastToBox(const Ray&, BoxCollider*);
-			static bool RaycastToPlane(const Ray&, PlaneCollider*);
-			static bool RaycastToConvex(const Ray&, ConvexCollider*);
+			static bool RaycastToSphere(const Ray&, Collider*);
+			static bool RaycastToBox(const Ray&, Collider*);
+			static bool RaycastToCapsule(const Ray&, Collider*);
+			static bool RaycastToPlane(const Ray&, Collider*);
+			static bool RaycastToConvex(const Ray&, Collider*);
 
 			static bool SphereToSphere(Collider*, Collider*, Manifold&);
 			static bool SphereToBox(Collider*, Collider*, Manifold&);
 			static bool SphereToCapsule(Collider*, Collider*, Manifold&);
 			static bool SphereToConvex(Collider*, Collider*, Manifold&);
-			static bool SphereToMesh(Collider*, Collider*, Manifold&);
 			
 			static bool BoxToBox(Collider*, Collider*, Manifold&);
 			static bool BoxToCapsule(Collider*, Collider*, Manifold&);
 			static bool BoxToConvex(Collider*, Collider*, Manifold&);
-			static bool BoxToMesh(Collider*, Collider*, Manifold&);
 
 			static bool CapsuleToCapsule(Collider*, Collider*, Manifold&);
 			static bool CapsuleToConvex(Collider*, Collider*, Manifold&);
-			static bool CapsuleToMesh(Collider*, Collider*, Manifold&);
 			
 			static bool ConvexToConvex(Collider*, Collider*, Manifold&);
 
 			static float PointToSegmentDistance(const Vector3D p, const  Vector3D L1, const  Vector3D L2);
 
 
-			enum GJK : size_t
+		private:
+			enum GJK_State : size_t
 			{
 				LINE = 2,
 				TRIANGLE = 3,
@@ -91,9 +95,15 @@ namespace Hyrule
 
 			static std::vector<Vector3D> FaceClip(
 				const std::vector<Vector3D>& _incident, 
-				const Edge& _refEdge, const Vector3D& _refNormal, bool remove);
+				const Edge& _refEdge, 
+				const Vector3D& _refNormal, 
+				bool remove);
 
-			static size_t EdgeClip(Edge& edge, const Vector3D& _refP, const Vector3D& _d, bool _remove);
+			static size_t EdgeClip(
+				Edge& edge, 
+				const Vector3D& _refP, 
+				const Vector3D& _d, 
+				bool _remove);
 
 
 		/// <summary>

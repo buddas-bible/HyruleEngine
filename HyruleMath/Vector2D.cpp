@@ -5,7 +5,7 @@ namespace Hyrule
 {
 	float Hyrule::Vector2D::Length() const noexcept
 	{
-		return std::powf((x * x) + (y * y), 0.5);
+		return std::sqrtf((x * x) + (y * y));
 	}
 
 	float Vector2D::LengthSquare() const noexcept

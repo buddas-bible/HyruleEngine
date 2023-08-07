@@ -33,6 +33,9 @@ namespace Hyrule
 		virtual void ZoomIn(float) abstract;
 		virtual void ZoomOut(float) abstract;
 
+		virtual float GetWindowWidth() abstract;
+		virtual float GetWindowHeight() abstract;
+
 		virtual  void SetPerspectiveView()abstract;
 		virtual  void SetOrthographicView()abstract;
 	};

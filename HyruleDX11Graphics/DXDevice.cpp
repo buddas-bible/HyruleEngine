@@ -325,6 +325,6 @@ namespace Hyrule
 			10000.0f
 		);
 
-		_camera->CameraOrthographicLH(4.5f, 3.f, 0.01f, 10000.f);
+		_camera->CameraOrthographicLH(backBufferDesc.Width, backBufferDesc.Height, 0.01f, 10000.f);
 	}
 }

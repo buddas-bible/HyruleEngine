@@ -18,7 +18,7 @@ namespace Hyrule
 
 	float Vector3D::Length() const noexcept
 	{
-		return powf((x * x) + (y * y) + (z * z), 0.5);
+		return std::sqrtf((x * x) + (y * y) + (z * z));
 	}
 
 	float Vector3D::LengthSquare() const noexcept

@@ -6,6 +6,7 @@
 #include "IRigidBody.h"
 
 #include "PhysicsSystem.h"
+#include "InputSystem.h"
 
 #include "RigidBody.h"
 
@@ -72,6 +73,12 @@ namespace Hyrule
 
 	}
 
+	void RigidBody::Awake()
+	{
+		position = gameObject->GetTransform()->GetLocalPosition();
+		rotation = gameObject->GetTransform()->GetLocalQuaternion();
+	}
+
 	void RigidBody::PrePhysicsUpdate()
 	{
 
@@ -101,34 +108,11 @@ namespace Hyrule
 
 	void RigidBody::Update()
 	{
-		Vector3D pos{ gameObject->GetTransform()->GetLocalPosition() };
-
-		if (gameObject->GetTransform()->GetLocalPosition().x > 20.f)
+		if (InputSystem::GetInstance().KeyDown('P'))
 		{
-			gameObject->GetTransform()->SetLocalPosition({ 0.f, pos.y, pos.z });
+			gameObject->GetTransform()->SetLocalPosition(position);
+			gameObject->GetTransform()->SetLocalQuaternion(rotation);
 		}
-		else if (gameObject->GetTransform()->GetLocalPosition().x < -13.f)
-		{
-			gameObject->GetTransform()->SetLocalPosition({ 0.f, pos.y, pos.z });
-		}
-		if (gameObject->GetTransform()->GetLocalPosition().y > 60000.f)
-		{
-			gameObject->GetTransform()->SetLocalPosition({ 0.f, 60000.f, 0.f });
-			SetVelocity({ 0.f, 0.f, 0.f });
-		}
-		else if (gameObject->GetTransform()->GetLocalPosition().y < -50.f)
-		{
-			gameObject->GetTransform()->SetLocalPosition({ 0.f, 60000.f, 0.f });
-			SetVelocity({ 0.f, 0.f, 0.f });
-		}
-		if (gameObject->GetTransform()->GetLocalPosition().z > 20.f)
-		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, 0.f });
-		}
-		else if (gameObject->GetTransform()->GetLocalPosition().z < -20.f)
-		{
-			gameObject->GetTransform()->SetLocalPosition({ pos.x, pos.y, 0.f });
- 		}
 	}
 
 	void RigidBody::OnEnable()

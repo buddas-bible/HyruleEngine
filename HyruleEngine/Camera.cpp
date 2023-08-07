@@ -58,6 +58,16 @@ namespace Hyrule
 		this->camera->CameraOrthographicLH(_width, _height, _near, _far);
 	}
 
+	float Camera::GetWindowWidth()
+	{
+		return this->camera->GetWindowWidth();
+	}
+
+	float Camera::GetWindowHeight()
+	{
+		return this->camera->GetWindowHeight();
+	}
+
 	void Camera::SetPerspectiveView()
 	{
 		this->camera->SetOrthographicView();
@@ -75,14 +85,13 @@ namespace Hyrule
 
 	void Camera::Update()
 	{
-		auto& input = InputSystem::GetInstance();
 		auto dt = TimeSystem::GetInstance().GetfDeltaTime();
 
-		if (input.KeyDownNow('Z'))
+		if (InputSystem::GetInstance().KeyDownNow('Z'))
 		{
 			camera->ZoomIn(1.f * dt);
 		}
-		if (input.KeyDownNow('X'))
+		if (InputSystem::GetInstance().KeyDownNow('X'))
 		{
 			camera->ZoomOut(1.f * dt);
 		}
@@ -90,13 +99,11 @@ namespace Hyrule
 
 	void Camera::LateUpdate()
 	{
-		auto& input = InputSystem::GetInstance();
-
-		if (input.KeyDownNow(VK_F7))
+		if (InputSystem::GetInstance().KeyDownNow(VK_F7))
 		{
 			camera->SetPerspectiveView();
 		}
-		if (input.KeyDownNow(VK_F8))
+		if (InputSystem::GetInstance().KeyDownNow(VK_F8))
 		{
 			camera->SetOrthographicView();
 		}

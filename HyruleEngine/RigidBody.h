@@ -20,6 +20,8 @@ namespace Hyrule
 
 	private:
 		Physics::IRigidBody* iRigidBody;
+		Vector3D position;
+		Quaternion rotation;
 
 	public:
 		void AddForce(const Vector3D&) const noexcept;
@@ -45,7 +47,7 @@ namespace Hyrule
 
 
 	public:
-		virtual void Awake() override {}
+		virtual void Awake() override;
 		virtual void Start() override {}
 		virtual void FixedUpdate() override {}
 

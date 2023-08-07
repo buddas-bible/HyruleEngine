@@ -29,6 +29,9 @@
     <Filter Include="3. PhysicalyObject\Ray">
       <UniqueIdentifier>{898fb1ed-f98d-486c-9660-c589d196d7e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Struct\Joint">
+      <UniqueIdentifier>{64326049-6077-4283-ac9e-10d95135602a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HyrulePhysics.h">
@@ -103,6 +106,15 @@
     <ClInclude Include="Octree_v2.h">
       <Filter>DataStruct</Filter>
     </ClInclude>
+    <ClInclude Include="HillClimbing.h">
+      <Filter>DataStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="SpringJoint.h">
+      <Filter>2. Struct\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="AngleJoint.h">
+      <Filter>2. Struct\Joint</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyrulePhysics.cpp">
@@ -166,6 +178,9 @@
       <Filter>DataStruct</Filter>
     </ClCompile>
     <ClCompile Include="Octree_v2.cpp">
+      <Filter>DataStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="HillClimbing.cpp">
       <Filter>DataStruct</Filter>
     </ClCompile>
   </ItemGroup>

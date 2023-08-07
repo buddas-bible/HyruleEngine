@@ -15,6 +15,7 @@ namespace Hyrule
 		struct TRANSFORM_INFO;
 		struct COLLIDER_INFO;
 		struct Manifold;
+		struct RaycastInfo;
 
 		class IPhysics
 		{
@@ -39,6 +40,9 @@ namespace Hyrule
 			virtual void CollisionResponse(float) abstract;
 			virtual void ApplyObjectDestroy() abstract;
 			virtual void Finalize() abstract;
+
+			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&) abstract;
+			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const std::string&) abstract;
 
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) abstract;
 		};

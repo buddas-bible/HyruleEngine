@@ -38,7 +38,7 @@ namespace Hyrule
 			bool Contains(const AABB&);
 		};
 
-		float Area(const AABB&);
+		float Volume(const AABB&);
 		Vector3D Min(const Vector3D&, const Vector3D&);
 		Vector3D Max(const Vector3D&, const Vector3D&);
 		AABB Union(const AABB&, const AABB&);

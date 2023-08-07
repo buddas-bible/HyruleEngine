@@ -59,7 +59,7 @@ namespace Hyrule
 
 			bool sleep;									// 잠지고 있는 상태인가?
 			bool kinematic;								// 다른 물체에게 외력을 받을 수 있는가?
-			bool useGravity{ true };					// 중력에 영향을 받는가?
+			bool useGravity{ false };					// 중력에 영향을 받는가?
 			bool freezePos[3];
 			bool freezeRot[3];
 

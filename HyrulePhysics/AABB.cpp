@@ -106,10 +106,10 @@ namespace Hyrule
 			return true;
 		}
 
-		float Area(const AABB& _A)
+		float Volume(const AABB& _A)
 		{
 			Vector3D d{ _A.max - _A.min };
-			return 2.f * (d.x * d.y + d.y * d.z + d.z * d.x);
+			return d.x * d.y * d.z;
 		}
 
 		Vector3D Min(const Vector3D& _A, const Vector3D& _B)

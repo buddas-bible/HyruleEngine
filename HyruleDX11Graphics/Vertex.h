@@ -16,7 +16,7 @@ namespace Hyrule
 
 		Vector2 Normalized() noexcept
 		{
-			float length{ std::powf(x * x + y * y, 0.5) };
+			float length{ std::sqrtf(x * x + y * y) };
 			return Vector2(x / length, y / length);
 		}
 	};
@@ -34,7 +34,7 @@ namespace Hyrule
 
 		Vector3 Normalized() noexcept
 		{
-			float length{ std::powf(x * x + y * y + z * z, 0.5) };
+			float length{ std::sqrtf(x * x + y * y + z * z) };
 			return Vector3(x / length, y / length, z / length);
 		}
 	};

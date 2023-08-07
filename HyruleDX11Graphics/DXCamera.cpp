@@ -135,7 +135,7 @@ namespace Hyrule
 		m_look = _mat.Look().Normalized();
 		m_pos = _mat.Pos();
 
-		// this->UpdateLUR();
+		this->UpdateLUR();
 		this->UpdateViewMatrix();
 	}
 
@@ -158,6 +158,16 @@ namespace Hyrule
 
 		this->CameraPerspectiveFovLH(m_angle, m_ratio, m_near, m_far);
 		this->CameraOrthographicLH(m_width, m_height, m_near, m_far);
+	}
+
+	float DXCamera::GetWindowWidth()
+	{
+		return m_width;
+	}
+
+	float DXCamera::GetWindowHeight()
+	{
+		return m_height;
 	}
 
 // 	void DXCamera::moveWorld(const Vector3D& _move)

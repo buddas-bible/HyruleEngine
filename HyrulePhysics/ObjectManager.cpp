@@ -18,7 +18,7 @@ namespace Hyrule
 	namespace Physics
 	{
 
-		ObjectManager::ObjectManager() noexcept : octree({ Vector3D(), 100000.f }, {Vector3D(), 100.f})
+		ObjectManager::ObjectManager() noexcept : octree({ Vector3D(), 30000.f }, {Vector3D(), 100.f})
 		{}
 
 		ICollider* ObjectManager::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _info)
@@ -184,6 +184,16 @@ namespace Hyrule
 		std::vector<RigidBody*>& ObjectManager::GetRigidbodies() noexcept
 		{
 			return this->rigidBodies;
+		}
+
+		void ObjectManager::Raycast(const Vector3D& _from, const Vector3D& _to)
+		{
+			octree.Raycast(_from, _to);
+		}
+
+		void ObjectManager::Raycast(const Vector3D& _from, const Vector3D& _to, const std::string& _name)
+		{
+			octree.Raycast(_from, _to);
 		}
 
 		void ObjectManager::AddRemoveQueue(Collider* _collider)

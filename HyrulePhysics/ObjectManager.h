@@ -68,6 +68,9 @@ namespace Hyrule
 			void OctreeClear() noexcept;
 			void OctreeResearch(Collider*);
 
+			void Raycast(const Vector3D&, const Vector3D&);
+			void Raycast(const Vector3D&, const Vector3D&, const std::string&);
+
 		public:
 			void AddRemoveQueue(Collider*);
 			void AddRemoveQueue(RigidBody*);

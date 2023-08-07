@@ -16,7 +16,7 @@ namespace Hyrule
 		struct Data
 		{
 			DataType data{};
-			AABB boundingVolum;
+			AABB boundingVolume;
 		};
 
 		template<typename DataType>
@@ -24,12 +24,32 @@ namespace Hyrule
 		{
 			OctreeNode* parent{};				// 자식의 수가 줄어들면 부모로 넘겨줄려고 가지고 있는데.. 쓸모가 있을까
 			OctreeNode* children[8]{};			// 자식 포인터
-			AABB boundingVolum;					// 경계 볼륨
+			AABB boundingVolume;					// 경계 볼륨
 			std::vector<DataType> data;		// 현재 노드가 가지고 있는 데이터
 			
 			int Count();						// 현재 노드가 가진 데이터 개수
 			bool isLeaf();
+			bool Empty();
 		};
+
+		template<typename DataType>
+		bool OctreeNode<DataType>::Empty()
+		{
+			for (auto& child : children)
+			{
+				if (child)
+				{
+					return false;
+				}
+			}
+
+			if (data.size() != 0)
+			{
+				return false;
+			}
+
+			return true;
+		}
 
 		template<typename DataType>
 		int OctreeNode<DataType>::Count()
@@ -70,7 +90,7 @@ namespace Hyrule
 			Octree_v2(const AABB& _aabb, const AABB& _minsize) noexcept : 
 				root(new OctreeNode<DataType>), minSize(_minsize)
 			{
-				root->boundingVolum = _aabb;
+				root->boundingVolume = _aabb;
 			}
 
 		private:
@@ -93,7 +113,7 @@ namespace Hyrule
 		private:
 			void Insert(Data<DataType>&, OctreeNode<DataType>*);
 			void Clear(OctreeNode<DataType>*);
-			AABB GetChildVolum(int, const AABB&);
+			AABB GetChildVolume(int, const AABB&);
 			void Query(const AABB&, OctreeNode<DataType>*, std::vector<DataType>&);
 			void Query(const Vector3D&, OctreeNode<DataType>*, std::vector<DataType>&);
 		};
@@ -120,32 +140,14 @@ namespace Hyrule
 			// 당연히 리프 노드면 그냥 넣음.
 			Data<DataType> data;
 			data.data = _data;
-			data.boundingVolum = _aabb;
+			data.boundingVolume = _aabb;
 			Insert(data, root);
 		}
 
 		template<typename DataType>
 		inline void Octree_v2<DataType>::Insert(Data<DataType>& _data, OctreeNode<DataType>* _node)
 		{
-// 			if (_node->Count() == 0)
-// 			{
-// 				_node->data.push_back(_data.data);
-// 				treeData.insert(std::make_pair(_data.data, _node));
-// 				return;
-// 			}
-// 			if (_node->Count() == 1)
-// 			{
-// 				// 삽입하려는데
-// 				// 노드에 데이터가 1개가 이미 있었다면
-// 				// 이 친구도 새로운 노드를 탐색해주자
-// 				// 리프였다면 진작에 위에서 걸러졌을테니
-// 				// 이 친구만 데이터 새로 찾아주자
-// 				auto nodeData = _node->data.front();
-// 				treeData.erase(nodeData.data);
-// 				Insert(nodeData, _node);
-// 			}
-
-			if (Area(_node->boundingVolum) <= Area(minSize))
+			if (Volume(_node->boundingVolume) <= Volume(minSize))
 			{
 				_node->data.push_back(_data.data);
 				treeData.insert(std::make_pair(_data.data, _node));
@@ -156,16 +158,16 @@ namespace Hyrule
 			// 노드를 쪼갬
 			for (auto i = 0; i < 8; i++)
 			{
-				AABB child = GetChildVolum(i, _node->boundingVolum);
+				AABB child = GetChildVolume(i, _node->boundingVolume);
 
 				// 데이터가 자식 노드에게 완전히 포함된다면
-				if (child.Contains(_data.boundingVolum))
+				if (child.Contains(_data.boundingVolume))
 				{
 					if (_node->children[i] == nullptr)
 					{
 						_node->children[i] = new OctreeNode<DataType>;
 						_node->children[i]->parent = _node;
-						_node->children[i]->boundingVolum = child;
+						_node->children[i]->boundingVolume = child;
 					}
 
 					// 완전 포함되는 노드가 있다면 자식 노드를 재귀적으로 탐색한다.
@@ -200,10 +202,10 @@ namespace Hyrule
 			treeData.erase(itr);
 
 			// 노드에 남은 데이터가 없으면 공간을 분할할 필요가 없음
-// 			if (node->Count() == 0)
-// 			{
-// 				Clear(node);
-// 			}
+			if (node->Empty() == true)
+			{
+				Clear(node);
+			}
 		}
 
 		/// <summary>
@@ -251,10 +253,10 @@ namespace Hyrule
 		/// 자식 노드 AABB를 계산함
 		/// </summary>
 		template<typename DataType>
-		inline AABB Octree_v2<DataType>::GetChildVolum(int _index, const AABB& _parentVolum)
+		inline AABB Octree_v2<DataType>::GetChildVolume(int _index, const AABB& _parentVolume)
 		{
-			Vector3D center = _parentVolum.GetCenter();
-			Vector3D extents = (_parentVolum.max - _parentVolum.min) * 0.25f;
+			Vector3D center = _parentVolume.GetCenter();
+			Vector3D extents = (_parentVolume.max - _parentVolume.min) * 0.25f;
 
 			if (_index & 1)
 			{
@@ -316,6 +318,9 @@ namespace Hyrule
 		template<typename DataType>
 		inline void Octree_v2<DataType>::Query(const AABB& _AABB, OctreeNode<DataType>* _node, std::vector<DataType>& _list)
 		{
+			// if (_node->Count() == 0)
+			// 	return;
+
 			for (auto& d : _node->data)
 			{
 				// 노드가 가지고 있는 데이터들과 비교함
@@ -331,7 +336,7 @@ namespace Hyrule
 				if (child)
 				{
 					// 노드의 자식에 완전 포함되는지 비교함
-					if (child->boundingVolum.Contains(_AABB))
+					if (child->boundingVolume.Contains(_AABB))
 					{
 						Query(_AABB, child, _list);
 						return;
@@ -358,7 +363,7 @@ namespace Hyrule
 				if (child)
 				{
 					// 노드의 자식에 완전 포함되는지 비교함
-					if (child->boundingVolum.ContainsPoint(_point))
+					if (child->boundingVolume.ContainsPoint(_point))
 					{
 						Query(_point, child, _list);
 						return;

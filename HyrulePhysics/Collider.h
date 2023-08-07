@@ -12,10 +12,11 @@ namespace Hyrule
 	{
 		enum class ColliderType : size_t
 		{
-			BOX = 10,
-			SPHERE = 20,
-			PLANE = 30,
-			CONVEX = 40,
+			SPHERE = 0,
+			BOX = 1,
+			CAPSULE = 2,
+			CONVEX = 3,
+			PLANE = 4,
 		};
 
 		class Object;

@@ -46,6 +46,9 @@ namespace Hyrule
 		void Yaw(const float& _degree);			// 카메라 좌우 회전
 		void roll(const float _degree);			// 카메라 시점 시계 반시계 회전
 
+		float GetWindowWidth();
+		float GetWindowHeight();
+
 		void SetPerspectiveView();
 		void SetOrthographicView();
 
