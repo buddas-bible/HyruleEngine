@@ -29,23 +29,24 @@ namespace Hyrule
 		public:
 			static bool CollisionDetection(Collider*, Collider*, Manifold&);
 
-
-
-			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
-
 			static void FindContactPoint(Manifold&);
 
 		private:
-			static Vector3D ClosestPointToBox(const Vector3D&, Collider*);
+			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
+			
+			// 가까운 점
+			static Vector3D ClosestPointToAABB(const Vector3D&, Collider*);
+			static Vector3D ClosestPointToOBB(const Vector3D&, Collider*);
+			static Vector3D ClosestPointToConvex(const Vector3D&, Collider*);
 
 #pragma region 접촉점
+			// 노말 찾기
 			static void EPA(Manifold&);
 
+			// 접촉점 찾기
 			static void CPSphereToSphere(Manifold&);
-
 			static void CPSphereToBox(Manifold&);
 			static void CPSphereToConvex(Manifold&);
-
 			static void CPPolyToPoly(Manifold&);
 #pragma endregion 접촉점
 
@@ -57,14 +58,16 @@ namespace Hyrule
 #pragma endregion 레이케스트
 
 #pragma region 충돌 감지
-			static bool SphereToSphere(Collider*, Collider*, Manifold&);
-			static bool SphereToBox(Collider*, Collider*, Manifold&);
-			static bool SphereToConvex(Collider*, Collider*, Manifold&);
-			
+			// 충돌 여부
 			static bool GJK(Collider*, Collider*, Manifold&);
-
+			
+			// 충돌 여부
+			static bool SphereToSphere(Collider*, Collider*, Manifold&);
+			static bool SphereToAABB(Collider*, Collider*, Manifold&);
+			static bool SphereToOBB(Collider*, Collider*, Manifold&);
+			static bool SphereToConvex(Collider*, Collider*, Manifold&);
 #pragma endregion 충돌 감지
-
+			// 점과 선분 사이 거리
 			static float PointToSegmentDistance(const Vector3D p, const  Vector3D L1, const  Vector3D L2);
 
 		public:

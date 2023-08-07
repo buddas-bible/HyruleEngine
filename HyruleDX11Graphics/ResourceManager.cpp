@@ -391,8 +391,8 @@ namespace Hyrule
 #pragma region Sphere
 		{
 
-			UINT stackCount = 15;
-			UINT sliceCount = 15;
+			UINT stackCount = 30;
+			UINT sliceCount = 30;
 			float radius = 0.5f;
 
 			std::vector<PUN> vertices;

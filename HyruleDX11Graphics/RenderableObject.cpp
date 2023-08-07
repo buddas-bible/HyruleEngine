@@ -62,7 +62,7 @@ namespace Hyrule
 
 	void RenderableObject::OnCollisionStay() noexcept
 	{
-		// m_currRasterizerState = currState->GetWireRasterizerState();
+		m_currRasterizerState = currState->GetWireRasterizerState();
 	}
 
 	void RenderableObject::OnCollisionExit() noexcept

@@ -57,20 +57,22 @@ namespace Hyrule
 
 	void SphereCollider::PhysicsUpdate()
 	{
-		if (isCollision() == true || isColliding == false)
+		bool curr{ isCollision() };
+
+		if (curr == true && isColliding == false)
 		{
 			gameObject->OnCollisionEnter();
 		}
-		else if (isCollision() == true || isColliding == true)
+		else if (curr == true && isColliding == true)
 		{
 			gameObject->OnCollisionStay();
 		}
-		else if (isCollision() == false || isColliding == true)
+		else if (curr == false && isColliding == true)
 		{
 			gameObject->OnCollisionExit();
 		}
 
-		isColliding = this->isCollision();
+		isColliding = curr;
 	}
 
 	void SphereCollider::LatePhysicsUpdate()

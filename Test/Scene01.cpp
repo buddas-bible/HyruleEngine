@@ -34,21 +34,21 @@ namespace Hyrule
 		GameObject* box = CreateGameObject(L"Box01");
 		box->AddComponent<CubeRenderer>();
 		box->GetTransform()->SetLocalPosition(Vector3D(0.f, 0.f, 0.f));
-		box->GetTransform()->SetLocalScale(Vector3D(50.f, 10.f, 50.f));
+		box->GetTransform()->SetLocalScale(Vector3D(50.f, 5.f, 50.f));
 		box->AddComponent<BoxCollider>();
 		Hyrule::RigidBody* rigidBox01 = box->AddComponent<RigidBody>();
 		// rigidBox01->SetVelocity({ 2.f, 0.f, 0.f });
 		rigidBox01->SetMass(0.f);
 
-		for (auto i = 0; i < 1; i++)
+		for (auto i = 0; i < 1000; i++)
 		{
 			GameObject* sphere = CreateGameObject(L"Sphere0" + std::to_wstring(i));
 			sphere->AddComponent<SphereRenderer>();
 			sphere->GetTransform()->SetLocalPosition(
 				Vector3D(
-					7.f, 
+					(float)(rand() % 1000) * pow(-1.f, i + rand() % 2),
 					10.f + 5.f * i,
-					7.f
+					(float)(rand() % 1000) * pow(-1.f, i + rand() % 2)
 				)
 			);
 			sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
@@ -65,7 +65,7 @@ namespace Hyrule
 			box4->GetTransform()->SetLocalPosition(
 				Vector3D(
 					(float)(rand() % 1000) * pow(-1.f, i + rand() % 2),
-					10.f + 5.f * i, 
+					10.f + 5.f * i,
 					(float)(rand() % 1000) * pow(-1.f, i + rand() % 2)
 				)
 			);

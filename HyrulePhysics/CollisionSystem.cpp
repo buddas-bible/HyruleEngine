@@ -26,7 +26,7 @@ namespace Hyrule
 		std::function<bool(Collider*, Collider*, Manifold&)> CollisionSystem::DetectionFunc[4][4] =
 		{
 			// sphere			box				capsule			convex
-			SphereToSphere,		SphereToBox,	NULL,			SphereToConvex,		// sphere
+			SphereToSphere,		SphereToOBB,	NULL,			SphereToConvex,		// sphere
 			NULL,				GJK,			NULL,			GJK,				// box
 			NULL,				NULL,			NULL,			NULL,				// capsule
 			NULL,				NULL,			NULL,			GJK					// convex
@@ -37,7 +37,7 @@ namespace Hyrule
 			// sphere			box				capsule			convex
 			CPSphereToSphere,	CPSphereToBox,	NULL,			CPSphereToConvex,	// sphere
 			NULL,				CPPolyToPoly,	NULL,			CPPolyToPoly,		// box
-			NULL,				NULL,			NULL,			NULL,	// capsule,
+			NULL,				NULL,			NULL,			NULL,				// capsule,
 			NULL,				NULL,			NULL,			CPPolyToPoly		// convex
 		};
 
@@ -64,6 +64,32 @@ namespace Hyrule
 			size_t max = std::max(typeA, typeB);
 
 			return DetectionFunc[min][max](_manifold.GetColliderA(), _manifold.GetColliderB(), _manifold);
+		}
+
+		void CollisionSystem::FindContactPoint(Manifold& _manifold)
+		{
+			const size_t typeA = (size_t)_manifold.GetColliderA()->GetType();
+			const size_t typeB = (size_t)_manifold.GetColliderB()->GetType();
+
+			if (typeA > typeB)
+			{
+				auto A = _manifold.GetColliderA();
+				auto B = _manifold.GetColliderB();
+				auto temp = A;
+
+				_manifold.SetColliderA(B);
+				_manifold.SetColliderB(temp);
+			}
+
+			size_t min = std::min(typeA, typeB);
+			size_t max = std::max(typeA, typeB);
+
+			FindContactFunc[min][max](_manifold);
+		}
+		
+		Vector3D CollisionSystem::FindSupportPoint(Collider* _colliderA, Collider* _colliderB, const Vector3D& _direction)
+		{
+			return _colliderA->FindFarthestPoint(_direction) - _colliderB->FindFarthestPoint(-_direction);
 		}
 
 		bool CollisionSystem::GJK(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
@@ -239,134 +265,102 @@ namespace Hyrule
 			return;
 		}
 
-		Vector3D CollisionSystem::FindSupportPoint(Collider* _colliderA, Collider* _colliderB, const Vector3D& _direction)
+
+		Vector3D CollisionSystem::ClosestPointToAABB(const Vector3D& _point, Collider* _collider)
 		{
-			return _colliderA->FindFarthestPoint(_direction) - _colliderB->FindFarthestPoint(-_direction);
-		}
-
-		/// <summary>
-		/// 접촉점을 찾아냄
-		/// </summary>
-		void CollisionSystem::FindContactPoint(Manifold& _manifold)
-		{
-			size_t typeA = (size_t)_manifold.GetColliderA()->GetType();
-			size_t typeB = (size_t)_manifold.GetColliderB()->GetType();
-
-			if (typeA > typeB)
-			{
-				auto A = _manifold.GetColliderA();
-				auto B = _manifold.GetColliderB();
-				auto temp = A;
-
-				_manifold.SetColliderA(B);
-				_manifold.SetColliderB(temp);
-			}
-
-			size_t min = std::min(typeA, typeB);
-			size_t max = std::max(typeA, typeB);
-
-			FindContactFunc[min][max](_manifold);
-		}
-
-		Vector3D CollisionSystem::ClosestPointToBox(const Vector3D& _point, Collider* _collider)
-		{
-			// 콜라이더 정보
-			Vector3D pos = _collider->GetPosition();
-			Quaternion rotate = _collider->GetRotation();
-			Vector3D scale = _collider->GetScale();
-			
-			// 점을 콜라이더 기준으로 가져옴
-			Vector3D d = _point - pos;
-			d = rotate.Inverse() * d;
-			float axisDist[] =
-			{
-				0.5f * scale.x,
-				0.5f * scale.y,
-				0.5f * scale.z,
-			};
-
-			Vector3D axis[] =
-			{
-				{ 1.f, 0.f, 0.f },
-				{ 0.f, 1.f, 0.f },
-				{ 0.f, 0.f, 1.f },
-			};
+			const Vector3D AABBScale{ _collider->GetScale() * 0.5f };
+			const Vector3D AABBMin{ _collider->GetPosition() - AABBScale };
+			const Vector3D AANNMax{ _collider->GetPosition() + AABBScale };
 
 			Vector3D result;
 
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 3; i++)
+			{
+				float v = _point.e[i];
 
-				// 상자 중심에서 축에 따라 내적해서 거리를 구함
-				float dist = d.Dot(axis[i]);
-
-				// 상자보다 너무 멀리 있다면 상자 범위로 좁힘
-				if (dist > axisDist[i])
+				if (v < AABBMin.e[i])
 				{
-					dist = axisDist[i];
+					v = AABBMin.e[i];
 				}
-				if (dist < -axisDist[i])
+				else if (v > AANNMax.e[i])
 				{
-					dist = -axisDist[i];
+					v = AANNMax.e[i];
 				}
 
-				result += axis[i] * dist;
+				result.e[i] = v;
 			}
 
-			return rotate * result + pos; 
+			return result;
 		}
+
+		Vector3D CollisionSystem::ClosestPointToOBB(const Vector3D& _point, Collider* _collider)
+		{
+			Vector3D pos = _collider->GetPosition();
+			Matrix3x3 rotate = ToMatrix3(_collider->GetRotation());
+			Vector3D scale = _collider->GetScale() * 0.5f;
+
+			Vector3D d = (_point - pos) * rotate.Inverse();
+
+			Vector3D Axis[3]
+			{
+				Vector3D(1.f, 0.f, 0.f),
+				Vector3D(0.f, 1.f, 0.f),
+				Vector3D(0.f, 0.f, 1.f),
+			};
+
+			Vector3D result;
+			for (int i = 0; i < 3; i++)
+			{
+				float dist = d.Dot(Axis[i]);
+
+				if (dist < -scale.e[i])
+				{
+					dist = -scale.e[i];
+				}
+				else if (dist > scale.e[i])
+				{
+					dist = scale.e[i];
+				}
+
+				result += Axis[i] * dist;
+			}
+
+			return result * rotate + pos;
+		}
+
+		Vector3D CollisionSystem::ClosestPointToConvex(const Vector3D&, Collider*)
+		{
+			return Vector3D();
+		}
+
 
 		void CollisionSystem::CPSphereToSphere(Manifold& _manifold)
 		{
 			Collider* A = _manifold.GetColliderA();
 			Collider* B = _manifold.GetColliderB();
 
-			Vector3D centerA = A->GetPosition(); // GetPosition이 구체의 중심을 반환한다고 가정
-			Vector3D centerB = B->GetPosition();
-
-			Vector3D scaleA = A->GetScale();
-			Vector3D scaleB = B->GetScale();
-			float sclMaxA = std::max(std::max(scaleA.x, scaleA.y), scaleA.z);
-			float sclMaxB = std::max(std::max(scaleB.x, scaleB.y), scaleB.z);
-
-			float radiusA = sclMaxA * 0.5f; // GetRadius가 구체의 반지름을 반환한다고 가정
-			float radiusB = sclMaxB * 0.5f;
-
-			// 노말 벡터 계산
-			Vector3D normal = (centerB - centerA).Normalized();
-
-			// 접촉점 계산
-			Vector3D contactPoint = centerA + normal * radiusA;
-
-			float distanceBetweenCenters = (centerB - centerA).Length();
-			float penetrationDepth = (radiusA + radiusB) - distanceBetweenCenters;
-
-			// _manifold에 법선과 접촉점을 저장할 수 있습니다
-			_manifold.SetNormal(normal);
-			_manifold.SetDepth(penetrationDepth);
-
 			if (A->hasRigidBody() && B->hasRigidBody())
 			{
-				_manifold.AddContactPoint(contactPoint);
 				_manifold.Apply();
 			}
 		}
 
 		void CollisionSystem::CPSphereToBox(Manifold& _manifold)
 		{
-			Collider* sphere = _manifold.GetColliderA(); // A가 구체라 가정
-			Collider* box = _manifold.GetColliderB();
+			Collider* sphere{ _manifold.GetColliderA() }; // A가 구체라 가정
+			Collider* box{ _manifold.GetColliderB() };
 
-			Vector3D sphereScale = sphere->GetScale();
-			float sphereScaleMax = std::max(std::max(sphereScale.x, sphereScale.y), sphereScale.z);
-			float sphereRadius = 0.5f * sphereScaleMax;
+			Vector3D sphereScale{ sphere->GetScale() };
+			float sphereScaleMax{ std::max(std::max(sphereScale.x, sphereScale.y), sphereScale.z) };
+			float Radius{ 0.5f * sphereScaleMax };
 
-			Vector3D sphereCenter = sphere->GetPosition();
-			Vector3D closestPoint = ClosestPointToBox(sphereCenter, box);
+			Vector3D sphereCenter{ sphere->GetPosition() };
+			Vector3D closestPoint{ ClosestPointToOBB(sphereCenter, box) };
 
-			Vector3D v = closestPoint - sphereCenter;
+			Vector3D v{ closestPoint - sphereCenter };
 
-			Vector3D normal = v.Normalized();
-			float penetrationDepth = sphereRadius - v.Length();
+			Vector3D normal{ v.Normalized() };
+			float penetrationDepth{ Radius - v.Length() };
 
 			_manifold.SetNormal(normal);
 			_manifold.AddContactPoint(closestPoint);
@@ -380,19 +374,19 @@ namespace Hyrule
 
 		void CollisionSystem::CPSphereToConvex(Manifold& _manifold)
 		{
-			Collider* sphere = _manifold.GetColliderA();
-			Collider* convex = _manifold.GetColliderB();
+			Collider* sphere{ _manifold.GetColliderA() };
+			Collider* convex{ _manifold.GetColliderB() };
 
-			Vector3D sphereCenter = sphere->GetPosition();
+			Vector3D sphereCenter{ sphere->GetPosition() };
 
-			Vector3D sphereScale = sphere->GetScale();
-			float sphereScaleMax = std::max(std::max(sphereScale.x, sphereScale.y), sphereScale.z);
-			float sphereRadius = 0.5f * sphereScaleMax;
+			Vector3D sphereScale{ sphere->GetScale() };
+			float sphereScaleMax{ std::max(std::max(sphereScale.x, sphereScale.y), sphereScale.z) };
+			float sphereRadius{ 0.5f * sphereScaleMax };
 			
-			Vector3D closestPointOnConvex;  //??????????
+			Vector3D closestPointOnConvex{ ClosestPointToConvex(sphereCenter, convex) };
 
-			Vector3D normal = (closestPointOnConvex - sphereCenter).Normalized();
-			float penetrationDepth = sphereRadius - (closestPointOnConvex - sphereCenter).Length();
+			Vector3D normal{ (closestPointOnConvex - sphereCenter).Normalized() };
+			float penetrationDepth{ sphereRadius - (closestPointOnConvex - sphereCenter).Length() };
 
 			// 매니폴드의 노멀 및 접촉점 설정
 			_manifold.SetNormal(normal);
@@ -460,7 +454,6 @@ namespace Hyrule
 		}
 
 
-
 		bool CollisionSystem::Raycast(const Ray& _ray, Collider* _collider)
 		{
 			size_t type = (size_t)_collider->GetType();
@@ -514,30 +507,61 @@ namespace Hyrule
 
 		bool CollisionSystem::SphereToSphere(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
 		{
-			Vector3D AB{ _colliderB->GetPosition() - _colliderA->GetPosition() };
+			Vector3D Apos{ _colliderA->GetPosition() };
+			Vector3D Bpos{ _colliderB->GetPosition() };
 
-			float total{ _colliderA->GetLength() + _colliderB->GetLength() };
-			float gap{ AB.Length() };
+			Vector3D AB{ Bpos - Apos };
 
-			if (total >= gap)
+			Vector3D sphereScaleA = _colliderA->GetScale();
+			Vector3D sphereScaleB = _colliderB->GetScale();
+			
+			float sphereScaleMaxA = std::max(std::max(sphereScaleA.x, sphereScaleA.y), sphereScaleA.z);
+			float sphereScaleMaxB = std::max(std::max(sphereScaleB.x, sphereScaleB.y), sphereScaleB.z);
+			
+			float radiusA{ 0.5f * sphereScaleMaxA };
+			float radiusB{ 0.5f * sphereScaleMaxB };
+
+			float total{ radiusA + radiusB };
+			float distanceBetweenCenters{ AB.Length() };
+			Vector3D normal{ AB.Normalized() };
+
+			float penetrationDepth = (radiusA + radiusB) - distanceBetweenCenters;
+
+			Vector3D contactPoint = Apos + normal * radiusA;
+
+			if (total >= distanceBetweenCenters)
 			{
-				_manifold.SetDepth(total - gap);
-				_manifold.SetNormal(AB.Normalized());
+				_manifold.SetNormal(normal);
+				_manifold.SetDepth(penetrationDepth);
+				_manifold.AddContactPoint(contactPoint);
 				return true;
 			}
 
 			return false;
 		}
 
-		bool CollisionSystem::SphereToBox(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+		bool CollisionSystem::SphereToAABB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
 		{
-			Vector3D p = ClosestPointToBox(_colliderA->GetPosition(), _colliderB);
+			Vector3D p = ClosestPointToAABB(_colliderA->GetPosition(), _colliderB);
 
-			Vector3D v = p - _colliderA->GetPosition();
-			Vector3D scl = _colliderB->GetScale();
+			Vector3D v{ p - _colliderA->GetPosition() };
+			Vector3D scl{ _colliderA->GetScale() };
 
-			float s = std::max(std::max(scl.x, scl.y), scl.z);
-			float r = 0.5f * s;
+			float s{ std::max(std::max(scl.x, scl.y), scl.z) };
+			float r{ 0.5f * s };
+
+			return v.Dot(v) <= r * r;
+		}
+
+		bool CollisionSystem::SphereToOBB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+		{
+			Vector3D p = ClosestPointToOBB(_colliderA->GetPosition(), _colliderB);
+
+			Vector3D v{ p - _colliderA->GetPosition() };
+			Vector3D scl{ _colliderA->GetScale() };
+
+			float s{ std::max(std::max(scl.x, scl.y), scl.z) };
+			float r{ 0.5f * s };
 
 			return v.Dot(v) <= r * r;
 		}
