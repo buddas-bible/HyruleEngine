@@ -28,6 +28,11 @@ namespace Hyrule
 			return object->GetRotation();
 		}
 
+		Vector3D Collider::GetScale()
+		{
+			return object->GetScale();
+		}
+
 		float Collider::GetLength()
 		{
 			Vector3D scl{ object->GetScale() };

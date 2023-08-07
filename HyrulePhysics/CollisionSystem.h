@@ -5,7 +5,7 @@
 #include "Manager.h"
 #include "Manifold.h"
 #include "Simplex.h"
-
+#include <functional>
 namespace Hyrule
 {
 	struct Vector3D;
@@ -19,28 +19,16 @@ namespace Hyrule
 		struct Edge;
 
 		struct Ray;
-		struct BoxCollider;
-		struct PlaneCollider;
-		struct SphereCollider;
-		struct ConvexCollider;
 
-		typedef bool (CollisionFunc)(Collider*, Collider*, Manifold&);
-		typedef bool (RaycastFunc)(const Ray&, Collider*);
+// 		typedef bool (CollisionFunc)(Collider*, Collider*, Manifold&);
+// 		typedef void (ContactPointFunc)(Manifold&);
+// 		typedef bool (RaycastFunc)(const Ray&, Collider*);
 
 		class CollisionSystem
 		{
 		public:
-			static void DetectionFuncInitialize();
+			static bool CollisionDetection(Collider*, Collider*, Manifold&);
 
-			/// <summary>
-			/// GJK 충돌 감지
-			/// </summary>
-			static bool GJK(Collider*, Collider*, Manifold&);
-			
-			/// <summary>
-			/// EPA 침투 깊이 계산
-			/// </summary>
-			static void EPA(Manifold&);
 
 
 			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
@@ -48,29 +36,41 @@ namespace Hyrule
 			static void FindContactPoint(Manifold&);
 
 		private:
+			static Vector3D ClosestPointToBox(const Vector3D&, Collider*);
+
+#pragma region 접촉점
+			static void EPA(Manifold&);
+
+			static void CPSphereToSphere(Manifold&);
+
+			static void CPSphereToBox(Manifold&);
+			static void CPSphereToConvex(Manifold&);
+
+			static void CPPolyToPoly(Manifold&);
+#pragma endregion 접촉점
+
+#pragma region 레이케스트
 			static bool Raycast(const Ray&, Collider*);
 			static bool RaycastToSphere(const Ray&, Collider*);
 			static bool RaycastToBox(const Ray&, Collider*);
-			static bool RaycastToCapsule(const Ray&, Collider*);
-			static bool RaycastToPlane(const Ray&, Collider*);
 			static bool RaycastToConvex(const Ray&, Collider*);
+#pragma endregion 레이케스트
 
+#pragma region 충돌 감지
 			static bool SphereToSphere(Collider*, Collider*, Manifold&);
 			static bool SphereToBox(Collider*, Collider*, Manifold&);
-			static bool SphereToCapsule(Collider*, Collider*, Manifold&);
 			static bool SphereToConvex(Collider*, Collider*, Manifold&);
 			
-			static bool BoxToBox(Collider*, Collider*, Manifold&);
-			static bool BoxToCapsule(Collider*, Collider*, Manifold&);
-			static bool BoxToConvex(Collider*, Collider*, Manifold&);
+			static bool GJK(Collider*, Collider*, Manifold&);
 
-			static bool CapsuleToCapsule(Collider*, Collider*, Manifold&);
-			static bool CapsuleToConvex(Collider*, Collider*, Manifold&);
-			
-			static bool ConvexToConvex(Collider*, Collider*, Manifold&);
+#pragma endregion 충돌 감지
 
 			static float PointToSegmentDistance(const Vector3D p, const  Vector3D L1, const  Vector3D L2);
 
+		public:
+			static std::function<bool(Collider*, Collider*, Manifold&)> DetectionFunc[4][4];
+			static std::function<void(Manifold&)> FindContactFunc[4][4];
+			static std::function<bool(const Ray&, Collider*)> RaycastFunc[4];
 
 		private:
 			enum GJK_State : size_t
@@ -104,6 +104,7 @@ namespace Hyrule
 				const Vector3D& _refP, 
 				const Vector3D& _d, 
 				bool _remove);
+
 
 
 		/// <summary>

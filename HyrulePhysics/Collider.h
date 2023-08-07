@@ -61,6 +61,7 @@ namespace Hyrule
 		public:
 			Vector3D GetPosition();
 			Quaternion GetRotation();
+			Vector3D GetScale();
 			float GetLength();
 
 			Object* GetObject();

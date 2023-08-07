@@ -34,19 +34,28 @@ namespace Hyrule
 		GameObject* box = CreateGameObject(L"Box01");
 		box->AddComponent<CubeRenderer>();
 		box->GetTransform()->SetLocalPosition(Vector3D(0.f, 0.f, 0.f));
-		box->GetTransform()->SetLocalScale(Vector3D(5.f, 20.f, 5.f));
+		box->GetTransform()->SetLocalScale(Vector3D(50.f, 10.f, 50.f));
 		box->AddComponent<BoxCollider>();
 		Hyrule::RigidBody* rigidBox01 = box->AddComponent<RigidBody>();
 		// rigidBox01->SetVelocity({ 2.f, 0.f, 0.f });
 		rigidBox01->SetMass(0.f);
 
-		// GameObject* sphere = CreateGameObject(L"Sphere01");
-		// sphere->AddComponent<SphereRenderer>();
-		// sphere->GetTransform()->SetLocalPosition(Vector3D(10.f, 10.f, 10.f));
-		// sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-		// sphere->AddComponent<SphereCollider>();
-		// sphere->AddComponent<RigidBody>();
-
+		for (auto i = 0; i < 1; i++)
+		{
+			GameObject* sphere = CreateGameObject(L"Sphere0" + std::to_wstring(i));
+			sphere->AddComponent<SphereRenderer>();
+			sphere->GetTransform()->SetLocalPosition(
+				Vector3D(
+					7.f, 
+					10.f + 5.f * i,
+					7.f
+				)
+			);
+			sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+			sphere->AddComponent<SphereCollider>();
+			Hyrule::RigidBody* rigidsphere = sphere->AddComponent<RigidBody>();
+			rigidsphere->SetMass(10.f);
+		}
 
 		std::srand((unsigned int)time(NULL));
 		for (auto i = 2; i < 2000; i++)
@@ -71,7 +80,7 @@ namespace Hyrule
 
 		// GetMainCamera()->gameObject->GetTransform()->
 
-		GetMainCamera()->gameObject->SetParent(box);
+		// GetMainCamera()->gameObject->SetParent(box);
 		
 		// GetMainCamera()->gameObject->SetParent(box2);
 		con->AddControllableObject(VK_F1, box);
