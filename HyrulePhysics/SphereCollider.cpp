@@ -14,7 +14,6 @@ namespace Hyrule
 			_obj->colliders.push_back(this);
 			SetSize(_info->colliderSize);
 			SetCenter(_info->colliderCenter);
-			type = ColliderType::SPHERE;
 		}
 
 		AABB SphereCollider::GetAABB()
@@ -61,6 +60,11 @@ namespace Hyrule
 				0.f, I, 0.f,
 				0.f, 0.f, I
 			};
+		}
+
+		size_t SphereCollider::GetType() noexcept
+		{
+			return (size_t)ShapeType::SPHERE;
 		}
 	}
 }

@@ -10,15 +10,6 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		enum class ColliderType : size_t
-		{
-			SPHERE = 0,
-			BOX = 1,
-			CAPSULE = 2,
-			CONVEX = 3,
-			PLANE = 4,
-		};
-
 		class Object;
 		class Shape;
 		struct Vertex;
@@ -56,8 +47,6 @@ namespace Hyrule
 
 			bool collied;
 
-			ColliderType type;
-
 		public:
 			Vector3D GetPosition();
 			Quaternion GetRotation();
@@ -77,7 +66,6 @@ namespace Hyrule
 			virtual AABB GetAABB() abstract;
 
 		public:
-			virtual ColliderType GetType() final;
 			virtual bool isCollision() noexcept final;
 			virtual void OnEnable() noexcept final;
 			virtual void OnDisable() noexcept final;
@@ -98,6 +86,7 @@ namespace Hyrule
 			virtual std::wstring GetObjectName() final;
 			
 		public:
+			virtual size_t GetType() noexcept abstract;
 			virtual Vector3D FindFarthestPoint(const Vector3D&) abstract;
 			virtual Face FindSupportFace(const Vector3D&) abstract;
 		};

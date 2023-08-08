@@ -40,16 +40,30 @@ namespace Hyrule
 		// rigidBox01->SetVelocity({ 2.f, 0.f, 0.f });
 		rigidBox01->SetMass(0.f);
 
+		GameObject* sphere1 = CreateGameObject(L"Sphere0000");
+		sphere1->AddComponent<SphereRenderer>();
+		sphere1->GetTransform()->SetLocalPosition(
+			Vector3D(
+				5.f,
+				5.f,
+				5.f
+			)
+		);
+		sphere1->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
+		sphere1->AddComponent<SphereCollider>();
+		Hyrule::RigidBody* rigidsphere1 = sphere1->AddComponent<RigidBody>();
+		rigidsphere1->SetMass(3000.f);
+
 		std::srand((unsigned int)time(NULL));
-		for (auto i = 0; i < 300; i++)
+		for (auto i = 0; i < 10; i++)
 		{
 			GameObject* sphere = CreateGameObject(L"Sphere0" + std::to_wstring(i));
 			sphere->AddComponent<SphereRenderer>();
 			sphere->GetTransform()->SetLocalPosition(
 				Vector3D(
-					(float)(rand() % 20) * pow(-1.f, i + rand() % 2),
+					(float)(rand() % 50) * pow(-1.f, i + rand() % 2),
 					10.f + 5.f * i,
-					(float)(rand() % 20) * pow(-1.f, i + rand() % 2)
+					(float)(rand() % 50) * pow(-1.f, i + rand() % 2)
 				)
 			);
 			sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
@@ -58,15 +72,15 @@ namespace Hyrule
 			rigidsphere->SetMass(3000.f);
 		}
 
-		for (auto i = 2; i < 50; i++)
+		for (auto i = 2; i < 5; i++)
 		{
 			GameObject* box4 = CreateGameObject(L"Box0" + std::to_wstring(i));
 			box4->AddComponent<CubeRenderer>();
 			box4->GetTransform()->SetLocalPosition(
 				Vector3D(
-					(float)(rand() % 20) * pow(-1.f, i + rand() % 2),
+					(float)(rand() % 50) * pow(-1.f, i + rand() % 2),
 					10.f + 5.f * i,
-					(float)(rand() % 20) * pow(-1.f, i + rand() % 2)
+					(float)(rand() % 50) * pow(-1.f, i + rand() % 2)
 				)
 			);
 			box4->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
@@ -84,7 +98,7 @@ namespace Hyrule
 		
 		// GetMainCamera()->gameObject->SetParent(box2);
 		con->AddControllableObject(VK_F1, box);
-		// con->AddControllableObject(VK_F2, sphere);
+		con->AddControllableObject(VK_F2, sphere1);
 		con->AddControllableObject(VK_F3, GetMainCamera()->gameObject);
 	}
 }

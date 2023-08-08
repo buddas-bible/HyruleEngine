@@ -17,7 +17,6 @@ namespace Hyrule
 			SetCenter(_info->colliderCenter);
 			
 			shape = Shapes::GetShape(_info->shapeName);
-			type = ColliderType::CONVEX;
 
 			if (shape == nullptr)
 			{
@@ -174,6 +173,11 @@ namespace Hyrule
 			this->inertia.Izx = inertia.Ixz;
 
 			return inertia;
+		}
+
+		size_t ConvexCollider::GetType() noexcept
+		{
+			return shape->GetType();
 		}
 	}
 }

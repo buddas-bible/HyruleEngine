@@ -40,8 +40,8 @@ namespace Hyrule
 			virtual void SetAngularVelocity(const Hyrule::Vector3D&) noexcept abstract;
 			virtual Hyrule::Vector3D GetAngularVelocity() const noexcept abstract;
 
-			virtual bool isSleeping() const noexcept abstract;
-			virtual void isSleeping(const bool) noexcept abstract;
+			virtual void WakeUp() noexcept abstract;
+			virtual bool IsAwake() const noexcept abstract;
 		};
 	}
 }

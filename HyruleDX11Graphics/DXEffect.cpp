@@ -119,12 +119,35 @@ namespace Hyrule
 
 	void Effects::InitAll(std::shared_ptr<DXDevice> _device)
 	{
+#if _DEBUG		// Debug
+#if _WIN64		// x64
 		PCEffect = std::make_shared<DXEffect>(_device, L"../x64/debug/Color.cso");
 		PCEffect->CreateEffect();
 
 		PUNEffect = std::make_shared<DXEffect>(_device, L"../x64/debug/PosNormalColor.cso");
 		PUNEffect->CreateEffect();
+#else	
+		PCEffect = std::make_shared<DXEffect>(_device, L"../x86/debug/Color.cso");
+		PCEffect->CreateEffect();
 
+		PUNEffect = std::make_shared<DXEffect>(_device, L"../x86/debug/PosNormalColor.cso");
+		PUNEffect->CreateEffect();
+#endif
+#else			// Release
+#if _WIN64		// x64
+		PCEffect = std::make_shared<DXEffect>(_device, L"../x64/release/Color.cso");
+		PCEffect->CreateEffect();
+
+		PUNEffect = std::make_shared<DXEffect>(_device, L"../x64/release/PosNormalColor.cso");
+		PUNEffect->CreateEffect();
+#else	
+		PCEffect = std::make_shared<DXEffect>(_device, L"../x86/release/Color.cso");
+		PCEffect->CreateEffect();
+
+		PUNEffect = std::make_shared<DXEffect>(_device, L"../x86/release/PosNormalColor.cso");
+		PUNEffect->CreateEffect();
+#endif	
+#endif
 		// PUNTEffect = std::make_shared<DXEffect>(_device, L"");
 		// PUNTEffect->CreateEffect();
 	}

@@ -24,7 +24,7 @@ namespace Hyrule
 			virtual Vector3D FindFarthestPoint(const Vector3D&) override;
 			virtual Face FindSupportFace(const Vector3D&) override;
 			virtual Matrix3x3 GetInertiaTensor(float) noexcept override;
-			Vector3D ClosestPoint(const Vector3D& _point);
+			virtual size_t GetType() noexcept override;
 		};
 	}
 }

@@ -13,7 +13,7 @@ namespace Hyrule
 	bool CoreSystem::GameProcess() noexcept
 	{
 		static double accumulatedTime = 0.f;
-		static const double fixedDeltaTime = 1.f / 100.f;
+		static const double fixedDeltaTime = 1.f / 60.f;
 
 		auto& input = InputSystem::GetInstance();
 
@@ -38,8 +38,8 @@ namespace Hyrule
 			}
 			case PHYSICS:
 			{
-				double deltaTime = (double)TimeSystem::GetInstance().GetfDeltaTime();
-				// double deltaTime = 0.008f;
+				// double deltaTime = (double)TimeSystem::GetInstance().GetfDeltaTime();
+				double deltaTime = fixedDeltaTime;
 				accumulatedTime += deltaTime;
 
 				// 프레임마다 한 번 호출되도록 함.

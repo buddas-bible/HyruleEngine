@@ -48,16 +48,20 @@ namespace Hyrule
 			float invMass{ 1 / 10.f };							// 역 질량
 			Vector3D velocity;									// 속도
 			Vector3D angularVelocity;							// 각속도
+
+			// Vector3D deltaVelocity;
+			// Vector3D deltaAngularVelocity;
+
 			float dfriction{ 0.1f };							// 마찰
 			float sfriction{ 0.2f };							// 마찰
 			float restitution{ 0.2f };							// 반발계수
 			Matrix3x3 inertiaTensor{ Matrix3x3::Identity() };	// 관성텐서
 			Matrix3x3 invInertiaTensor{ Matrix3x3::Identity() };// 역관성텐서
 
-			float linerDamping{ 0.1f };
-			float angularDamping{ 0.1f };
+			float linerDamping{ 0.4f };
+			float angularDamping{ 0.4f };
 
-			bool sleep;									// 잠지고 있는 상태인가?
+			bool sleep{ false };						// 잠지고 있는 상태인가?
 			bool kinematic;								// 다른 물체에게 외력을 받을 수 있는가?
 			bool useGravity{ true };					// 중력에 영향을 받는가?
 			bool freezePos[3];
@@ -67,9 +71,8 @@ namespace Hyrule
 			Vector3D force;						// 힘
 			Vector3D torque;					// 토크
 
-			Vector3D gravity;
-
 			bool tensorUpdate{ false };
+			float accumulate{};
 
 		public:
 			float GetInvMass() noexcept;
@@ -106,8 +109,8 @@ namespace Hyrule
 			virtual void SetAngularVelocity(const Hyrule::Vector3D&) noexcept override;
 			virtual Hyrule::Vector3D GetAngularVelocity() const noexcept override;
 
-			virtual bool isSleeping() const noexcept override;
-			virtual void isSleeping(const bool) noexcept override;
+			virtual void WakeUp() noexcept override;
+			virtual bool IsAwake() const noexcept override;
 #pragma endregion GetSet
 		};
 

@@ -60,7 +60,7 @@ namespace Hyrule
 
 	bool RigidBody::isSleeping() const noexcept
 	{
-		return iRigidBody->isSleeping();
+		return iRigidBody->IsAwake();
 	}
 
 	bool RigidBody::isKinematic() const noexcept

@@ -57,7 +57,7 @@ int APIENTRY main(
 	gameEngine.LoadPhysicsDLL(L"../x64/Debug/HyrulePhysics.dll");
 #else			// x86
 	gameEngine.LoadGraphicsDLL(L"../x86/Debug/HyruleGraphicsDX11.dll");
-	gameEngine.LoadPhysicsDLL(L"");
+	gameEngine.LoadPhysicsDLL(L"../x86/Debug/HyrulePhysics.dll");
 #endif
 #else			// Release
 #if _WIN64		// x64

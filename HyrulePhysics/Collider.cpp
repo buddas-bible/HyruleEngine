@@ -14,8 +14,7 @@ namespace Hyrule
 		Collider::Collider(Object* _obj) noexcept : 
 			object(_obj),
 			center(), size(0.5f, 0.5f, 0.5f), isTrigger(false),
-			inertia(), centerOfMass(), activate(true), collied(false),
-			type()
+			inertia(), centerOfMass(), activate(true), collied(false)
 		{}
 
 		Vector3D Collider::GetPosition()
@@ -97,11 +96,6 @@ namespace Hyrule
 			g0 = f1 + w0 * (f0 + w0);
 			g1 = f1 + w1 * (f0 + w1);
 			g2 = f1 + w2 * (f0 + w2);
-		}
-
-		ColliderType Collider::GetType()
-		{
-			return type;
 		}
 
 		bool Collider::isCollision() noexcept

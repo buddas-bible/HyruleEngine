@@ -17,7 +17,6 @@ namespace Hyrule
 			_obj->colliders.push_back(this);
 			this->SetSize(_info->colliderSize);
 			this->SetCenter(_info->colliderCenter);
-			type = ColliderType::BOX;
 		}
 
 		AABB BoxCollider::GetAABB()
@@ -164,6 +163,11 @@ namespace Hyrule
 			this->inertia.Izx = inertia.Ixz;
 
 			return inertia;
+		}
+
+		size_t BoxCollider::GetType() noexcept
+		{
+			return shape->GetType();
 		}
 	}
 }

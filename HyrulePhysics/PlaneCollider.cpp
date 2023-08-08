@@ -16,7 +16,6 @@ namespace Hyrule
 			_obj->colliders.push_back(this);
 			this->SetSize(_info->colliderSize);
 			this->SetCenter(_info->colliderCenter);
-			type = ColliderType::PLANE;
 		}
 
 		AABB PlaneCollider::GetAABB()
@@ -169,6 +168,11 @@ namespace Hyrule
 			this->inertia.Izx = inertia.Ixz;
 
 			return inertia;
+		}
+
+		size_t PlaneCollider::GetType() noexcept
+		{
+			return shape->GetType();
 		}
 	}
 }

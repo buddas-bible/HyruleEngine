@@ -91,6 +91,11 @@ namespace Hyrule
 		}
 
 
+		size_t BoxShape::GetType() noexcept
+		{
+			return (size_t)ShapeType::BOX;
+		}
+
 		PlaneShape::PlaneShape() noexcept : Shape()
 		{
 			for (auto i = 0; i < index.size(); i += 3)
@@ -131,6 +136,11 @@ namespace Hyrule
 		}
 
 
+		size_t PlaneShape::GetType() noexcept
+		{
+			return (size_t)ShapeType::PLANE;
+		}
+
 		ConvexShape::ConvexShape(SHAPE_INPO* _info) noexcept :
 			points(_info->pPointArr, _info->pPointArr + _info->pPointArrSize),
 			index(_info->pIndexArr, _info->pIndexArr + _info->pIndexArrSize)
@@ -170,6 +180,12 @@ namespace Hyrule
 		const std::vector<size_t>& ConvexShape::GetIndies() noexcept
 		{
 			return this->index;
+		}
+
+
+		size_t ConvexShape::GetType() noexcept
+		{
+			return (size_t)ShapeType::CONVEX;
 		}
 
 		std::shared_ptr<BoxShape> Shapes::boxShape{};

@@ -140,7 +140,7 @@ namespace Hyrule
 
 		void RigidBody::ComputeVelocity(Vector3D _gravity, float _dt) noexcept
 		{
-			if (this->activate == false || this->invMass == 0.f)
+			if (this->invMass == 0.f)
 			{
 				return;
 			}
@@ -148,7 +148,6 @@ namespace Hyrule
 			if (this->useGravity == true)
 			{
 				this->velocity += _gravity * _dt;
-				gravity = _gravity;
 			}
 
 			// 힘을 속력으로 변환
@@ -156,8 +155,8 @@ namespace Hyrule
 			this->angularVelocity += (this->torque * this->GetInvInertia()) * _dt;
 			
 			// 감쇠
-			this->velocity *= std::exp(-(linerDamping) * _dt);
-			this->angularVelocity *= std::exp(-(angularDamping) * _dt);
+			this->velocity = GetVelocity() * std::exp(-(linerDamping) * _dt);
+			this->angularVelocity = GetAngularVelocity() * std::exp(-(angularDamping) * _dt);
 
 			this->force = Vector3D::Zero();
 			this->torque = Vector3D::Zero();
@@ -173,33 +172,8 @@ namespace Hyrule
 			Vector3D& position{ object->GetPosition() };
 			Quaternion& rotation{ object->GetRotation() };
 
-			// 종단 속도
-// 			const float terminalVelocity = std::sqrtf(2 * std::fabs(gravity.Length()) * mass);
-// 
-// 			// 중력 방향의 속력을 구함.
-// 			Vector3D g_d{ gravity.Normalized() };
-// 			float v{ g_d.Dot(velocity) };
-// 
-// 			// 중력 방향의 속력이 종단속도를 넘어가면 속력을 감쇠시킴
-// 			if (v > terminalVelocity)
-// 			{
-// 				velocity -= g_d * (v - terminalVelocity);
-// 			}
-
 			Vector3D dV{ velocity * _dt };
-// 			float vx_length{ velocity.x * _dt };
-// 			float vz_length{ velocity.z * _dt };
-// 			if (vx_length < 0.02f)
-// 			{
-// 				dV.x = {};
-// 			}
-// 			if (vx_length < 0.02f)
-// 			{
-// 				dV.z = {};
-// 			}
  			position += dV;
-
-
 
 			Vector3D dW{ angularVelocity * _dt };
 			float angle = dW.Length();
@@ -208,12 +182,24 @@ namespace Hyrule
 				angle = (PI<float> / 2) / _dt;
 			}
 
-			if (angle < Epsilon)
+			rotation = ToQuaternion(dW.Normalized(), dW.Length()) * rotation;
+			rotation.Normalize();
+
+			if (dV.Length() < 0.01f && angle < 0.01f)
 			{
-				dW = {};
+				accumulate += _dt;
+			}
+			else
+			{
+				accumulate = 0.f;
+				sleep = false;
 			}
 
-			rotation = ToQuaternion(dW.Normalized(), dW.Length()) * rotation;
+			if (accumulate > 0.5f)
+			{
+				accumulate = 0.f;
+				sleep = true;
+			}
 		}
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept
@@ -313,18 +299,18 @@ namespace Hyrule
 			return this->angularVelocity;
 		}
 
-		bool RigidBody::isSleeping() const noexcept
+		bool RigidBody::IsAwake() const noexcept
 		{
 			// 표면에서 물체가 반복적인 충돌을 하게 되면
 			// 속력에 한계가 있을텐데
 			// thresold를 설정해서 thresold에 도달하면 타이머를 재기 시작함.
 			// 2~3초라는 설정 시간이 흐르게 되면 Sleep 상태가 되어서 물리 연산을 쉰다.
-			return this->sleep;
+			return !this->sleep;
 		}
 
-		void RigidBody::isSleeping(const bool _sleep) noexcept
+		void RigidBody::WakeUp() noexcept
 		{
-			this->sleep = _sleep;
+			this->sleep = false;
 		}
 
 #pragma endregion GetSet

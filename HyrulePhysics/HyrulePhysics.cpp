@@ -122,12 +122,18 @@ namespace Hyrule
 			/// 속력 계산
 			for (auto& e : rigidbodis)
 			{
+				if (e->isActive() == false || e->IsAwake() == false)
+					continue;
+
 				e->ComputeVelocity(gravity, _deltaTime);
 			}
 
 			/// 계산된 속력을 위치, 각도에 적용
 			for (auto& e : rigidbodis)
 			{
+				if (e->isActive() == false || e->IsAwake() == false)
+					continue;
+
 				e->ComputePosition(_deltaTime);
 			}
 
@@ -171,13 +177,15 @@ namespace Hyrule
 				{
 					bool collision = CollisionSystem::Raycast(ray, e);
 
+					// 충돌 하면? 충돌 위치가 가까우면 저장해둠.
 					if (collision)
 					{
 						info->collision = true;
 						info->position;
-						return info;
 					}
 				}
+
+				return info;
 			}
 		}
 

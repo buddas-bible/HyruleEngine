@@ -6,14 +6,14 @@
 #include "HyruleMath.h"
 #include "Face.h"
 
-enum class ShapeType : int
+enum class ShapeType : size_t
 {
 	SPHERE = 0,
-	BOX = 10,
-	CAPSULE = 20,
-	CONVEX = 30,
-	PLANE = 40,
-	MESH = 50,
+	BOX = 1,
+	CAPSULE = 2,
+	CONVEX = 3,
+	PLANE = 4,
+	MESH = 5,
 };
 
 namespace Hyrule
@@ -35,6 +35,7 @@ namespace Hyrule
 			virtual const std::vector<Vector3D>& GetPoints() noexcept abstract;
 			virtual std::vector<Vector3D> GetPoints(const Matrix4x4&) noexcept abstract;
 			virtual const std::vector<size_t>& GetIndies() noexcept abstract;
+			virtual size_t GetType() noexcept abstract;
 		};
 	
 		class BoxShape : public Shape
@@ -48,6 +49,7 @@ namespace Hyrule
 			virtual std::vector<Vector3D> GetPoints(const Matrix4x4&) noexcept override;
 			virtual const std::vector<size_t>& GetIndies() noexcept override;
 			virtual std::vector<Face> GetFaces(const Matrix4x4&) noexcept;
+			virtual size_t GetType() noexcept override;
 
 		private:
 			std::vector<Vector3D> points{
@@ -90,6 +92,7 @@ namespace Hyrule
 			virtual const std::vector<Vector3D>& GetPoints() noexcept override;
 			virtual std::vector<Vector3D> GetPoints(const Matrix4x4&) noexcept override;
 			virtual const std::vector<size_t>& GetIndies() noexcept override;
+			virtual size_t GetType() noexcept override;
 
 		private:
 			std::vector<Vector3D> points{
@@ -116,6 +119,7 @@ namespace Hyrule
 			virtual const std::vector<Vector3D>& GetPoints() noexcept override;
 			virtual std::vector<Vector3D> GetPoints(const Matrix4x4&) noexcept override;
 			virtual const std::vector<size_t>& GetIndies() noexcept override;
+			virtual size_t GetType() noexcept override;
 
 		private:
 			std::vector<Vector3D> points;
