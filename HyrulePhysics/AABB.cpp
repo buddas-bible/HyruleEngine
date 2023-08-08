@@ -70,38 +70,62 @@ namespace Hyrule
 		/// </summary>
 		bool AABB::TestRay(const Vector3D& _from, const Vector3D& _to) const noexcept
 		{
-			Vector3D direction = _to - _from;
-			Vector3D invDir = Vector3D(1.0f / direction.x, 1.0f / direction.y, 1.0f / direction.z);
+			Vector3D invDir(1.0f / (_to.x - _from.x), 1.0f / (_to.y - _from.y), 1.0f / (_to.z - _from.z));
+			float tMin, tMax, tYMin, tYMax, tZMin, tZMax;
 
-			float tMin = (min.x - _from.x) * invDir.x;
-			float tMax = (max.x - _from.x) * invDir.x;
+			tMin = (min.x - _from.x) * invDir.x;
+			tMax = (max.x - _from.x) * invDir.x;
 
-			if (tMin > tMax) 
+			if (invDir.x < 0.0f) 
 				std::swap(tMin, tMax);
 
-			float tYMin = (min.y - _from.y) * invDir.y;
-			float tYMax = (max.y - _from.y) * invDir.y;
+			tYMin = (min.y - _from.y) * invDir.y;
+			tYMax = (max.y - _from.y) * invDir.y;
 
-			if (tYMin > tYMax) 
+			if (invDir.y < 0.0f) 
 				std::swap(tYMin, tYMax);
 
-			if ((tMin > tYMax) || (tYMin > tMax)) 
+			tMin = std::max(tMin, tYMin);
+			tMax = std::min(tMax, tYMax);
+
+			if (tMin > tMax) 
 				return false;
 
-			if (tYMin > tMin) 
-				tMin = tYMin;
+			tZMin = (min.z - _from.z) * invDir.z;
+			tZMax = (max.z - _from.z) * invDir.z;
 
-			if (tYMax < tMax) 
-				tMax = tYMax;
-
-			float tZMin = (min.z - _from.z) * invDir.z;
-			float tZMax = (max.z - _from.z) * invDir.z;
-
-			if (tZMin > tZMax) 
+			if (invDir.z < 0.0f) 
 				std::swap(tZMin, tZMax);
 
-			if ((tMin > tZMax) || (tZMin > tMax)) 
-				return false;
+			tMin = std::max(tMin, tZMin);
+			tMax = std::min(tMax, tZMax);
+
+			return !(tMin > tMax);
+		}
+
+
+		bool AABB::TestSegment(const Vector3D& _from, const Vector3D& _to, const float _length) const noexcept
+		{
+			Vector3D end = _from + _to * _length;
+			Vector3D invDir(1.0f / (_to.x * _length), 1.0f / (_to.y * _length), 1.0f / (_to.z * _length));
+
+			float tmin = 0.0f;
+			float tmax = _length;
+
+			for (int i = 0; i < 3; ++i) 
+			{
+				float t1 = (min.e[i] - _from.e[i]) * invDir.e[i];
+				float t2 = (max.e[i] - _from.e[i]) * invDir.e[i];
+
+				if (invDir.e[i] < 0.0f) 
+					std::swap(t1, t2);
+
+				tmin = std::max(tmin, t1);
+				tmax = std::min(tmax, t2);
+
+				if (tmax < tmin) 
+					return false;
+			}
 
 			return true;
 		}

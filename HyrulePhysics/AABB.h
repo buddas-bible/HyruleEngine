@@ -34,6 +34,7 @@ namespace Hyrule
 			Vector3D GetCenter() const noexcept;
 			bool ContainsPoint(const Vector3D&) const noexcept;
 			bool TestRay(const Vector3D&, const Vector3D&) const noexcept;
+			bool TestSegment(const Vector3D& _from, const Vector3D& _to, const float _length) const noexcept;
 			bool Overlap(const AABB&) const noexcept;
 			bool Contains(const AABB&);
 		};

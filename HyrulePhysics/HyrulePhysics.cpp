@@ -12,6 +12,7 @@
 
 #include "Manifold.h"
 #include "Simplex.h"
+#include "Ray.h"
 
 namespace Hyrule
 {
@@ -147,16 +148,52 @@ namespace Hyrule
 			
 		}
 
-		// 
 		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to)
 		{
-			return nullptr;
+			RaycastInfo* info = new RaycastInfo;
 
+			Ray ray;
+			ray.from = _from;
+			ray.direction = _to;
+
+			auto colliders{ ObjectManager::GetInstance().QctreeQuery(ray) };
+
+			// 트리 안에서 충돌한 콜라이더가 없음
+			if (colliders.empty())
+			{
+				info->collision = false;
+				return info;
+			}
+			else
+			{
+				// 
+				for (auto& e : colliders)
+				{
+					bool collision = CollisionSystem::Raycast(ray, e);
+
+					if (collision)
+					{
+						info->collision = true;
+						info->position;
+						return info;
+					}
+				}
+			}
 		}
 
-		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to, const std::string& _name)
+		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to, const float _length)
 		{
-			return nullptr;
+			RaycastInfo* info = new RaycastInfo;
+
+			Ray ray;
+			ray.from = _from;
+			ray.direction = _to;
+			ray.length = _length;
+
+			auto colliders{ ObjectManager::GetInstance().QctreeQuery(ray) };
+
+
+			return info;
 		}
 
 		/// <summary>

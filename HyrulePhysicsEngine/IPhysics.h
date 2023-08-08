@@ -42,7 +42,7 @@ namespace Hyrule
 			virtual void Finalize() abstract;
 
 			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&) abstract;
-			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const std::string&) abstract;
+			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const float) abstract;
 
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) abstract;
 		};

@@ -12,6 +12,7 @@ namespace Hyrule
 		ConvexCollider::ConvexCollider(Object* _obj, COLLIDER_INFO* _info) noexcept :
 			Collider(_obj)
 		{
+			_obj->colliders.push_back(this);
 			SetSize(_info->colliderSize);
 			SetCenter(_info->colliderCenter);
 			

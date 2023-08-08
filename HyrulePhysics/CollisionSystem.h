@@ -28,8 +28,9 @@ namespace Hyrule
 		{
 		public:
 			static bool CollisionDetection(Collider*, Collider*, Manifold&);
-
 			static void FindContactPoint(Manifold&);
+
+			static bool Raycast(const Ray&, Collider*);
 
 		private:
 			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
@@ -51,7 +52,6 @@ namespace Hyrule
 #pragma endregion 접촉점
 
 #pragma region 레이케스트
-			static bool Raycast(const Ray&, Collider*);
 			static bool RaycastToSphere(const Ray&, Collider*);
 			static bool RaycastToBox(const Ray&, Collider*);
 			static bool RaycastToConvex(const Ray&, Collider*);
@@ -62,10 +62,10 @@ namespace Hyrule
 			static bool GJK(Collider*, Collider*, Manifold&);
 			
 			// 충돌 여부
-			static bool SphereToSphere(Collider*, Collider*, Manifold&);
-			static bool SphereToAABB(Collider*, Collider*, Manifold&);
-			static bool SphereToOBB(Collider*, Collider*, Manifold&);
-			static bool SphereToConvex(Collider*, Collider*, Manifold&);
+			static bool TestSphereSphere(Collider*, Collider*, Manifold&);
+			static bool TestSphereAABB(Collider*, Collider*, Manifold&);
+			static bool TestSphereOBB(Collider*, Collider*, Manifold&);
+			static bool TestSphereConvex(Collider*, Collider*, Manifold&);
 #pragma endregion 충돌 감지
 			// 점과 선분 사이 거리
 			static float PointToSegmentDistance(const Vector3D p, const  Vector3D L1, const  Vector3D L2);

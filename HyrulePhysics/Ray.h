@@ -11,6 +11,7 @@ namespace Hyrule
 		{
 			Vector3D from;
 			Vector3D direction;
+			float length;
 		};
 
 		struct RaycastInfo

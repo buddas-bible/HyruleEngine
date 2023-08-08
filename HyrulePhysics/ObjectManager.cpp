@@ -169,6 +169,11 @@ namespace Hyrule
 			return octree.Query(_collider->GetAABB());
 		}
 
+		std::vector<Collider*> ObjectManager::QctreeQuery(const Ray& _ray) noexcept
+		{
+			return octree.Query(_ray);
+		}
+
 		void ObjectManager::OctreeClear() noexcept
 		{
 			octree.Clear();
@@ -184,16 +189,6 @@ namespace Hyrule
 		std::vector<RigidBody*>& ObjectManager::GetRigidbodies() noexcept
 		{
 			return this->rigidBodies;
-		}
-
-		void ObjectManager::Raycast(const Vector3D& _from, const Vector3D& _to)
-		{
-			octree.Raycast(_from, _to);
-		}
-
-		void ObjectManager::Raycast(const Vector3D& _from, const Vector3D& _to, const std::string& _name)
-		{
-			octree.Raycast(_from, _to);
 		}
 
 		void ObjectManager::AddRemoveQueue(Collider* _collider)

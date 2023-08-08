@@ -11,6 +11,7 @@ namespace Hyrule
 		SphereCollider::SphereCollider(Object* _obj, COLLIDER_INFO* _info) noexcept :
 			Collider(_obj)
 		{
+			_obj->colliders.push_back(this);
 			SetSize(_info->colliderSize);
 			SetCenter(_info->colliderCenter);
 			type = ColliderType::SPHERE;
@@ -46,13 +47,19 @@ namespace Hyrule
 			);
 		}
 
-		Matrix3x3 SphereCollider::GetInertiaTensor(float) noexcept
+		Matrix3x3 SphereCollider::GetInertiaTensor(float _mass) noexcept
 		{
+			Vector3D scl{ object->GetScale() };
+
+			float max = std::max(std::max(scl.x, scl.y), scl.z);
+			float radius = 0.5f * max;
+			float I{ (2.f / 5.f) * _mass * radius * radius };
+
 			return inertia =
 			{
-				1.f, 0.f, 0.f,
-				0.f, 1.f, 0.f,
-				0.f, 0.f, 1.f
+				I, 0.f, 0.f,
+				0.f, I, 0.f,
+				0.f, 0.f, I
 			};
 		}
 	}

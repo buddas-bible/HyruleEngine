@@ -43,8 +43,8 @@ namespace Hyrule
 			virtual void ApplyObjectDestroy() override;
 			virtual void Finalize() override;
 
-			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&);
-			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const std::string&);
+			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&) override;
+			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const float) override;
 
 			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;					// 월드 중력을 설정함.
 

@@ -65,11 +65,9 @@ namespace Hyrule
 			// std::vector<std::list<Collider*>>& GetNodeContainer() noexcept;
 			// void NodeContainerClear() noexcept;
 			std::vector<Collider*> QctreeQuery(Collider*) noexcept;
+			std::vector<Collider*> QctreeQuery(const Ray&) noexcept;
 			void OctreeClear() noexcept;
 			void OctreeResearch(Collider*);
-
-			void Raycast(const Vector3D&, const Vector3D&);
-			void Raycast(const Vector3D&, const Vector3D&, const std::string&);
 
 		public:
 			void AddRemoveQueue(Collider*);

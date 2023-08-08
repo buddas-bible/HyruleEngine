@@ -13,6 +13,7 @@ namespace Hyrule
 			Collider(_obj),
 			shape(Shapes::planeShape)
 		{
+			_obj->colliders.push_back(this);
 			this->SetSize(_info->colliderSize);
 			this->SetCenter(_info->colliderCenter);
 			type = ColliderType::PLANE;

@@ -26,7 +26,7 @@ namespace Hyrule
 		std::function<bool(Collider*, Collider*, Manifold&)> CollisionSystem::DetectionFunc[4][4] =
 		{
 			// sphere			box				capsule			convex
-			SphereToSphere,		SphereToOBB,	NULL,			SphereToConvex,		// sphere
+			TestSphereSphere,	TestSphereOBB,	NULL,			TestSphereConvex,		// sphere
 			NULL,				GJK,			NULL,			GJK,				// box
 			NULL,				NULL,			NULL,			NULL,				// capsule
 			NULL,				NULL,			NULL,			GJK					// convex
@@ -73,9 +73,8 @@ namespace Hyrule
 
 			if (typeA > typeB)
 			{
-				auto A = _manifold.GetColliderA();
+				auto temp = _manifold.GetColliderA();
 				auto B = _manifold.GetColliderB();
-				auto temp = A;
 
 				_manifold.SetColliderA(B);
 				_manifold.SetColliderB(temp);
@@ -505,7 +504,7 @@ namespace Hyrule
 		}
 
 
-		bool CollisionSystem::SphereToSphere(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+		bool CollisionSystem::TestSphereSphere(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
 		{
 			Vector3D Apos{ _colliderA->GetPosition() };
 			Vector3D Bpos{ _colliderB->GetPosition() };
@@ -540,7 +539,7 @@ namespace Hyrule
 			return false;
 		}
 
-		bool CollisionSystem::SphereToAABB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+		bool CollisionSystem::TestSphereAABB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
 		{
 			Vector3D p = ClosestPointToAABB(_colliderA->GetPosition(), _colliderB);
 
@@ -553,7 +552,7 @@ namespace Hyrule
 			return v.Dot(v) <= r * r;
 		}
 
-		bool CollisionSystem::SphereToOBB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+		bool CollisionSystem::TestSphereOBB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
 		{
 			Vector3D p = ClosestPointToOBB(_colliderA->GetPosition(), _colliderB);
 
@@ -566,7 +565,7 @@ namespace Hyrule
 			return v.Dot(v) <= r * r;
 		}
 
-		bool CollisionSystem::SphereToConvex(Collider*, Collider*, Manifold&)
+		bool CollisionSystem::TestSphereConvex(Collider*, Collider*, Manifold&)
 		{
 			return false;
 		}
