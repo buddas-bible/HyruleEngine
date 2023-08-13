@@ -21,6 +21,12 @@
     <ClCompile Include="Controller.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="FSM.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -30,6 +36,12 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
       <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>

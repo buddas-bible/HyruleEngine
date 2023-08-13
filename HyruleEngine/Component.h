@@ -16,15 +16,15 @@ namespace Hyrule
 		GameObject* gameObject;
 
 	public:
-		virtual void Awake() abstract;
-		virtual void Start() abstract;
-		virtual void FixedUpdate() abstract;
-		virtual void PrePhysicsUpdate() abstract;
-		virtual void PhysicsUpdate() abstract;
-		virtual void LatePhysicsUpdate() abstract;
-		virtual void Update() abstract;
-		virtual void LateUpdate() abstract;
-		virtual void Render() abstract;
+		virtual void Awake() {};
+		virtual void Start() {};
+		virtual void FixedUpdate() {};
+		virtual void PrePhysicsUpdate() {};
+		virtual void PhysicsUpdate() {};
+		virtual void LatePhysicsUpdate() {};
+		virtual void Update() {};
+		virtual void LateUpdate() {};
+		virtual void Render() {};
 
 		// 		virtual void OnTriggerEnter(Collider*) abstract;
 		// 		virtual void OnTriggerStay(Collider*) abstract;
