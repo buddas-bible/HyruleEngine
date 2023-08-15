@@ -8,18 +8,29 @@ state에 따라서 저장된 함수가 호출 되도록 한다.
 
 namespace Hyrule
 {
+	template <typename Type, typename Enum>
 	class FSM
 	{
 	private:
-		int currState;
-		int prevState;
+		friend typename Type;
 
-		std::map<int, std::function<void()>> stateFunc;
+		// 상태와 함수만 엮어놓음
+		std::map<Enum, std::function<Enum()>> stateFunc;
 	
 	public:
-		void Add(int, std::function<void()>);
+		FSM() : currState() {}
 
-	public:
+		Enum currState;
+
+		void Add(Enum _state, std::function<Enum()> _func) noexcept
+		{
+			stateFunc.insert(std::make_pair(_state, _func));
+		}
+
+		void Excute() noexcept
+		{
+			currState = stateFunc[currState]();
+		}
 	};
 }
 

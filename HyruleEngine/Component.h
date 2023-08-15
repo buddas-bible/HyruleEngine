@@ -26,25 +26,25 @@ namespace Hyrule
 		virtual void LateUpdate() {};
 		virtual void Render() {};
 
-		// 		virtual void OnTriggerEnter(Collider*) abstract;
-		// 		virtual void OnTriggerStay(Collider*) abstract;
-		// 		virtual void OnTriggerExit(Collider*) abstract;
+		// 		virtual void OnTriggerEnter(Collider*)  {};
+		// 		virtual void OnTriggerStay(Collider*)  {};
+		// 		virtual void OnTriggerExit(Collider*)  {};
 		// 
-		// 		virtual void OnTriggerEnter() abstract;
-		// 		virtual void OnTriggerStay() abstract;
-		// 		virtual void OnTriggerExit() abstract;
+		// 		virtual void OnTriggerEnter()  {};
+		// 		virtual void OnTriggerStay()  {};
+		// 		virtual void OnTriggerExit()  {};
 
-		virtual void OnCollisionEnter(Collider*) abstract;
-		virtual void OnCollisionStay(Collider*) abstract;
-		virtual void OnCollisionExit(Collider*) abstract;
+		virtual void OnCollisionEnter(Collider*) {};
+		virtual void OnCollisionStay(Collider*) {};
+		virtual void OnCollisionExit(Collider*) {};
 
-		virtual void OnCollisionEnter() abstract;
-		virtual void OnCollisionStay() abstract;
-		virtual void OnCollisionExit() abstract;
+		virtual void OnCollisionEnter() {};
+		virtual void OnCollisionStay() {};
+		virtual void OnCollisionExit() {};
 
-		virtual void OnEnable() abstract;
-		virtual void OnDisable() abstract;
-		virtual void OnDestroy() abstract;
+		virtual void OnEnable() {};
+		virtual void OnDisable() {};
+		virtual void OnDestroy() {};
 	};
 }
 

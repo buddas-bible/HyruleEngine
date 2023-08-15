@@ -81,6 +81,7 @@ namespace Hyrule
 
 			if (object)
 			{
+				// WakeUp();
 				object->GetPosition() = _pos;
 			}
 		}
@@ -145,18 +146,15 @@ namespace Hyrule
 				return;
 			}
 
-			if (this->useGravity == true)
-			{
-				this->velocity += _gravity * _dt;
-			}
-
 			// ÈûÀ» ¼Ó·ÂÀ¸·Î º¯È¯
-			this->velocity += (this->force * this->invMass) * _dt;
+			this->velocity += (this->force + _gravity * useGravity * mass) * invMass * _dt;
 			this->angularVelocity += (this->torque * this->GetInvInertia()) * _dt;
 			
 			// °¨¼è
-			this->velocity = GetVelocity() * std::exp(-(linerDamping) * _dt);
-			this->angularVelocity = GetAngularVelocity() * std::exp(-(angularDamping) * _dt);
+			// this->velocity *= std::exp(-(linerDamping) * _dt);
+			// this->angularVelocity *= std::exp(-(angularDamping) * _dt);
+			this->velocity *= 1.f / (1.f + 0.f * _dt);
+			this->angularVelocity *= 1.f / (1.f + 0.f * _dt);
 
 			this->force = Vector3D::Zero();
 			this->torque = Vector3D::Zero();
@@ -185,7 +183,7 @@ namespace Hyrule
 			rotation = ToQuaternion(dW.Normalized(), dW.Length()) * rotation;
 			rotation.Normalize();
 
-			if (dV.Length() < 0.01f && angle < 0.01f)
+			if (dV.Length() < 0.01f && angle < ToRadian(0.5f))
 			{
 				accumulate += _dt;
 			}
@@ -204,11 +202,13 @@ namespace Hyrule
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept
 		{
+			// WakeUp();
 			this->force += _force;
 		}
 
 		void RigidBody::AddTorque(const Vector3D& _torque) noexcept
 		{
+			// WakeUp();
 			this->torque += _torque;
 		}
 
@@ -275,6 +275,7 @@ namespace Hyrule
 				return;
 			}
 
+			// WakeUp();
 			this->velocity = _velo;
 		}
 
@@ -291,6 +292,7 @@ namespace Hyrule
 				return;
 			}
 
+			// WakeUp();
 			this->angularVelocity = _angular;
 		}
 

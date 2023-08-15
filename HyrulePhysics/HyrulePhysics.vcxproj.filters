@@ -106,9 +106,6 @@
     <ClInclude Include="Octree_v2.h">
       <Filter>DataStruct</Filter>
     </ClInclude>
-    <ClInclude Include="HillClimbing.h">
-      <Filter>DataStruct</Filter>
-    </ClInclude>
     <ClInclude Include="SpringJoint.h">
       <Filter>2. Struct\Joint</Filter>
     </ClInclude>
@@ -178,9 +175,6 @@
       <Filter>DataStruct</Filter>
     </ClCompile>
     <ClCompile Include="Octree_v2.cpp">
-      <Filter>DataStruct</Filter>
-    </ClCompile>
-    <ClCompile Include="HillClimbing.cpp">
       <Filter>DataStruct</Filter>
     </ClCompile>
   </ItemGroup>

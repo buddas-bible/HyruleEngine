@@ -41,7 +41,6 @@ namespace Hyrule
 			bool activate;
 			std::vector<ICollision*> collisionInfo;
 
-
 			Matrix3x3 inertia;
 			Vector3D centerOfMass;
 

@@ -89,13 +89,13 @@ namespace Hyrule
 		// 		virtual void OnTriggerStay() override;
 		// 		virtual void OnTriggerExit() override;
 		// 
-		// 		virtual void OnCollisionEnter(Collider*) final {}
-		// 		virtual void OnCollisionStay(Collider*) final {}
-		// 		virtual void OnCollisionExit(Collider*) final {}
-		// 
-		// 		virtual void OnCollisionEnter() final {}
-		// 		virtual void OnCollisionStay() final {}
-		// 		virtual void OnCollisionExit() final {}
+		 		virtual void OnCollisionEnter(Collider*) final {}
+		 		virtual void OnCollisionStay(Collider*) final {}
+		 		virtual void OnCollisionExit(Collider*) final {}
+		 
+		 		virtual void OnCollisionEnter() final {}
+		 		virtual void OnCollisionStay() final {}
+		 		virtual void OnCollisionExit() final {}
 
 		virtual void OnEnable() final {}
 		virtual void OnDisable() final {}

@@ -956,32 +956,32 @@ namespace Hyrule
 
 				/// 임펄스 기반 반응 모델
 				// 질량 중심에서 충돌 지점까지의 벡터
-				Vector3D r_1 = contactPoint - P_a;
-				Vector3D r_2 = contactPoint - P_b;
+				Vector3D r_1{ contactPoint - P_a };
+				Vector3D r_2{ contactPoint - P_b };
 
 				// 충돌 지점에서 속도와 상대 속도
-				Vector3D v_p1 = V_a + W_a.Cross(r_1);
-				Vector3D v_p2 = V_b + W_b.Cross(r_2);
-				Vector3D v_r = v_p2 - v_p1;
+				Vector3D v_p1{ V_a + W_a.Cross(r_1) };
+				Vector3D v_p2{ V_b + W_b.Cross(r_2) };
+				Vector3D v_r{ v_p2 - v_p1 };
 
 				// 충돌 지점에서 노말 방향으로의 상대 속도
-				float contactVelocity = v_r.Dot(Normal);
+				float contactVelocity{ v_r.Dot(Normal) };
 
 				if (contactVelocity > 0.f)
 				{
 					return;
 				}
 
-				Matrix3x3 inertiaTMA = A->GetInvInertia();
-				Matrix3x3 inertiaTMB = B->GetInvInertia();
+				Matrix3x3 inertiaTMA{ A->GetInvInertia() };
+				Matrix3x3 inertiaTMB{ B->GetInvInertia() };
 
 				/// 임펄스 공식의 분모 부분.
-				Vector3D inertiaA = r_1.Cross(Normal).Cross(r_1) * inertiaTMA;
-				Vector3D inertiaB = r_2.Cross(Normal).Cross(r_2) * inertiaTMB;
-				float numerator = systemMass + (inertiaA + inertiaB).Dot(Normal);
+				Vector3D inertiaA{ r_1.Cross(Normal).Cross(r_1) * inertiaTMA };
+				Vector3D inertiaB{ r_2.Cross(Normal).Cross(r_2) * inertiaTMB };
+				float numerator{ systemMass + (inertiaA + inertiaB).Dot(Normal) };
 
 				// 임펄스 크기
-				float j = -(1.f + restitution) * contactVelocity;
+				float j{ -(1.f + restitution) * contactVelocity };
 				j /= numerator;
 				j /= (float)contactPoints.size();
 
@@ -994,7 +994,12 @@ namespace Hyrule
 				/// 임펄스 기반 마찰 모델
 				// 마찰 임펄스 방향.
 				// 이 공식은 contactVelocity != 0 일 때 적용되는 공식
-				Vector3D tangent = (v_r - (Normal * contactVelocity)).Normalized();
+				Vector3D tangent{ (v_r - (Normal * contactVelocity)).Normalized() };
+
+				if (tangent == Vector3D::Zero())
+				{
+					return;
+				}
 
 				// 임펄스 크기
 				// contactVelocity를 구했던 v_r Dot normal과 비슷하지만 음수가 붙은 점이 다름.
@@ -1030,6 +1035,11 @@ namespace Hyrule
 			RigidBody* A{ _manifold.RigidBodyA() };
 			RigidBody* B{ _manifold.RigidBodyB() };
 			
+			if (A->IsAwake() == false || B->IsAwake() == false)
+			{
+				return;
+			}
+
 			float InvMassA = (A == nullptr) ? 0.f : A->GetInvMass();
 			float InvMassB = (B == nullptr) ? 0.f : B->GetInvMass();
 			
@@ -1065,34 +1075,3 @@ namespace Hyrule
 		}
 	}
 }
-
-/*
-* 서포트 포인트
-*
-서포터 포인트는 해당 방향으로부터 가장 먼 점을 찾는 것인데
-콜라이더의 점 개수만큼 내적해서 찾아야한다는 점이 매우 비효율적일듯 싶어 방법을 조금만 바꿔보기로 했다.
-메모리는 조금 잡아 먹겠지만 점과 인덱스를 가지고 Face를 미리 연산을 해둔다.
-노말 방향으로부터 가장 먼 Face의 중점을 찾는다. (Face의 개수만큼 탐색은 할 것이다.)
-그 Face를 이루는 세 점 중에서 가장 먼 점을 찾으면
-모든 점을 탐색하는 것보단 빨라지지 않을까?
-*/
-
-/*
-* 민코프스키 차와 EPA
-*
-EPA에 대해서 한가지 착각을 하고 있던 점이 있었지만
-초천재 킹범준이 바로 잡아주어서 어떻게 해결이 될 수도 있을 것같다.
-*/
-
-/*
-* 충돌지점 찾기
-*
-물리에서 복수의 충돌 지점 찾는 것이 매우 중요하다.
-힘의 분산도 그러하고 지터링을 완화를 시킬 수 있기 때문이다
-(이번에 기회가 된다면 Sleep도 넣어보려고 한다.)
-
-EPA에서 얻은 노말(방향) 벡터로부터 두 도형의 Face를 우선 찾는다.
-EPA에서 얻은 벡터는 특정 면의 수직이기 때문에 내적을 해서 1에 가장 가까운 면을 찾으면 될 것이다.
-충돌과 방향은 알았지만 누가 침투했는지 형상은 모르기에 그것을 해결하기 위해서
-수직인 면을 가진 오브젝트가 침투 당한(?) 오브젝트라 생각하여
-*/

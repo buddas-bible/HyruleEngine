@@ -189,7 +189,6 @@
     <ClInclude Include="Edge.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="HillClimbing.h" />
     <ClInclude Include="HyrulePhysics.h" />
     <ClInclude Include="Island.h" />
     <ClInclude Include="Manager.h" />
@@ -216,7 +215,6 @@
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Face.cpp" />
-    <ClCompile Include="HillClimbing.cpp" />
     <ClCompile Include="HyrulePhysics.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Manifold.cpp" />

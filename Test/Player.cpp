@@ -6,32 +6,41 @@ namespace Hyrule
 	Player::Player(GameObject* _gameObject) noexcept :
 		Component(_gameObject)
 	{
-		fsm.Add((int)PlayerState::ATTACK, &Attack);
+		fsm.Add(PlayerState::MOVE, [this]() -> PlayerState { return this->Move(); });
+		fsm.Add(PlayerState::DASH, [this]() -> PlayerState { return this->Dash(); });
+		fsm.Add(PlayerState::ATTACK, [this]() -> PlayerState { return this->Attack(); });
+		fsm.Add(PlayerState::BLOCK, [this]() -> PlayerState { return this->Block(); });
+		fsm.Add(PlayerState::PARRY, [this]() -> PlayerState { return this->Parry(); });
 	}
 
-	void Player::Move()
+
+	void Player::Update()
 	{
-
+		fsm.Excute();
 	}
 
-	void Player::Dash()
+	PlayerState Player::Move()
 	{
-
+		return PlayerState::MOVE;
 	}
 
-	void Player::Attack()
+	PlayerState Player::Dash()
 	{
-
+		return PlayerState::MOVE;
 	}
 
-	void Player::Block()
+	PlayerState Player::Attack()
 	{
-
+		return PlayerState::MOVE;
 	}
 
-	void Player::Parry()
+	PlayerState Player::Block()
 	{
-
+		return PlayerState::MOVE;
 	}
 
+	PlayerState Player::Parry()
+	{
+		return PlayerState::MOVE;
+	}
 }

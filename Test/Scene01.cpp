@@ -55,15 +55,16 @@ namespace Hyrule
 		rigidsphere1->SetMass(3000.f);
 
 		std::srand((unsigned int)time(NULL));
-		for (auto i = 0; i < 10; i++)
+		for (auto i = 0; i < 1000; i++)
 		{
 			GameObject* sphere = CreateGameObject(L"Sphere0" + std::to_wstring(i));
 			sphere->AddComponent<SphereRenderer>();
 			sphere->GetTransform()->SetLocalPosition(
 				Vector3D(
-					(float)(rand() % 50) * pow(-1.f, i + rand() % 2),
-					10.f + 5.f * i,
-					(float)(rand() % 50) * pow(-1.f, i + rand() % 2)
+					(float)(rand() % 2000) * pow(-1.f, i + rand() % 2),
+					(float)(rand() % 2000) * pow(-1.f, i + rand() % 2),
+					// 10.f + 5.f * i,
+					(float)(rand() % 2000) * pow(-1.f, i + rand() % 2)
 				)
 			);
 			sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
@@ -72,15 +73,16 @@ namespace Hyrule
 			rigidsphere->SetMass(3000.f);
 		}
 
-		for (auto i = 2; i < 5; i++)
+		for (auto i = 2; i < 1000; i++)
 		{
 			GameObject* box4 = CreateGameObject(L"Box0" + std::to_wstring(i));
 			box4->AddComponent<CubeRenderer>();
 			box4->GetTransform()->SetLocalPosition(
 				Vector3D(
-					(float)(rand() % 50) * pow(-1.f, i + rand() % 2),
-					10.f + 5.f * i,
-					(float)(rand() % 50) * pow(-1.f, i + rand() % 2)
+					(float)(rand() % 2000) * pow(-1.f, i + rand() % 2),
+					(float)(rand() % 2000) * pow(-1.f, i + rand() % 2),
+					//10.f + 5.f * i,
+					(float)(rand() % 2000) * pow(-1.f, i + rand() % 2)
 				)
 			);
 			box4->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));

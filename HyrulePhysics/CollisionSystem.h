@@ -17,12 +17,8 @@ namespace Hyrule
 		class Simplex;
 		struct Face;
 		struct Edge;
-
 		struct Ray;
 
-// 		typedef bool (CollisionFunc)(Collider*, Collider*, Manifold&);
-// 		typedef void (ContactPointFunc)(Manifold&);
-// 		typedef bool (RaycastFunc)(const Ray&, Collider*);
 
 		class CollisionSystem
 		{

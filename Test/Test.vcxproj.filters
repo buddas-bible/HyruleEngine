@@ -10,6 +10,12 @@
     <Filter Include="Component">
       <UniqueIdentifier>{05ec9709-630e-4380-9534-711277997756}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Mob">
+      <UniqueIdentifier>{d50de378-76e1-4c0d-9635-df55a5b31cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Boss">
+      <UniqueIdentifier>{bd99cd0a-d895-4059-be03-766bb21d5a8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,11 +27,20 @@
     <ClCompile Include="Controller.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="FSM.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Component\Mob</Filter>
+    </ClCompile>
+    <ClCompile Include="RangeEnemy.cpp">
+      <Filter>Component\Mob</Filter>
+    </ClCompile>
+    <ClCompile Include="MeleeEnemy.cpp">
+      <Filter>Component\Mob</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Component\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +58,18 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Component\Mob</Filter>
+    </ClInclude>
+    <ClInclude Include="RangeEnemy.h">
+      <Filter>Component\Mob</Filter>
+    </ClInclude>
+    <ClInclude Include="MeleeEnemy.h">
+      <Filter>Component\Mob</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Component\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

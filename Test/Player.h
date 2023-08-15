@@ -22,16 +22,20 @@ namespace Hyrule
 
 	private:
 
+
 	private:
-		FSM fsm;
+		FSM<Player, PlayerState> fsm;
 
 	public:
-		void Move();
-		void Dash();
+		void Update();
 
-		void Attack();
-		void Block();
-		void Parry();
+	public:
+		PlayerState Move();
+		PlayerState Dash();
+
+		PlayerState Attack();
+		PlayerState Block();
+		PlayerState Parry();
 	};
 }
 
