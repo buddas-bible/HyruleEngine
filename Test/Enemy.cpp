@@ -216,6 +216,11 @@ namespace Hyrule
 		return EnemyState::CHASE;
 	}
 
+	bool Enemy::isReturn()
+	{
+		return false;
+	}
+
 	void Enemy::OnCollisionEnter(Collider* _collision)
 	{
 		// 플레이어가 감지됨

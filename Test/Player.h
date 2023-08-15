@@ -21,7 +21,9 @@ namespace Hyrule
 		virtual ~Player() noexcept = default;
 
 	private:
-
+		float HP;
+		float damage;
+		float speed;
 
 	private:
 		FSM<Player, PlayerState> fsm;

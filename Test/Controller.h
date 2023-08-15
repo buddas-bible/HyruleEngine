@@ -24,20 +24,13 @@ namespace Hyrule
 	public:
 		void AddControllableObject(int, GameObject*);
 
+	public:
 		virtual void Awake() override;
 		virtual void Start() override;
 		virtual void FixedUpdate() override;
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 		virtual void Render() override;
-
-		// 		virtual void OnTriggerEnter(Collider*) abstract;
-		// 		virtual void OnTriggerStay(Collider*) abstract;
-		// 		virtual void OnTriggerExit(Collider*) abstract;
-		// 
-		// 		virtual void OnTriggerEnter() abstract;
-		// 		virtual void OnTriggerStay() abstract;
-		// 		virtual void OnTriggerExit() abstract;
 
 		virtual void OnCollisionEnter(Collider*) override;
 		virtual void OnCollisionStay(Collider*) override;
