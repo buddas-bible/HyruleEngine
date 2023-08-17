@@ -78,7 +78,8 @@ int APIENTRY main(
 
 
 
-	sceneManager.LoadScene(testScene01);
+	// sceneManager.LoadScene(testScene01);
+	sceneManager.LoadScene(scene01);
 	gameEngine.Run();
 	gameEngine.Finalize();
 

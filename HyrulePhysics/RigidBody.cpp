@@ -180,7 +180,7 @@ namespace Hyrule
 				angle = (PI<float> / 2) / _dt;
 			}
 
-			rotation = ToQuaternion(dW.Normalized(), dW.Length()) * rotation;
+			rotation = ToQuaternion(angularVelocity.Normalized(), angle) * rotation;
 			rotation.Normalize();
 		}
 

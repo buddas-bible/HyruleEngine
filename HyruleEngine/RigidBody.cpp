@@ -99,7 +99,7 @@ namespace Hyrule
 		if (parent != nullptr)
 		{
 			pos *= parent->GetWorldMatrix().Inverse();
-			rot *= parent->GetWorldQuaternion().Inverse();
+			rot = parent->GetWorldQuaternion().Inverse() * rot;
 		}
 
 		gameObject->GetTransform()->SetLocalPosition(pos);;

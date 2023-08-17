@@ -46,7 +46,7 @@ namespace Hyrule
 	{
 		if (parent != nullptr)
 		{
-			return this->rotation * parent->GetWorldQuaternion();
+			return parent->GetWorldQuaternion() * this->rotation;
 		}
 		else
 		{
@@ -88,7 +88,8 @@ namespace Hyrule
 	{
 		if (parent != nullptr)
 		{
-			return this->scale;
+			auto scl = parent->GetWorldScale();
+			return Vector3D(scale.x * scl.x , scale.y * scl.y, scale.z * scl.z);
 		}
 		else
 		{

@@ -38,8 +38,8 @@ namespace Hyrule
 			}
 			case PHYSICS:
 			{
-				// double deltaTime = (double)TimeSystem::GetInstance().GetfDeltaTime();
-				double deltaTime = fixedDeltaTime;
+				double deltaTime = (double)TimeSystem::GetInstance().GetfDeltaTime();
+				// double deltaTime = fixedDeltaTime;
 				accumulatedTime += deltaTime;
 
 				// 프레임마다 한 번 호출되도록 함.
