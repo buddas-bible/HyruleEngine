@@ -151,10 +151,10 @@ namespace Hyrule
 			this->angularVelocity += (this->torque * this->GetInvInertia()) * _dt;
 			
 			// °¨¼è
-			// this->velocity *= std::exp(-(linerDamping) * _dt);
-			// this->angularVelocity *= std::exp(-(angularDamping) * _dt);
-			this->velocity *= 1.f / (1.f + 0.f * _dt);
-			this->angularVelocity *= 1.f / (1.f + 0.f * _dt);
+			// this->velocity *= 1.f / (1.f + 0.f * _dt);
+			// this->angularVelocity *= 1.f / (1.f + 0.f * _dt);
+			this->velocity *= std::exp(-(linerDamping) * _dt);
+			this->angularVelocity *= std::exp(-(angularDamping) * _dt);
 
 			this->force = Vector3D::Zero();
 			this->torque = Vector3D::Zero();
@@ -182,22 +182,6 @@ namespace Hyrule
 
 			rotation = ToQuaternion(dW.Normalized(), dW.Length()) * rotation;
 			rotation.Normalize();
-
-			if (dV.Length() < 0.01f && angle < ToRadian(0.5f))
-			{
-				accumulate += _dt;
-			}
-			else
-			{
-				accumulate = 0.f;
-				sleep = false;
-			}
-
-			if (accumulate > 0.5f)
-			{
-				accumulate = 0.f;
-				sleep = true;
-			}
 		}
 
 		void RigidBody::AddForce(const Vector3D& _force) noexcept

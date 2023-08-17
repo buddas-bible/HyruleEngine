@@ -17,11 +17,6 @@ namespace Hyrule
 
 	void Controller::AddControllableObject(int _key, GameObject* _obj)
 	{
-		if (_obj == nullptr)
-		{
-			return;
-		}
-
 		controlMap[_key].push_back(_obj);
 	}
 
@@ -60,6 +55,11 @@ namespace Hyrule
 
 		for (auto& e : controlObject)
 		{
+			if (e == nullptr)
+			{
+				continue;
+			}
+
 			Quaternion currR = e->GetTransform()->GetLocalQuaternion();
 			if (input.KeyDown(VK_UP))
 			{

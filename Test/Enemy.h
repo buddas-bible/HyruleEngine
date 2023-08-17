@@ -4,7 +4,7 @@
 
 namespace Hyrule
 {
-	enum class EnemyState
+	enum class EnemyState : int
 	{
 		IDLE,			// PATROL
 		MOVE,			// PATROL

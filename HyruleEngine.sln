@@ -41,6 +41,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HyrulePhysicsEngine", "Hyru
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DebugDraw", "DebugDraw\DebugDraw.vcxproj", "{F2437C47-DB85-4E16-963E-C97AE6FC607C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GRX", "GRX\GRX.vcxproj", "{06277F41-FCF8-44D0-B348-231BB7E3657C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -121,6 +123,14 @@ Global
 		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Release|x64.Build.0 = Release|x64
 		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Release|x86.ActiveCfg = Release|Win32
 		{F2437C47-DB85-4E16-963E-C97AE6FC607C}.Release|x86.Build.0 = Release|Win32
+		{06277F41-FCF8-44D0-B348-231BB7E3657C}.Debug|x64.ActiveCfg = Debug|x64
+		{06277F41-FCF8-44D0-B348-231BB7E3657C}.Debug|x64.Build.0 = Debug|x64
+		{06277F41-FCF8-44D0-B348-231BB7E3657C}.Debug|x86.ActiveCfg = Debug|Win32
+		{06277F41-FCF8-44D0-B348-231BB7E3657C}.Debug|x86.Build.0 = Debug|Win32
+		{06277F41-FCF8-44D0-B348-231BB7E3657C}.Release|x64.ActiveCfg = Release|x64
+		{06277F41-FCF8-44D0-B348-231BB7E3657C}.Release|x64.Build.0 = Release|x64
+		{06277F41-FCF8-44D0-B348-231BB7E3657C}.Release|x86.ActiveCfg = Release|Win32
+		{06277F41-FCF8-44D0-B348-231BB7E3657C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

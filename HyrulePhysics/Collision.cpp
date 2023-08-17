@@ -10,6 +10,22 @@ namespace Hyrule
 			return collider;
 		}
 
+
+		void* Collision::UserData() noexcept
+		{
+			return userData;
+		}
+
+		std::wstring Collision::InstanceID() noexcept
+		{
+			return instanceID;
+		}
+
+		std::wstring Collision::Tag() noexcept
+		{
+			return tag;
+		}
+
 		Vector3D Collision::Impulse() noexcept
 		{
 			return impulse;

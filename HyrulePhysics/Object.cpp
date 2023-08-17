@@ -11,9 +11,7 @@ namespace Hyrule
 		Object::Object(const std::wstring& _name) noexcept
 			: name(_name),
 			rigidbody(), colliders(), isColliding()
-		{
-
-		}
+		{}
 
 		Vector3D& Object::GetPosition()
 		{
@@ -122,7 +120,7 @@ namespace Hyrule
 		{
 			if (colliders.size())
 			{
-				// return colliders[0]->GetCenterOfMess();
+				return colliders[0]->GetPosition();
 			}
 
 			return Vector3D();

@@ -12,7 +12,8 @@ namespace Hyrule
 		Manifold::Manifold(Collider*& _A, Collider*& _B) noexcept
 			: A(_A), B(_B),
 			normal{}, depth{},
-			contactPoints{}
+			contactPoints{},
+			impulse{}
 		{}
 
 
@@ -105,6 +106,15 @@ namespace Hyrule
 			this->B = _collider;
 		}
 
+		void Manifold::AddImpulse(const Vector3D& _impulse)
+		{
+			impulse += impulse;
+		}
+
+		Hyrule::Vector3D Manifold::GetImpulse()
+		{
+			return impulse;
+		}
 
 		Vector3D Manifold::GetNormal() const noexcept
 		{

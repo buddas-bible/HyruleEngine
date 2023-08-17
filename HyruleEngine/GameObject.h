@@ -96,7 +96,7 @@ namespace Hyrule
 
 		if (itr != components.end())
 		{
-			return itr->second;
+			return static_cast<component*>(itr->second);
 		}
 
 		return nullptr;

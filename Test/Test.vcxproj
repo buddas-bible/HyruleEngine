@@ -162,8 +162,10 @@
     <ClCompile Include="MeleeEnemy.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="RangeEnemy.cpp" />
     <ClCompile Include="Scene01.cpp" />
+    <ClCompile Include="TestScene01.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boss.h" />
@@ -173,8 +175,10 @@
     <ClInclude Include="MeleeEnemy.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="RangeEnemy.h" />
     <ClInclude Include="Scene01.h" />
+    <ClInclude Include="TestScene01.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

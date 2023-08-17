@@ -15,36 +15,59 @@ namespace Hyrule
 			shape(Shapes::boxShape)
 		{
 			_obj->colliders.push_back(this);
-			this->SetSize(_info->colliderSize);
-			this->SetCenter(_info->colliderCenter);
+		}
+
+		Vector3D BoxCollider::GetPosition()
+		{
+			return center * object->GetWorldTM();
+		}
+
+		Quaternion BoxCollider::GetRotation()
+		{
+			return object->GetRotation();
+		}
+
+		Vector3D BoxCollider::GetScale()
+		{
+			Vector3D scl{ object->GetScale() };
+
+			return Vector3D(scl.x * size.x, scl.y * size.y, scl.z * size.z);
+		}
+
+		float BoxCollider::GetLength()
+		{
+			return (GetScale() * 0.5f).Length();
+		}
+
+		Matrix4x4 BoxCollider::GetLocalTM()
+		{
+			return ToTransformMatrix(center, Quaternion::Identity(), size);
+		}
+
+		Matrix4x4 BoxCollider::GetWorldTM()
+		{
+			return GetLocalTM() * object->GetWorldTM();
+		}
+
+		Vector3D BoxCollider::GetSize()
+		{
+			return size;
+		}
+
+		Vector3D BoxCollider::GetCenter()
+		{
+			return center;
 		}
 
 		AABB BoxCollider::GetAABB()
 		{
-			// Matrix4x4 objectTM = object->GetWorldTM();
-
 			float length = GetLength();
 
-// 			Vector3D p = shape->GetPoints()[0] * objectTM;
-// 
-			Vector3D Min = object->GetPosition();
+			Vector3D Min = GetPosition();
  			Vector3D Max = Min;
 
 			Min -= Vector3D(1.f, 1.f, 1.f) * length;
 			Max += Vector3D(1.f, 1.f, 1.f) * length;
-// 
-// 			for (size_t i = 1; i < shape->GetPoints().size(); i++)
-// 			{
-// 				auto e = shape->GetPoints()[i] * objectTM;
-// 
-// 				Min.x = std::min(Min.x, e.x);
-// 				Min.y = std::min(Min.y, e.y);
-// 				Min.z = std::min(Min.z, e.z);
-// 
-// 				Max.x = std::max(Max.x, e.x);
-// 				Max.y = std::max(Max.y, e.y);
-// 				Max.z = std::max(Max.z, e.z);
-// 			}
 
 			return AABB(Min, Max);
 		}
@@ -56,10 +79,9 @@ namespace Hyrule
 		/// </summary>
 		Vector3D BoxCollider::FindFarthestPoint(const Vector3D& _direction)
 		{
-			Matrix4x4 objectTM = object->GetWorldTM();
-
-			Matrix4x4 colliderWorld = objectTM;
-			colliderWorld.m[3] = {0.f, 0.f, 0.f, 1.f};
+			Matrix4x4 world = GetWorldTM();
+			Matrix4x4 colliderWorld = world;
+			colliderWorld.m[3] = { 0.f, 0.f, 0.f, 1.f };
 			Matrix4x4 invColliderWorld = colliderWorld.Inverse();
 
 			size_t index{ 0 };
@@ -77,16 +99,13 @@ namespace Hyrule
 				}
 			}
 
-			return shape->GetPoints()[index] * objectTM;
+			return shape->GetPoints()[index] * world;
 		}
 
 		Face BoxCollider::FindSupportFace(const Vector3D& _direction)
 		{
 			// 방향에 있는 점을 포함하고 있는 면을 찾아야함.
-			// Matrix4x4 world = object->GetWorldTM();
-			Matrix4x4 world = object->GetWorldTM();
-
-			// std::map<float, Face> facesMap;
+			Matrix4x4 world = GetWorldTM();
 
 			auto faces = shape->GetFaces(world);
 			float max{ FLT_MIN };
@@ -105,12 +124,10 @@ namespace Hyrule
 			}
 
 			std::vector<Edge> edges;
-			// std::vector<Face> same;
 
 			for (auto& e : faces)
 			{
 				float radius{ 1.f - e.normal.Dot(normal) };
-				// float error{ std::fabs(max - radius) };
 
 				// 오차가 입실론보다 작다면 같은 면임.
 				if (radius <= 0.01f)
@@ -138,7 +155,7 @@ namespace Hyrule
 
 		Matrix3x3 BoxCollider::GetInertiaTensor(float _mass) noexcept
 		{
-			Vector3D scl{ object->GetScale() };
+			Vector3D scl{ GetScale() };
 			const float width{ 1.f * scl.x };
 			const float height{ 1.f * scl.y };
 			const float depth{ 1.f * scl.z };

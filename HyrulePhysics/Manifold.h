@@ -36,6 +36,8 @@ namespace Hyrule
 			float depth;									// 충돌의 깊이
 			std::vector<Vector3D> contactPoints;			// 충돌 접점
 
+			Vector3D impulse;
+
 			Simplex simplex{};
 
 		public:
@@ -56,11 +58,11 @@ namespace Hyrule
 			void SetColliderA(Collider*);
 			void SetColliderB(Collider*);
 
+			void AddImpulse(const Vector3D&);
+			Vector3D GetImpulse();
+
 			Vector3D GetNormal() const noexcept;
 			void SetNormal(const Vector3D& _normal) noexcept;
-
-			Vector3D GetContactNormal() const noexcept;
-			void SetContactNormal(const Vector3D& _contactNormal) noexcept;
 
 			float GetDepth() const noexcept;
 			void SetDepth(float _depth) noexcept;

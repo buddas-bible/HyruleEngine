@@ -28,12 +28,12 @@ namespace Hyrule
 
 	void SphereCollider::SetSize(const Vector3D& _size)
 	{
-		collider->SetSize(_size);
+		size = _size;
 	}
 
 	void SphereCollider::SetCenter(const Vector3D& _center)
 	{
-		collider->SetSize(_center);
+		center = _center;
 	}
 
 	bool SphereCollider::isCollision() noexcept
@@ -49,6 +49,8 @@ namespace Hyrule
 	void SphereCollider::PrePhysicsUpdate()
 	{
 		collider->SetTransform(
+			center,
+			size,
 			gameObject->GetTransform()->GetWorldPosition(),
 			gameObject->GetTransform()->GetWorldQuaternion(),
 			gameObject->GetTransform()->GetWorldScale()

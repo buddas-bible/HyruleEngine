@@ -350,8 +350,7 @@ namespace Hyrule
 			Collider* box{ _manifold.GetColliderB() };
 
 			Vector3D sphereScale{ sphere->GetScale() };
-			float sphereScaleMax{ std::max(std::max(sphereScale.x, sphereScale.y), sphereScale.z) };
-			float Radius{ 0.5f * sphereScaleMax };
+			float Radius{ 0.5f * sphereScale.x };
 
 			Vector3D sphereCenter{ sphere->GetPosition() };
 			Vector3D closestPoint{ ClosestPointToOBB(sphereCenter, box) };
@@ -379,8 +378,7 @@ namespace Hyrule
 			Vector3D sphereCenter{ sphere->GetPosition() };
 
 			Vector3D sphereScale{ sphere->GetScale() };
-			float sphereScaleMax{ std::max(std::max(sphereScale.x, sphereScale.y), sphereScale.z) };
-			float sphereRadius{ 0.5f * sphereScaleMax };
+			float sphereRadius{ 0.5f * sphereScale.x };
 			
 			Vector3D closestPointOnConvex{ ClosestPointToConvex(sphereCenter, convex) };
 
@@ -495,7 +493,60 @@ namespace Hyrule
 
 		bool CollisionSystem::RaycastToBox(const Ray& _ray, Collider* _collider)
 		{
-			return false;
+			// Ray = t * to + from 로 표현할 수 있는데
+// 
+
+			// Vector3D boxPosition{ _collider->GetPosition() };
+			// Quaternion boxQuaternion{ _collider->GetRotation() };
+			// Matrix3x3 boxRotationTranspose{ ToMatrix3(boxQuaternion).Transpose() };
+			// Vector3D boxScale{ _collider->GetScale() };
+			// 
+			// // 레이를 BOX 로컬로 가져옴
+			// // Vector3D rayPos{ (_ray.position - boxPosition) * boxRotationTranspose };
+			// Vector3D rayDirection{ _ray.direction * boxRotationTranspose };
+			// 
+			// // _t = 0.0f;
+			// float tmax = FLT_MAX;
+			// 
+			// Vector3D min{ -boxScale * 0.5f };
+			// Vector3D max{ boxScale * 0.5f };
+			// 
+			// for (int i = 0; i < 3; i++)
+			// {
+			// 	if (std::abs(rayDirection.e[i]) < Epsilon)
+			// 	{
+			// 		if (rayPos.e[i] < min.e[i] || rayPos.e[i] > max.e[i])
+			// 		{
+			// 			return 0;
+			// 		}
+			// 	}
+			// 	else
+			// 	{
+			// 		float ood = 1.0f / rayDirection.e[i];
+			// 		float t1 = (min.e[i] - rayPos.e[i]) * ood;
+			// 		float t2 = (max.e[i] - rayPos.e[i]) * ood;
+			// 		if (t1 > t2)
+			// 		{
+			// 			std::swap(t1, t2);
+			// 		}
+			// 		if (t1 > _t)
+			// 		{
+			// 			_t = t1;
+			// 		}
+			// 		if (t2 > tmax)
+			// 		{
+			// 			tmax = t2;
+			// 		}
+			// 		if (_t > tmax)
+			// 		{
+			// 			// 교차가 없음
+			// 			return false;
+			// 		}
+			// 	}
+			// }
+
+			// _contact = _ray.position + _ray.direction * _t;
+			return true;
 		}
 
 		bool CollisionSystem::RaycastToConvex(const Ray& _ray, Collider* _collider)
@@ -514,11 +565,8 @@ namespace Hyrule
 			Vector3D sphereScaleA = _colliderA->GetScale();
 			Vector3D sphereScaleB = _colliderB->GetScale();
 			
-			float sphereScaleMaxA = std::max(std::max(sphereScaleA.x, sphereScaleA.y), sphereScaleA.z);
-			float sphereScaleMaxB = std::max(std::max(sphereScaleB.x, sphereScaleB.y), sphereScaleB.z);
-			
-			float radiusA{ 0.5f * sphereScaleMaxA };
-			float radiusB{ 0.5f * sphereScaleMaxB };
+			float radiusA{ 0.5f * sphereScaleA.x };
+			float radiusB{ 0.5f * sphereScaleB.x };
 
 			float total{ radiusA + radiusB };
 			float distanceBetweenCenters{ AB.Length() };
@@ -546,8 +594,7 @@ namespace Hyrule
 			Vector3D v{ p - _colliderA->GetPosition() };
 			Vector3D scl{ _colliderA->GetScale() };
 
-			float s{ std::max(std::max(scl.x, scl.y), scl.z) };
-			float r{ 0.5f * s };
+			float r{ 0.5f * scl.x };
 
 			return v.Dot(v) <= r * r;
 		}
@@ -559,8 +606,7 @@ namespace Hyrule
 			Vector3D v{ p - _colliderA->GetPosition() };
 			Vector3D scl{ _colliderA->GetScale() };
 
-			float s{ std::max(std::max(scl.x, scl.y), scl.z) };
-			float r{ 0.5f * s };
+			float r{ 0.5f * scl.x };
 
 			return v.Dot(v) <= r * r;
 		}
@@ -987,6 +1033,7 @@ namespace Hyrule
 
 				// 임펄스 벡터
 				Vector3D impulse = Normal * j;
+				_manifold.AddImpulse(impulse);
 				A->ApplyImpulse(-impulse, r_1);
 				B->ApplyImpulse(impulse, r_2);
 

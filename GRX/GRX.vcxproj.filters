@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="repo">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="repo\Interface">
+      <UniqueIdentifier>{b5df9f20-5790-4801-8768-e3eb96a30fec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo\Class">
+      <UniqueIdentifier>{2934f53e-d154-47a0-b5af-b2a3f512151c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="repo\Class\Operator">
+      <UniqueIdentifier>{1a260e8b-4013-45a0-9e31-c32ca6aa1524}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IDisposable.h">
+      <Filter>repo\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IObservable.h">
+      <Filter>repo\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IObserver.h">
+      <Filter>repo\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>repo\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Observable.h">
+      <Filter>repo\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="DistinctUntilChangedObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="DistinctObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="ScanObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipUntilObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipWhileObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="TakeObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="TakeUntilObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="TakeWhileObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="ThrottleObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="WhereObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>repo\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ReactiveProperty.h">
+      <Filter>repo\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferCountObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferThrottleObserver.h">
+      <Filter>repo\Class\Operator</Filter>
+    </ClInclude>
+    <ClInclude Include="GRX.h">
+      <Filter>repo</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>repo</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

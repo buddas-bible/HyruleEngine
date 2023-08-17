@@ -40,6 +40,7 @@
 #include "HyruleEngine.h"
 
 #include "Scene01.h"
+#include "TestScene01.h"
 #include "SceneManager.h"
 
 int APIENTRY main(
@@ -71,11 +72,13 @@ int APIENTRY main(
 
 	auto& sceneManager = Hyrule::SceneManager::GetInstance();
 	Hyrule::Scene* scene01 = new Hyrule::Scene01(L"Scene01");
+	Hyrule::Scene* testScene01 = new Hyrule::TestScene01(L"TestScene01");
 	sceneManager.AddScene(L"Scene01", scene01);
+	sceneManager.AddScene(L"TestScene01", testScene01);
 
 
 
-	sceneManager.LoadScene(scene01);
+	sceneManager.LoadScene(testScene01);
 	gameEngine.Run();
 	gameEngine.Finalize();
 

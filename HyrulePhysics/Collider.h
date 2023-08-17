@@ -30,6 +30,11 @@ namespace Hyrule
 		protected:
 			Object* object;
 
+			std::wstring tag;
+			std::wstring layer;
+
+			void* userData;
+
 			Vector3D prePos;
 			Quaternion preRot;
 			Vector3D preScl;
@@ -47,11 +52,6 @@ namespace Hyrule
 			bool collied;
 
 		public:
-			Vector3D GetPosition();
-			Quaternion GetRotation();
-			Vector3D GetScale();
-			float GetLength();
-
 			Object* GetObject();
 			RigidBody* GetRigidBody();
 			void CollisionInfoClear();
@@ -61,29 +61,44 @@ namespace Hyrule
 
 			virtual Vector3D GetCenterOfMass() noexcept final;
 			virtual Matrix3x3 GetInertiaTensor(float) noexcept abstract;
-			virtual void Subexpressions(float, float, float, float&, float&, float&, float&, float&, float&) final;
+			// virtual void Subexpressions(float, float, float, float&, float&, float&, float&, float&, float&) final;
 			virtual AABB GetAABB() abstract;
 
 		public:
+			virtual Vector3D GetPosition() abstract;
+			virtual Quaternion GetRotation() abstract;
+			virtual Vector3D GetScale() abstract;
+			virtual float GetLength() abstract;
+
+		public:
+			void AddCollisionInfo(Collider*, Manifold&);
+
 			virtual bool isCollision() noexcept final;
 			virtual void OnEnable() noexcept final;
 			virtual void OnDisable() noexcept final;
 			virtual void OnDestroy() noexcept final;
 			virtual std::vector<ICollision*> GetCollisionInfo() noexcept final;
 
-			void AddCollisionInfo(Collider*, Manifold&);
+		public:
+			virtual void SetTransform(
+				const Vector3D&, const Vector3D&,
+				const Vector3D&, const Quaternion&, const Vector3D&) noexcept final;
 
 		public:
-			virtual void SetTransform(const Vector3D&, const Quaternion&, const Vector3D&) noexcept final;
+			virtual Matrix4x4 GetLocalTM() abstract;
+			virtual Matrix4x4 GetWorldTM() abstract;
 
-		public:
-			virtual void SetSize(const Vector3D&) final;
-			virtual void SetCenter(const Vector3D&) final;
+			virtual Vector3D GetSize() abstract;
+			virtual Vector3D GetCenter() abstract;
+			
+			virtual bool GetTrigger() final;
 			virtual void SetTrigger(bool) final;
 
+			//
 		public:
 			virtual std::wstring GetObjectName() final;
 			
+			// 충돌 관련
 		public:
 			virtual size_t GetType() noexcept abstract;
 			virtual Vector3D FindFarthestPoint(const Vector3D&) abstract;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "HyruleMath.h"
 
 #include <vector>
 
@@ -19,6 +20,10 @@ namespace Hyrule
 		Collider() = delete;
 		Collider(GameObject*) noexcept;
 		virtual ~Collider() noexcept = default;
+	
+	public:
+		Vector3D center;
+		Vector3D size;
 
 	public:
 		virtual void SetTrigger(bool) abstract;

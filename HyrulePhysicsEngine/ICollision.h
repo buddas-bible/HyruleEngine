@@ -17,6 +17,9 @@ namespace Hyrule
 
 		public:
 			virtual ICollider* Collider() noexcept abstract;
+			virtual void* UserData() noexcept abstract;
+			virtual std::wstring InstanceID() noexcept abstract;
+			virtual std::wstring Tag() noexcept abstract;
 			virtual Vector3D Impulse() noexcept abstract;
 			virtual std::vector<Vector3D> Contacts() noexcept abstract;
 			virtual Vector3D Contact(size_t) noexcept abstract;

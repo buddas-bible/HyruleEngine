@@ -16,6 +16,9 @@
     <Filter Include="Component\Boss">
       <UniqueIdentifier>{bd99cd0a-d895-4059-be03-766bb21d5a8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Player">
+      <UniqueIdentifier>{e483ccc2-4fed-40e0-a254-f35f85e5e746}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -25,9 +28,6 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Controller.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
@@ -41,6 +41,15 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Component\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Component\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene01.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +65,6 @@
     <ClInclude Include="FSM.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Component\Mob</Filter>
     </ClInclude>
@@ -70,6 +76,15 @@
     </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>Component\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene01.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

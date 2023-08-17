@@ -31,13 +31,13 @@ namespace Hyrule
 			/// <summary>
 			/// 게임 엔진으로부터 트랜스폼 정보를 받음.
 			/// </summary>
-			virtual void SetTransform(const Vector3D&, const Quaternion&, const Vector3D&) noexcept abstract;
+			virtual void SetTransform(
+				const Vector3D&, const Vector3D&,
+				const Vector3D&, const Quaternion&, const Vector3D&) noexcept abstract;
 
 			virtual std::vector<ICollision*> GetCollisionInfo() noexcept abstract;
 
 			virtual void SetTrigger(bool) abstract;
-			virtual void SetSize(const Vector3D&) abstract;
-			virtual void SetCenter(const Vector3D&) abstract;
 
 			// virtual std::wstring GetObjectName() abstract;
 			// virtual bool IsColliding() abstract;
