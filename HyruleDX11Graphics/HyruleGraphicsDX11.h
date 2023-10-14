@@ -53,7 +53,6 @@ namespace Hyrule
 		/// <summary>
 		/// 초기화 함수
 		/// </summary>
-		/// <returns>RESULT</returns>
 		long CreateDeviceAndSwapChain();
 		long CreateRenderTargetAndDepthStencil();
 		long CreateRasterState();
@@ -66,8 +65,6 @@ namespace Hyrule
 
 		Helper* m_axis;
 		Helper* m_gizmo;
-#if _DEBUG
-#endif
 	};
 
 	extern "C"

@@ -52,6 +52,9 @@ namespace Hyrule
 			bool collied;
 
 		public:
+			//         _declspec(property(get = GetCenter, put = SetCenter)) Hyrule::Vector3D Center;
+//         _declspec(property(get = GetSize, put = SetSize)) Hyrule::Vector3D Size;
+
 			Object* GetObject();
 			RigidBody* GetRigidBody();
 			void CollisionInfoClear();

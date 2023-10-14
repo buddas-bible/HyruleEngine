@@ -3,7 +3,9 @@
 namespace Hyrule
 {
 	class GameObject;
+	class Transform;
 	class Collider;
+	class Collision;
 
 	class Component
 	{
@@ -14,6 +16,7 @@ namespace Hyrule
 
 	public:
 		GameObject* gameObject;
+		Transform* transform;
 
 	public:
 		virtual void Awake() {};
@@ -26,13 +29,9 @@ namespace Hyrule
 		virtual void LateUpdate() {};
 		virtual void Render() {};
 
-		// 		virtual void OnTriggerEnter(Collider*)  {};
-		// 		virtual void OnTriggerStay(Collider*)  {};
-		// 		virtual void OnTriggerExit(Collider*)  {};
-		// 
-		// 		virtual void OnTriggerEnter()  {};
-		// 		virtual void OnTriggerStay()  {};
-		// 		virtual void OnTriggerExit()  {};
+		// virtual void OnTriggerEnter(Collider*) {};
+		// virtual void OnTriggerStay(Collider*) {};
+		// virtual void OnTriggerExit(Collider*) {};
 
 		virtual void OnCollisionEnter(Collider*) {};
 		virtual void OnCollisionStay(Collider*) {};

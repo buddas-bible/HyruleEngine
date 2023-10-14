@@ -62,6 +62,9 @@
     <Filter Include="Object\Picking">
       <UniqueIdentifier>{1ee0ed29-6265-4432-af2f-9e11a5acea55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. Component\1. Physics\Joint">
+      <UniqueIdentifier>{3c6e956d-9469-4b19-b4c2-5d39a0a4fb51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -160,6 +163,9 @@
     <ClInclude Include="MouseInputSystem.h">
       <Filter>2. Scene</Filter>
     </ClInclude>
+    <ClInclude Include="SpringJoint.h">
+      <Filter>3. Component\1. Physics\Joint</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HyruleEngine.cpp">
@@ -248,6 +254,9 @@
     </ClCompile>
     <ClCompile Include="MouseInputSystem.cpp">
       <Filter>2. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SpringJoint.cpp">
+      <Filter>3. Component\1. Physics\Joint</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -55,8 +55,8 @@ namespace Hyrule
 			float dfriction{ 0.1f };							// 付蔓
 			float sfriction{ 0.2f };							// 付蔓
 			float restitution{ 0.2f };							// 馆惯拌荐
-			Matrix3x3 inertiaTensor{ Matrix3x3::Identity() };	// 包己刨辑
-			Matrix3x3 invInertiaTensor{ Matrix3x3::Identity() };// 开包己刨辑
+			Matrix3x3 inertiaTensor{ };	// 包己刨辑
+			Matrix3x3 invInertiaTensor{ };// 开包己刨辑
 
 			float linerDamping{ 0.4f };
 			float angularDamping{ 0.4f };

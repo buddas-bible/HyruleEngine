@@ -403,8 +403,6 @@ namespace Hyrule
 			Collider* _cA{ _manifold.GetColliderA() };
 			Collider* _cB{ _manifold.GetColliderB() };
 
-			if (_cA->hasRigidBody() && _cB->hasRigidBody())
-			{
 				Vector3D direction = _manifold.GetNormal();
 
 				// Ãæµ¹¿¡ °ü¿©ÇÑ ¸éÀ» Ã£¾Æ³¿
@@ -446,6 +444,8 @@ namespace Hyrule
 					_manifold.AddContactPoint(contactPoint[i]);
 				}
 
+				if (_cA->hasRigidBody() && _cB->hasRigidBody())
+				{
 				_manifold.Apply();
 			}
 		}
@@ -1033,7 +1033,7 @@ namespace Hyrule
 
 				// ÀÓÆÞ½º º¤ÅÍ
 				Vector3D impulse = Normal * j;
-				_manifold.AddImpulse(impulse);
+				// _manifold.AddImpulse(impulse);
 				A->ApplyImpulse(-impulse, r_1);
 				B->ApplyImpulse(impulse, r_2);
 

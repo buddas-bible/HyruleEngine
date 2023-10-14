@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "HyruleMath.h"
 
 namespace Hyrule
 {

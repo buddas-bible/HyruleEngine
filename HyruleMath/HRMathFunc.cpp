@@ -226,26 +226,32 @@ namespace Hyrule
 	/// </summary>
 	Quaternion ToQuaternion(const Vector3D& _euler) noexcept
 	{
-		Vector3D eulerRad = ( _euler * (PI<float> / 180.0f) ) * 0.5f;
+		Vector3D eulerRad = _euler * 0.5f;
 
-		float cosX = std::cos(eulerRad.x);
-		float sinX = std::sin(eulerRad.x);
-		float cosY = std::cos(eulerRad.y);
-		float sinY = std::sin(eulerRad.y);
-		float cosZ = std::cos(eulerRad.z);
-		float sinZ = std::sin(eulerRad.z);
+		float roll = eulerRad.x;        // 뱅크
+		float pitch = eulerRad.z;       // 에티튜드
+		float yaw = eulerRad.y;         // 헤딩
 
-		float cosYcosZ = cosY * cosZ;
-		float sinYsinZ = sinY * sinZ;
-		float cosYsinZ = cosY * sinZ;
-		float sinYcosZ = sinY * cosZ;
+		// float roll = eulerRad.z;        // 
+		// float pitch = eulerRad.x;
+		// float yaw = eulerRad.y;
+
+		float c1 = std::cosf(yaw);
+		float s1 = std::sinf(yaw);
+		float c2 = std::cosf(pitch);
+		float s2 = std::sinf(pitch);
+		float c3 = std::cosf(roll);
+		float s3 = std::sinf(roll);
+
+		float c1c2 = c1 * c2;
+		float s1s2 = s1 * s2;
 
 		Quaternion q;
 
-		q.w = cosX * cosYcosZ + sinX * sinYsinZ;
-		q.x = sinX * cosYcosZ - cosX * sinYsinZ;
-		q.y = cosX * sinYcosZ + sinX * cosYsinZ;
-		q.z = cosX * cosYsinZ - sinX * sinYcosZ;
+		q.w = c1c2 * c3 - s1s2 * s3;
+		q.x = c1c2 * s3 + s1s2 * c3;
+		q.y = s1 * c2 * c3 + c1 * s2 * s3;
+		q.z = c1 * s2 * c3 - s1 * c2 * s3;
 
 		return q;
 	}
@@ -426,30 +432,42 @@ namespace Hyrule
 	/// <summary>
 	/// 쿼터니언을 오일러각으로 바꿈
 	/// </summary>
-	Vector3D ToEuler(const Quaternion& _q) noexcept
+	Vector3D ToEuler(const Quaternion& q) noexcept
 	{
-		const float x2 = _q.x * _q.x;
-		const float y2 = _q.y * _q.y;
-		const float z2 = _q.z * _q.z;
-		const float w2 = _q.w * _q.w;
+		// YZX 오일러로 변환
+		float roll, pitch, yaw;
 
-		Vector3D euler;
+		double sqw = q.w * q.w;
+		double sqx = q.x * q.x;
+		double sqy = q.y * q.y;
+		double sqz = q.z * q.z;
+		double unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
+		double test = q.x * q.y + q.z * q.w;
 
-		// Roll (Z-axis rotation)
-		float sinRoll = 2.0f * (_q.w * _q.x + _q.y * _q.z);
-		float cosRoll = w2 - x2 - y2 + z2;
-		euler.x = std::atan2f(sinRoll, cosRoll);
+		if (test > 0.499f * unit)
+		{ // singularity at north pole
+			yaw = 2.f * std::atan2f(q.x, q.w);
+			pitch = PI<float> / 2.f;
+			roll = 0.f;
+			return  Vector3D(roll, yaw, pitch);
+			// return Vector3D(pitch, yaw, roll);
+		}
 
-		// Pitch (X-axis rotation)
-		float sinPitch = 2.0f * (_q.w * _q.y - _q.z * _q.x);
-		euler.y = std::asinf(sinPitch);
+		if (test < -0.499f * unit)
+		{ // singularity at south pole
+			yaw = -2.f * std::atan2f(q.x, q.w);
+			pitch = -PI<float> / 2.f;
+			roll = 0.f;
+			return  Vector3D(roll, yaw, pitch);
+			// return Vector3D(pitch, yaw, roll);
+		}
 
-		// Yaw (Y-axis rotation)
-		float sinYaw = 2.0f * (_q.w * _q.z + _q.x * _q.y);
-		float cosYaw = w2 + x2 - y2 - z2;
-		euler.z = std::atan2f(sinYaw, cosYaw);
+		yaw = std::atan2f(2 * q.y * q.w - 2 * q.x * q.z, sqx - sqy - sqz + sqw);
+		pitch = std::asinf(2 * test / unit);
+		roll = std::atan2f(2 * q.x * q.w - 2 * q.y * q.z, -sqx + sqy - sqz + sqw);
 
-		return euler;
+		return Vector3D(roll, yaw, pitch);
+		// return Vector3D(pitch, yaw, roll);
 	}
 
 	/// <summary>
