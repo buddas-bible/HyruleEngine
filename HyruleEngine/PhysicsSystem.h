@@ -12,6 +12,7 @@ namespace Hyrule
 		class IPhysics;
 		class IRigidBody;
 		class ICollider;
+
 		struct COLLIDER_INFO;
 	}
 

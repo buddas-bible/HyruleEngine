@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿<?xml version="1.0" encoding="utf-8"?>
-=======
 <?xml version="1.0" encoding="utf-8"?>
->>>>>>> 49329f7c854b5a1bc6f7f78c07b81085dead6dbe
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -22,7 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-<<<<<<< HEAD
   <ItemGroup>
     <ClInclude Include="ForceType.h" />
     <ClInclude Include="ZnCollider.h" />
@@ -38,8 +33,6 @@
   <ItemGroup>
     <ClCompile Include="ZnPhysicsBase.cpp" />
   </ItemGroup>
-=======
->>>>>>> 49329f7c854b5a1bc6f7f78c07b81085dead6dbe
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -126,19 +119,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-<<<<<<< HEAD
       <AdditionalIncludeDirectories>$(SolutionDir)ZonaiMath;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-=======
->>>>>>> 49329f7c854b5a1bc6f7f78c07b81085dead6dbe
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-<<<<<<< HEAD
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ZonaiMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
-=======
->>>>>>> 49329f7c854b5a1bc6f7f78c07b81085dead6dbe
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,12 +144,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-<<<<<<< HEAD
-=======
-  <ItemGroup>
-    <ClCompile Include="ZonaiPhysicsBase.cpp" />
-  </ItemGroup>
->>>>>>> 49329f7c854b5a1bc6f7f78c07b81085dead6dbe
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
