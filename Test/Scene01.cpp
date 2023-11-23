@@ -43,17 +43,19 @@ namespace Hyrule
 		for (auto i = 0; i < 10; i++)
 		{
 			GameObject* sphere = CreateGameObject(L"Sphere0" + std::to_wstring(i));
-			sphere->AddComponent<SphereRenderer>();
+			sphere->AddComponent<CubeRenderer>();
 			sphere->GetTransform()->SetLocalPosition(
 				Vector3D(
-					(float)(rand() % 40) * pow(-1.f, i + rand() % 2),
+					// (float)(rand() % 40) * pow(-1.f, i + rand() % 2),
+					0.f,
 					// (float)(rand() % 2000) * pow(-1.f, i + rand() % 2),
 					10.f + 5.f * i,
-					(float)(rand() % 40) * pow(-1.f, i + rand() % 2)
+					0.f
+					// (float)(rand() % 40) * pow(-1.f, i + rand() % 2)
 				)
 			);
 			sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
-			sphere->AddComponent<SphereCollider>();
+			sphere->AddComponent<BoxCollider>();
 			Hyrule::RigidBody* rigidsphere = sphere->AddComponent<RigidBody>();
 			rigidsphere->SetMass(3000.f);
 		}

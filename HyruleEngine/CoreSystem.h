@@ -19,7 +19,7 @@ namespace Hyrule
 		float Clamp(float, float, float);
 
 	private:
-		bool first = true;
+		bool first = false;
 		int state{};
 
 		int hWnd;

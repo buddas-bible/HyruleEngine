@@ -17,11 +17,9 @@ namespace Hyrule
 
 		auto& input = InputSystem::GetInstance();
 
-		if (!first && input.KeyDownNow('P'))
+		if (input.KeyDownNow('P'))
 		{
-			SceneManager::GetInstance().UnloadScene();
 			first = true;
-			state = DECOMISSIONING;
 		}
 
 		switch (state)
@@ -46,13 +44,16 @@ namespace Hyrule
 				// while (accumulatedTime >= fixedDeltaTime)
 				// {
 					SceneManager::GetInstance().FixedUpdate();
-					
-					/// 콜라이더랑 리지드바디만 따로 모아서 관리할 수 있으면 좋을거 같긴 함.
-					SceneManager::GetInstance().PrePhysicsUpdate();				// 콜라이더 매트릭스 업데이트
-					PhysicsSystem::GetInstance().CollisionDetection();			// 콜라이더 충돌 체크
-					SceneManager::GetInstance().PhysicsUpdate();				// 콜라이더 충돌 여부 확인
-					PhysicsSystem::GetInstance().CollisionResponse(deltaTime);	// 강체 시뮬레이션
-					SceneManager::GetInstance().LatePhysicsUpdate();			// 강체 시뮬레이션 결과 적용
+
+					if (first)
+					{
+						/// 콜라이더랑 리지드바디만 따로 모아서 관리할 수 있으면 좋을거 같긴 함.
+						SceneManager::GetInstance().PrePhysicsUpdate();				// 콜라이더 매트릭스 업데이트
+						PhysicsSystem::GetInstance().CollisionDetection();			// 콜라이더 충돌 체크
+						SceneManager::GetInstance().PhysicsUpdate();				// 콜라이더 충돌 여부 확인
+						PhysicsSystem::GetInstance().CollisionResponse(deltaTime);	// 강체 시뮬레이션
+						SceneManager::GetInstance().LatePhysicsUpdate();			// 강체 시뮬레이션 결과 적용
+					}
 
 					accumulatedTime -= fixedDeltaTime;
 			// 
