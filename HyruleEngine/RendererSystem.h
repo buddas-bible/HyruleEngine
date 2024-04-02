@@ -1,5 +1,5 @@
 #pragma once
-#include "System.h"
+#include "Singleton.h"
 
 #include "framework.h"
 #include <string>
@@ -12,14 +12,8 @@ namespace Hyrule
 	struct RENDERABLE_DESC;
 	class ICamera;
 
-	class RendererSystem : public System<RendererSystem>
+	class RendererSystem : public Singleton<RendererSystem>
 	{
-	public:
-		RendererSystem() noexcept = default;
-		~RendererSystem() noexcept = default;
-		RendererSystem(const RendererSystem&) = delete;
-		void operator=(const RendererSystem&) = delete;
-
 	private:
 		IGraphics* graphicsEngine{};
 		HMODULE graphicsDLL;
@@ -27,14 +21,16 @@ namespace Hyrule
 	public:
 		bool LoadGraphicsDLL(const std::wstring&, HWND);
 
-		void Update() noexcept;
-		void Render() noexcept;
-		void DebugRender() noexcept;
-		void Finalize() noexcept;
+		void Update();
+		void PreRender();
+		void Render();
+		void PostRender();
+		void DebugRender();
+		void Finalize();
 		
 		long OnResize();
 
-		ICamera* GetCamera() noexcept;
+		ICamera* GetCamera();
 
 	public:
 		IRenderable* GetRenderableObject(RENDERABLE_DESC* _desc);

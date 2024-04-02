@@ -22,12 +22,12 @@ namespace Hyrule
 
 		Enum currState;
 
-		void Add(Enum _state, std::function<Enum()> _func) noexcept
+		void Add(Enum _state, std::function<Enum()> _func)
 		{
 			stateFunc.insert(std::make_pair(_state, _func));
 		}
 
-		void Excute() noexcept
+		void Excute()
 		{
 			currState = stateFunc[currState]();
 		}

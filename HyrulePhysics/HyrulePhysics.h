@@ -29,7 +29,7 @@ namespace Hyrule
 		class HyrulePhysics : public IPhysics
 		{
 		public:
-			HyrulePhysics() noexcept = default;
+			HyrulePhysics() = default;
 			virtual ~HyrulePhysics() = default;
 
 		public:

@@ -12,7 +12,7 @@ namespace Hyrule
 	/// <summary>
 	/// 라디안을 각도로 바꿈
 	/// </summary>
-	constexpr float ToDegree(const float _rad) noexcept
+	constexpr float ToDegree(const float _rad)
 	{
 		return _rad * (180.0f / PI<float>);
 	}
@@ -20,64 +20,64 @@ namespace Hyrule
 	/// <summary>
 	/// 각도를 라디안으로 바꿈
 	/// </summary>
-	constexpr float ToRadian(const float _deg) noexcept
+	constexpr float ToRadian(const float _deg)
 	{
 		return _deg * (PI<float> / 180.f);
 	}
 
-	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler) noexcept;
+	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler);
 
-	Matrix4x4 ToScaleMatrix(const Vector3D& _scl) noexcept;
+	Matrix4x4 ToScaleMatrix(const Vector3D& _scl);
 
-	Matrix4x4 ToScaleMatrix(const float _scl) noexcept;
+	Matrix4x4 ToScaleMatrix(const float _scl);
 
-	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept;
+	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl);
 
-	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const float _scl) noexcept;
-
-
-	Vector3D DecomposPosition(const Matrix4x4& _mat) noexcept;
-
-	Quaternion DecomposRotation(const Matrix4x4& _mat) noexcept;
-
-	Vector3D DecomposScale(const Matrix4x4& _mat) noexcept;
-
-	void Decompose(const Matrix4x4& _matrix, Vector3D& _pos, Quaternion& _rot, Vector3D& _scl) noexcept;
+	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const float _scl);
 
 
-	Quaternion Lerp(const Quaternion& q1, const Quaternion& q2, float t) noexcept;
+	Vector3D DecomposPosition(const Matrix4x4& _mat);
 
-	Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, float t) noexcept;
+	Quaternion DecomposRotation(const Matrix4x4& _mat);
+
+	Vector3D DecomposScale(const Matrix4x4& _mat);
+
+	void Decompose(const Matrix4x4& _matrix, Vector3D& _pos, Quaternion& _rot, Vector3D& _scl);
 
 
-	Vector3D VectorRotateFromQuaternion(const Vector3D& _vec, const Quaternion& _q) noexcept;
+	Quaternion Lerp(const Quaternion& q1, const Quaternion& q2, float t);
 
-	Quaternion RotateVectorToVectorQuaternion(const Vector3D& _from, const Vector3D& _to) noexcept;
+	Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, float t);
+
+
+	Vector3D VectorRotateFromQuaternion(const Vector3D& _vec, const Quaternion& _q);
+
+	Quaternion RotateVectorToVectorQuaternion(const Vector3D& _from, const Vector3D& _to);
 	
-	Quaternion ToQuaternion(const Vector3D& _euler) noexcept;
+	Quaternion ToQuaternion(const Vector3D& _euler);
 
-	Quaternion ToQuaternion(const Vector4D& _axisAngle) noexcept;
+	Quaternion ToQuaternion(const Vector4D& _axisAngle);
 
-	Quaternion ToQuaternion(const Vector3D& _axis, float _angle) noexcept;
+	Quaternion ToQuaternion(const Vector3D& _axis, float _angle);
 
-	Quaternion ToQuaternion(const Matrix3x3& _rotMatrix) noexcept;
+	Quaternion ToQuaternion(const Matrix3x3& _rotMatrix);
 
-	Quaternion ToQuaternion(const Matrix4x4& _rotMatrix) noexcept;
-
-
-	Vector3D ToEuler(const Quaternion& _q) noexcept;
+	Quaternion ToQuaternion(const Matrix4x4& _rotMatrix);
 
 
-	Vector4D ToAxisAngle(const Quaternion& _q) noexcept;
+	Vector3D ToEuler(const Quaternion& _q);
 
 
-	Matrix3x3 ToMatrix3(const Quaternion& _q) noexcept;
+	Vector4D ToAxisAngle(const Quaternion& _q);
 
-	Matrix4x4 ToMatrix4(const Quaternion& _q) noexcept;
 
-	Matrix3x3 ToMatrix3(const Vector3D& _axis, const float _angle) noexcept;
+	Matrix3x3 ToMatrix3(const Quaternion& _q);
 
-	Matrix4x4 ToMatrix4(const Vector3D& _axis, const float _angle) noexcept;
+	Matrix4x4 ToMatrix4(const Quaternion& _q);
+
+	Matrix3x3 ToMatrix3(const Vector3D& _axis, const float _angle);
+
+	Matrix4x4 ToMatrix4(const Vector3D& _axis, const float _angle);
 
 	// ToEuler (축각)
 	// ToEuler (행렬)

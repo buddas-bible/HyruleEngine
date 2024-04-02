@@ -9,7 +9,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		PlaneCollider::PlaneCollider(Object* _obj, COLLIDER_INFO* _info) noexcept :
+		PlaneCollider::PlaneCollider(Object* _obj, COLLIDER_INFO* _info) :
 			Collider(_obj),
 			shape(Shapes::planeShape)
 		{
@@ -113,7 +113,7 @@ namespace Hyrule
 			return Face(Vector3D(), Vector3D(), Vector3D(), 0, 1, 2);
 		}
 
-		Matrix3x3 PlaneCollider::GetInertiaTensor(float _mass) noexcept
+		Matrix3x3 PlaneCollider::GetInertiaTensor(float _mass)
 		{
 			// 			const auto& points{ shape->GetPoints(ToTransformMatrix(Vector3D(), object->GetRotation(), object->GetScale())) };
 			// 			const auto& index{ shape->GetIndies() };
@@ -208,7 +208,7 @@ namespace Hyrule
 			return inertia;
 		}
 
-		size_t PlaneCollider::GetType() noexcept
+		size_t PlaneCollider::GetType()
 		{
 			return shape->GetType();
 		}

@@ -5,7 +5,7 @@
 
 namespace Hyrule
 {
-	Matrix4x4 Matrix4x4::Transpose() const noexcept
+	Matrix4x4 Matrix4x4::Transpose() const
 	{
 		return Matrix4x4
 		{
@@ -29,7 +29,7 @@ namespace Hyrule
 		*/
 	}
 
-	Matrix4x4 Matrix4x4::Inverse() const noexcept
+	Matrix4x4 Matrix4x4::Inverse() const
 	{
 		Matrix4x4 result{};
 
@@ -183,27 +183,27 @@ namespace Hyrule
 		return result;
 	}
 
-	Vector3D Matrix4x4::Right() const noexcept
+	Vector3D Matrix4x4::Right() const
 	{
 		return Vector3D(e00, e01, e02);
 	}
 
-	Vector3D Matrix4x4::Up() const noexcept
+	Vector3D Matrix4x4::Up() const
 	{
 		return Vector3D(e10, e11, e12);
 	}
 
-	Vector3D Matrix4x4::Look() const noexcept
+	Vector3D Matrix4x4::Look() const
 	{
 		return Vector3D(e20, e21, e22);
 	}
 
-	Vector3D Matrix4x4::Pos() const noexcept
+	Vector3D Matrix4x4::Pos() const
 	{
 		return Vector3D(e30, e31, e32);
 	}
 
-	float Matrix4x4::Determinant() const noexcept
+	float Matrix4x4::Determinant() const
 	{
 		float det =
 			e00 * e11 * e22 * e33 + 
@@ -235,7 +235,7 @@ namespace Hyrule
 		return det;
 	}
 
-	float Matrix4x4::Determinant3x3() const noexcept
+	float Matrix4x4::Determinant3x3() const
 	{
 		return 
 			e00 * (e11 * e22 - e12 * e21) -
@@ -243,7 +243,7 @@ namespace Hyrule
 			e02 * (e10 * e21 - e11 * e20);
 	}
 
-	Matrix4x4& Matrix4x4::operator+=(const Matrix4x4& other) noexcept
+	Matrix4x4& Matrix4x4::operator+=(const Matrix4x4& other)
 	{
 		this->m[0] += other.m[0];
 		this->m[1] += other.m[1];
@@ -253,7 +253,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Matrix4x4& Matrix4x4::operator-=(const Matrix4x4& other) noexcept
+	Matrix4x4& Matrix4x4::operator-=(const Matrix4x4& other)
 	{
 		this->m[0] -= other.m[0];
 		this->m[1] -= other.m[1];
@@ -263,28 +263,28 @@ namespace Hyrule
 		return *this;
 	}
 
-	Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other) const noexcept
+	Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other) const
 	{
 		Matrix4x4 temp(*this);
 
 		return temp += other;
 	}
 
-	Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other) const noexcept
+	Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other) const
 	{
 		Matrix4x4 temp(*this);
 
 		return temp -= other;
 	}
 
-	Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other) const noexcept
+	Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other) const
 	{
 		Matrix4x4 temp(*this);
 
 		return temp *= other;
 	}
 
-	Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& other) noexcept
+	Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& other)
 	{
 		Matrix4x4 temp
 		(
@@ -323,20 +323,20 @@ namespace Hyrule
 		return *this;
 	}
 
-	Matrix4x4 Matrix4x4::operator/(const Matrix4x4& _mat) const noexcept
+	Matrix4x4 Matrix4x4::operator/(const Matrix4x4& _mat) const
 	{
 		Matrix4x4 result{ *this };
 		return result /= _mat;
 	}
 
-	Matrix4x4& Matrix4x4::operator/=(const Matrix4x4& _mat) noexcept
+	Matrix4x4& Matrix4x4::operator/=(const Matrix4x4& _mat)
 	{
 		*this *= _mat.Inverse();
 
 		return *this;
 	}
 
-	bool Matrix4x4::operator==(const Matrix4x4& _mat) noexcept
+	bool Matrix4x4::operator==(const Matrix4x4& _mat)
 	{
 		return (this->m[0] == _mat.m[0]) && (this->m[1] == _mat.m[1]) && (this->m[2] == _mat.m[2]) && (this->m[3] == _mat.m[3]);
 	}

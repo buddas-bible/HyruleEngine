@@ -12,14 +12,14 @@ namespace Hyrule
 	{
 		struct Face
 		{
-			Face() noexcept = delete;
+			Face() = delete;
 			Face(const Vector3D&, const Vector3D&, const Vector3D&, 
 				size_t, size_t, size_t)noexcept;
-			Face(const std::vector<Edge>&) noexcept;
-			~Face() noexcept;
+			Face(const std::vector<Edge>&);
+			~Face();
 
-			void Inverse() noexcept;
-			void SetEdge() noexcept;
+			void Inverse();
+			void SetEdge();
 
 			std::vector<Vector3D> vec;
 			std::vector<size_t> index;

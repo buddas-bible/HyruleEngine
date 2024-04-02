@@ -11,22 +11,22 @@
 
 namespace Hyrule
 {
-	Vector3D::operator Matrix1x3() noexcept
+	Vector3D::operator Matrix1x3()
 	{
 		return Matrix1x3{ x, y, z };
 	}
 
-	float Vector3D::Length() const noexcept
+	float Vector3D::Length() const
 	{
 		return std::sqrtf((x * x) + (y * y) + (z * z));
 	}
 
-	float Vector3D::LengthSquare() const noexcept
+	float Vector3D::LengthSquare() const
 	{
 		return (x * x) + (y * y) + (z * z);
 	}
 
-	Vector3D Vector3D::Cross(const Vector3D& other) const noexcept
+	Vector3D Vector3D::Cross(const Vector3D& other) const
 	{
 		return Vector3D(
 			(this->y * other.z - this->z * other.y),
@@ -34,24 +34,24 @@ namespace Hyrule
 			(this->x * other.y - this->y * other.x));
 	}
 
-	float Vector3D::Dot(const Vector3D& other) const noexcept
+	float Vector3D::Dot(const Vector3D& other) const
 	{
 		return this->x * other.x + this->y * other.y + this->z * other.z;
 	}
 
 
-	float Vector3D::ScalarTriple(const Vector3D& v1, const Vector3D& v2) const noexcept
+	float Vector3D::ScalarTriple(const Vector3D& v1, const Vector3D& v2) const
 	{
 		return this->Dot(v1.Cross(v2));
 	}
 
 
-	Vector3D Vector3D::VectorTriple(const Vector3D& v1, const Vector3D& v2) const noexcept
+	Vector3D Vector3D::VectorTriple(const Vector3D& v1, const Vector3D& v2) const
 	{
 		return this->Cross(v1.Cross(v2));
 	}
 
-	float Vector3D::FastInvSqrt(float number) const noexcept
+	float Vector3D::FastInvSqrt(float number) const
 	{
 		long i;
 		float x2, y;
@@ -69,7 +69,7 @@ namespace Hyrule
 		return y;
 	}
 
-	Vector3D& Vector3D::Normalize() noexcept
+	Vector3D& Vector3D::Normalize()
 	{
 		float temp = LengthSquare();
 
@@ -86,7 +86,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Vector3D Vector3D::Normalized() const noexcept
+	Vector3D Vector3D::Normalized() const
 	{
 		float temp = LengthSquare();
 
@@ -119,7 +119,7 @@ namespace Hyrule
 		return Vector3D{ 1.f, 0.f, 0.f };
 	}
 
-	Vector3D& Vector3D::operator+=(const Vector3D& other) noexcept
+	Vector3D& Vector3D::operator+=(const Vector3D& other)
 	{
 		this->x += other.x;
 		this->y += other.y;
@@ -128,7 +128,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Vector3D& Vector3D::operator-=(const Vector3D& other) noexcept
+	Vector3D& Vector3D::operator-=(const Vector3D& other)
 	{
 		this->x -= other.x;
 		this->y -= other.y;
@@ -137,22 +137,22 @@ namespace Hyrule
 		return *this;
 	}
 
-	Vector3D Vector3D::operator+(const Vector3D& other) const noexcept
+	Vector3D Vector3D::operator+(const Vector3D& other) const
 	{
 		return Vector3D(this->x + other.x, this->y + other.y, this->z + other.z);
 	}
 
-	Vector3D Vector3D::operator-(const Vector3D& other) const noexcept
+	Vector3D Vector3D::operator-(const Vector3D& other) const
 	{
 		return Vector3D(this->x - other.x, this->y - other.y, this->z - other.z);
 	}
 
-	Vector3D Vector3D::operator-() const noexcept
+	Vector3D Vector3D::operator-() const
 	{
 		return Vector3D(-x, -y, -z);
 	}
 
-	Vector3D& Vector3D::operator*=(const float n) noexcept
+	Vector3D& Vector3D::operator*=(const float n)
 	{
 		this->x *= n;
 		this->y *= n;
@@ -161,7 +161,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Vector3D& Vector3D::operator*=(const Matrix4x4& _mat) noexcept
+	Vector3D& Vector3D::operator*=(const Matrix4x4& _mat)
 	{
 		Vector4D temp(*this, 1.f);
 		temp *= _mat;
@@ -173,7 +173,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Vector3D Vector3D::operator*(const Matrix4x4& _mat) const noexcept
+	Vector3D Vector3D::operator*(const Matrix4x4& _mat) const
 	{
 		Vector4D temp(*this, 1.f);
 		temp *= _mat;
@@ -181,7 +181,7 @@ namespace Hyrule
 		return Vector3D(temp.x, temp.y, temp.z);
 	}
 
-	Vector3D& Vector3D::operator/=(const float n) noexcept
+	Vector3D& Vector3D::operator/=(const float n)
 	{
 		this->x /= n;
 		this->y /= n;
@@ -190,21 +190,21 @@ namespace Hyrule
 		return *this;
 	}
 
-	Vector3D Vector3D::operator*(const float n) const noexcept
+	Vector3D Vector3D::operator*(const float n) const
 	{
 		Vector3D temp(*this);
 		
 		return temp *= n;
 	}
 
-	Vector3D Vector3D::operator/(const float n) const noexcept
+	Vector3D Vector3D::operator/(const float n) const
 	{
 		Vector3D temp(*this);
 
 		return temp /= n;
 	}
 
-	Vector3D& Vector3D::operator*=(const Matrix3x3& other) noexcept
+	Vector3D& Vector3D::operator*=(const Matrix3x3& other)
 	{
 		Vector3D temp(*this);
 
@@ -215,19 +215,19 @@ namespace Hyrule
 		return *this;
 	}
 
-	Vector3D Vector3D::operator*(const Matrix3x3& other) const noexcept
+	Vector3D Vector3D::operator*(const Matrix3x3& other) const
 	{
 		Vector3D temp(*this);
 
 		return temp *= other;
 	}
 
-	bool Vector3D::operator==(const Vector3D& other) const noexcept
+	bool Vector3D::operator==(const Vector3D& other) const
 	{
 		return (this->x == other.x && this->y == other.y && this->z == other.z);
 	}
 
-	Vector3D operator*(const Quaternion& q, const Vector3D& v) noexcept
+	Vector3D operator*(const Quaternion& q, const Vector3D& v)
 	{
 		Quaternion conjugate = q.Conjugate();
 		Quaternion result = q * Quaternion(0.f, v.x, v.y, v.z) * conjugate;

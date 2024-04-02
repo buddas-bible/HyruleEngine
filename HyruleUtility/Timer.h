@@ -10,8 +10,8 @@ namespace Hyrule
 	class CTimer
 	{
 	public:
-		CTimer() noexcept;
-		~CTimer() noexcept = default;
+		CTimer();
+		~CTimer() = default;
 
 		float TotalTime() const;  // in seconds
 		float DeltaTime() const; // in seconds

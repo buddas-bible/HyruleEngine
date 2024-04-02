@@ -2,21 +2,21 @@
 
 #include "ICollider.h"
 #include "Transform.h"
-#include "GameObject.h"
+#include "Entity.h"
 #include "PhysicsSystem.h"
 #include "PHYSICALLYOBJECT_INFO.h"
 
 namespace Hyrule
 {
-	BoxCollider::BoxCollider(GameObject* _gameObject) noexcept : 
+	BoxCollider::BoxCollider(Entity* _gameObject) : 
 		Collider(_gameObject)
 	{
 		Physics::COLLIDER_INFO info;
 		info.shapeInfo.shapeType = Physics::BOX;
-		collider = PhysicsSystem::GetInstance().CreateCollider(gameObject->GetName(), &info);
+		collider = PhysicsSystem::Instance()->CreateCollider(gameObject->GetName(), &info);
 	}
 
-	BoxCollider::~BoxCollider() noexcept
+	BoxCollider::~BoxCollider()
 	{
 
 	}
@@ -36,14 +36,9 @@ namespace Hyrule
 		center = _center;
 	}
 
-	bool BoxCollider::isCollision() noexcept
+	bool BoxCollider::isCollision()
 	{
 		return collider->isCollision();
-	}
-
-	void BoxCollider::FixedUpdate()
-	{
-
 	}
 
 	void BoxCollider::PrePhysicsUpdate()

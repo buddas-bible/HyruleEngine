@@ -7,21 +7,21 @@ namespace Hyrule
 	class IRenderable
 	{
 	public:
-		IRenderable() noexcept = default;
-		virtual ~IRenderable() noexcept = default;
+		IRenderable() = default;
+		virtual ~IRenderable() = default;
 
 	public:
-		virtual void SetWorldTransform(const Matrix4x4&) noexcept abstract;
+		virtual void SetWorldTransform(const Matrix4x4&) abstract;
 
 	public:
 		// 오브젝트가 활성화 되었는가 비활성화 되었는가를 판단해서
 		// 컴포넌트는 함수만 호출 당하는 느낌.
-		virtual void OnDisable() noexcept abstract;
-		virtual void OnEnble() noexcept abstract;
-		virtual bool isActive() noexcept abstract;
+		virtual void OnDisable() abstract;
+		virtual void OnEnble() abstract;
+		virtual bool isActive() abstract;
 		
-		virtual void OnCollisionEnter() noexcept abstract;
-		virtual void OnCollisionStay() noexcept abstract;
-		virtual void OnCollisionExit() noexcept abstract;
+		virtual void OnCollisionEnter() abstract;
+		virtual void OnCollisionStay() abstract;
+		virtual void OnCollisionExit() abstract;
 	};
 }

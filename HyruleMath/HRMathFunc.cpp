@@ -13,7 +13,7 @@ namespace Hyrule
 	/// <summary>
 	/// 오일러각을 매트릭스로 반환
 	/// </summary>
-	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler) noexcept
+	Matrix4x4 ToTranslateMatrix(const Vector3D& _euler)
 	{
 		return Matrix4x4
 		{
@@ -27,7 +27,7 @@ namespace Hyrule
 	/// <summary>
 	/// 스케일 매트릭스로 반환
 	/// </summary>
-	Matrix4x4 ToScaleMatrix(const Vector3D& _scl) noexcept
+	Matrix4x4 ToScaleMatrix(const Vector3D& _scl)
 	{
 		return Matrix4x4
 		{
@@ -41,7 +41,7 @@ namespace Hyrule
 	/// <summary>
 	/// 스케일 매트릭스로 반환
 	/// </summary>
-	Matrix4x4 ToScaleMatrix(const float _scl) noexcept
+	Matrix4x4 ToScaleMatrix(const float _scl)
 	{
 		return Matrix4x4
 		{
@@ -55,23 +55,23 @@ namespace Hyrule
 	/// <summary>
 	/// 트랜스폼 매트릭스로 반환
 	/// </summary>
-	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept
+	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl)
 	{
 		return ToScaleMatrix(_scl) * ToMatrix4(_rot) * ToTranslateMatrix(_pos);
 	}
 
-	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const float _scl) noexcept
+	Matrix4x4 ToTransformMatrix(const Vector3D& _pos, const Quaternion& _rot, const float _scl)
 	{
 		return ToScaleMatrix(_scl) * ToMatrix4(_rot) * ToTranslateMatrix(_pos);
 	}
 
 
-	Vector3D DecomposPosition(const Matrix4x4& _mat) noexcept
+	Vector3D DecomposPosition(const Matrix4x4& _mat)
 	{
 		return Vector3D(_mat.e30, _mat.e31, _mat.e32);
 	}
 
-	Quaternion DecomposRotation(const Matrix4x4& _mat) noexcept
+	Quaternion DecomposRotation(const Matrix4x4& _mat)
 	{
 		Vector3D scl{ DecomposScale(_mat) };
 
@@ -85,7 +85,7 @@ namespace Hyrule
 		return ToQuaternion({ row00 , row01, row02 });
 	}
 
-	Vector3D DecomposScale(const Matrix4x4& _mat) noexcept
+	Vector3D DecomposScale(const Matrix4x4& _mat)
 	{
 		return Vector3D(
 			Vector3D(_mat.e00, _mat.e01, _mat.e02).Length(), 
@@ -97,7 +97,7 @@ namespace Hyrule
 	/// <summary>
 	/// 트랜스폼 행렬 분해?
 	/// </summary>
-	void Decompose(const Matrix4x4& _matrix, Vector3D& _pos, Quaternion& _rot, Vector3D& _scl) noexcept
+	void Decompose(const Matrix4x4& _matrix, Vector3D& _pos, Quaternion& _rot, Vector3D& _scl)
 	{
 		// 월드 행렬의 포지션 요소
 		_pos.x = _matrix.m[3].e00;
@@ -124,7 +124,7 @@ namespace Hyrule
 	/// 정규화된 두 쿼터니언을 받아 보간함.
 	/// t는 1.f ~ 0.f
 	/// </summary>
-	Quaternion Lerp(const Quaternion& q1, const Quaternion& q2, float t) noexcept
+	Quaternion Lerp(const Quaternion& q1, const Quaternion& q2, float t)
 	{
 		/// Q(t) = start - t * start  + t * end
 		/// Q(t)를 정규화까지 하면 된다.
@@ -140,7 +140,7 @@ namespace Hyrule
 	/// 정규화된 두 쿼터니언을 받아 보간함.
 	/// t는 1.f ~ 0.f
 	/// </summary>
-	Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, float t) noexcept
+	Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, float t)
 	{
 		/// Q(t) = 
 		/// ( (sin(1 - t) * theta) / sin theta ) * start + 
@@ -196,7 +196,7 @@ namespace Hyrule
 		return ((factorA * q1N) + (factorB * q2N)).Normalized();
 	}
 
-	Vector3D VectorRotateFromQuaternion(const Vector3D& _vec, const Quaternion& _q) noexcept
+	Vector3D VectorRotateFromQuaternion(const Vector3D& _vec, const Quaternion& _q)
 	{
 		Quaternion q_con{ _q.Conjugate() };
 		Quaternion vec{ 0.f, _vec.x, _vec.y, _vec.z };
@@ -209,7 +209,7 @@ namespace Hyrule
 	/// <summary>
 	/// 벡터를 목표하는 벡터로 변환하기 위한 쿼터니언을 반환
 	/// </summary>
-	Quaternion RotateVectorToVectorQuaternion(const Vector3D& _from, const Vector3D& _to) noexcept
+	Quaternion RotateVectorToVectorQuaternion(const Vector3D& _from, const Vector3D& _to)
 	{
 		Vector3D normalizedFrom = _from.Normalized();
 		Vector3D normalizedTo = _to.Normalized();
@@ -224,7 +224,7 @@ namespace Hyrule
 	/// <summary>
 	/// 오일러 각을 쿼터니언으로 바꿈
 	/// </summary>
-	Quaternion ToQuaternion(const Vector3D& _euler) noexcept
+	Quaternion ToQuaternion(const Vector3D& _euler)
 	{
 		Vector3D eulerRad = _euler * 0.5f;
 
@@ -259,7 +259,7 @@ namespace Hyrule
 	/// <summary>
 	/// 축각을 쿼터니언으로 바꿈
 	/// </summary>
-	Quaternion ToQuaternion(const Vector4D& _axisAngle) noexcept
+	Quaternion ToQuaternion(const Vector4D& _axisAngle)
 	{
 		Vector3D axis = Vector3D(_axisAngle.x, _axisAngle.y, _axisAngle.z).Normalized();
 		float halfAngle = _axisAngle.w * 0.5f;
@@ -275,7 +275,7 @@ namespace Hyrule
 		};
 	}
 
-	Quaternion ToQuaternion(const Vector3D& _axis, float _angle) noexcept
+	Quaternion ToQuaternion(const Vector3D& _axis, float _angle)
 	{
 		Vector3D axis = _axis.Normalized();
 		float halfAngle = _angle * 0.5f;
@@ -294,7 +294,7 @@ namespace Hyrule
 	/// <summary>
 	/// 회전 행렬을 쿼터니언으로 바꿈
 	/// </summary>
-	Quaternion ToQuaternion(const Matrix3x3& _rotMatrix) noexcept
+	Quaternion ToQuaternion(const Matrix3x3& _rotMatrix)
 	{
 		Quaternion quaternion;
 
@@ -336,7 +336,7 @@ namespace Hyrule
 		return quaternion;
 	}
 
-	Quaternion ToQuaternion(const Matrix4x4& _rotMatrix) noexcept
+	Quaternion ToQuaternion(const Matrix4x4& _rotMatrix)
 	{
 // 		Quaternion quaternion;
 // 
@@ -432,7 +432,7 @@ namespace Hyrule
 	/// <summary>
 	/// 쿼터니언을 오일러각으로 바꿈
 	/// </summary>
-	Vector3D ToEuler(const Quaternion& q) noexcept
+	Vector3D ToEuler(const Quaternion& q)
 	{
 		// YZX 오일러로 변환
 		float roll, pitch, yaw;
@@ -473,7 +473,7 @@ namespace Hyrule
 	/// <summary>
 	/// 쿼터니언을 축각으로 바꿈
 	/// </summary>
-	Vector4D ToAxisAngle(const Quaternion& _q) noexcept
+	Vector4D ToAxisAngle(const Quaternion& _q)
 	{
 		float squaredLength = _q.LengthSquare();
 
@@ -493,7 +493,7 @@ namespace Hyrule
 	/// <summary>
 	/// 쿼터니언을 행렬로 바꿈
 	/// </summary>
-	Matrix3x3 ToMatrix3(const Quaternion& _q) noexcept
+	Matrix3x3 ToMatrix3(const Quaternion& _q)
 	{
 		Matrix3x3 matrix;
 
@@ -523,7 +523,7 @@ namespace Hyrule
 		return matrix;
 	}
 
-	Matrix4x4 ToMatrix4(const Quaternion& _q) noexcept
+	Matrix4x4 ToMatrix4(const Quaternion& _q)
 	{
 		Matrix4x4 matrix;
 
@@ -564,7 +564,7 @@ namespace Hyrule
 	/// <summary>
 	/// 축각을 행렬로 바꿈
 	/// </summary>
-	Matrix3x3 ToMatrix3(const Vector3D& _axis, const float _angle) noexcept
+	Matrix3x3 ToMatrix3(const Vector3D& _axis, const float _angle)
 	{
 		float cos = std::cos(_angle);
 		float sin = std::sin(_angle);
@@ -587,7 +587,7 @@ namespace Hyrule
 		);
 	}
 
-	Matrix4x4 ToMatrix4(const Vector3D& _axis, const float _angle) noexcept
+	Matrix4x4 ToMatrix4(const Vector3D& _axis, const float _angle)
 	{
 		float cos = std::cos(_angle);
 		float sin = std::sin(_angle);

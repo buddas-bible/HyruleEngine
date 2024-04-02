@@ -18,7 +18,7 @@ namespace Hyrule
 	namespace Physics
 	{
 
-		ObjectManager::ObjectManager() noexcept : octree({ Vector3D(), 30000.f }, {Vector3D(), 100.f})
+		ObjectManager::ObjectManager() : octree({ Vector3D(), 30000.f }, {Vector3D(), 100.f})
 		{}
 
 		ICollider* ObjectManager::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _info)
@@ -143,22 +143,22 @@ namespace Hyrule
 			}
 		}
 
-		std::vector<Collider*>& ObjectManager::GetColliders() noexcept
+		std::vector<Collider*>& ObjectManager::GetColliders()
 		{
 			return this->colliders;
 		}
 
-		// std::vector<std::list<Collider*>>& ObjectManager::GetNodeContainer() noexcept
+		// std::vector<std::list<Collider*>>& ObjectManager::GetNodeContainer()
 		// {
 		// 	return octree.GetDataList();
 		// }
 
-		// void ObjectManager::NodeContainerClear() noexcept
+		// void ObjectManager::NodeContainerClear()
 		// {
 		// 	octree.DataListClear();
 		// }
 
-		std::vector<Collider*> ObjectManager::QctreeQuery(Collider* _collider) noexcept
+		std::vector<Collider*> ObjectManager::QctreeQuery(Collider* _collider)
 		{
 			// 지금은 딱 맞는 AABB로 하고 있지만
 			// 이것도 연산이 좀 필요하다보니까
@@ -169,12 +169,12 @@ namespace Hyrule
 			return octree.Query(_collider->GetAABB());
 		}
 
-		std::vector<Collider*> ObjectManager::QctreeQuery(const Ray& _ray) noexcept
+		std::vector<Collider*> ObjectManager::QctreeQuery(const Ray& _ray)
 		{
 			return octree.Query(_ray);
 		}
 
-		void ObjectManager::OctreeClear() noexcept
+		void ObjectManager::OctreeClear()
 		{
 			octree.Clear();
 		}
@@ -186,7 +186,7 @@ namespace Hyrule
 			octree.Insert(_collider, _collider->GetAABB());
 		}
 
-		std::vector<RigidBody*>& ObjectManager::GetRigidbodies() noexcept
+		std::vector<RigidBody*>& ObjectManager::GetRigidbodies()
 		{
 			return this->rigidBodies;
 		}

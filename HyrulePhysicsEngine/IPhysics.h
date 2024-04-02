@@ -20,8 +20,8 @@ namespace Hyrule
 		class IPhysics
 		{
 		public:
-			IPhysics() noexcept {};
-			virtual ~IPhysics() noexcept {};
+			IPhysics() {};
+			virtual ~IPhysics() {};
 
 		public:
 			/// <summary>

@@ -2,7 +2,7 @@
 
 namespace Hyrule
 {
-	SpringJoint::SpringJoint(GameObject* _gameObject) noexcept :
+	SpringJoint::SpringJoint(Entity* _gameObject) :
 		Component(_gameObject), iJoint()
 	{
 

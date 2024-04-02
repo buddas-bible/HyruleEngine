@@ -12,9 +12,9 @@ namespace Hyrule
 		class PlaneCollider : public Collider
 		{
 		public:
-			PlaneCollider() noexcept = delete;
-			PlaneCollider(Object*, COLLIDER_INFO*) noexcept;
-			virtual ~PlaneCollider() noexcept = default;
+			PlaneCollider() = delete;
+			PlaneCollider(Object*, COLLIDER_INFO*);
+			virtual ~PlaneCollider() = default;
 
 		private:
 			std::shared_ptr<PlaneShape> shape;
@@ -33,8 +33,8 @@ namespace Hyrule
 			virtual AABB GetAABB() override;
 			virtual Vector3D FindFarthestPoint(const Vector3D&) override;
 			virtual Face FindSupportFace(const Vector3D&) override;
-			virtual Matrix3x3 GetInertiaTensor(float) noexcept override;
-			virtual size_t GetType() noexcept override;
+			virtual Matrix3x3 GetInertiaTensor(float) override;
+			virtual size_t GetType() override;
 		};
 	}
 }

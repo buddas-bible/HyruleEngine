@@ -1,21 +1,21 @@
 #include "Transform.h"
 
-#include "GameObject.h"
+#include "Entity.h"
 
 namespace Hyrule
 {
-	Transform::Transform(GameObject* _gameObject) noexcept :
+	Transform::Transform(Entity* _gameObject) :
 		Component(_gameObject), 
 		position(), rotation(1.f, 0.f, 0.f, 0.f), scale(1.f, 1.f, 1.f),
 		parent(), children()
 	{}
 	
-	Vector3D Transform::GetLocalPosition() noexcept
+	Vector3D Transform::GetLocalPosition()
 	{
 		return this->position;
 	}
 
-	Vector3D Transform::GetWorldPosition() noexcept
+	Vector3D Transform::GetWorldPosition()
 	{
 		if (parent != nullptr)
 		{
@@ -27,22 +27,22 @@ namespace Hyrule
 		}
 	}
 
-	void Transform::SetLocalPosition(const Vector3D& _pos) noexcept
+	void Transform::SetLocalPosition(const Vector3D& _pos)
 	{
 		this->position = _pos;
 	}
 
-	Vector3D Transform::GetLocalRotation() noexcept
+	Vector3D Transform::GetLocalRotation()
 	{
 		return ToEuler(this->rotation);
 	}
 
-	Quaternion Transform::GetLocalQuaternion() noexcept
+	Quaternion Transform::GetLocalQuaternion()
 	{
 		return this->rotation;
 	}
 
-	Quaternion Transform::GetWorldQuaternion() noexcept
+	Quaternion Transform::GetWorldQuaternion()
 	{
 		if (parent != nullptr)
 		{
@@ -54,17 +54,17 @@ namespace Hyrule
 		}
 	}
 
-	void Transform::SetLocalQuaternion(const Quaternion& _q) noexcept
+	void Transform::SetLocalQuaternion(const Quaternion& _q)
 	{
 		this->rotation = _q;
 	}
 
-	void Transform::SetLocalRotationFromEuler(const Vector3D& _euler) noexcept
+	void Transform::SetLocalRotationFromEuler(const Vector3D& _euler)
 	{
 		this->rotation = ToQuaternion(_euler);
 	}
 
-	void Transform::SetLocalRotationFromDegree(const Vector3D& _degree) noexcept
+	void Transform::SetLocalRotationFromDegree(const Vector3D& _degree)
 	{
 		const float radX{ ToRadian(_degree.x) };
 		const float radY{ ToRadian(_degree.y) };
@@ -79,12 +79,12 @@ namespace Hyrule
 		rotation = qx * qy * qz;
 	}
 
-	Vector3D Transform::GetLocalScale() noexcept
+	Vector3D Transform::GetLocalScale()
 	{
 		return this->scale;
 	}
 
-	Vector3D Transform::GetWorldScale() noexcept
+	Vector3D Transform::GetWorldScale()
 	{
 		if (parent != nullptr)
 		{
@@ -97,12 +97,12 @@ namespace Hyrule
 		}
 	}
 
-	void Transform::SetLocalScale(const Vector3D& _scl) noexcept
+	void Transform::SetLocalScale(const Vector3D& _scl)
 	{
 		this->scale = _scl;
 	}
 
-	Matrix4x4 Transform::GetParentWorldMatrix() noexcept
+	Matrix4x4 Transform::GetParentWorldMatrix()
 	{
 		if (parent)
 		{
@@ -114,7 +114,7 @@ namespace Hyrule
 		}
 	}
 
-	Vector3D Transform::GetUp() noexcept
+	Vector3D Transform::GetUp()
 	{
 		if (parent != nullptr)
 		{
@@ -126,7 +126,7 @@ namespace Hyrule
 		}
 	 }
  
-	Vector3D Transform::GetForward() noexcept
+	Vector3D Transform::GetForward()
 	{
 		if (parent != nullptr)
 		{
@@ -138,7 +138,7 @@ namespace Hyrule
 		}
 	 }
 
-	Vector3D Transform::GetRight() noexcept
+	Vector3D Transform::GetRight()
 	{
 		if (parent != nullptr)
 		{
@@ -150,12 +150,12 @@ namespace Hyrule
 		}
 	 }
 
-	Matrix4x4 Transform::GetLocalMatrix() noexcept
+	Matrix4x4 Transform::GetLocalMatrix()
 	{
 		return ToTransformMatrix(position, rotation, scale);
 	}
 
-	Matrix4x4 Transform::GetWorldMatrix() noexcept
+	Matrix4x4 Transform::GetWorldMatrix()
 	{
 		if (parent != nullptr)
 		{
@@ -167,34 +167,34 @@ namespace Hyrule
 		}
 	}
 
-	Transform* Transform::GetParent() noexcept
+	Transform* Transform::GetParent()
 	{
 		return parent;
 	}
 
-	void Transform::SetParent(Transform* _parent) noexcept
+	void Transform::SetParent(Transform* _parent)
 	{
 		this->parent = _parent;
 		this->parent->AddChild(this);
 	}
 
-	void Transform::RemoveParent() noexcept
+	void Transform::RemoveParent()
 	{
 		parent->RemoveChild(this);
 		parent = nullptr;
 	}
 
-	void Transform::AddChild(Transform* _child) noexcept
+	void Transform::AddChild(Transform* _child)
 	{
 		children.push_back(_child);
 	}
 
-	void Transform::RemoveChild(Transform* _child) noexcept
+	void Transform::RemoveChild(Transform* _child)
 	{
 		children.erase(remove(children.begin(), children.end(), _child));
 	}
 
-	Transform* Transform::GetChild(const size_t _index) noexcept
+	Transform* Transform::GetChild(const size_t _index)
 	{
 		if ((_index < 0) || (_index > children.size()))
 		{
@@ -204,17 +204,17 @@ namespace Hyrule
 		return children[_index];
 	}
 
-	std::vector<Transform*> Transform::Getchildren() noexcept
+	std::vector<Transform*> Transform::Getchildren()
 	{
 		return this->children;
 	}
 
-	size_t Transform::GetChildCount() noexcept
+	size_t Transform::GetChildCount()
 	{
 		return children.size();
 	}
 
-	Transform* Transform::FindChild(const std::wstring& _name) noexcept
+	Transform* Transform::FindChild(const std::wstring& _name)
 	{
 		for (auto e : children)
 		{

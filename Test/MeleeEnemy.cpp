@@ -1,11 +1,11 @@
 #include "MeleeEnemy.h"
 
-#include "GameObject.h"
+#include "Entity.h"
 #include "Transform.h"
 
 namespace Hyrule
 {
-	MeleeEnemy::MeleeEnemy(GameObject* _gameObject) noexcept :
+	MeleeEnemy::MeleeEnemy(GameObject* _gameObject) :
 		Enemy(_gameObject)
 	{}
 

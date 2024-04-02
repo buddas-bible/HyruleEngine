@@ -9,7 +9,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		ConvexCollider::ConvexCollider(Object* _obj, COLLIDER_INFO* _info) noexcept :
+		ConvexCollider::ConvexCollider(Object* _obj, COLLIDER_INFO* _info) :
 			Collider(_obj)
 		{
 			_obj->colliders.push_back(this);
@@ -120,7 +120,7 @@ namespace Hyrule
 			return Face(Vector3D(), Vector3D(), Vector3D(), 0, 1, 2);
 		}
 
-		Matrix3x3 ConvexCollider::GetInertiaTensor(float _mass) noexcept
+		Matrix3x3 ConvexCollider::GetInertiaTensor(float _mass)
 		{
 			// const auto& points{ shape->GetPoints(ToTransformMatrix(Vector3D(), object->GetRotation(), object->GetScale())) };
 			// const auto& index{ shape->GetIndies() };
@@ -215,7 +215,7 @@ namespace Hyrule
 			return inertia;
 		}
 
-		size_t ConvexCollider::GetType() noexcept
+		size_t ConvexCollider::GetType()
 		{
 			return shape->GetType();
 		}

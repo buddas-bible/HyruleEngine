@@ -12,9 +12,9 @@ namespace Hyrule
 		class SphereCollider : public Collider
 		{
 		public:
-			SphereCollider() noexcept = delete;
-			SphereCollider(Object*, COLLIDER_INFO*) noexcept;
-			virtual ~SphereCollider() noexcept = default;
+			SphereCollider() = delete;
+			SphereCollider(Object*, COLLIDER_INFO*);
+			virtual ~SphereCollider() = default;
 
 		public:
 			virtual Vector3D GetPosition() override;
@@ -30,8 +30,8 @@ namespace Hyrule
 			virtual AABB GetAABB() override;
 			virtual Vector3D FindFarthestPoint(const Vector3D&) override;
 			virtual Face FindSupportFace(const Vector3D&) override;
-			virtual Matrix3x3 GetInertiaTensor(float) noexcept override;
-			virtual size_t GetType() noexcept override;
+			virtual Matrix3x3 GetInertiaTensor(float) override;
+			virtual size_t GetType() override;
 		};
 	}
 }

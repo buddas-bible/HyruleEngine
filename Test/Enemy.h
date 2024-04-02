@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "MonoBehaviour.h"
 #include "FSM.h"
 
 namespace Hyrule
@@ -20,12 +20,12 @@ namespace Hyrule
 		DEATH,
 	};
 
-	class Enemy : public Component
+	class Enemy : public MonoBehaviour
 	{
 	public:
 		Enemy() = delete;
-		Enemy(GameObject*) noexcept;
-		virtual ~Enemy() noexcept = default;
+		Enemy(GameObject*);
+		virtual ~Enemy() = default;
 
 	protected:
 		int		HP;				// Ã¼·Â

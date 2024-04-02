@@ -7,8 +7,8 @@ namespace Hyrule
 	{
 	public:
 		RangeEnemy() = delete;
-		RangeEnemy(GameObject*) noexcept;
-		virtual ~RangeEnemy() noexcept = default;
+		RangeEnemy(GameObject*);
+		virtual ~RangeEnemy() = default;
 
 	public:
 		void Initialize();

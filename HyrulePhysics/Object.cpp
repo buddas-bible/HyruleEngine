@@ -8,7 +8,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Object::Object(const std::wstring& _name) noexcept
+		Object::Object(const std::wstring& _name)
 			: name(_name),
 			rigidbody(), colliders(), isColliding()
 		{}

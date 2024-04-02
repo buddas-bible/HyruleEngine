@@ -5,11 +5,11 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Simplex::Simplex(const Simplex& rhs) noexcept : 
+		Simplex::Simplex(const Simplex& rhs) : 
 			points(rhs.points), index(rhs.index), faceMap(rhs.faceMap)
 		{}
 
-		Simplex::Simplex(Simplex&& rhs) noexcept :
+		Simplex::Simplex(Simplex&& rhs) :
 			points(rhs.points), index(rhs.index), faceMap(rhs.faceMap)
 		{}
 

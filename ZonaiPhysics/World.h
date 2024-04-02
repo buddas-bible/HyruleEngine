@@ -5,8 +5,8 @@ namespace ZonaiPhysics
 	class World
 	{
 	public:
-		World() noexcept = default;
-		~World() noexcept = default;
+		World() = default;
+		~World() = default;
 
 	public:
 

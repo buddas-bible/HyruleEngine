@@ -3,7 +3,7 @@
 
 namespace ZonaiMath
 {
-	Matrix3x3 Matrix3x3::Transpose() noexcept
+	Matrix3x3 Matrix3x3::Transpose()
 	{
 		return Matrix3x3
 		{
@@ -13,7 +13,7 @@ namespace ZonaiMath
 		};
 	}
 
-	Matrix3x3 Matrix3x3::Inverse() noexcept
+	Matrix3x3 Matrix3x3::Inverse()
 	{
 		Matrix3x3 result{};
 
@@ -40,7 +40,7 @@ namespace ZonaiMath
 		return result;
 	}
 
-	float Matrix3x3::Determinant() noexcept
+	float Matrix3x3::Determinant()
 	{
 		float det =
 			e00 * (e11 * e22 - e21 * e12) -
@@ -50,7 +50,7 @@ namespace ZonaiMath
 		return det;
 	}
 
-	Matrix3x3 Matrix3x3::operator+(const Matrix3x3& other) const noexcept
+	Matrix3x3 Matrix3x3::operator+(const Matrix3x3& other) const
 	{
 		return Matrix3x3
 		(
@@ -68,7 +68,7 @@ namespace ZonaiMath
 		);
 	}
 
-	Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& other) noexcept
+	Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& other)
 	{
 		this->e00 += other.e00;
 		this->e01 += other.e01;
@@ -85,7 +85,7 @@ namespace ZonaiMath
 		return *this;
 	}
 
-	Matrix3x3 Matrix3x3::operator-(const Matrix3x3& other) const noexcept
+	Matrix3x3 Matrix3x3::operator-(const Matrix3x3& other) const
 	{
 		return Matrix3x3
 		(
@@ -103,7 +103,7 @@ namespace ZonaiMath
 		);
 	}
 
-	Matrix3x3& Matrix3x3::operator-=(const Matrix3x3& other) noexcept
+	Matrix3x3& Matrix3x3::operator-=(const Matrix3x3& other)
 	{
 		this->e00 -= other.e00;
 		this->e01 -= other.e01;
@@ -120,7 +120,7 @@ namespace ZonaiMath
 		return *this;
 	}
 
-	Matrix3x3 Matrix3x3::operator*(const Matrix3x3& other) const noexcept
+	Matrix3x3 Matrix3x3::operator*(const Matrix3x3& other) const
 	{
 		Matrix3x3 mat(*this);
 		
@@ -140,7 +140,7 @@ namespace ZonaiMath
 		);
 	}
 
-	Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& other) noexcept
+	Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& other)
 	{
 		(this->e[0][0] * other.e[0][0] + this->e[0][1] * other.e[1][0] + this->e[0][2] * other.e[2][0]);
 		(this->e[0][0] * other.e[0][1] + this->e[0][1] * other.e[1][1] + this->e[0][2] * other.e[2][1]);
@@ -158,7 +158,7 @@ namespace ZonaiMath
 	}
 
 
-	bool Matrix3x3::operator==(const Matrix3x3& other) const noexcept
+	bool Matrix3x3::operator==(const Matrix3x3& other) const
 	{
 		return
 			(this->e00 == other.e00) && (this->e01 == other.e01) && (this->e02 == other.e02) &&

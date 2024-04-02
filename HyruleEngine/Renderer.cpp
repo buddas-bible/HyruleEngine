@@ -4,38 +4,34 @@
 
 namespace Hyrule
 {
-	Renderer::Renderer(GameObject* _gameObject) noexcept :
+	Renderer::Renderer(Entity* _gameObject) :
 		Component(_gameObject), meshData()
 	{}
 
-	void Renderer::OnEnable()
-	{
-		meshData->OnEnble();
-	}
-
-	void Renderer::OnDisable()
-	{
-		meshData->OnDisable();
-	}
-
-	void Renderer::OnCollisionEnter()
-	{
-#if _DEBUG
-		meshData->OnCollisionEnter();
-#endif
-	}
-
-	void Renderer::OnCollisionStay()
-	{
-#if _DEBUG
-		meshData->OnCollisionStay();
-#endif
-	}
-
-	void Renderer::OnCollisionExit()
-	{
-#if _DEBUG
-		meshData->OnCollisionExit();
-#endif
-	}
+//	void Renderer::OnEnable()
+//	{
+//		meshData->OnEnble();
+//	}
+//
+//	void Renderer::OnDisable()
+//	{
+//		meshData->OnDisable();
+//	}
+//
+//#if _DEBUG
+//	void Renderer::OnCollisionEnter()
+//	{
+//		meshData->OnCollisionEnter();
+//	}
+//
+//	void Renderer::OnCollisionStay()
+//	{
+//		meshData->OnCollisionStay();
+//	}
+//
+//	void Renderer::OnCollisionExit()
+//	{
+//		meshData->OnCollisionExit();
+//	}
+//#endif
 }

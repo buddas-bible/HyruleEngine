@@ -18,24 +18,24 @@ namespace Hyrule
 		{
 		public:
 			AABB() = default;
-			AABB(const AABB&) noexcept = default;
-			AABB(AABB&&) noexcept = default;
-			AABB(const Vector3D& _center, float _length) noexcept;
-			AABB(const Vector3D& _min, const Vector3D& _max) noexcept;
-			AABB& operator=(const AABB&) noexcept = default;
-			AABB& operator=(AABB&&) noexcept = default;
-			~AABB() noexcept = default;
+			AABB(const AABB&) = default;
+			AABB(AABB&&) = default;
+			AABB(const Vector3D& _center, float _length);
+			AABB(const Vector3D& _min, const Vector3D& _max);
+			AABB& operator=(const AABB&) = default;
+			AABB& operator=(AABB&&) = default;
+			~AABB() = default;
 
 		public:
 			Vector3D min;
 			Vector3D max;
 
 		public:
-			Vector3D GetCenter() const noexcept;
-			bool ContainsPoint(const Vector3D&) const noexcept;
-			bool TestRay(const Vector3D&, const Vector3D&) const noexcept;
-			bool TestSegment(const Vector3D& _from, const Vector3D& _to, const float _length) const noexcept;
-			bool Overlap(const AABB&) const noexcept;
+			Vector3D GetCenter() const;
+			bool ContainsPoint(const Vector3D&) const;
+			bool TestRay(const Vector3D&, const Vector3D&) const;
+			bool TestSegment(const Vector3D& _from, const Vector3D& _to, const float _length) const;
+			bool Overlap(const AABB&) const;
 			bool Contains(const AABB&);
 		};
 

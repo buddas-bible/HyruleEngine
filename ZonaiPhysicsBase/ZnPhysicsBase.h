@@ -21,24 +21,24 @@ namespace ZonaiPhysics
 	class ZnPhysicsBase
 	{
 	public:
-		ZnPhysicsBase() noexcept = default;
-		virtual ~ZnPhysicsBase() noexcept;
+		ZnPhysicsBase() = default;
+		virtual ~ZnPhysicsBase();
 	
 	public:
 	/// <summary>
 	/// 
 	/// </summary>
-		virtual void			Initialize() noexcept = 0;
-		virtual void			Simulation(float _dt) noexcept = 0;
-		virtual void			Finalize() noexcept = 0;
+		virtual void			Initialize() = 0;
+		virtual void			Simulation(float _dt) = 0;
+		virtual void			Finalize() = 0;
 
 	public:
 		/// <summary>
 		/// Create Component
 		/// </summary>
-		virtual ZnRigidBody*	CreateRigidBody() noexcept = 0;
-		virtual ZnSoftBody*		CreateSoftBody() noexcept = 0;
-		virtual ZnCollider*		CreateCollider() noexcept = 0;
-		virtual ZnJoint*		CreateJoint() noexcept = 0;
+		virtual ZnRigidBody*	CreateRigidBody() = 0;
+		virtual ZnSoftBody*		CreateSoftBody() = 0;
+		virtual ZnCollider*		CreateCollider() = 0;
+		virtual ZnJoint*		CreateJoint() = 0;
 	};
 }

@@ -8,7 +8,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		SphereCollider::SphereCollider(Object* _obj, COLLIDER_INFO* _info) noexcept :
+		SphereCollider::SphereCollider(Object* _obj, COLLIDER_INFO* _info) :
 			Collider(_obj)
 		{
 			_obj->colliders.push_back(this);
@@ -85,7 +85,7 @@ namespace Hyrule
 			);
 		}
 
-		Matrix3x3 SphereCollider::GetInertiaTensor(float _mass) noexcept
+		Matrix3x3 SphereCollider::GetInertiaTensor(float _mass)
 		{
 			Vector3D scl{ GetScale() };
 
@@ -100,7 +100,7 @@ namespace Hyrule
 			};
 		}
 
-		size_t SphereCollider::GetType() noexcept
+		size_t SphereCollider::GetType()
 		{
 			return (size_t)ShapeType::SPHERE;
 		}

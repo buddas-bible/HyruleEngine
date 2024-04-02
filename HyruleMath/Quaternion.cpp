@@ -13,30 +13,30 @@ namespace Hyrule
 // 	
 // 	}
 // 
-// 	constexpr Quaternion::Quaternion(float _w, float _x, float _y, float _z) noexcept :
+// 	constexpr Quaternion::Quaternion(float _w, float _x, float _y, float _z) :
 // 		x(_x), y(_y), z(_z), w(_w)
 // 	{
 // 
 // 	}
 
-	Quaternion::operator Vector4D() noexcept
+	Quaternion::operator Vector4D()
 	{
 		return Vector4D{ x, y, z, w };
 	}
 
-	float Quaternion::Length() const noexcept
+	float Quaternion::Length() const
 	{
 		return _mm_cvtss_f32(_mm_sqrt_ps(_mm_dp_ps(m, m, 0xff)));
 	}
 
-	float Quaternion::LengthSquare() const noexcept
+	float Quaternion::LengthSquare() const
 	{
 		// ÀÌ°Ç ¼Óµµ°¡ ¶È°°¾ÒÀ½.
 		// return x * x + y * y + z * z + w * w;
 		return _mm_cvtss_f32(_mm_dp_ps(m, m, 0xff));
 	}
 
-	float Quaternion::FastInvSqrt(float number) const noexcept
+	float Quaternion::FastInvSqrt(float number) const
 	{
 		// long i;
 		// float x2, y;
@@ -59,7 +59,7 @@ namespace Hyrule
 	/// <summary>
 	/// »ç¿ø¼ö ³»Àû
 	/// </summary>
-	float Quaternion::Dot(const Quaternion& other) const noexcept
+	float Quaternion::Dot(const Quaternion& other) const
 	{
 		// return (this->w * other.w) + (this->x * other.x) + (this->y * other.y) + (this->z * other.z);
 		return _mm_cvtss_f32(_mm_dp_ps(this->m, other.m, 0xff));
@@ -68,7 +68,7 @@ namespace Hyrule
 	/// <summary>
 	/// »ç¿ø¼ö ÄÓ·¹
 	/// </summary>
-	Quaternion Quaternion::Conjugate() const noexcept
+	Quaternion Quaternion::Conjugate() const
 	{
 		return Quaternion{ w, -x, -y, -z };
 	}
@@ -76,7 +76,7 @@ namespace Hyrule
 	/// <summary>
 	/// »ç¿ø¼ö ¿ª¼ö
 	/// </summary>
-	Quaternion Quaternion::Inverse() const noexcept
+	Quaternion Quaternion::Inverse() const
 	{
 		float temp = LengthSquare();
 
@@ -96,7 +96,7 @@ namespace Hyrule
 		);
 	}
 
-	Quaternion& Quaternion::Normalize() noexcept
+	Quaternion& Quaternion::Normalize()
 	{
 		float temp = LengthSquare();
 
@@ -120,7 +120,7 @@ namespace Hyrule
 		return *this;
 	}
 	
-	Quaternion Quaternion::Normalized() const noexcept
+	Quaternion Quaternion::Normalized() const
 	{
 		float temp = LengthSquare();
 
@@ -144,7 +144,7 @@ namespace Hyrule
 	/// <summary>
 	/// »ç¿ø¼ö µ¡¼À
 	/// </summary>
-	Quaternion& Quaternion::operator+=(const Quaternion& other) noexcept
+	Quaternion& Quaternion::operator+=(const Quaternion& other)
 	{
 		// this->w += other.w;
 		// this->x += other.x;
@@ -157,7 +157,7 @@ namespace Hyrule
 	/// <summary>
 	/// »ç¿ø¼ö »¬¼À
 	/// </summary>
-	Quaternion& Quaternion::operator-=(const Quaternion& other) noexcept
+	Quaternion& Quaternion::operator-=(const Quaternion& other)
 	{
 		// this->w -= other.w;
 		// this->x -= other.x;
@@ -167,19 +167,19 @@ namespace Hyrule
 		return *this;
 	}
 
-	Quaternion Quaternion::operator+(const Quaternion& other) const noexcept
+	Quaternion Quaternion::operator+(const Quaternion& other) const
 	{
 		Quaternion temp(*this);
 		return temp += other;
 	}
 
-	Quaternion Quaternion::operator-(const Quaternion& other) const noexcept
+	Quaternion Quaternion::operator-(const Quaternion& other) const
 	{
 		Quaternion temp(*this);
 		return temp -= other;
 	}
 
-	Quaternion Quaternion::operator-() const noexcept
+	Quaternion Quaternion::operator-() const
 	{
 		return Quaternion
 		(
@@ -193,7 +193,7 @@ namespace Hyrule
 	/// <summary>
 	/// »ç¿ø¼ö °ö¼À
 	/// </summary>
-	Quaternion& Quaternion::operator*=(const Quaternion& other) noexcept
+	Quaternion& Quaternion::operator*=(const Quaternion& other)
 	{
 		// ÇØ¹ÐÅÏ °ö
 		float newW = 
@@ -231,7 +231,7 @@ namespace Hyrule
 	/// <summary>
 	/// »ç¿ø¼ö ³ª´°¼À
 	/// </summary>
-	Quaternion& Quaternion::operator/=(const Quaternion& other) noexcept
+	Quaternion& Quaternion::operator/=(const Quaternion& other)
 	{
 		Quaternion conjugate = other.Conjugate();
 		float temp = other.Length();
@@ -245,14 +245,14 @@ namespace Hyrule
 		return *this;
 	}
 
-	Quaternion Quaternion::operator*(const Quaternion& other) const noexcept
+	Quaternion Quaternion::operator*(const Quaternion& other) const
 	{
 		Quaternion result = *this;
 		result *= other;
 		return result;
 	}
 
-	Quaternion Quaternion::operator/(const Quaternion& other) const noexcept
+	Quaternion Quaternion::operator/(const Quaternion& other) const
 	{
 		Quaternion result = *this;
 		result /= other;
@@ -262,7 +262,7 @@ namespace Hyrule
 	/// <summary>
 	/// »ç¿ø¼ö ½ºÄ®¶ó °ö¼À
 	/// </summary>
-	Quaternion& Quaternion::operator*=(const float n) noexcept
+	Quaternion& Quaternion::operator*=(const float n)
 	{
 		// this->w *= n;
 		// this->x *= n;
@@ -275,7 +275,7 @@ namespace Hyrule
 	/// <summary>
 	/// »ç¿ø¼ö ½ºÄ®¶ó ³ª´°¼À
 	/// </summary>
-	Quaternion& Quaternion::operator/=(const float n) noexcept
+	Quaternion& Quaternion::operator/=(const float n)
 	{
 		// float invN = 1.0f / n;
 		// 
@@ -287,27 +287,27 @@ namespace Hyrule
 		return *this;
 	}
 
-	Quaternion Quaternion::operator*(const float n) const noexcept
+	Quaternion Quaternion::operator*(const float n) const
 	{
 		Quaternion result(*this);
 
 		return result *= n;
 	}
 
-	Quaternion Quaternion::operator/(const float n) const noexcept
+	Quaternion Quaternion::operator/(const float n) const
 	{
 		Quaternion result(*this);
 
 		return result /= n;
 	}
 
-	bool Quaternion::operator==(const Quaternion& other) const noexcept
+	bool Quaternion::operator==(const Quaternion& other) const
 	{
 		return (this->w == other.w && this->x == other.x && this->y == other.y && this->z == other.z);
 	}
 
 
-	Quaternion operator*=(const float n, Quaternion& other) noexcept
+	Quaternion operator*=(const float n, Quaternion& other)
 	{
 		// other.w *= n;
 		// other.x *= n;
@@ -316,7 +316,7 @@ namespace Hyrule
 		return other *= n;
 	}
 
-	Quaternion operator/=(const float n, Quaternion& other) noexcept
+	Quaternion operator/=(const float n, Quaternion& other)
 	{
 		// float invN = 1.0f / n;
 		// 
@@ -327,14 +327,14 @@ namespace Hyrule
 		return other /= n;
 	}
 
-	Quaternion operator*(const float n, const Quaternion& other) noexcept
+	Quaternion operator*(const float n, const Quaternion& other)
 	{
 		Quaternion result(other);
 
 		return result *= n;
 	}
 
-	Quaternion operator/(const float n, const Quaternion& other) noexcept
+	Quaternion operator/(const float n, const Quaternion& other)
 	{
 		Quaternion result(other);
 

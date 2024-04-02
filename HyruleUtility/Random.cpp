@@ -2,7 +2,7 @@
 
 namespace Hyrule
 {
-	Random::Random() noexcept :
+	Random::Random() :
 		rd{}, mersenne{ rd()}
 	{}
 

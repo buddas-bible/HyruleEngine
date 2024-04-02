@@ -5,13 +5,13 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Edge::Edge(const Vector3D& _A, const Vector3D& _B, size_t _ia, size_t _ib) noexcept :
+		Edge::Edge(const Vector3D& _A, const Vector3D& _B, size_t _ia, size_t _ib) :
 			vectorA(_A), vectorB(_B), index1(_ia), index2(_ib), direction()
 		{
 			this->Initialze();
 		}
 
-		Edge::Edge(const Edge& _edge) noexcept :
+		Edge::Edge(const Edge& _edge) :
 			vectorA(_edge.vectorA), vectorB(_edge.vectorB),
 			index1(_edge.index1), index2(_edge.index2),
 			direction(_edge.direction), normal(_edge.normal)
@@ -19,7 +19,7 @@ namespace Hyrule
 
 		}
 
-		Edge::Edge(Edge&& _edge) noexcept :
+		Edge::Edge(Edge&& _edge) :
 			vectorA(_edge.vectorA), vectorB(_edge.vectorB),
 			index1(_edge.index1), index2(_edge.index2),
 			direction(_edge.direction), normal(_edge.normal)
@@ -27,7 +27,7 @@ namespace Hyrule
 
 		}
 
-		Edge& Edge::operator=(const Edge& _other) noexcept
+		Edge& Edge::operator=(const Edge& _other)
 		{
 			this->vectorA = _other.vectorA;
 			this->vectorB = _other.vectorB;
@@ -39,7 +39,7 @@ namespace Hyrule
 			return *this;
 		}
 
-		Edge& Edge::operator=(Edge&& _other) noexcept
+		Edge& Edge::operator=(Edge&& _other)
 		{
 			if (this != &_other)
 			{
@@ -54,7 +54,7 @@ namespace Hyrule
 			return *this;
 		}
 
-		void Edge::Initialze() noexcept
+		void Edge::Initialze()
 		{
 			if (this->vectorA != this->vectorB)
 			{
@@ -62,24 +62,24 @@ namespace Hyrule
 			}
 		}
 
-		void Edge::SetNormal(const Vector3D& _edgeNormal) noexcept
+		void Edge::SetNormal(const Vector3D& _edgeNormal)
 		{
 			this->normal = _edgeNormal;
 		}
 
-		bool Edge::operator==(const Edge& _other) noexcept
+		bool Edge::operator==(const Edge& _other)
 		{
 			return 
 				((this->vectorA == _other.vectorA) && (this->vectorB == _other.vectorB)) ||
 				((this->vectorA == _other.vectorB) && (this->vectorB == _other.vectorA));
 		}
 
-		float Edge::GetLength() const noexcept
+		float Edge::GetLength() const
 		{
 			return (vectorA - vectorB).Length();
 		}
 
-		float Edge::GetLengthSquare() const noexcept
+		float Edge::GetLengthSquare() const
 		{
 			return (vectorA - vectorB).LengthSquare();
 		}

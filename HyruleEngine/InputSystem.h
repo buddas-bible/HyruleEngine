@@ -1,11 +1,11 @@
 #pragma once
-#include "System.h"
+#include "Singleton.h"
 #pragma comment(lib, "HyruleUtility.lib")
 #include "../HyruleUtility/KeyInput.h"
 
 namespace Hyrule
 {
-	class InputSystem : public System<InputSystem>
+	class InputSystem : public Singleton<InputSystem>
 	{
 	private:
 		KeyInput keyInput;

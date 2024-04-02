@@ -1,13 +1,13 @@
 #include "RangeEnemy.h"
 
-#include "GameObject.h"
+#include "Entity.h"
 #include "Transform.h"
 
 namespace Hyrule
 {
 #define DELTATIME_ 0.016f
 
-	RangeEnemy::RangeEnemy(GameObject* _gameObject) noexcept :
+	RangeEnemy::RangeEnemy(GameObject* _gameObject) :
 		Enemy(_gameObject)
 	{
 		HP			= 15;

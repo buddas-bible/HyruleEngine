@@ -7,8 +7,8 @@ namespace Hyrule
 	class Random
 	{
 	public:
-		Random() noexcept;
-		~Random() noexcept = default;
+		Random();
+		~Random() = default;
 
 	private:
 		std::random_device rd;

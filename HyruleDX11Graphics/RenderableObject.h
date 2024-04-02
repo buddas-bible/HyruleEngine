@@ -21,8 +21,8 @@ namespace Hyrule
 			std::shared_ptr<DXDevice>, 
 			std::shared_ptr<DXRasterizerState>,
 			std::shared_ptr<DXMesh>
-		) noexcept;
-		~RenderableObject() noexcept = default;
+		);
+		~RenderableObject() = default;
 
 		template <typename T>
 		using Comptr = Microsoft::WRL::ComPtr<T>;
@@ -30,21 +30,21 @@ namespace Hyrule
 		Comptr<ID3D11RasterizerState2> m_currRasterizerState;
 
 	public:
-		void SetTexture(const std::shared_ptr<DXTexture>) noexcept;
-		virtual void SetWorldTransform(const Matrix4x4&) noexcept override;
-		virtual void OnEnble() noexcept override;
-		virtual void OnDisable() noexcept override;
-		// virtual void OnDestory() noexcept override;
-		virtual bool isActive() noexcept override;
+		void SetTexture(const std::shared_ptr<DXTexture>);
+		virtual void SetWorldTransform(const Matrix4x4&) override;
+		virtual void OnEnble() override;
+		virtual void OnDisable() override;
+		// virtual void OnDestory() override;
+		virtual bool isActive() override;
 
-		virtual void OnCollisionEnter() noexcept override;
-		virtual void OnCollisionStay() noexcept override; 		
-		virtual void OnCollisionExit() noexcept override;
+		virtual void OnCollisionEnter() override;
+		virtual void OnCollisionStay() override; 		
+		virtual void OnCollisionExit() override;
 #if _DEBUG
 #endif
 
-		void SetViewProjTM(const Matrix4x4&) noexcept;
-		void Render(const Vector3D& eye) noexcept;
+		void SetViewProjTM(const Matrix4x4&);
+		void Render(const Vector3D& eye);
 
 	private:
 		static UINT id;

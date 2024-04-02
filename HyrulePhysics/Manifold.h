@@ -17,11 +17,11 @@ namespace Hyrule
 		class Manifold
 		{
 		public:
-			// Manifold() noexcept = default;
-			Manifold(Collider*& _A, Collider*& _B) noexcept;
-			Manifold(const Manifold&) noexcept = default;
-			Manifold(Manifold&&) noexcept = default;
-			~Manifold() noexcept = default;
+			// Manifold() = default;
+			Manifold(Collider*& _A, Collider*& _B);
+			Manifold(const Manifold&) = default;
+			Manifold(Manifold&&) = default;
+			~Manifold() = default;
 			Manifold& operator=(const Manifold&) = default;
 			Manifold& operator=(Manifold&&) = default;
 
@@ -61,11 +61,11 @@ namespace Hyrule
 			void AddImpulse(const Vector3D&);
 			Vector3D GetImpulse();
 
-			Vector3D GetNormal() const noexcept;
-			void SetNormal(const Vector3D& _normal) noexcept;
+			Vector3D GetNormal() const;
+			void SetNormal(const Vector3D& _normal);
 
-			float GetDepth() const noexcept;
-			void SetDepth(float _depth) noexcept;
+			float GetDepth() const;
+			void SetDepth(float _depth);
 
 			const std::vector<Vector3D>& GetContactPoints() const;
 			void AddContactPoint(const Vector3D& point);

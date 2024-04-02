@@ -13,29 +13,29 @@ namespace ZonaiPhysics
 	class ZnObject
 	{
 	public:
-							ZnObject() noexcept = default;
-		virtual				~ZnObject() noexcept = 0;
+							ZnObject() = default;
+		virtual				~ZnObject() = 0;
 
 	public:
 		/**
 		위치
 		*/
-		virtual Vector3D	GetPosition() const noexcept = 0;
-		virtual void		SetPosition(const Vector3D& _position) noexcept = 0;
+		virtual Vector3D	GetPosition() const = 0;
+		virtual void		SetPosition(const Vector3D& _position) = 0;
 
 		/**
 		회전
 		*/
-		virtual Quaternion	GetQuaternion() const noexcept = 0;
-		virtual void		SetQuaternion(const Quaternion& _quaternion) noexcept = 0;
+		virtual Quaternion	GetQuaternion() const = 0;
+		virtual void		SetQuaternion(const Quaternion& _quaternion) = 0;
 
-		virtual void		SetTransform(const Vector3D& _position, const Quaternion& _quaternion) noexcept;
+		virtual void		SetTransform(const Vector3D& _position, const Quaternion& _quaternion);
 
 		/**
 		유저 데이터
 		*/
-		virtual void*		GetUserData() const noexcept = 0;
-		virtual void		SetUserData(void* _userData) noexcept = 0;
+		virtual void*		GetUserData() const = 0;
+		virtual void		SetUserData(void* _userData) = 0;
 
 	};
 }

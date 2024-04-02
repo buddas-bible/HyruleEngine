@@ -14,9 +14,9 @@ namespace Hyrule
 		class RigidBody : public IRigidBody
 		{
 		public:
-			RigidBody() noexcept = default;
-			RigidBody(Object*) noexcept;
-			virtual ~RigidBody() noexcept = default;
+			RigidBody() = default;
+			RigidBody(Object*);
+			virtual ~RigidBody() = default;
 
 		private:
 			Object* object;
@@ -25,14 +25,14 @@ namespace Hyrule
 		public:
 			bool isActive();
 			Object* GetObject();
-			std::wstring GetObjectName() noexcept;
+			std::wstring GetObjectName();
 
-			virtual const Vector3D& ApplyPosition() noexcept override;
-			virtual const Quaternion& ApplyQuaternion() noexcept override;
+			virtual const Vector3D& ApplyPosition() override;
+			virtual const Quaternion& ApplyQuaternion() override;
 
-			virtual void OnEnable() noexcept override;
-			virtual void OnDisable() noexcept override;
-			virtual void OnDestroy() noexcept override;
+			virtual void OnEnable() override;
+			virtual void OnDisable() override;
+			virtual void OnDestroy() override;
 			
 		private:
 			/// <summary>
@@ -75,23 +75,23 @@ namespace Hyrule
 			float accumulate{};
 
 		public:
-			float GetInvMass() noexcept;
+			float GetInvMass();
 
-			Vector3D GetPosition() noexcept;
-			void SetPosition(const Vector3D&) noexcept;
+			Vector3D GetPosition();
+			void SetPosition(const Vector3D&);
 
-			float GetStaticFriction() noexcept;
-			float GetDynamicFriction() noexcept;
+			float GetStaticFriction();
+			float GetDynamicFriction();
 
-			float GetRestitution() noexcept;
-			Matrix3x3 GetInvInertia() noexcept;
+			float GetRestitution();
+			Matrix3x3 GetInvInertia();
 
 		public:
-			void ApplyImpulse(const Hyrule::Vector3D&, const Hyrule::Vector3D&) noexcept;
-			void ComputeVelocity(Vector3D _gravity, float) noexcept;
-			void ComputePosition(float) noexcept;
-			virtual void AddForce(const Hyrule::Vector3D&) noexcept override;
-			virtual void AddTorque(const Hyrule::Vector3D&) noexcept override;
+			void ApplyImpulse(const Hyrule::Vector3D&, const Hyrule::Vector3D&);
+			void ComputeVelocity(Vector3D _gravity, float);
+			void ComputePosition(float);
+			virtual void AddForce(const Hyrule::Vector3D&) override;
+			virtual void AddTorque(const Hyrule::Vector3D&) override;
 
 		private:
 			void CalculateInertiaTensor(float);
@@ -100,17 +100,17 @@ namespace Hyrule
 
 #pragma region GetSet
 		public:
-			virtual void SetMass(const float) noexcept override;
-			virtual float GetMass() const noexcept override;
+			virtual void SetMass(const float) override;
+			virtual float GetMass() const override;
 
-			virtual void SetVelocity(const Hyrule::Vector3D&) noexcept override;
-			virtual Hyrule::Vector3D GetVelocity() const noexcept override;
+			virtual void SetVelocity(const Hyrule::Vector3D&) override;
+			virtual Hyrule::Vector3D GetVelocity() const override;
 
-			virtual void SetAngularVelocity(const Hyrule::Vector3D&) noexcept override;
-			virtual Hyrule::Vector3D GetAngularVelocity() const noexcept override;
+			virtual void SetAngularVelocity(const Hyrule::Vector3D&) override;
+			virtual Hyrule::Vector3D GetAngularVelocity() const override;
 
-			virtual void WakeUp() noexcept override;
-			virtual bool IsAwake() const noexcept override;
+			virtual void WakeUp() override;
+			virtual bool IsAwake() const override;
 #pragma endregion GetSet
 		};
 

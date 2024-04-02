@@ -13,9 +13,9 @@ namespace Hyrule
 		class ConvexCollider : public Collider
 		{
 		public:
-			ConvexCollider() noexcept = delete;
-			ConvexCollider(Object*, COLLIDER_INFO*) noexcept;
-			virtual ~ConvexCollider() noexcept = default;
+			ConvexCollider() = delete;
+			ConvexCollider(Object*, COLLIDER_INFO*);
+			virtual ~ConvexCollider() = default;
 
 		private:
 			std::shared_ptr<ConvexShape> shape;
@@ -34,8 +34,8 @@ namespace Hyrule
 			virtual AABB GetAABB() override;
 			virtual Vector3D FindFarthestPoint(const Vector3D&) override;
 			virtual Face FindSupportFace(const Vector3D&) override;
-			virtual Matrix3x3 GetInertiaTensor(float) noexcept override;
-			virtual size_t GetType() noexcept override;
+			virtual Matrix3x3 GetInertiaTensor(float) override;
+			virtual size_t GetType() override;
 		};
 	}
 }

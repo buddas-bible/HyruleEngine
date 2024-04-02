@@ -1,14 +1,14 @@
 #include "Enemy.h"
 
 #include "HyruleMath.h"
-#include "GameObject.h"
+#include "Entity.h"
 #include "Transform.h"
 
 namespace Hyrule
 {
 #define DELTATIME_ 0.016f
 
-	Enemy::Enemy(GameObject* _gameObject) noexcept : 
+	Enemy::Enemy(GameObject* _gameObject) : 
 		Component(_gameObject)
 	{
 		fsm.Add(EnemyState::IDLE,

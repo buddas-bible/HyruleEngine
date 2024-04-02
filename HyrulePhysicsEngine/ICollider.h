@@ -18,14 +18,14 @@ namespace Hyrule
 		class ICollider
 		{
 		public:
-			ICollider() noexcept = default;
-			virtual ~ICollider() noexcept = default;
+			ICollider() = default;
+			virtual ~ICollider() = default;
 
 		public:
-			virtual bool isCollision() noexcept abstract;
-			virtual void OnEnable() noexcept abstract;
-			virtual void OnDisable() noexcept abstract;
-			virtual void OnDestroy() noexcept abstract;
+			virtual bool isCollision() abstract;
+			virtual void OnEnable() abstract;
+			virtual void OnDisable() abstract;
+			virtual void OnDestroy() abstract;
 
 		public:
 			/// <summary>
@@ -33,9 +33,9 @@ namespace Hyrule
 			/// </summary>
 			virtual void SetTransform(
 				const Vector3D&, const Vector3D&,
-				const Vector3D&, const Quaternion&, const Vector3D&) noexcept abstract;
+				const Vector3D&, const Quaternion&, const Vector3D&) abstract;
 
-			virtual std::vector<ICollision*> GetCollisionInfo() noexcept abstract;
+			virtual std::vector<ICollision*> GetCollisionInfo() abstract;
 
 			virtual void SetTrigger(bool) abstract;
 

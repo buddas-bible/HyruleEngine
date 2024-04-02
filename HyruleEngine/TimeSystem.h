@@ -1,10 +1,10 @@
 #pragma once
-#include "System.h"
+#include "Singleton.h"
 #include "../HyruleUtility/GameTimer.h"
 
 namespace Hyrule
 {
-	class TimeSystem : public System<TimeSystem>
+	class TimeSystem : public Singleton<TimeSystem>
 	{
 	public:
 		GameTimer gameTimer;

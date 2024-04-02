@@ -27,7 +27,7 @@ namespace Hyrule
 		// 카메라를 직교 투영으로 세팅
 		virtual  void CameraOrthographicLH(float _width, float _height, float _near, float _far) override;
 
-		virtual  void SetWorldTransform(const Matrix4x4&) noexcept override;
+		virtual  void SetWorldTransform(const Matrix4x4&) override;
 
 		virtual void ZoomIn(float) override;
 		virtual void ZoomOut(float) override;

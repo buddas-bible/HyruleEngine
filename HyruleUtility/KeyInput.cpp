@@ -3,7 +3,7 @@
 
 namespace Hyrule
 {
-	void KeyInput::Update() noexcept
+	void KeyInput::Update()
 	{
 		for (int i = 0; i < 0xFF; i++)
 		{
@@ -11,22 +11,22 @@ namespace Hyrule
 		}
 	}
 
-	bool KeyInput::KeyPress(int _key) noexcept
+	bool KeyInput::KeyPress(int _key)
 	{
 		return key[_key] & 0x8001;
 	}
 
-	bool KeyInput::KeyPressedNow(int _key) noexcept
+	bool KeyInput::KeyPressedNow(int _key)
 	{
 		return key[_key] & 0x8000;
 	}
 
-	bool KeyInput::KeyRelease(int _key) noexcept
+	bool KeyInput::KeyRelease(int _key)
 	{
 		return key[_key] & 0x0000;
 	}
 
-	bool KeyInput::KeyReleasedNow(int _key) noexcept
+	bool KeyInput::KeyReleasedNow(int _key)
 	{
 		return key[_key] & 0x0001;
 	}

@@ -39,23 +39,32 @@ namespace Hyrule
 		return true;
 	}
 
-
-	void RendererSystem::Update() noexcept
+	void RendererSystem::Update()
 	{
 		graphicsEngine->Update();
 	}
 
-	void RendererSystem::Render() noexcept
+	void RendererSystem::PreRender()
+	{
+
+	}
+
+	void RendererSystem::Render()
 	{
 		graphicsEngine->Render();
 	}
 
-	void RendererSystem::DebugRender() noexcept
+	void RendererSystem::PostRender()
 	{
 
 	}
 
-	void RendererSystem::Finalize() noexcept
+	void RendererSystem::DebugRender()
+	{
+
+	}
+
+	void RendererSystem::Finalize()
 	{
 		graphicsEngine->Finalize();
 
@@ -86,8 +95,7 @@ namespace Hyrule
 		return hr;
 	}
 
-
-	Hyrule::ICamera* RendererSystem::GetCamera() noexcept
+	Hyrule::ICamera* RendererSystem::GetCamera()
 	{
 		return graphicsEngine->GetCamera();
 	}

@@ -1,6 +1,6 @@
 #pragma comment(lib, "HyruleMath.lib")
 
-#include "GameObject.h"
+#include "Entity.h"
 #include "Transform.h"
 
 #include "BoxCollider.h"
@@ -22,11 +22,11 @@
 
 namespace Hyrule
 {
-	Scene01::Scene01(const std::wstring& _name) noexcept :
+	Scene01::Scene01(const std::wstring& _name) :
 		Scene(_name)
 	{}
 
-	void Scene01::Load() noexcept
+	void Scene01::Load()
 	{
 		GameObject* controller = CreateGameObject(L"Controller");
 		Controller* con = controller->AddComponent<Controller>();

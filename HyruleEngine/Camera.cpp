@@ -6,16 +6,16 @@
 #include "RendererSystem.h"
 #include "TimeSystem.h"
 
-#include "GameObject.h"
+#include "Entity.h"
 #include "Transform.h"
 
 
 namespace Hyrule 
 {
-	Camera::Camera(GameObject* _gameObject) noexcept :
+	Camera::Camera(Entity* _gameObject) :
 		Component(_gameObject)
 	{
-		camera = RendererSystem::GetInstance().GetCamera();
+		camera = RendererSystem::Instance().GetCamera();
 
 		Vector3D eye{ 0.0f, 8.f, -9.f };
 		Vector3D at{ 0.0f, 6.f, 0.0f };
@@ -78,20 +78,15 @@ namespace Hyrule
 		this->camera->SetOrthographicView();
 	}
 
-	void Camera::Awake()
-	{
-
-	}
-
 	void Camera::Update()
 	{
 		auto dt = TimeSystem::GetInstance().GetfDeltaTime();
 
-		if (InputSystem::GetInstance().KeyDownNow('Z'))
+		if (InputSystem::Instance().KeyDownNow('Z'))
 		{
 			camera->ZoomIn(1.f * dt);
 		}
-		if (InputSystem::GetInstance().KeyDownNow('X'))
+		if (InputSystem::Instance().KeyDownNow('X'))
 		{
 			camera->ZoomOut(1.f * dt);
 		}
@@ -99,30 +94,15 @@ namespace Hyrule
 
 	void Camera::LateUpdate()
 	{
-		if (InputSystem::GetInstance().KeyDownNow(VK_F7))
+		if (InputSystem::Instance().KeyDownNow(VK_F7))
 		{
 			camera->SetPerspectiveView();
 		}
-		if (InputSystem::GetInstance().KeyDownNow(VK_F8))
+		if (InputSystem::Instance().KeyDownNow(VK_F8))
 		{
 			camera->SetOrthographicView();
 		}
 
 		camera->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
-	}
-
-	void Camera::OnEnable()
-	{
-
-	}
-
-	void Camera::OnDisable()
-	{
-
-	}
-
-	void Camera::OnDestroy()
-	{
-
 	}
 }

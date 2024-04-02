@@ -5,8 +5,8 @@ namespace ZonaiPhysics
 	class ZnShape
 	{
 	public:
-		ZnShape() noexcept = default;
-		virtual ~ZnShape() noexcept;
+		ZnShape() = default;
+		virtual ~ZnShape();
 
 	public:
 

@@ -7,14 +7,14 @@
 
 namespace Hyrule
 {
-	class GameObject;
+	class Entity;
 
 	class Transform : public Component
 	{
 	public:
 		Transform() = delete;
-		Transform(GameObject*) noexcept;
-		virtual ~Transform() noexcept = default;
+		Transform(Entity*);
+		~Transform() override = default;
 
 	private:
 		Vector3D position;
@@ -29,46 +29,46 @@ namespace Hyrule
 		/// <summary>
 		/// 트랜스폼 관련 함수
 		/// </summary>
-		Vector3D GetLocalPosition() noexcept;
-		Vector3D GetWorldPosition() noexcept;
-		void SetLocalPosition(const Vector3D&) noexcept;
+		Vector3D GetLocalPosition();
+		Vector3D GetWorldPosition();
+		void SetLocalPosition(const Vector3D&);
 
-		Vector3D GetLocalRotation() noexcept;
-		Quaternion GetLocalQuaternion() noexcept;
-		Quaternion GetWorldQuaternion() noexcept;
-		void SetLocalQuaternion(const Quaternion&) noexcept;
-		void SetLocalRotationFromEuler(const Vector3D&) noexcept;
-		void SetLocalRotationFromDegree(const Vector3D&) noexcept;
+		Vector3D GetLocalRotation();
+		Quaternion GetLocalQuaternion();
+		Quaternion GetWorldQuaternion();
+		void SetLocalQuaternion(const Quaternion&);
+		void SetLocalRotationFromEuler(const Vector3D&);
+		void SetLocalRotationFromDegree(const Vector3D&);
 
-		Vector3D GetLocalScale() noexcept;
-		Vector3D GetWorldScale() noexcept;
-		void SetLocalScale(const Vector3D&) noexcept;
+		Vector3D GetLocalScale();
+		Vector3D GetWorldScale();
+		void SetLocalScale(const Vector3D&);
 
-		Matrix4x4 GetParentWorldMatrix() noexcept;
+		Matrix4x4 GetParentWorldMatrix();
 
-		Vector3D GetUp() noexcept;
-		Vector3D GetForward() noexcept;
-		Vector3D GetRight() noexcept;
+		Vector3D GetUp();
+		Vector3D GetForward();
+		Vector3D GetRight();
 
-		Matrix4x4 GetLocalMatrix() noexcept;
-		Matrix4x4 GetWorldMatrix() noexcept;
+		Matrix4x4 GetLocalMatrix();
+		Matrix4x4 GetWorldMatrix();
 
 
 	public:
 		/// <summary>
 		/// 부모자식 관련 함수
 		/// </summary>
-		Transform* GetParent() noexcept;
-		void SetParent(Transform*) noexcept;
-		void RemoveParent() noexcept;
+		Transform* GetParent();
+		void SetParent(Transform*);
+		void RemoveParent();
 
-		void AddChild(Transform*) noexcept;
-		void RemoveChild(Transform*) noexcept;
+		void AddChild(Transform*);
+		void RemoveChild(Transform*);
 
-		Transform* GetChild(const size_t) noexcept;
-		std::vector<Transform*> Getchildren() noexcept;
-		size_t GetChildCount() noexcept;
-		Transform* FindChild(const std::wstring&) noexcept;
+		Transform* GetChild(const size_t);
+		std::vector<Transform*> Getchildren();
+		size_t GetChildCount();
+		Transform* FindChild(const std::wstring&);
 
 	public:
 		virtual void OnEnable() final {}

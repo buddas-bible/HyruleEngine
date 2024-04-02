@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "MonoBehaviour.h"
 #include "FSM.h"
 
 namespace Hyrule
@@ -14,11 +14,11 @@ namespace Hyrule
 		PARRY,
 	};
 
-	class Player : public Component
+	class Player : public MonoBehaviour
 	{
 	public:
-		Player(GameObject*) noexcept;
-		virtual ~Player() noexcept = default;
+		Player(GameObject*);
+		virtual ~Player() = default;
 
 	private:
 		float HP;

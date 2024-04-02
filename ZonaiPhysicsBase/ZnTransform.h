@@ -15,21 +15,21 @@ namespace ZonaiPhysics
 	{
 	public:
 <<<<<<< HEAD
-		ZnTransform() noexcept = default;
+		ZnTransform() = default;
 
-		ZnTransform(const Vector3D& _vec) noexcept : position(_vec), quaternion()
+		ZnTransform(const Vector3D& _vec) : position(_vec), quaternion()
 		{}
 
-		ZnTransform(const Quaternion& _qat) noexcept : position(), quaternion(_qat)
+		ZnTransform(const Quaternion& _qat) : position(), quaternion(_qat)
 		{}
 
-		ZnTransform(const Vector3D& _vec, const Quaternion& _qat) noexcept : position(_vec), quaternion(_qat)
+		ZnTransform(const Vector3D& _vec, const Quaternion& _qat) : position(_vec), quaternion(_qat)
 		{}
 
-		ZnTransform(const ZnTransform& _tran) noexcept : position(_tran.position), quaternion(_tran.quaternion)
+		ZnTransform(const ZnTransform& _tran) : position(_tran.position), quaternion(_tran.quaternion)
 		{}
 
-		void operator=(const ZnTransform& _tran) noexcept
+		void operator=(const ZnTransform& _tran)
 		{
 			position = _tran.position;
 			quaternion = _tran.quaternion;

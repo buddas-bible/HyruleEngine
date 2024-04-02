@@ -2,18 +2,18 @@
 
 #include "ICollider.h"
 #include "Transform.h"
-#include "GameObject.h"
+#include "Entity.h"
 
 namespace Hyrule
 {
 
-	MeshCollider::MeshCollider(GameObject* _gameObject) noexcept : 
+	MeshCollider::MeshCollider(Entity* _gameObject) : 
 		Collider(_gameObject), collider()
 	{
 
 	}
 
-	MeshCollider::~MeshCollider() noexcept
+	MeshCollider::~MeshCollider()
 	{
 
 	}
@@ -23,14 +23,9 @@ namespace Hyrule
 		collider->SetTrigger(_trigger);
 	}
 
-	bool MeshCollider::isCollision() noexcept
+	bool MeshCollider::isCollision()
 	{
 		return collider->isCollision();
-	}
-
-	void MeshCollider::FixedUpdate()
-	{
-
 	}
 
 	void MeshCollider::PrePhysicsUpdate()

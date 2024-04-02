@@ -12,8 +12,8 @@ namespace Hyrule
 	{
 		ObjectManager() = default;
 		~ObjectManager() = default;
-		ObjectManager& operator=(const ObjectManager&) noexcept = delete;
-		ObjectManager& operator=(ObjectManager&&) noexcept = delete;
+		ObjectManager& operator=(const ObjectManager&) = delete;
+		ObjectManager& operator=(ObjectManager&&) = delete;
 
 	public:
 		static ObjectManager& GetInstance();

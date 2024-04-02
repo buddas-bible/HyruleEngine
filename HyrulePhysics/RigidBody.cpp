@@ -11,7 +11,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		RigidBody::RigidBody(Object* _object) noexcept : 
+		RigidBody::RigidBody(Object* _object) : 
 			object(_object)
 		{}
 
@@ -25,42 +25,42 @@ namespace Hyrule
 			return this->object;
 		}
 
-		std::wstring RigidBody::GetObjectName() noexcept
+		std::wstring RigidBody::GetObjectName()
 		{
 			return this->object->GetName();
 		}
 
-		const Hyrule::Vector3D& RigidBody::ApplyPosition() noexcept
+		const Hyrule::Vector3D& RigidBody::ApplyPosition()
 		{
 			return object->GetPosition();
 		}
 
-		const Hyrule::Quaternion& RigidBody::ApplyQuaternion() noexcept
+		const Hyrule::Quaternion& RigidBody::ApplyQuaternion()
 		{
 			return object->GetRotation();
 		}
 
-		void RigidBody::OnEnable() noexcept
+		void RigidBody::OnEnable()
 		{
 			this->activate = true;
 		}
 
-		void RigidBody::OnDisable() noexcept
+		void RigidBody::OnDisable()
 		{
 			this->activate = false;
 		}
 
-		void RigidBody::OnDestroy() noexcept
+		void RigidBody::OnDestroy()
 		{
 			ObjectManager::GetInstance().AddRemoveQueue(this);
 		}
 
-		float RigidBody::GetInvMass() noexcept
+		float RigidBody::GetInvMass()
 		{
 			return this->invMass;
 		}
 
-		Vector3D RigidBody::GetPosition() noexcept
+		Vector3D RigidBody::GetPosition()
 		{
 			if (object)
 			{
@@ -72,7 +72,7 @@ namespace Hyrule
 			}
 		}
 
-		void RigidBody::SetPosition(const Vector3D& _pos) noexcept
+		void RigidBody::SetPosition(const Vector3D& _pos)
 		{
 			if (invMass == 0.f)
 			{
@@ -86,22 +86,22 @@ namespace Hyrule
 			}
 		}
 
-		float RigidBody::GetStaticFriction() noexcept
+		float RigidBody::GetStaticFriction()
 		{
 			return this->sfriction;
 		}
 
-		float RigidBody::GetDynamicFriction() noexcept
+		float RigidBody::GetDynamicFriction()
 		{
 			return this->dfriction;
 		}
 
-		float RigidBody::GetRestitution() noexcept
+		float RigidBody::GetRestitution()
 		{
 			return this->restitution;
 		}
 
-		Hyrule::Matrix3x3 RigidBody::GetInvInertia() noexcept
+		Hyrule::Matrix3x3 RigidBody::GetInvInertia()
 		{
 			if (!tensorUpdate)
 			{
@@ -112,7 +112,7 @@ namespace Hyrule
 			return this->invInertiaTensor;
 		}
 
-		void RigidBody::ApplyImpulse(const Vector3D& _impulse, const Vector3D& _contact) noexcept
+		void RigidBody::ApplyImpulse(const Vector3D& _impulse, const Vector3D& _contact)
 		{
 			if (this->activate == false || this->invMass == 0.f)
 			{
@@ -139,7 +139,7 @@ namespace Hyrule
 			this->angularVelocity += dw;
 		}
 
-		void RigidBody::ComputeVelocity(Vector3D _gravity, float _dt) noexcept
+		void RigidBody::ComputeVelocity(Vector3D _gravity, float _dt)
 		{
 			if (this->invMass == 0.f)
 			{
@@ -160,7 +160,7 @@ namespace Hyrule
 			this->torque = Vector3D::Zero();
 		}
 
-		void RigidBody::ComputePosition(float _dt) noexcept
+		void RigidBody::ComputePosition(float _dt)
 		{
 			if (invMass == 0.f)
 			{
@@ -184,13 +184,13 @@ namespace Hyrule
 			rotation.Normalize();
 		}
 
-		void RigidBody::AddForce(const Vector3D& _force) noexcept
+		void RigidBody::AddForce(const Vector3D& _force)
 		{
 			// WakeUp();
 			this->force += _force;
 		}
 
-		void RigidBody::AddTorque(const Vector3D& _torque) noexcept
+		void RigidBody::AddTorque(const Vector3D& _torque)
 		{
 			// WakeUp();
 			this->torque += _torque;
@@ -229,7 +229,7 @@ namespace Hyrule
 		}
 
 #pragma region GetSet
-		void RigidBody::SetMass(const float _mass) noexcept
+		void RigidBody::SetMass(const float _mass)
 		{
 			if (_mass == 0.f)
 			{
@@ -246,12 +246,12 @@ namespace Hyrule
 			this->mass = _mass;
 		}
 
-		float RigidBody::GetMass() const noexcept
+		float RigidBody::GetMass() const
 		{
 			return this->mass;
 		}
 
-		void RigidBody::SetVelocity(const Vector3D& _velo) noexcept
+		void RigidBody::SetVelocity(const Vector3D& _velo)
 		{
 			if (invMass == 0.f)
 			{
@@ -263,12 +263,12 @@ namespace Hyrule
 			this->velocity = _velo;
 		}
 
-		Vector3D RigidBody::GetVelocity() const noexcept
+		Vector3D RigidBody::GetVelocity() const
 		{
 			return this->velocity;
 		}
 
-		void RigidBody::SetAngularVelocity(const Vector3D& _angular) noexcept
+		void RigidBody::SetAngularVelocity(const Vector3D& _angular)
 		{
 			if (invMass == 0.f)
 			{
@@ -280,12 +280,12 @@ namespace Hyrule
 			this->angularVelocity = _angular;
 		}
 
-		Vector3D RigidBody::GetAngularVelocity() const noexcept
+		Vector3D RigidBody::GetAngularVelocity() const
 		{
 			return this->angularVelocity;
 		}
 
-		bool RigidBody::IsAwake() const noexcept
+		bool RigidBody::IsAwake() const
 		{
 			// 표면에서 물체가 반복적인 충돌을 하게 되면
 			// 속력에 한계가 있을텐데
@@ -294,7 +294,7 @@ namespace Hyrule
 			return !this->sleep;
 		}
 
-		void RigidBody::WakeUp() noexcept
+		void RigidBody::WakeUp()
 		{
 			this->sleep = false;
 		}

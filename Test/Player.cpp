@@ -3,8 +3,8 @@
 namespace Hyrule
 {
 
-	Player::Player(GameObject* _gameObject) noexcept :
-		Component(_gameObject)
+	Player::Player(GameObject* _gameObject) :
+		MonoBehaviour(_gameObject)
 	{
 		fsm.Add(
 			PlayerState::MOVE,

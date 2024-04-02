@@ -7,8 +7,8 @@ namespace Hyrule
 	{
 	public:
 		MeleeEnemy() = delete;
-		MeleeEnemy(GameObject*) noexcept;
-		virtual ~MeleeEnemy() noexcept = default;
+		MeleeEnemy(GameObject*);
+		virtual ~MeleeEnemy() = default;
 	
 	public:
 		virtual EnemyState Attack();

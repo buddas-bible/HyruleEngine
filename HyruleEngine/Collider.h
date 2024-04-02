@@ -11,15 +11,15 @@ namespace Hyrule
 		class ICollider;
 	}
 
-	class GameObject;
+	class Entity;
 	struct Vector3D;
 
 	class Collider : public Component
 	{
 	public:
 		Collider() = delete;
-		Collider(GameObject*) noexcept;
-		virtual ~Collider() noexcept = default;
+		Collider(Entity*);
+		~Collider() override = default;
 	
 	public:
 		Vector3D center;
@@ -29,34 +29,13 @@ namespace Hyrule
 		virtual void SetTrigger(bool) abstract;
 		virtual void SetSize(const Vector3D&) abstract;
 		virtual void SetCenter(const Vector3D&) abstract;
-		virtual bool isCollision() noexcept abstract;
+		virtual bool isCollision() abstract;
 
 	public:
-		virtual void Awake() final {};
-		virtual void Start() final {};
-		virtual void FixedUpdate() abstract;
 		virtual void PrePhysicsUpdate() abstract;
 		virtual void PhysicsUpdate() abstract;
 		virtual void LatePhysicsUpdate() abstract;
 		virtual void Update() abstract;
-		virtual void LateUpdate() final {};
-		virtual void Render() final {};
-
-		// 		virtual void OnTriggerEnter(Collider*) override {}
-		// 		virtual void OnTriggerStay(Collider*) override {}
-		// 		virtual void OnTriggerExit(Collider*) override {}
-		// 
-		// 		virtual void OnTriggerEnter() override;
-		// 		virtual void OnTriggerStay() override;
-		// 		virtual void OnTriggerExit() override;
-
-		virtual void OnCollisionEnter(Collider*)  final {};
-		virtual void OnCollisionStay(Collider*) final {};
-		virtual void OnCollisionExit(Collider*) final {};
-
-		virtual void OnCollisionEnter() final {};
-		virtual void OnCollisionStay() final {};
-		virtual void OnCollisionExit() final {};
 
 		virtual void OnEnable() abstract;
 		virtual void OnDisable() abstract;

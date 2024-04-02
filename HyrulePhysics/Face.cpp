@@ -7,7 +7,7 @@ namespace Hyrule
 	{
 		Face::Face(
 			const Vector3D& _A, const Vector3D& _B, const Vector3D& _C,
-			size_t _i0, size_t _i1, size_t _i2) noexcept :
+			size_t _i0, size_t _i1, size_t _i2) :
 			vec{ _A, _B, _C }, index{ _i0, _i1, _i2 },
 			normal{}, center{}
 		{
@@ -28,7 +28,7 @@ namespace Hyrule
 			this->center = (_A + _B + _C) / 3;
 		}
 
-		Face::Face(const std::vector<Edge>& edges) noexcept : 
+		Face::Face(const std::vector<Edge>& edges) : 
 			edge(edges)
 		{
 			// 엣지가 중복되지 않았다는 가정 하에...
@@ -45,18 +45,18 @@ namespace Hyrule
 			center /= (float)vec.size();
 		}
 
-		Face::~Face() noexcept
+		Face::~Face()
 		{
 			// delete[] edge;
 		}
 
 
-		void Face::Inverse() noexcept
+		void Face::Inverse()
 		{
 
 		}
 
-		void Face::SetEdge() noexcept
+		void Face::SetEdge()
 		{
 			edge.clear();
 

@@ -35,65 +35,65 @@ namespace ZonaiPhysics
 
 	extern "C"
 	{
-		__declspec(dllexport) ZnPhysicsBase* CreatePhysics() noexcept;
+		__declspec(dllexport) ZnPhysicsBase* CreatePhysics();
 	}
 
 	class World : public ZnPhysicsBase
 	{
 	public:
-		World() noexcept = default;
-		virtual ~World() noexcept;
+		World() = default;
+		virtual ~World();
 
 	public:
-		virtual void			Initialize() noexcept override;
-		virtual void			Simulation(float _dt) noexcept override;
-		virtual void			Finalize() noexcept override;
+		virtual void			Initialize() override;
+		virtual void			Simulation(float _dt) override;
+		virtual void			Finalize() override;
 
 	public:
 		/// <summary>
 		/// Create Component
 		/// </summary>
-		virtual ZnRigidBody*	CreateRigidBody() noexcept override;
-		virtual ZnSoftBody*		CreateSoftBody() noexcept override;
-		virtual ZnCollider*		CreateCollider() noexcept override;
-		virtual ZnJoint*		CreateJoint() noexcept override;
+		virtual ZnRigidBody*	CreateRigidBody() override;
+		virtual ZnSoftBody*		CreateSoftBody() override;
+		virtual ZnCollider*		CreateCollider() override;
+		virtual ZnJoint*		CreateJoint() override;
 
 
 		/// <summary>
 		/// Create RigidBoby
 		/// </summary>
 <<<<<<< HEAD
-		virtual ZnRigidBody*	CreateRigidBody(const std::wstring&) noexcept override;
+		virtual ZnRigidBody*	CreateRigidBody(const std::wstring&) override;
 =======
-		virtual ZnRigidBody*	CreateRigidBody() noexcept;
+		virtual ZnRigidBody*	CreateRigidBody();
 >>>>>>> 49329f7c854b5a1bc6f7f78c07b81085dead6dbe
 		
 		/// <summary>
 		/// Create Collider
 		/// </summary>
 <<<<<<< HEAD
-		virtual ZnCollider*		CreatBoxCollider(const std::wstring&, float width, float height) noexcept;
-		virtual ZnCollider*		CreatPlaneCollider(const std::wstring&) noexcept;
-		virtual ZnCollider*		CreatSphereCollider(const std::wstring&) noexcept;
-		virtual ZnCollider*		CreateCapsuleCollider(const std::wstring&) noexcept;
-		virtual ZnCollider*		CreateCustomCollider(const std::wstring&) noexcept;
+		virtual ZnCollider*		CreatBoxCollider(const std::wstring&, float width, float height);
+		virtual ZnCollider*		CreatPlaneCollider(const std::wstring&);
+		virtual ZnCollider*		CreatSphereCollider(const std::wstring&);
+		virtual ZnCollider*		CreateCapsuleCollider(const std::wstring&);
+		virtual ZnCollider*		CreateCustomCollider(const std::wstring&);
 =======
-		virtual ZnCollider*		CreatBoxCollider(float width, float height) noexcept;
-		virtual ZnCollider*		CreatPlaneCollider() noexcept;
-		virtual ZnCollider*		CreatSphereCollider() noexcept;
-		virtual ZnCollider*		CreateCapsuleCollider() noexcept;
-		virtual ZnCollider*		CreateCustomCollider() noexcept;
+		virtual ZnCollider*		CreatBoxCollider(float width, float height);
+		virtual ZnCollider*		CreatPlaneCollider();
+		virtual ZnCollider*		CreatSphereCollider();
+		virtual ZnCollider*		CreateCapsuleCollider();
+		virtual ZnCollider*		CreateCustomCollider();
 >>>>>>> 49329f7c854b5a1bc6f7f78c07b81085dead6dbe
 		
 		/// <summary>
 		/// Create Joint
 		/// </summary>
-		virtual ZnJoint*		CreatD6Joint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform) noexcept;			// D6 조인트		*사실 뭔지 모름
-		virtual ZnJoint*		CreatFixedJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform) noexcept;			// 고정 조인트
-		virtual ZnJoint*		CreatDistanceJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform) noexcept;		// 거리 조인트
-		virtual ZnJoint*		CreatSphericalJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform) noexcept;		// 구형 조인트
-		virtual ZnJoint*		CreatRevoluteJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform) noexcept;		// 회전 조인트
-		virtual ZnJoint*		CreatPrismaticJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform) noexcept;		// 프리즘 조인트
+		virtual ZnJoint*		CreatD6Joint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform);			// D6 조인트		*사실 뭔지 모름
+		virtual ZnJoint*		CreatFixedJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform);			// 고정 조인트
+		virtual ZnJoint*		CreatDistanceJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform);		// 거리 조인트
+		virtual ZnJoint*		CreatSphericalJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform);		// 구형 조인트
+		virtual ZnJoint*		CreatRevoluteJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform);		// 회전 조인트
+		virtual ZnJoint*		CreatPrismaticJoint(ZnRigidBody*, ZnTransform, ZnRigidBody*, ZnTransform);		// 프리즘 조인트
 	
 	private:
 		physx::PxDefaultAllocator		allocator;

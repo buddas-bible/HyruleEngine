@@ -10,7 +10,7 @@ namespace Hyrule
 {
 	bool HyruleEngine::focus = true;
 
-	HyruleEngine::HyruleEngine() noexcept : 
+	HyruleEngine::HyruleEngine() : 
 		hwnd(), isRunning(true)
 	{
 		// m_gameEngine = this;
@@ -20,7 +20,7 @@ namespace Hyrule
 	/// 그냥 싱글턴으로 객체 반환해주는 함수
 	/// </summary>
 	/// <returns></returns>
-	HyruleEngine& HyruleEngine::GetInstance() noexcept
+	HyruleEngine& HyruleEngine::GetInstance()
 	{
 		static HyruleEngine gameEngine;
 
@@ -30,7 +30,7 @@ namespace Hyrule
 	/// <summary>
 	/// 게임 메인 루프
 	/// </summary>
-	void HyruleEngine::Run() noexcept
+	void HyruleEngine::Run()
 	{
 		MSG msg;
 		
@@ -47,7 +47,7 @@ namespace Hyrule
 			else
 			{
 				if (HyruleEngine::focus)
-					isRunning = CoreSystem::GetInstance().GameProcess();
+					isRunning = CoreSystem::Instance().GameProcess();
 			}
 		}
 	}
@@ -55,18 +55,18 @@ namespace Hyrule
 	/// <summary>
 	/// 초기화 (윈도우 창 설정)
 	/// </summary>
-	void HyruleEngine::Initialize(HINSTANCE hInstance, const std::wstring& _name) noexcept
+	void HyruleEngine::Initialize(HINSTANCE hInstance, const std::wstring& _name)
 	{
 		// 윈도우 창 설정
 		this->CreateEngineWindow(hInstance, _name);
 
-		CoreSystem::GetInstance().SetHandle((int)hwnd);
+		CoreSystem::Instance().SetHandle((int)hwnd);
 	}
 
 	/// <summary>
 	/// 다 할당을 풀어주려고 함.
 	/// </summary>
-	void HyruleEngine::Finalize() noexcept
+	void HyruleEngine::Finalize()
 	{
 
 	}
@@ -74,7 +74,7 @@ namespace Hyrule
 	/// <summary>
 	/// 윈도우 창 생성
 	/// </summary>
-	long HyruleEngine::CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name) noexcept
+	long HyruleEngine::CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name)
 	{
 		WNDCLASSEXW wcex;
 
@@ -132,11 +132,11 @@ namespace Hyrule
 	/// <summary>
 	/// 창 크기 재설정
 	/// </summary>
-	long HyruleEngine::OnResize() noexcept
+	long HyruleEngine::OnResize()
 	{
 		HRESULT hr = S_OK;
 
-		hr = (HRESULT)(RendererSystem::GetInstance().OnResize());
+		hr = (HRESULT)(RendererSystem::Instance().OnResize());
 
 		if (FAILED(hr))
 		{
@@ -149,9 +149,9 @@ namespace Hyrule
 	/// <summary>
 	/// Graphics DLL 동적 링킹
 	/// </summary>
-	void HyruleEngine::LoadGraphicsDLL(const std::wstring& _path) noexcept
+	void HyruleEngine::LoadGraphicsDLL(const std::wstring& _path)
 	{
-		auto& renderer = RendererSystem::GetInstance();
+		auto& renderer = RendererSystem::Instance();
 
 		auto result = renderer.LoadGraphicsDLL(_path, hwnd);
 		if (!result)
@@ -163,9 +163,9 @@ namespace Hyrule
 	/// <summary>
 	/// Physics DLL 동적 링킹
 	/// </summary>
-	void HyruleEngine::LoadPhysicsDLL(const std::wstring& _path) noexcept
+	void HyruleEngine::LoadPhysicsDLL(const std::wstring& _path)
 	{
-		auto& physics = PhysicsSystem::GetInstance();
+		auto& physics = PhysicsSystem::Instance();
 
 		auto result = physics.LoadPhysicsDLL(_path, hwnd);
 		if (!result)
@@ -177,7 +177,7 @@ namespace Hyrule
 	/// <summary>
 	/// 윈도우 메세지 함수
 	/// </summary>
-	LRESULT CALLBACK HyruleEngine::WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam) noexcept
+	LRESULT CALLBACK HyruleEngine::WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam)
 	{
 		switch (_msg)
 		{

@@ -9,7 +9,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Manifold::Manifold(Collider*& _A, Collider*& _B) noexcept
+		Manifold::Manifold(Collider*& _A, Collider*& _B)
 			: A(_A), B(_B),
 			normal{}, depth{},
 			contactPoints{},
@@ -17,7 +17,7 @@ namespace Hyrule
 		{}
 
 
-// 		Manifold::Manifold(const Manifold& _other) noexcept :
+// 		Manifold::Manifold(const Manifold& _other) :
 // 			A(_other.A), B(_other.B),
 // 			normal(_other.normal),
 // 			depth(_other.depth),
@@ -116,23 +116,23 @@ namespace Hyrule
 			return impulse;
 		}
 
-		Vector3D Manifold::GetNormal() const noexcept
+		Vector3D Manifold::GetNormal() const
 		{
 			return this->normal;
 		}
 
-		void Manifold::SetNormal(const Vector3D& _normal) noexcept
+		void Manifold::SetNormal(const Vector3D& _normal)
 		{
 			this->normal = _normal;
 		}
 
 
-		float Manifold::GetDepth() const noexcept
+		float Manifold::GetDepth() const
 		{
 			return this->depth;
 		}
 
-		void Manifold::SetDepth(float _depth) noexcept
+		void Manifold::SetDepth(float _depth)
 		{
 			this->depth = _depth;
 		}

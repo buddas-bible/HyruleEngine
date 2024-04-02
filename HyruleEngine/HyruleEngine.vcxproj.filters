@@ -65,6 +65,39 @@
     <Filter Include="3. Component\1. Physics\Joint">
       <UniqueIdentifier>{3c6e956d-9469-4b19-b4c2-5d39a0a4fb51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. Component\1. Physics\Collider\Base">
+      <UniqueIdentifier>{5c4015ef-eff4-46e2-8813-8be3a1107df6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Component\2. Renderer\UI">
+      <UniqueIdentifier>{7293922b-67a9-4cde-bd49-4861844ed490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. System\01. Core">
+      <UniqueIdentifier>{0be2a4b3-423d-408a-826d-9e6f1082305c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. System\00. Base">
+      <UniqueIdentifier>{9ebc9bcf-aff8-485a-8388-373d73c1e4ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. System\01. Physics">
+      <UniqueIdentifier>{c96acb20-43cf-4dd8-a102-dccdedb9b099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. System\02. Renderer">
+      <UniqueIdentifier>{2c25625a-5b09-4280-aca6-c87fd9ba991f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. System\03. Input">
+      <UniqueIdentifier>{dc0b5cdc-a831-4734-9f21-7cdfb61c2419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. System\04. Time">
+      <UniqueIdentifier>{c3c64db2-0ff2-4ea6-8ad1-e8b3d50f48ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. System\98. Serialize">
+      <UniqueIdentifier>{e92ba8d0-0422-46e5-bc60-fc5a28c3d826}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. System\99. Deserialize">
+      <UniqueIdentifier>{c20abea2-78a7-4f3e-b633-36bf0ab167dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Component\2. Renderer\Renderer\Base">
+      <UniqueIdentifier>{9d2e1b7a-c1e7-4ced-9977-bf02eedbcd63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -91,15 +124,6 @@
     <ClInclude Include="SceneManager.h">
       <Filter>2. Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Serialize.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreSystem.h">
-      <Filter>1. System</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>3. Component\1. Physics\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="BoxCollider.h">
       <Filter>3. Component\1. Physics\Collider</Filter>
     </ClInclude>
@@ -109,29 +133,11 @@
     <ClInclude Include="MeshCollider.h">
       <Filter>3. Component\1. Physics\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>1. System</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsSystem.h">
-      <Filter>1. System</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererSystem.h">
-      <Filter>1. System</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="IScene.h">
       <Filter>2. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>3. Component\0. Base</Filter>
-    </ClInclude>
-    <ClInclude Include="InputSystem.h">
-      <Filter>1. System</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeSystem.h">
-      <Filter>1. System</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>3. Component\1. Physics\RigidBody</Filter>
@@ -143,9 +149,6 @@
       <Filter>3. Component\2. Renderer\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderer.h">
-      <Filter>3. Component\2. Renderer\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
       <Filter>3. Component\2. Renderer\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="SphereRenderer.h">
@@ -160,11 +163,59 @@
     <ClInclude Include="Picking.h">
       <Filter>Object\Picking</Filter>
     </ClInclude>
-    <ClInclude Include="MouseInputSystem.h">
-      <Filter>2. Scene</Filter>
-    </ClInclude>
     <ClInclude Include="SpringJoint.h">
       <Filter>3. Component\1. Physics\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour.h">
+      <Filter>3. Component\0. Base</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoBehaviour.h">
+      <Filter>3. Component\0. Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>3. Component\0. Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>3. Component\0. Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>3. Component\1. Physics\Collider\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleCollider.h">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>3. Component\2. Renderer\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>1. System\03. Input</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreSystem.h">
+      <Filter>1. System\01. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsSystem.h">
+      <Filter>1. System\01. Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>1. System\00. Base</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererSystem.h">
+      <Filter>1. System\02. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeSystem.h">
+      <Filter>1. System\04. Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>3. Component\2. Renderer\Renderer\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Serializable.h">
+      <Filter>1. System\98. Serialize</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>1. System\01. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>1. System\01. Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,12 +240,6 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>2. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="CoreSystem.cpp">
-      <Filter>1. System</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>3. Component\1. Physics\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>3. Component\1. Physics\Collider</Filter>
     </ClCompile>
@@ -204,26 +249,8 @@
     <ClCompile Include="MeshCollider.cpp">
       <Filter>3. Component\1. Physics\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
-      <Filter>1. System</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>1. System</Filter>
-    </ClCompile>
-    <ClCompile Include="RendererSystem.cpp">
-      <Filter>1. System</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>3. Component\0. Base</Filter>
-    </ClCompile>
-    <ClCompile Include="InputSystem.cpp">
-      <Filter>1. System</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeSystem.cpp">
-      <Filter>1. System</Filter>
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>3. Component\1. Physics\RigidBody</Filter>
@@ -235,9 +262,6 @@
       <Filter>3. Component\2. Renderer\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
-      <Filter>3. Component\2. Renderer\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
       <Filter>3. Component\2. Renderer\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="SphereRenderer.cpp">
@@ -252,11 +276,56 @@
     <ClCompile Include="Picking.cpp">
       <Filter>Object\Picking</Filter>
     </ClCompile>
-    <ClCompile Include="MouseInputSystem.cpp">
-      <Filter>2. Scene</Filter>
-    </ClCompile>
     <ClCompile Include="SpringJoint.cpp">
       <Filter>3. Component\1. Physics\Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="Behaviour.cpp">
+      <Filter>3. Component\0. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoBehaviour.cpp">
+      <Filter>3. Component\0. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>3. Component\0. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>3. Component\0. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>3. Component\1. Physics\Collider\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleCollider.cpp">
+      <Filter>3. Component\1. Physics\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>3. Component\2. Renderer\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>1. System\03. Input</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreSystem.cpp">
+      <Filter>1. System\01. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>1. System\01. Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Singleton.cpp">
+      <Filter>1. System\00. Base</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererSystem.cpp">
+      <Filter>1. System\02. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeSystem.cpp">
+      <Filter>1. System\04. Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>3. Component\2. Renderer\Renderer\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>1. System\01. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentManager.cpp">
+      <Filter>1. System\01. Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

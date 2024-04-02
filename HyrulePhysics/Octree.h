@@ -59,12 +59,12 @@ namespace Hyrule
 			struct Node
 			{
 			public:
-				Node() noexcept = delete;
+				Node() = delete;
 				Node(const Vector3D& _centre, float _length, size_t _depth) :
 					aabb(_centre, _length),
 					depth(_depth), children(), dataList()
 				{}
-				~Node() noexcept
+				~Node()
 				{
 					for (auto& child : children)
 					{
@@ -225,12 +225,12 @@ namespace Hyrule
 
 
 		public:
-			Octree() noexcept = default;
+			Octree() = default;
 			Octree(const Vector3D& _centre, float _length, size_t depth = 10) : root(), DepthLimit(6)
 			{
 				root = new Node(_centre, _length, DepthLimit);
 			}
-			~Octree() noexcept
+			~Octree()
 			{
 				if (root != nullptr)
 				{

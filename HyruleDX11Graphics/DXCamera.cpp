@@ -128,7 +128,7 @@ namespace Hyrule
 		);
 	}
 
-	void DXCamera::SetWorldTransform(const Matrix4x4& _mat) noexcept
+	void DXCamera::SetWorldTransform(const Matrix4x4& _mat)
 	{
 		m_right = _mat.Right().Normalized();
 		m_up = _mat.Up().Normalized();

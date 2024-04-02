@@ -14,14 +14,14 @@ namespace Hyrule
 		/// <summary>
 		/// 특수 멤버 함수
 		/// </summary>
-		constexpr Matrix4x4() noexcept :
+		constexpr Matrix4x4() :
 			m()
 		{}
 		constexpr Matrix4x4(
 			float _e00, float _e01, float _e02, float _e03,
 			float _e10, float _e11, float _e12, float _e13,
 			float _e20, float _e21, float _e22, float _e23,
-			float _e30, float _e31, float _e32, float _e33) noexcept :
+			float _e30, float _e31, float _e32, float _e33) :
 			e
 			{
 				_e00, _e01, _e02, _e03,
@@ -35,22 +35,22 @@ namespace Hyrule
 			__m128 _m1,
 			__m128 _m2,
 			__m128 _m3
-		) noexcept :
+		) :
 			m { _m0, _m1, _m2, _m3 }
 		{}
 		constexpr Matrix4x4(
 			const Matrix1x4& _m1,
 			const Matrix1x4& _m2,
 			const Matrix1x4& _m3,
-			const Matrix1x4& _m4) noexcept :
+			const Matrix1x4& _m4) :
 			m { _m1, _m2, _m3, _m4 }
 		{}
-		constexpr Matrix4x4(const Matrix4x4&) noexcept = default;
-		constexpr Matrix4x4(Matrix4x4&&) noexcept = default;
-		~Matrix4x4() noexcept = default;
+		constexpr Matrix4x4(const Matrix4x4&) = default;
+		constexpr Matrix4x4(Matrix4x4&&) = default;
+		~Matrix4x4() = default;
 
-		constexpr Matrix4x4& operator = (const Matrix4x4&) noexcept = default;
-		constexpr Matrix4x4& operator = (Matrix4x4&&) noexcept = default;
+		constexpr Matrix4x4& operator = (const Matrix4x4&) = default;
+		constexpr Matrix4x4& operator = (Matrix4x4&&) = default;
 
 		union
 		{
@@ -65,7 +65,7 @@ namespace Hyrule
 		/// <summary>
 		/// 전역 함수
 		/// </summary>
-		static constexpr inline Matrix4x4 Identity() noexcept
+		static constexpr inline Matrix4x4 Identity()
 		{
 			return Matrix4x4
 			{
@@ -76,7 +76,7 @@ namespace Hyrule
 			};
 		}
 
-		static constexpr inline Matrix4x4 Zero() noexcept
+		static constexpr inline Matrix4x4 Zero()
 		{
 			return Matrix4x4{};
 		}
@@ -86,27 +86,27 @@ namespace Hyrule
 		/// <summary>
 		/// 멤버 함수
 		/// </summary>
-		float Determinant() const noexcept;
-		float Determinant3x3() const noexcept;
-		Matrix4x4 Transpose() const noexcept;
-		Matrix4x4 Inverse() const noexcept;
-		Vector3D Right() const noexcept;
-		Vector3D Up() const noexcept;
-		Vector3D Look() const noexcept;
-		Vector3D Pos() const noexcept;
+		float Determinant() const;
+		float Determinant3x3() const;
+		Matrix4x4 Transpose() const;
+		Matrix4x4 Inverse() const;
+		Vector3D Right() const;
+		Vector3D Up() const;
+		Vector3D Look() const;
+		Vector3D Pos() const;
 
 		/// <summary>
 		/// 연산자 오버로딩
 		/// </summary>
-		Matrix4x4 operator+ (const Matrix4x4&) const noexcept;
-		Matrix4x4& operator+= (const Matrix4x4&) noexcept;
-		Matrix4x4 operator- (const Matrix4x4&) const noexcept;
-		Matrix4x4& operator-= (const Matrix4x4&) noexcept;
-		Matrix4x4 operator* (const Matrix4x4&) const noexcept;
-		Matrix4x4& operator*= (const Matrix4x4&) noexcept;
-		Matrix4x4 operator/ (const Matrix4x4&) const noexcept;
-		Matrix4x4& operator/= (const Matrix4x4&) noexcept;
+		Matrix4x4 operator+ (const Matrix4x4&) const;
+		Matrix4x4& operator+= (const Matrix4x4&);
+		Matrix4x4 operator- (const Matrix4x4&) const;
+		Matrix4x4& operator-= (const Matrix4x4&);
+		Matrix4x4 operator* (const Matrix4x4&) const;
+		Matrix4x4& operator*= (const Matrix4x4&);
+		Matrix4x4 operator/ (const Matrix4x4&) const;
+		Matrix4x4& operator/= (const Matrix4x4&);
 		
-		bool operator == (const Matrix4x4&) noexcept;
+		bool operator == (const Matrix4x4&);
 	};
 }

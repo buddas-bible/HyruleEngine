@@ -5,48 +5,48 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		ICollider* Collision::Collider() noexcept
+		ICollider* Collision::Collider()
 		{
 			return collider;
 		}
 
 
-		void* Collision::UserData() noexcept
+		void* Collision::UserData()
 		{
 			return userData;
 		}
 
-		std::wstring Collision::InstanceID() noexcept
+		std::wstring Collision::InstanceID()
 		{
 			return instanceID;
 		}
 
-		std::wstring Collision::Tag() noexcept
+		std::wstring Collision::Tag()
 		{
 			return tag;
 		}
 
-		Vector3D Collision::Impulse() noexcept
+		Vector3D Collision::Impulse()
 		{
 			return impulse;
 		}
 
-		std::vector<Vector3D> Collision::Contacts() noexcept
+		std::vector<Vector3D> Collision::Contacts()
 		{
 			return contactPoints;
 		}
 
-		Vector3D Collision::Contact(size_t _index) noexcept
+		Vector3D Collision::Contact(size_t _index)
 		{
 			return contactPoints[_index];
 		}
 
-		size_t Collision::ContactCount() noexcept
+		size_t Collision::ContactCount()
 		{
 			return contactPoints.size();
 		}
 
-		Vector3D Collision::Normal() noexcept
+		Vector3D Collision::Normal()
 		{
 			return normal;
 		}

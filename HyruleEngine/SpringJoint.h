@@ -4,7 +4,7 @@
 
 namespace Hyrule
 {
-	class GameObject;
+	class Entity;
 	class RigidBody;
 	class Vector3D;
 
@@ -18,13 +18,12 @@ namespace Hyrule
 	{
 	public:
 		SpringJoint() = delete;
-		SpringJoint(GameObject*) noexcept;
-		virtual ~SpringJoint() = default;
+		SpringJoint(Entity*);
+		~SpringJoint() override = default;
 
 	private:
 		Physics::ISpringJoint* iJoint;
 		Vector3D position;
-
 	};
 
 }

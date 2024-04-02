@@ -12,8 +12,8 @@ namespace Hyrule
 		class Collision : public ICollision
 		{
 		public:
-			Collision() noexcept = default;
-			virtual ~Collision() noexcept = default;
+			Collision() = default;
+			virtual ~Collision() = default;
 
 		public:
 			ICollider* collider;
@@ -25,15 +25,15 @@ namespace Hyrule
 			Vector3D normal;
 
 		public:
-			virtual ICollider* Collider() noexcept override;
-			virtual void* UserData() noexcept override;
-			virtual std::wstring InstanceID() noexcept override;
-			virtual std::wstring Tag() noexcept override;
-			virtual Vector3D Impulse() noexcept override;
-			virtual std::vector<Vector3D> Contacts() noexcept override;
-			virtual Vector3D Contact(size_t) noexcept override;
-			virtual size_t ContactCount() noexcept override;
-			virtual Vector3D Normal() noexcept override;
+			virtual ICollider* Collider() override;
+			virtual void* UserData() override;
+			virtual std::wstring InstanceID() override;
+			virtual std::wstring Tag() override;
+			virtual Vector3D Impulse() override;
+			virtual std::vector<Vector3D> Contacts() override;
+			virtual Vector3D Contact(size_t) override;
+			virtual size_t ContactCount() override;
+			virtual Vector3D Normal() override;
 		};
 	}
 }

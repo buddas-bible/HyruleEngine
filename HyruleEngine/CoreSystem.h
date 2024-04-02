@@ -1,20 +1,14 @@
 #pragma once
-#include "System.h"
+#include "Singleton.h"
 
 namespace Hyrule
 {
-	class CoreSystem : public System<CoreSystem>
+	class CoreSystem : public Singleton<CoreSystem>
 	{
 	public:
-		CoreSystem() noexcept = default;
-		~CoreSystem() noexcept = default;
-		CoreSystem(const CoreSystem&) = delete;
-		void operator=(const CoreSystem&) = delete;
+		bool GameProcess();
 
-	public:
-		bool GameProcess() noexcept;
-
-		void SetHandle(int) noexcept;
+		void SetHandle(int);
 
 		float Clamp(float, float, float);
 

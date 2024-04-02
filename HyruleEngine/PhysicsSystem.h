@@ -1,5 +1,5 @@
 #pragma once
-#include "System.h"
+#include "Singleton.h"
 
 #include "framework.h"
 #include <string>
@@ -16,14 +16,8 @@ namespace Hyrule
 		struct COLLIDER_INFO;
 	}
 
-	class PhysicsSystem : public System<PhysicsSystem>
+	class PhysicsSystem : public Singleton<PhysicsSystem>
 	{
-	public:
-		PhysicsSystem() noexcept = default;
-		~PhysicsSystem() noexcept = default;
-		PhysicsSystem(const PhysicsSystem&) = delete;
-		PhysicsSystem& operator=(const PhysicsSystem&) = delete;
-
 	private:
 		Physics::IPhysics* physicsEngine{};
 		HMODULE physicsDLL;
@@ -31,9 +25,9 @@ namespace Hyrule
 	public:
 		bool LoadPhysicsDLL(const std::wstring&, HWND);
 
-		void CollisionDetection() noexcept;
-		void ApplyObjectDestroy() noexcept;
-		void CollisionResponse(float) noexcept;
+		void CollisionDetection();
+		void ApplyObjectDestroy();
+		void CollisionResponse(float);
 		void Finalize();
 
 	public:

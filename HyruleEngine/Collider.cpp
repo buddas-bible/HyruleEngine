@@ -2,7 +2,7 @@
 
 namespace Hyrule
 {
-	Collider::Collider(GameObject* _gameObject) noexcept :
+	Collider::Collider(Entity* _gameObject) :
 		Component(_gameObject), center(), size(1.f, 1.f, 1.f)
 	{
 

@@ -57,13 +57,13 @@ namespace Hyrule
 	/// 
 	/// 콜라이더 충돌을 체크함
 	/// </summary>
-	void PhysicsSystem::CollisionDetection() noexcept
+	void PhysicsSystem::CollisionDetection()
 	{
 		physicsEngine->CollisionDetection();
 	}
 
 
-	void PhysicsSystem::ApplyObjectDestroy() noexcept
+	void PhysicsSystem::ApplyObjectDestroy()
 	{
 		physicsEngine->ApplyObjectDestroy();
 	}
@@ -73,7 +73,7 @@ namespace Hyrule
 	/// 
 	/// 강체 충돌 시뮬레이션
 	/// </summary>
-	void PhysicsSystem::CollisionResponse(float _dt) noexcept
+	void PhysicsSystem::CollisionResponse(float _dt)
 	{
 		physicsEngine->CollisionResponse(_dt);
 	}

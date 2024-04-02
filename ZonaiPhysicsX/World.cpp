@@ -4,7 +4,7 @@
 
 namespace ZonaiPhysics
 {
-	void World::Initialize() noexcept
+	void World::Initialize()
 	{
 		using namespace physx;
 		foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocator, errorCallback);
@@ -33,13 +33,13 @@ namespace ZonaiPhysics
 		}
 	}
 
-	void World::Simulation(float _dt) noexcept
+	void World::Simulation(float _dt)
 	{
 		scene->simulate(_dt);
 		scene->fetchResults(true);
 	}
 
-	void World::Finalize() noexcept
+	void World::Finalize()
 	{
 >>>>>>> 49329f7c854b5a1bc6f7f78c07b81085dead6dbe
 
@@ -64,7 +64,7 @@ namespace ZonaiPhysics
 		first = true;
 	}
 
-	void World::Simulation(float _dt) noexcept
+	void World::Simulation(float _dt)
 	{
 		if (first)
 		{
@@ -74,7 +74,7 @@ namespace ZonaiPhysics
 		scene->fetchResults(true);
 	}
 
-	void World::Finalize() noexcept
+	void World::Finalize()
 	{
 		using namespace physx;
 		PX_RELEASE(scene);
@@ -90,13 +90,13 @@ namespace ZonaiPhysics
 		PX_RELEASE(foundation);
 	}
 
-	ZnRigidBody* World::CreateRigidBody() noexcept
+	ZnRigidBody* World::CreateRigidBody()
 	{
 		return new RigidBody(physics);
 	}
 
 <<<<<<< HEAD
-	ZnRigidBody* World::CreateRigidBody(const std::wstring& _id) noexcept
+	ZnRigidBody* World::CreateRigidBody(const std::wstring& _id)
 	{
 		auto itr = bodies.find(_id);
 		if (itr != bodies.end())
@@ -109,7 +109,7 @@ namespace ZonaiPhysics
 		return newRigidBody;
 	}
 
-	ZnCollider* World::CreatBoxCollider(float width, float height) noexcept
+	ZnCollider* World::CreatBoxCollider(float width, float height)
 	{
 		auto itr = bodies.find(_id);
 		if (itr != bodies.end())
@@ -118,17 +118,17 @@ namespace ZonaiPhysics
 		}
 	}
 
-	ZnCollider* World::CreatPlaneCollider() noexcept
+	ZnCollider* World::CreatPlaneCollider()
 	{
 
 	}
 
-	ZnCollider* World::CreatSphereCollider() noexcept
+	ZnCollider* World::CreatSphereCollider()
 	{
 
 	}
 
-	ZnCollider* World::CreateCapsuleCollider() noexcept
+	ZnCollider* World::CreateCapsuleCollider()
 	{
 
 	}

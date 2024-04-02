@@ -16,11 +16,11 @@ namespace Hyrule
 		class Simplex
 		{
 		public:
-			Simplex() noexcept = default;
-			Simplex(const Simplex&) noexcept;
-			Simplex(Simplex&&) noexcept;
-			Simplex& operator= (const Simplex&) noexcept = default;
-			Simplex& operator= (Simplex&&) noexcept = default;
+			Simplex() = default;
+			Simplex(const Simplex&);
+			Simplex(Simplex&&);
+			Simplex& operator= (const Simplex&) = default;
+			Simplex& operator= (Simplex&&) = default;
 
 			Vector3D& operator[](int);
 			std::vector<Vector3D>& operator=(const std::vector<Vector3D>&);

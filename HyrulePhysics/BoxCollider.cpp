@@ -10,7 +10,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		BoxCollider::BoxCollider(Object* _obj, COLLIDER_INFO* _info) noexcept : 
+		BoxCollider::BoxCollider(Object* _obj, COLLIDER_INFO* _info) : 
 			Collider(_obj),
 			shape(Shapes::boxShape)
 		{
@@ -153,7 +153,7 @@ namespace Hyrule
 			return Face(edges);
 		}
 
-		Matrix3x3 BoxCollider::GetInertiaTensor(float _mass) noexcept
+		Matrix3x3 BoxCollider::GetInertiaTensor(float _mass)
 		{
 			Vector3D scl{ GetScale() };
 			const float width{ 1.f * scl.x };
@@ -182,7 +182,7 @@ namespace Hyrule
 			return inertia;
 		}
 
-		size_t BoxCollider::GetType() noexcept
+		size_t BoxCollider::GetType()
 		{
 			return shape->GetType();
 		}

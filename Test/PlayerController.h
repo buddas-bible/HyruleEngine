@@ -1,14 +1,14 @@
 #pragma once
-#include "Component.h"
+#include "MonoBehaviour.h"
 #include "HyruleMath.h"
 
 namespace Hyrule
 {
-	class PlayerController : public Component
+	class PlayerController : public MonoBehaviour
 	{
 	public:
-		PlayerController(GameObject*) noexcept;
-		virtual ~PlayerController() noexcept = default;
+		PlayerController(GameObject*);
+		virtual ~PlayerController() = default;
 
 	public:
 		float dashSpeed = 1.5f;
@@ -17,10 +17,10 @@ namespace Hyrule
 		void Move(Vector3D);
 
 	public:
-		virtual void Awake();
-		virtual void Start();
-		virtual void FixedUpdate();
-		virtual void Update();
-		virtual void LateUpdate();
+		void Awake() override;
+		void Start()override;
+		void FixedUpdate()override;
+		void Update()override;
+		void LateUpdate()override;
 	};
 }

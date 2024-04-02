@@ -11,7 +11,7 @@ namespace Hyrule
 {
 	namespace Physics
 	{
-		Collider::Collider(Object* _obj) noexcept : 
+		Collider::Collider(Object* _obj) : 
 			object(_obj),
 			center(), size(1.f, 1.f, 1.f), isTrigger(false),
 			inertia(), centerOfMass(), activate(true), collied(false)
@@ -52,7 +52,7 @@ namespace Hyrule
 			this->collied = _bool;
 		}
 
-		Vector3D Collider::GetCenterOfMass() noexcept
+		Vector3D Collider::GetCenterOfMass()
 		{
 			return centerOfMass;
 		}
@@ -72,27 +72,27 @@ namespace Hyrule
 		// 	g2 = f1 + w2 * (f0 + w2);
 		// }
 
-		bool Collider::isCollision() noexcept
+		bool Collider::isCollision()
 		{
 			return this->collied;
 		}
 
-		void Collider::OnEnable() noexcept
+		void Collider::OnEnable()
 		{
 			this->activate = true;
 		}
 
-		void Collider::OnDisable() noexcept
+		void Collider::OnDisable()
 		{
 			this->activate = false;
 		}
 
-		void Collider::OnDestroy() noexcept
+		void Collider::OnDestroy()
 		{
 			ObjectManager::GetInstance().AddRemoveQueue(this);
 		}
 
-		std::vector<ICollision*> Collider::GetCollisionInfo() noexcept
+		std::vector<ICollision*> Collider::GetCollisionInfo()
 		{
 			return collisionInfo;
 		}
@@ -112,7 +112,7 @@ namespace Hyrule
 
 		void Collider::SetTransform(
 			const Vector3D& _center, const Vector3D& _size,
-			const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl) noexcept
+			const Vector3D& _pos, const Quaternion& _rot, const Vector3D& _scl)
 		{
 			if (prePos == _pos && preRot == _rot && preScl == _scl && center == _center && size == _size)
 			{

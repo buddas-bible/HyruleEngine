@@ -6,36 +6,36 @@
 
 namespace Hyrule
 {
-	class GameObject;
+	class Entity;
 	class Camera;
 
 	class IScene
 	{
 	public:
-		IScene() noexcept = default;
-		virtual ~IScene() noexcept = default;
+		IScene() = default;
+		virtual ~IScene() = default;
 
 	public:
-		virtual  std::wstring GetName() noexcept abstract;
-		virtual  GameObject* CreateGameObject(const std::wstring&) abstract;
-		virtual  GameObject* CreateGameObject(const std::wstring&, GameObject*) abstract;
-		virtual  std::map<std::wstring, GameObject*>& SceneObjects() abstract;
+		virtual  std::wstring GetName() abstract;
+		virtual  Entity* CreateGameObject(const std::wstring&) abstract;
+		virtual  Entity* CreateGameObject(const std::wstring&, Entity*) abstract;
+		virtual  std::map<std::wstring, Entity*>& SceneObjects() abstract;
 		// virtual std::vector<GameObject*>& GetActivtedObject() abstract;
-		virtual std::queue<GameObject*>& ActivatedQueue() abstract;
-		virtual std::queue<GameObject*>& DeactivatedQueue() abstract;
-		virtual std::queue<GameObject*>& DestroyedQueue() abstract;
+		virtual std::queue<Entity*>& ActivatedQueue() abstract;
+		virtual std::queue<Entity*>& DeactivatedQueue() abstract;
+		virtual std::queue<Entity*>& DestroyedQueue() abstract;
 
 		virtual Camera* GetMainCamera() abstract;
 		virtual void SetMainCamera(Camera* _camera) abstract;
 
-		virtual void AddActivatedQueue(GameObject*) abstract;
-		virtual void AddDeactivatedQueue(GameObject*) abstract;
-		virtual void AddDestroyedQueue(GameObject*) abstract;
+		virtual void AddActivatedQueue(Entity*) abstract;
+		virtual void AddDeactivatedQueue(Entity*) abstract;
+		virtual void AddDestroyedQueue(Entity*) abstract;
 		
-		virtual void Initialize() noexcept abstract;
-		virtual void Load() noexcept abstract;
-		virtual void Destroy(GameObject*) noexcept abstract;
-		virtual void Clear() noexcept abstract;
+		virtual void Initialize() abstract;
+		virtual void Load() abstract;
+		virtual void Destroy(Entity*) abstract;
+		virtual void Clear() abstract;
 	};
 
 

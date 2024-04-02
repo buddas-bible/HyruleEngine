@@ -1,25 +1,26 @@
 #pragma once
-#include "Component.h"
+#include "MonoBehaviour.h"
 
 #include <map>
 #include <vector>
+
+#define COMPONENT_REGISTRY( Type, name ) \
+Type() = delete; \
+Type(GameObject* _gameObject) : MonoBehaviour(_gameObject)\
+{ name = #Type; }\
 
 namespace Hyrule
 {
 	class GameObject;
 
-	class Controller : public Component
+	class Controller : public MonoBehaviour
 	{
 	public:
-		Controller() noexcept = delete;
-		Controller(GameObject*) noexcept;
-		virtual ~Controller() noexcept = default;
+		COMPONENT_REGISTRY(Controller);
 
 	private:
 		std::map<int, std::vector<GameObject*>> controlMap;
 		std::vector<GameObject*> controlObject;
-
-
 
 	public:
 		void AddControllableObject(int, GameObject*);
@@ -30,15 +31,6 @@ namespace Hyrule
 		virtual void FixedUpdate() override;
 		virtual void Update() override;
 		virtual void LateUpdate() override;
-		virtual void Render() override;
-
-		virtual void OnCollisionEnter(Collider*) override;
-		virtual void OnCollisionStay(Collider*) override;
-		virtual void OnCollisionExit(Collider*) override;
-
-		virtual void OnCollisionEnter() override;
-		virtual void OnCollisionStay() override;
-		virtual void OnCollisionExit() override;
 
 		virtual void OnEnable() override;
 		virtual void OnDisable() override;

@@ -4,7 +4,7 @@
 
 namespace Hyrule
 {
-	class GameObject;
+	class Entity;
 	class Vector3D;
 
 	namespace Physics
@@ -16,8 +16,8 @@ namespace Hyrule
 	{
 	public:
 		RigidBody() = delete;
-		RigidBody(GameObject*) noexcept;
-		virtual ~RigidBody() = default;
+		RigidBody(Entity*);
+		~RigidBody() override = default;
 
 	private:
 		Physics::IRigidBody* iRigidBody;
@@ -25,60 +25,26 @@ namespace Hyrule
 		Quaternion rotation;
 
 	public:
-		void AddForce(const Vector3D&) const noexcept;
-		void AddTorque(const Vector3D&) const noexcept;
+		void AddForce(const Vector3D&) const;
+		void AddTorque(const Vector3D&) const;
 
 	public:
 		/// <summary>
 		/// 물리량 조절
 		/// </summary>
-		void SetMass(const float) noexcept;
-		float GetMass() const noexcept;
+		void SetMass(const float);
+		float GetMass() const;
 
-		void SetVelocity(const Vector3D&) noexcept;
-		Vector3D GetVelocity() const noexcept;
+		void SetVelocity(const Vector3D&);
+		Vector3D GetVelocity() const;
 
-		void SetAngularVelocity(const Vector3D&) noexcept;
-		Vector3D GetAngularVelocity() const noexcept;
+		void SetAngularVelocity(const Vector3D&);
+		Vector3D GetAngularVelocity() const;
 
-		bool isSleeping() const noexcept;
+		bool isSleeping() const;
 
-		bool isKinematic() const noexcept;
-		void isKinematic(const bool) noexcept;
-
-
-	public:
-		virtual void Awake() override;
-		virtual void Start() override {}
-		virtual void FixedUpdate() override {}
-
-		virtual void PrePhysicsUpdate() override;
-		virtual void PhysicsUpdate() override;
-		virtual void LatePhysicsUpdate() override;
-
-		virtual void Update() override;
-		virtual void LateUpdate() override {}
-		virtual void Render() override {}
-
-		// 		virtual void OnTriggerEnter(Collider*) override {}
-		// 		virtual void OnTriggerStay(Collider*) override {}
-		// 		virtual void OnTriggerExit(Collider*) override {}
-		// 
-		// 		virtual void OnTriggerEnter() override;
-		// 		virtual void OnTriggerStay() override;
-		// 		virtual void OnTriggerExit() override;
-
-		virtual void OnCollisionEnter(Collider*) override {}
-		virtual void OnCollisionStay(Collider*) override {}
-		virtual void OnCollisionExit(Collider*) override {}
-
-		virtual void OnCollisionEnter() override {}
-		virtual void OnCollisionStay() override {}
-		virtual void OnCollisionExit() override {}
-
-		virtual void OnEnable() override;
-		virtual void OnDisable() override;
-		virtual void OnDestroy() override;
+		bool IsKinematic() const;
+		void SetKinematic(const bool);
 	};
 }
 

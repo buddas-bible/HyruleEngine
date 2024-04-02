@@ -10,7 +10,7 @@ namespace Hyrule
 		~ResourceManager();
 
 	public:
-		void LoadTexture(/*const std::wstring& _name*//*const std::wstring& _path*/) noexcept;
+		void LoadTexture(/*const std::wstring& _name*//*const std::wstring& _path*/);
 		void LoadMesh(/*const std::wstring& _name*//*const std::wstring& _path*/);
 
 		// std::map<std::wstring, Mesh*>

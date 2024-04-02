@@ -19,9 +19,9 @@ namespace Hyrule
 		class Object
 		{
 		public:
-			Object() noexcept = delete;
-			Object(const std::wstring&) noexcept;
-			~Object() noexcept = default;
+			Object() = delete;
+			Object(const std::wstring&);
+			~Object() = default;
 
 		private:
 			std::wstring name;

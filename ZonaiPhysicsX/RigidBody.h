@@ -2,7 +2,7 @@
 #include "ForceType.h"
 #include "ZnRigidBody.h"
 
-#define OVERRIDE noexcept override
+#define OVERRIDE override
 
 namespace ZonaiMath
 {
@@ -24,62 +24,62 @@ namespace ZonaiPhysics
 	class RigidBody : public ZnRigidBody
 	{
 	public:
-							RigidBody() noexcept = delete;
-							RigidBody(physx::PxPhysics*&) noexcept;
-		virtual				~RigidBody() noexcept;
+							RigidBody() = delete;
+							RigidBody(physx::PxPhysics*&);
+		virtual				~RigidBody();
 
 	public:
-		virtual void		WakeUp() noexcept override;
-		virtual bool		IsSleeping() const noexcept override;
+		virtual void		WakeUp() override;
+		virtual bool		IsSleeping() const override;
 
-		virtual DynamicLocks GetDynamicLockFlags() const noexcept override;
-		virtual void		SetDynamicLockFlag(DynamicLock flag, bool) noexcept override;
-		virtual void		SetDynamicLockFlags(DynamicLocks flags) noexcept override;
+		virtual DynamicLocks GetDynamicLockFlags() const override;
+		virtual void		SetDynamicLockFlag(DynamicLock flag, bool) override;
+		virtual void		SetDynamicLockFlags(DynamicLocks flags) override;
 		
-		virtual void*		GetUserData() const noexcept override;
-		virtual void		SetUserData(void*) noexcept override;
+		virtual void*		GetUserData() const override;
+		virtual void		SetUserData(void*) override;
 
 	public:
 		// Áú·®
-		virtual float		GetMass() const noexcept override;
-		virtual void		SetMass(float) noexcept override;
-		virtual float		GetInvMass() const noexcept override;
+		virtual float		GetMass() const override;
+		virtual void		SetMass(float) override;
+		virtual float		GetInvMass() const override;
 
-		virtual Vector3D	GetInertiaTensor() const noexcept override;
-		virtual void		SetInertiaTensor(const Vector3D&) noexcept override;
+		virtual Vector3D	GetInertiaTensor() const override;
+		virtual void		SetInertiaTensor(const Vector3D&) override;
 
-		virtual float		GetLinearDamping() const noexcept override;
-		virtual void		SetLinearDamping(float) noexcept override;
+		virtual float		GetLinearDamping() const override;
+		virtual void		SetLinearDamping(float) override;
 
-		virtual float		GetAngularDamping() const noexcept override;
-		virtual void		SetAngularDamping(float) noexcept override;
+		virtual float		GetAngularDamping() const override;
+		virtual void		SetAngularDamping(float) override;
 		
 	public:
 		// ¼Óµµ
-		virtual Vector3D	GetLinearVelocity() const noexcept override;
-		virtual void		SetLinearVelocity(const Vector3D&) noexcept override;
+		virtual Vector3D	GetLinearVelocity() const override;
+		virtual void		SetLinearVelocity(const Vector3D&) override;
 
-		virtual Vector3D	GetAngularVelocity() const noexcept override;
-		virtual void		SetAngularVelocity(const Vector3D&) noexcept override;
+		virtual Vector3D	GetAngularVelocity() const override;
+		virtual void		SetAngularVelocity(const Vector3D&) override;
 		
-		virtual float		GetMaxLinearVelocity() const noexcept override;
-		virtual void		SetMaxLinearVelocity(const float&) noexcept override;
+		virtual float		GetMaxLinearVelocity() const override;
+		virtual void		SetMaxLinearVelocity(const float&) override;
 
-		virtual float		GetMaxAngularVelocity() const noexcept override;
-		virtual void		SetMaxAngularVelocity(const float&) noexcept override;
+		virtual float		GetMaxAngularVelocity() const override;
+		virtual void		SetMaxAngularVelocity(const float&) override;
 
-		virtual Vector3D	GetPosition() const noexcept override;
-		virtual void		SetPosition(const Vector3D&) noexcept override;
+		virtual Vector3D	GetPosition() const override;
+		virtual void		SetPosition(const Vector3D&) override;
 
-		virtual Quaternion	GetQuaternion() const noexcept override;
-		virtual void		SetQuaternion(const Quaternion&) noexcept override;
+		virtual Quaternion	GetQuaternion() const override;
+		virtual void		SetQuaternion(const Quaternion&) override;
 
 		// Èû
-		virtual void		AddForce(const Vector3D&, ForceType) noexcept override;
-		virtual void		ClearForce() noexcept override;
+		virtual void		AddForce(const Vector3D&, ForceType) override;
+		virtual void		ClearForce() override;
 	
-		virtual void		AddTorque(const Vector3D&, ForceType) noexcept override;
-		virtual void		ClearTorque() noexcept override;
+		virtual void		AddTorque(const Vector3D&, ForceType) override;
+		virtual void		ClearTorque() override;
 
 	public:
 		__declspec(property(get = GetLinearDamping, put = SetLinearDamping)) 

@@ -1,12 +1,12 @@
 #include "PlayerController.h"
 
-#include "GameObject.h"
+#include "Entity.h"
 #include "RigidBody.h"
 #include "InputSystem.h"
 
 namespace Hyrule
 {
-	PlayerController::PlayerController(GameObject* _gameObject) noexcept :
+	PlayerController::PlayerController(GameObject* _gameObject) :
 		Component(_gameObject)
 	{
 

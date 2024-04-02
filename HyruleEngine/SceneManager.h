@@ -9,10 +9,10 @@ namespace Hyrule
 	class SceneManager
 	{
 	private:
-		SceneManager() noexcept = default;
-		~SceneManager() noexcept = default;
-		SceneManager& operator= (const SceneManager&) noexcept = delete;
-		SceneManager& operator= (SceneManager&&) noexcept = delete;
+		SceneManager() = default;
+		~SceneManager() = default;
+		SceneManager& operator= (const SceneManager&) = delete;
+		SceneManager& operator= (SceneManager&&) = delete;
 
 	private:
 		IScene* currentScene;
@@ -20,15 +20,15 @@ namespace Hyrule
 		bool first{ true };
 
 	public:
-		static SceneManager& GetInstance() noexcept;
+		static SceneManager& GetInstance();
 
-		void AddScene(const std::wstring&, IScene*) noexcept;
-		void RemoveScene(const std::wstring&) noexcept;
-		void RemoveScene(IScene*&) noexcept;
+		void AddScene(const std::wstring&, IScene*);
+		void RemoveScene(const std::wstring&);
+		void RemoveScene(IScene*&);
 
-		void LoadScene(const std::wstring&) noexcept;
-		void LoadScene(IScene*) noexcept;
-		void UnloadScene() noexcept;
+		void LoadScene(const std::wstring&);
+		void LoadScene(IScene*);
+		void UnloadScene();
 		void ClearScene();
 
 	public:

@@ -4,17 +4,17 @@
 
 namespace Hyrule
 {
-	Matrix1x3::operator Vector3D() noexcept
+	Matrix1x3::operator Vector3D()
 	{
 		return Vector3D{ e00, e01, e02 };
 	}
 
-	bool Matrix1x3::operator==(const Matrix1x3& other) const noexcept
+	bool Matrix1x3::operator==(const Matrix1x3& other) const
 	{
 		return (this->e00 == other.e00) && (this->e01 == other.e01) && (this->e02 == other.e02);
 	}
 
-	Matrix1x3& Matrix1x3::operator+=(const Matrix1x3& other) noexcept
+	Matrix1x3& Matrix1x3::operator+=(const Matrix1x3& other)
 	{
 		this->e00 += other.e00;
 		this->e01 += other.e01;
@@ -23,7 +23,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Matrix1x3& Matrix1x3::operator-=(const Matrix1x3& other) noexcept
+	Matrix1x3& Matrix1x3::operator-=(const Matrix1x3& other)
 	{
 		this->e00 -= other.e00;
 		this->e01 -= other.e01;
@@ -32,7 +32,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Matrix1x3 Matrix1x3::operator+(const Matrix1x3& other) const noexcept
+	Matrix1x3 Matrix1x3::operator+(const Matrix1x3& other) const
 	{
 		return Matrix1x3
 		{
@@ -42,7 +42,7 @@ namespace Hyrule
 		};
 	}
 
-	Matrix1x3 Matrix1x3::operator-(const Matrix1x3& other) const noexcept
+	Matrix1x3 Matrix1x3::operator-(const Matrix1x3& other) const
 	{
 		return Matrix1x3
 		{
@@ -52,7 +52,7 @@ namespace Hyrule
 		};
 	}
 
-	Matrix1x3 Matrix1x3::operator-() const noexcept
+	Matrix1x3 Matrix1x3::operator-() const
 	{
 		return Matrix1x3
 		{
@@ -62,7 +62,7 @@ namespace Hyrule
 		};
 	}
 
-	Matrix1x3& Matrix1x3::operator*=(const float n) noexcept
+	Matrix1x3& Matrix1x3::operator*=(const float n)
 	{
 		this->e00 *= n;
 		this->e01 *= n;
@@ -71,7 +71,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Matrix1x3& Matrix1x3::operator/=(const float n) noexcept
+	Matrix1x3& Matrix1x3::operator/=(const float n)
 	{
 		float invN = 1.f / n;
 		this->e00 *= invN;
@@ -81,7 +81,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Matrix1x3 Matrix1x3::operator*(const float n) const noexcept
+	Matrix1x3 Matrix1x3::operator*(const float n) const
 	{
 		Matrix1x3 temp;
 		temp.e00 = this->e00 * n;
@@ -91,7 +91,7 @@ namespace Hyrule
 		return temp;
 	}
 
-	Matrix1x3 Matrix1x3::operator/(const float n) const noexcept
+	Matrix1x3 Matrix1x3::operator/(const float n) const
 	{
 		float invN = 1.f / n;
 

@@ -2,12 +2,12 @@
 
 namespace ZonaiMath
 {
-	float Matrix2x2::Determinant() const noexcept
+	float Matrix2x2::Determinant() const
 	{
 		return 0.f;
 	}
 
-	ZonaiMath::Matrix2x2 Matrix2x2::Transpose() const noexcept
+	ZonaiMath::Matrix2x2 Matrix2x2::Transpose() const
 	{
 		return Matrix2x2
 		{
@@ -16,12 +16,12 @@ namespace ZonaiMath
 		};
 	}
 
-	ZonaiMath::Matrix2x2 Matrix2x2::Inverse() const noexcept
+	ZonaiMath::Matrix2x2 Matrix2x2::Inverse() const
 	{
 		return Matrix2x2();
 	}
 
-	ZonaiMath::Matrix2x2 Matrix2x2::operator+(const Matrix2x2& other) const noexcept
+	ZonaiMath::Matrix2x2 Matrix2x2::operator+(const Matrix2x2& other) const
 	{
 		return Matrix2x2
 		(
@@ -33,7 +33,7 @@ namespace ZonaiMath
 		);
 	}
 
-	ZonaiMath::Matrix2x2& Matrix2x2::operator+=(const Matrix2x2& other) noexcept
+	ZonaiMath::Matrix2x2& Matrix2x2::operator+=(const Matrix2x2& other)
 	{
 		this->e00 += other.e00;
 		this->e01 += other.e01;
@@ -44,7 +44,7 @@ namespace ZonaiMath
 		return *this;
 	}
 
-	ZonaiMath::Matrix2x2 Matrix2x2::operator-(const Matrix2x2& other) const noexcept
+	ZonaiMath::Matrix2x2 Matrix2x2::operator-(const Matrix2x2& other) const
 	{
 		return Matrix2x2
 		(
@@ -56,7 +56,7 @@ namespace ZonaiMath
 		);
 	}
 
-	ZonaiMath::Matrix2x2& Matrix2x2::operator-=(const Matrix2x2& other) noexcept
+	ZonaiMath::Matrix2x2& Matrix2x2::operator-=(const Matrix2x2& other)
 	{
 		this->e00 -= other.e00;
 		this->e01 -= other.e01;
@@ -67,14 +67,14 @@ namespace ZonaiMath
 		return *this;
 	}
 
-	ZonaiMath::Matrix2x2 Matrix2x2::operator*(const Matrix2x2& other) const noexcept
+	ZonaiMath::Matrix2x2 Matrix2x2::operator*(const Matrix2x2& other) const
 	{
 		Matrix2x2 temp(*this);
 
 		return temp *= other;
 	}
 
-	ZonaiMath::Matrix2x2& Matrix2x2::operator*=(const Matrix2x2& other) noexcept
+	ZonaiMath::Matrix2x2& Matrix2x2::operator*=(const Matrix2x2& other)
 	{
 		Matrix2x2 temp(*this);
 
@@ -87,7 +87,7 @@ namespace ZonaiMath
 		return *this;
 	}
 
-	bool Matrix2x2::operator==(const Matrix2x2& other) noexcept
+	bool Matrix2x2::operator==(const Matrix2x2& other)
 	{
 		return
 			this->e00 == other.e00 &&

@@ -5,7 +5,7 @@
 
 namespace ZonaiMath
 {
-	Matrix4x4 Matrix4x4::Transpose() const noexcept
+	Matrix4x4 Matrix4x4::Transpose() const
 	{
 		return Matrix4x4
 		{
@@ -29,7 +29,7 @@ namespace ZonaiMath
 		*/
 	}
 
-	Matrix4x4 Matrix4x4::Inverse() const noexcept
+	Matrix4x4 Matrix4x4::Inverse() const
 	{
 		Matrix4x4 result{};
 
@@ -181,7 +181,7 @@ namespace ZonaiMath
 		return result;
 	}
 
-	float Matrix4x4::Determinant() const noexcept
+	float Matrix4x4::Determinant() const
 	{
 		float det =
 			e00 * e11 * e22 * e33 +
@@ -213,7 +213,7 @@ namespace ZonaiMath
 		return det;
 	}
 
-	float Matrix4x4::Determinant3x3() const noexcept
+	float Matrix4x4::Determinant3x3() const
 	{
 		return
 			e00 * (e11 * e22 - e12 * e21) -
@@ -221,7 +221,7 @@ namespace ZonaiMath
 			e02 * (e10 * e21 - e11 * e20);
 	}
 
-	Matrix4x4& Matrix4x4::operator+=(const Matrix4x4& other) noexcept
+	Matrix4x4& Matrix4x4::operator+=(const Matrix4x4& other)
 	{
 		this->r[0] += other.r[0];
 		this->r[1] += other.r[1];
@@ -231,7 +231,7 @@ namespace ZonaiMath
 		return *this;
 	}
 
-	Matrix4x4& Matrix4x4::operator-=(const Matrix4x4& other) noexcept
+	Matrix4x4& Matrix4x4::operator-=(const Matrix4x4& other)
 	{
 		this->r[0] -= other.r[0];
 		this->r[1] -= other.r[1];
@@ -241,28 +241,28 @@ namespace ZonaiMath
 		return *this;
 	}
 
-	Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other) const noexcept
+	Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other) const
 	{
 		Matrix4x4 temp(*this);
 
 		return temp += other;
 	}
 
-	Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other) const noexcept
+	Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other) const
 	{
 		Matrix4x4 temp(*this);
 
 		return temp -= other;
 	}
 
-	Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other) const noexcept
+	Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other) const
 	{
 		Matrix4x4 temp(*this);
 
 		return temp *= other;
 	}
 
-	Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& other) noexcept
+	Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& other)
 	{
 		Matrix4x4 temp
 		(
@@ -301,20 +301,20 @@ namespace ZonaiMath
 		return *this;
 	}
 
-	Matrix4x4 Matrix4x4::operator/(const Matrix4x4& _mat) const noexcept
+	Matrix4x4 Matrix4x4::operator/(const Matrix4x4& _mat) const
 	{
 		Matrix4x4 result{ *this };
 		return result /= _mat;
 	}
 
-	Matrix4x4& Matrix4x4::operator/=(const Matrix4x4& _mat) noexcept
+	Matrix4x4& Matrix4x4::operator/=(const Matrix4x4& _mat)
 	{
 		*this *= _mat.Inverse();
 
 		return *this;
 	}
 
-	bool Matrix4x4::operator==(const Matrix4x4& _mat) noexcept
+	bool Matrix4x4::operator==(const Matrix4x4& _mat)
 	{
 		return 
 			(this->r[0] == _mat.r[0]) && 

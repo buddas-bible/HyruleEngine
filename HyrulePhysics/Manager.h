@@ -8,10 +8,10 @@ namespace Hyrule
 		class Manager
 		{
 		protected:
-			Manager() noexcept = default;
+			Manager() = default;
 
 		public:
-			static T& GetInstance() noexcept
+			static T& GetInstance()
 			{
 				static T* instance;
 

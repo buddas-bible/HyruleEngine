@@ -2,7 +2,7 @@
 
 namespace Hyrule
 {
-	GameTimer::GameTimer() noexcept
+	GameTimer::GameTimer()
 		: mSecondsPerCount(0.0), mDeltaTime(-1.0), mStopped(false)
 	{
 		auto countsPerSec = std::chrono::steady_clock::period::den;

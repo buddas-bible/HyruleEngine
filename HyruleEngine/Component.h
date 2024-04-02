@@ -1,50 +1,52 @@
 #pragma once
+#include <type_traits>
+#include <string>
+#include "Entity.h"
 
 namespace Hyrule
 {
-	class GameObject;
+	class Entity;
 	class Transform;
-	class Collider;
-	class Collision;
 
-	class Component
+	class Component;
+	template <typename T>
+	concept componentType = std::is_base_of_v<Component, T>;
+
+	class Component : public Object
 	{
-	public:
+	protected:
 		Component() = delete;
-		Component(GameObject*) noexcept;
-		virtual ~Component() noexcept = default;
+		Component(Entity* _gameObject);
+		~Component() override = default;
 
 	public:
-		GameObject* gameObject;
+		Entity* gameObject;
 		Transform* transform;
+		const char* tag;
 
 	public:
-		virtual void Awake() {};
-		virtual void Start() {};
-		virtual void FixedUpdate() {};
-		virtual void PrePhysicsUpdate() {};
-		virtual void PhysicsUpdate() {};
-		virtual void LatePhysicsUpdate() {};
-		virtual void Update() {};
-		virtual void LateUpdate() {};
-		virtual void Render() {};
+		bool CompareTag(const std::string&);
 
-		// virtual void OnTriggerEnter(Collider*) {};
-		// virtual void OnTriggerStay(Collider*) {};
-		// virtual void OnTriggerExit(Collider*) {};
+		Component* GetComponent(const std::string&);
 
-		virtual void OnCollisionEnter(Collider*) {};
-		virtual void OnCollisionStay(Collider*) {};
-		virtual void OnCollisionExit(Collider*) {};
+		template <componentType Type>
+		Component* GetComponent();
 
-		virtual void OnCollisionEnter() {};
-		virtual void OnCollisionStay() {};
-		virtual void OnCollisionExit() {};
-
-		virtual void OnEnable() {};
-		virtual void OnDisable() {};
-		virtual void OnDestroy() {};
+		template <componentType Type>
+		void GetComponents(Component*, unsigned int size);
 	};
+
+	template <componentType Type>
+	Component* Component::GetComponent()
+	{
+		gameObject->GetComponent<Type>();
+	}
+
+	template <componentType Type>
+	void Component::GetComponents(Component* _p, unsigned int size)
+	{
+		gameObject->GetComponents<Type>(_p, size);
+	}
 }
 
 

@@ -17,7 +17,7 @@ namespace Hyrule
 	RenderableObject::RenderableObject(
 		std::shared_ptr<DXDevice> _device, 
 		std::shared_ptr<DXRasterizerState> _state,
-		std::shared_ptr<DXMesh> _mesh) noexcept :
+		std::shared_ptr<DXMesh> _mesh) :
 		device(_device), currState(_state), mesh(_mesh)
 	{
 		UID = id;
@@ -25,59 +25,59 @@ namespace Hyrule
 	}
 
 
-	void RenderableObject::SetTexture(const std::shared_ptr<DXTexture> _texture) noexcept
+	void RenderableObject::SetTexture(const std::shared_ptr<DXTexture> _texture)
 	{
 		this->texture = _texture;
 	}
 
-	void RenderableObject::SetWorldTransform(const Matrix4x4& _mat) noexcept
+	void RenderableObject::SetWorldTransform(const Matrix4x4& _mat)
 	{
 		this->worldTM = _mat;
 	}
 
-	void RenderableObject::OnEnble() noexcept
+	void RenderableObject::OnEnble()
 	{
 		this->activate = true;
 	}
 
-	void RenderableObject::OnDisable() noexcept
+	void RenderableObject::OnDisable()
 	{
 		this->activate = false;
 	}
 
-	bool RenderableObject::isActive() noexcept
+	bool RenderableObject::isActive()
 	{
 		return this->activate;
 	}
 
-	// void RenderableObject::OnDestory() noexcept
+	// void RenderableObject::OnDestory()
 	// {
 	// 
 	// }
 
-	void RenderableObject::OnCollisionEnter() noexcept
+	void RenderableObject::OnCollisionEnter()
 	{
 
 	}
 
-	void RenderableObject::OnCollisionStay() noexcept
+	void RenderableObject::OnCollisionStay()
 	{
 		m_currRasterizerState = currState->GetWireRasterizerState();
 	}
 
-	void RenderableObject::OnCollisionExit() noexcept
+	void RenderableObject::OnCollisionExit()
 	{
 		m_currRasterizerState = currState->GetSolidRasterizerState();
 	}
 #if _DEBUG
 #endif
 
-	void RenderableObject::SetViewProjTM(const Matrix4x4& _viewProj) noexcept
+	void RenderableObject::SetViewProjTM(const Matrix4x4& _viewProj)
 	{
 		this->viewProjTM = _viewProj;
 	}
 
-	void RenderableObject::Render(const Vector3D& eye) noexcept
+	void RenderableObject::Render(const Vector3D& eye)
 	{
 		device->GetDeviceContext()->RSSetState(m_currRasterizerState.Get());
 		device->GetDeviceContext()->IASetInputLayout(InputLayouts::PUNLayout->GetInputLayout());

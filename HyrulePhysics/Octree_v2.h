@@ -88,8 +88,8 @@ namespace Hyrule
 		class Octree_v2
 		{
 		public:
-			Octree_v2() noexcept = default;
-			Octree_v2(const AABB& _aabb, const AABB& _minsize) noexcept : 
+			Octree_v2() = default;
+			Octree_v2(const AABB& _aabb, const AABB& _minsize) : 
 				root(new OctreeNode<DataType>), minSize(_minsize)
 			{
 				root->boundingVolume = _aabb;

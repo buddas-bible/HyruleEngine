@@ -34,8 +34,8 @@ namespace Hyrule
 		class ObjectManager : public Manager<ObjectManager>
 		{
 		public:
-			ObjectManager() noexcept;
-			~ObjectManager() noexcept = default;
+			ObjectManager();
+			~ObjectManager() = default;
 			ObjectManager(const ObjectManager&) = delete;
 			void operator=(const ObjectManager&) = delete;
 
@@ -59,14 +59,14 @@ namespace Hyrule
 			void RemoveCollider(const std::wstring&, int);					// 콜라이더 인덱스를 받아서 삭제
 			void RemoveRigidBody(const std::wstring&);
 
-			std::vector<Collider*>& GetColliders() noexcept;
-			std::vector<RigidBody*>& GetRigidbodies() noexcept;
+			std::vector<Collider*>& GetColliders();
+			std::vector<RigidBody*>& GetRigidbodies();
 
-			// std::vector<std::list<Collider*>>& GetNodeContainer() noexcept;
-			// void NodeContainerClear() noexcept;
-			std::vector<Collider*> QctreeQuery(Collider*) noexcept;
-			std::vector<Collider*> QctreeQuery(const Ray&) noexcept;
-			void OctreeClear() noexcept;
+			// std::vector<std::list<Collider*>>& GetNodeContainer();
+			// void NodeContainerClear();
+			std::vector<Collider*> QctreeQuery(Collider*);
+			std::vector<Collider*> QctreeQuery(const Ray&);
+			void OctreeClear();
 			void OctreeResearch(Collider*);
 
 		public:

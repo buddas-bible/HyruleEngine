@@ -8,9 +8,9 @@ namespace Hyrule
 	class Scene01 : public Scene
 	{
 	public:
-		Scene01(const std::wstring&) noexcept;
-		virtual ~Scene01() noexcept = default;
+		Scene01(const std::wstring&);
+		virtual ~Scene01() = default;
 
-		virtual void Load() noexcept override;
+		virtual void Load() override;
 	};
 }

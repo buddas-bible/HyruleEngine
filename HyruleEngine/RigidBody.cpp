@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include "Entity.h"
 #include "Transform.h"
 #include "Scene.h"
 
@@ -12,79 +12,63 @@
 
 namespace Hyrule
 {
-	RigidBody::RigidBody(GameObject* _gameObject) noexcept :
+	RigidBody::RigidBody(Entity* _gameObject) :
 		Component(_gameObject), iRigidBody()
 	{
-		iRigidBody = PhysicsSystem::GetInstance().CreateRigidBody(gameObject->GetName());
+		iRigidBody = PhysicsSystem::Instance()->CreateRigidBody(gameObject->GetName());
 	}
 
-	void RigidBody::AddForce(const Hyrule::Vector3D& _force) const noexcept
+	void RigidBody::AddForce(const Hyrule::Vector3D& _force) const
 	{
 		iRigidBody->AddForce(_force);
 	}
 
-	void RigidBody::AddTorque(const Hyrule::Vector3D& _torque) const noexcept
+	void RigidBody::AddTorque(const Hyrule::Vector3D& _torque) const
 	{
 		iRigidBody->AddTorque(_torque);
 	}
 
-	void RigidBody::SetMass(const float _mess) noexcept
+	void RigidBody::SetMass(const float _mess)
 	{
 		iRigidBody->SetMass(_mess);
 	}
 
-	float RigidBody::GetMass() const noexcept
+	float RigidBody::GetMass() const
 	{
 		return iRigidBody->GetMass();
 	}
 
-	void RigidBody::SetVelocity(const Hyrule::Vector3D& _velo) noexcept
+	void RigidBody::SetVelocity(const Hyrule::Vector3D& _velo)
 	{
 		iRigidBody->SetVelocity(_velo);
 	}
 
-	Vector3D RigidBody::GetVelocity() const noexcept
+	Vector3D RigidBody::GetVelocity() const
 	{
 		return iRigidBody->GetVelocity();
 	}
 
-	void RigidBody::SetAngularVelocity(const Hyrule::Vector3D& _angularVelo) noexcept
+	void RigidBody::SetAngularVelocity(const Hyrule::Vector3D& _angularVelo)
 	{
 		iRigidBody->SetAngularVelocity(_angularVelo);
 	}
 
-	Vector3D RigidBody::GetAngularVelocity() const noexcept
+	Vector3D RigidBody::GetAngularVelocity() const
 	{
 		return iRigidBody->GetAngularVelocity();
 	}
 
-	bool RigidBody::isSleeping() const noexcept
+	bool RigidBody::isSleeping() const
 	{
 		return iRigidBody->IsAwake();
 	}
 
-	bool RigidBody::isKinematic() const noexcept
+	bool RigidBody::IsKinematic() const
 	{
 		return false;
 	}
 
-	void RigidBody::isKinematic(const bool) noexcept
-	{
-
-	}
-
-	void RigidBody::Awake()
-	{
-		position = gameObject->GetTransform()->GetLocalPosition();
-		rotation = gameObject->GetTransform()->GetLocalQuaternion();
-	}
-
-	void RigidBody::PrePhysicsUpdate()
-	{
-
-	}
-
-	void RigidBody::PhysicsUpdate()
+	void RigidBody::SetKinematic(const bool)
 	{
 
 	}
@@ -108,25 +92,25 @@ namespace Hyrule
 
 	void RigidBody::Update()
 	{
-		if (InputSystem::GetInstance().KeyDown('P'))
+		if (InputSystem::Instance().KeyDown('P'))
 		{
 			gameObject->GetTransform()->SetLocalPosition(position);
 			gameObject->GetTransform()->SetLocalQuaternion(rotation);
 		}
 	}
 
-	void RigidBody::OnEnable()
-	{
-		iRigidBody->OnEnable();
-	}
+	//void RigidBody::OnEnable()
+	//{
+	//	iRigidBody->OnEnable();
+	//}
 
-	void RigidBody::OnDisable()
-	{
-		iRigidBody->OnDisable();
-	}
+	//void RigidBody::OnDisable()
+	//{
+	//	iRigidBody->OnDisable();
+	//}
 
-	void RigidBody::OnDestroy()
-	{
-		iRigidBody->OnDestroy();
-	}
+	//void RigidBody::OnDestroy()
+	//{
+	//	iRigidBody->OnDestroy();
+	//}
 }

@@ -1,23 +1,23 @@
 #include "SceneManager.h"
 #include "IScene.h"
 
-#include "GameObject.h"
+#include "Entity.h"
 
 namespace Hyrule
 {
-	SceneManager& SceneManager::GetInstance() noexcept
+	SceneManager& SceneManager::GetInstance()
 	{
 		static SceneManager instance;
 
 		return instance;
 	}
 
-	void SceneManager::AddScene(const std::wstring& _name, IScene* _scene) noexcept
+	void SceneManager::AddScene(const std::wstring& _name, IScene* _scene)
 	{
 		sceneMap.insert(std::make_pair(_name, _scene));
 	}
 
-	void SceneManager::RemoveScene(const std::wstring& _name) noexcept
+	void SceneManager::RemoveScene(const std::wstring& _name)
 	{
 		auto itr = sceneMap.find(_name);
 
@@ -29,7 +29,7 @@ namespace Hyrule
 		sceneMap.erase(itr);
 	}
 
-	void SceneManager::RemoveScene(IScene*& _scene) noexcept
+	void SceneManager::RemoveScene(IScene*& _scene)
 	{
 		auto itr = sceneMap.find(_scene->GetName());
 
@@ -41,7 +41,7 @@ namespace Hyrule
 		sceneMap.erase(itr);
 	}
 
-	void SceneManager::LoadScene(const std::wstring& _name) noexcept
+	void SceneManager::LoadScene(const std::wstring& _name)
 	{
 		// current를 비활성화
 		this->ClearScene();
@@ -51,7 +51,7 @@ namespace Hyrule
 		first = true;
 	}
 
-	void SceneManager::LoadScene(IScene* _scene) noexcept
+	void SceneManager::LoadScene(IScene* _scene)
 	{
 		// current를 비활성화
 		this->ClearScene();
@@ -61,7 +61,7 @@ namespace Hyrule
 		first = true;
 	}
 
-	void SceneManager::UnloadScene() noexcept
+	void SceneManager::UnloadScene()
 	{
 		if (currentScene != nullptr)
 		{

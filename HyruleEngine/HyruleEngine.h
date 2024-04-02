@@ -7,35 +7,35 @@ namespace Hyrule
 {
 	class HyruleEngine
 	{
-		HyruleEngine() noexcept;
-		~HyruleEngine() noexcept = default;
-		HyruleEngine(const HyruleEngine&) noexcept = delete;
-		HyruleEngine(HyruleEngine&&) noexcept = delete;
-		HyruleEngine& operator=(const HyruleEngine&) noexcept = delete;
-		HyruleEngine& operator=(HyruleEngine&&) noexcept = delete;
+		HyruleEngine();
+		~HyruleEngine() = default;
+		HyruleEngine(const HyruleEngine&) = delete;
+		HyruleEngine(HyruleEngine&&) = delete;
+		HyruleEngine& operator=(const HyruleEngine&) = delete;
+		HyruleEngine& operator=(HyruleEngine&&) = delete;
 
 	public:
-		static HyruleEngine& GetInstance() noexcept;
+		static HyruleEngine& GetInstance();
 		
-		void Initialize(HINSTANCE hInstance, const std::wstring& _name) noexcept;
-		void Run() noexcept;
-		void Finalize() noexcept;
+		void Initialize(HINSTANCE hInstance, const std::wstring& _name);
+		void Run();
+		void Finalize();
 
-		void LoadGraphicsDLL(const std::wstring&) noexcept;
-		void LoadPhysicsDLL(const std::wstring&) noexcept;
+		void LoadGraphicsDLL(const std::wstring&);
+		void LoadPhysicsDLL(const std::wstring&);
 
 		static bool focus;
 
 	private:
-		long OnResize() noexcept;
+		long OnResize();
 
-		long CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name) noexcept;
+		long CreateEngineWindow(HINSTANCE& hInstance, const std::wstring& _name);
 
 	private:
 		HWND hwnd;
 		bool isRunning;
 
-		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam) noexcept;
+		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam);
 	};
 }
 

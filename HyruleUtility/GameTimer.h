@@ -6,8 +6,8 @@ namespace Hyrule
 	class GameTimer
 	{
 	public:
-		GameTimer() noexcept;
-		~GameTimer() noexcept = default;
+		GameTimer();
+		~GameTimer() = default;
 
 		float TotalTime() const;             // in seconds
 		float DeltaTime() const;            // in seconds

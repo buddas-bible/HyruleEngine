@@ -1,25 +1,25 @@
 #include "Scene.h"
 
-#include "GameObject.h"
+#include "Entity.h"
 #include "Camera.h"
 
 namespace Hyrule
 {
-	Scene::Scene(const std::wstring& _name) noexcept :
+	Scene::Scene(const std::wstring& _name) :
 		name(_name), gameObjecs(), mainCamera()
 	{
 		SceneManager::GetInstance().AddScene(_name, this);
 
-		GameObject* camera = CreateGameObject(L"Camera");
+		Entity* camera = CreateGameObject(L"Camera");
 		mainCamera = camera->AddComponent<Camera>();
 	}
 
-	std::wstring Scene::GetName() noexcept
+	std::wstring Scene::GetName()
 	{
 		return this->name;
 	}
 
-	GameObject* Scene::CreateGameObject(const std::wstring& _name)
+	Entity* Scene::CreateGameObject(const std::wstring& _name)
 	{
 		auto itr = gameObjecs.find(_name);
 
@@ -28,37 +28,37 @@ namespace Hyrule
 			return itr->second;
 		}
 
-		GameObject* newObejct = new GameObject(_name, this);
+		Entity* newObejct = new Entity(_name, this);
 		gameObjecs.insert(make_pair(_name, newObejct));
 
 		return newObejct;
 	}
 
-	GameObject* Scene::CreateGameObject(const std::wstring& _name, GameObject* _parent)
+	Entity* Scene::CreateGameObject(const std::wstring& _name, Entity* _parent)
 	{
-		GameObject* newObejct = CreateGameObject(_name);
+		Entity* newObejct = CreateGameObject(_name);
 		gameObjecs[_name] = newObejct;
 		newObejct->SetParent(newObejct);
 
 		return newObejct;
 	}
 
-	std::map<std::wstring, GameObject*>& Scene::SceneObjects()
+	std::map<std::wstring, Entity*>& Scene::SceneObjects()
 	{
 		return this->gameObjecs;
 	}
 
-	std::queue<GameObject*>& Scene::ActivatedQueue()
+	std::queue<Entity*>& Scene::ActivatedQueue()
 	{
 		return this->objectsToDeactivate;
 	}
 
-	std::queue<GameObject*>& Scene::DeactivatedQueue()
+	std::queue<Entity*>& Scene::DeactivatedQueue()
 	{
 		return this->objectsToActivate;
 	}
 
-	std::queue<GameObject*>& Scene::DestroyedQueue()
+	std::queue<Entity*>& Scene::DestroyedQueue()
 	{
 		return this->objectsToDestroy;
 	}
@@ -73,22 +73,22 @@ namespace Hyrule
 		this->mainCamera = _camera;
 	}
 
-	void Scene::AddActivatedQueue(GameObject* _object)
+	void Scene::AddActivatedQueue(Entity* _object)
 	{
 		this->objectsToActivate.push(_object);
 	}
 
-	void Scene::AddDeactivatedQueue(GameObject* _object)
+	void Scene::AddDeactivatedQueue(Entity* _object)
 	{
 		this->objectsToDeactivate.push(_object);
 	}
 
-	void Scene::AddDestroyedQueue(GameObject* _object)
+	void Scene::AddDestroyedQueue(Entity* _object)
 	{
 		this->objectsToDestroy.push(_object);
 	}
 
-	void Scene::Initialize() noexcept
+	void Scene::Initialize()
 	{
 		if (!objectsToActivate.empty())
 		{
@@ -128,12 +128,12 @@ namespace Hyrule
 		}
 	}
 
-	void Scene::Destroy(GameObject* _gameObject) noexcept
+	void Scene::Destroy(Entity* _gameObject)
 	{
 		this->objectsToDestroy.push(_gameObject);
 	}
 
-	void Scene::Clear() noexcept
+	void Scene::Clear()
 	{
 		for (auto& e: gameObjecs)
 		{
