@@ -19,7 +19,7 @@
 #include "Renderable_desc.h"
 
 
-namespace Hyrule
+namespace hyrule
 {
 	extern "C"
 	{
@@ -40,7 +40,7 @@ namespace Hyrule
 	{}
 
 
-	std::shared_ptr<Hyrule::DXDevice> HyruleGraphicsDX11::Device()
+	std::shared_ptr<hyrule::DXDevice> HyruleGraphicsDX11::Device()
 	{
 		return m_device;
 	}
@@ -239,7 +239,7 @@ namespace Hyrule
 
 	}
 
-	Hyrule::Matrix4x4 HyruleGraphicsDX11::ViewProj()
+	hyrule::Matrix4x4 HyruleGraphicsDX11::ViewProj()
 	{
 		return g_renderer->GetCamera()->GetViewProjMatrix();
 	}

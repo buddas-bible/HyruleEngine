@@ -2,7 +2,7 @@
 #include "MonoBehaviour.h"
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class PlayerController : public MonoBehaviour
 	{

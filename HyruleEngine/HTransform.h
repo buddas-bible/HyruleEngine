@@ -3,18 +3,18 @@
 #include <vector>
 
 #include "HyruleMath.h"
-#include "Component.h"
+#include "HComponent.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	class Entity;
+	class HEntity;
 
-	class Transform : public Component
+	class HTransform : public HComponent
 	{
 	public:
-		Transform() = delete;
-		Transform(Entity*);
-		~Transform() override = default;
+		HTransform() = delete;
+		HTransform(HEntity* _entity);
+		~HTransform() override = default;
 
 	private:
 		Vector3D position;
@@ -22,8 +22,8 @@ namespace Hyrule
 		Vector3D scale;
 
 	private:
-		Hyrule::Transform* parent;
-		std::vector<Transform*> children;
+		hyrule::HTransform* parent;
+		std::vector<HTransform*> children;
 
 	public:
 		/// <summary>
@@ -53,26 +53,24 @@ namespace Hyrule
 		Matrix4x4 GetLocalMatrix();
 		Matrix4x4 GetWorldMatrix();
 
-
 	public:
 		/// <summary>
 		/// 부모자식 관련 함수
 		/// </summary>
-		Transform* GetParent();
-		void SetParent(Transform*);
+		HTransform* GetParent();
+		void SetParent(HTransform*);
 		void RemoveParent();
 
-		void AddChild(Transform*);
-		void RemoveChild(Transform*);
+		void AddChild(HTransform*);
+		void RemoveChild(HTransform*);
 
-		Transform* GetChild(const size_t);
-		std::vector<Transform*> Getchildren();
+		HTransform* GetChild(const size_t _index);
+		std::vector<HTransform*> Getchildren();
 		size_t GetChildCount();
-		Transform* FindChild(const std::wstring&);
+		HTransform* FindChild(const std::string&);
+		HTransform* FindChild(const InstanceID&);
 
 	public:
-		virtual void OnEnable() final {}
-		virtual void OnDisable() final {}
 		virtual void OnDestroy() final;
 	};
 }

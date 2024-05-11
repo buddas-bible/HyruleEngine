@@ -1,18 +1,18 @@
 #pragma comment(lib, "HyruleMath.lib")
 
-#include "Entity.h"
-#include "Transform.h"
+#include "HEntity.h"
+#include "HTransform.h"
 
-#include "BoxCollider.h"
-#include "SphereCollider.h"
+#include "HBoxCollider.h"
+#include "HSphereCollider.h"
 
 #include "CubeRenderer.h"
 #include "SphereRenderer.h"
 
-#include "RigidBody.h"
+#include "HRigidBody.h"
 
 #include "Controller.h"
-#include "Camera.h"
+#include "HCamera.h"
 
 #include "Scene01.h"
 
@@ -20,7 +20,7 @@
 #include <ctime>
 #include <cstdlib>
 
-namespace Hyrule
+namespace hyrule
 {
 	Scene01::Scene01(const std::wstring& _name) :
 		Scene(_name)
@@ -35,8 +35,8 @@ namespace Hyrule
 		box->AddComponent<CubeRenderer>();
 		box->GetTransform()->SetLocalPosition(Vector3D(0.f, 0.f, 0.f));
 		box->GetTransform()->SetLocalScale(Vector3D(150.f, 5.f, 150.f));
-		Hyrule::BoxCollider* colliderBox01 = box->AddComponent<BoxCollider>();
-		// Hyrule::RigidBody* rigidBox01 = box->AddComponent<RigidBody>();
+		hyrule::BoxCollider* colliderBox01 = box->AddComponent<BoxCollider>();
+		// hyrule::RigidBody* rigidBox01 = box->AddComponent<RigidBody>();
 		// rigidBox01->SetMass(0.f);
 
 		std::srand((unsigned int)time(NULL));
@@ -56,7 +56,7 @@ namespace Hyrule
 			);
 			sphere->GetTransform()->SetLocalScale(Vector3D(5.f, 5.f, 5.f));
 			sphere->AddComponent<BoxCollider>();
-			Hyrule::RigidBody* rigidsphere = sphere->AddComponent<RigidBody>();
+			hyrule::RigidBody* rigidsphere = sphere->AddComponent<RigidBody>();
 			rigidsphere->SetMass(3000.f);
 		}
 
@@ -73,8 +73,8 @@ namespace Hyrule
 		// 		)
 		// 	);
 		// 	box4->GetTransform()->SetLocalScale(Vector3D(50.f, 50.f, 50.f));
-		// 	Hyrule::BoxCollider* colliderBox02 = box4->AddComponent<BoxCollider>();
-		// 	Hyrule::RigidBody* rigidBox03 = box4->AddComponent<RigidBody>();
+		// 	hyrule::BoxCollider* colliderBox02 = box4->AddComponent<BoxCollider>();
+		// 	hyrule::RigidBody* rigidBox03 = box4->AddComponent<RigidBody>();
 		// 	rigidBox03->SetMass(30.f);
 		// }
 

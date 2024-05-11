@@ -4,7 +4,7 @@
 #include "HyruleMath.h"
 #include <string>
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{
@@ -87,11 +87,11 @@ namespace Hyrule
 			Matrix3x3 GetInvInertia();
 
 		public:
-			void ApplyImpulse(const Hyrule::Vector3D&, const Hyrule::Vector3D&);
+			void ApplyImpulse(const hyrule::Vector3D&, const hyrule::Vector3D&);
 			void ComputeVelocity(Vector3D _gravity, float);
 			void ComputePosition(float);
-			virtual void AddForce(const Hyrule::Vector3D&) override;
-			virtual void AddTorque(const Hyrule::Vector3D&) override;
+			virtual void AddForce(const hyrule::Vector3D&) override;
+			virtual void AddTorque(const hyrule::Vector3D&) override;
 
 		private:
 			void CalculateInertiaTensor(float);
@@ -103,11 +103,11 @@ namespace Hyrule
 			virtual void SetMass(const float) override;
 			virtual float GetMass() const override;
 
-			virtual void SetVelocity(const Hyrule::Vector3D&) override;
-			virtual Hyrule::Vector3D GetVelocity() const override;
+			virtual void SetVelocity(const hyrule::Vector3D&) override;
+			virtual hyrule::Vector3D GetVelocity() const override;
 
-			virtual void SetAngularVelocity(const Hyrule::Vector3D&) override;
-			virtual Hyrule::Vector3D GetAngularVelocity() const override;
+			virtual void SetAngularVelocity(const hyrule::Vector3D&) override;
+			virtual hyrule::Vector3D GetAngularVelocity() const override;
 
 			virtual void WakeUp() override;
 			virtual bool IsAwake() const override;

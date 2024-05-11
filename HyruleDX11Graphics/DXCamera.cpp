@@ -1,7 +1,7 @@
 #include "DXCamera.h"
 
 
-namespace Hyrule
+namespace hyrule
 {
 
 	DXCamera::DXCamera() : 
@@ -13,7 +13,7 @@ namespace Hyrule
 	{}
 
 
-	Hyrule::Vector3D DXCamera::GetPosition() const
+	hyrule::Vector3D DXCamera::GetPosition() const
 	{
 		return m_pos;
 	}

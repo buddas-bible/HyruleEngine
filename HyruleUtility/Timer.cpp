@@ -5,7 +5,7 @@
 #include <windows.h>
 #include "Timer.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	CTimer::CTimer()
 		: mSecondsPerCount(0.0), mDeltaTime(-1.0), mBaseTime(0),

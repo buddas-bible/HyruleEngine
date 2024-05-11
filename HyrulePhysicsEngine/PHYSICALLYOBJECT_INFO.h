@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 	struct Quaternion;

@@ -4,7 +4,7 @@
 #include <memory>
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Matrix4x4;
 	struct Matrix3x3;

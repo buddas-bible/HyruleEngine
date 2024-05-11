@@ -4,7 +4,7 @@
 #include <string>
 #include "framework.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class DXTexture : public IResource
 	{

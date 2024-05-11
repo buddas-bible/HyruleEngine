@@ -8,7 +8,7 @@
 /// 중심과 길이만 넘겨주면 최대 최소를 알아서 계산해 줬으면 좋겠음.
 /// 그리고 다른 AABB와의 계산도 편리하게 하기 위해서.
 /// </summary>
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 

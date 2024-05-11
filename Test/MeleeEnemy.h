@@ -1,7 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class MeleeEnemy : public Enemy
 	{

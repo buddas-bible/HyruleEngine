@@ -4,7 +4,7 @@
 struct ID3D11RenderTargetView1;
 struct ID3D11DepthStencilView;
 
-namespace Hyrule
+namespace hyrule
 {
 	class DXDevice;
 

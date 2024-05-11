@@ -1,7 +1,9 @@
 #pragma once
-namespace Hyrule
+#include <memory>
+
+namespace hyrule
 {
-	template <typename T>
+	template <typename _Ty>
 	class Singleton
 	{
 	protected:
@@ -11,26 +13,24 @@ namespace Hyrule
 		Singleton&& operator=(Singleton&&) noexcept = delete;
 
 	public:
-		static T* Instance()
+		static std::weak_ptr<_Ty> Instance()
 		{
-			if (instance)
-				instance = new T();
+			if (!instance.get())
+				instance = std::make_shared<_Ty>();
 
 			return instance;
 		}
 
 		static void Release()
 		{
-			if (instance)
-				delete instance;
-
-			instance = nullptr;
+			if (instance.get())
+				instance.release();
 		}
 
 	private:
-		static T* instance;
+		static std::shared_ptr<_Ty> instance;
 	};
 
-	template <typename T>
-	T* Singleton<T>::instance = nullptr;
+	template <typename _Ty>
+	std::shared_ptr<_Ty> Singleton<_Ty>::instance = nullptr;
 }

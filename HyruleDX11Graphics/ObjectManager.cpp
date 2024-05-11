@@ -3,7 +3,7 @@
 #include "RenderableObject.h"
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	ObjectManager& ObjectManager::GetInstance()
 	{
@@ -12,7 +12,7 @@ namespace Hyrule
 		return instance;
 	}
 
-	Hyrule::RenderableObject* ObjectManager::CreateObject()
+	hyrule::RenderableObject* ObjectManager::CreateObject()
 	{
 		return nullptr;
 	}

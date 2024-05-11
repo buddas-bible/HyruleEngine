@@ -1,18 +1,18 @@
 #pragma once
-#include "Component.h"
+#include "HComponent.h"
 
 #include "RendererSystem.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class Mesh;
 	class IRenderable;
 
-	class Renderer : public Component
+	class Renderer : public HComponent
 	{
 	public:
 		Renderer() = delete;
-		Renderer(Entity*);
+		Renderer(HEntity*);
 		~Renderer() override = default;
 
 	protected:

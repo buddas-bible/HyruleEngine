@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 

@@ -1,38 +1,38 @@
-#include "Entity.h"
+#include "HEntity.h"
 
-#include "Transform.h"
+#include "HTransform.h"
 #include "Scene.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	Entity::Entity(const std::wstring& _name, Scene* _scene) :
+	HEntity::HEntity(const std::wstring& _name, Scene* _scene) :
 		scene(_scene)
 	{
 		// 게임 오브젝트는 트랜스폼을 가지고 태어남
-		this->transform = this->AddComponent<Transform>();
+		this->transform = this->AddComponent<HTransform>();
 	}
 
-	Scene* Entity::GetScene()
+	Scene* HEntity::GetScene()
 	{
 		return scene;
 	}
 
-	Transform* Entity::GetTransform()
+	HTransform* HEntity::GetTransform()
 	{
 		return transform;
 	}
 
-	const std::string& Entity::GetTag()
+	const std::string& HEntity::GetTag()
 	{
 		return this->tag;
 	}
 
-	void Entity::SetTag(const std::string& _tag)
+	void HEntity::SetTag(const std::string& _tag)
 	{
 		this->tag = std::move(_tag);
 	}
 
-	void Entity::SetActive(bool _active)
+	void HEntity::SetActive(bool _active)
 	{
 		if (_active && !activeSelf)
 		{
@@ -52,12 +52,12 @@ namespace Hyrule
 		}
 	}
 
-	bool Entity::Activated()
+	bool HEntity::Activated()
 	{
 		return this->activeSelf;
 	}
 
-	void Entity::OnDisable()
+	void HEntity::OnDisable()
 	{
 		for (auto& e : components)
 		{
@@ -66,7 +66,7 @@ namespace Hyrule
 		activeSelf = false;
 	}
 
-	void Entity::OnEnable()
+	void HEntity::OnEnable()
 	{
 		for (auto& e : components)
 		{
@@ -75,7 +75,7 @@ namespace Hyrule
 		activeSelf = true;
 	}
 
-	void Entity::Awake()
+	void HEntity::Awake()
 	{
 		for (auto& e : components)
 		{
@@ -83,7 +83,7 @@ namespace Hyrule
 		}
 	}
 
-	void Entity::Start()
+	void HEntity::Start()
 	{
 		for (auto& e : components)
 		{
@@ -91,7 +91,7 @@ namespace Hyrule
 		}
 	}
 
-	void Entity::FixedUpdate()
+	void HEntity::FixedUpdate()
 	{
 		for (auto& e : components)
 		{
@@ -99,7 +99,7 @@ namespace Hyrule
 		}
 	}
 
-	void Entity::Update()
+	void HEntity::Update()
 	{
 		for (auto& e : components)
 		{
@@ -107,7 +107,7 @@ namespace Hyrule
 		}
 	}
 
-	void Entity::LateUpdate()
+	void HEntity::LateUpdate()
 	{
 		for (auto& e : components)
 		{
@@ -115,7 +115,7 @@ namespace Hyrule
 		}
 	}
 
-	void Entity::OnDestroy()
+	void HEntity::OnDestroy()
 	{
 		for (auto& e : components)
 		{

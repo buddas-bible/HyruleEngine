@@ -2,7 +2,7 @@
 #include <random>
 
 
-namespace Hyrule
+namespace hyrule
 {
 	class Random
 	{

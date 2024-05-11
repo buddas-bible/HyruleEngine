@@ -9,7 +9,7 @@
 
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 
@@ -46,13 +46,13 @@ namespace Hyrule
 			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&) override;
 			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const float) override;
 
-			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;					// 월드 중력을 설정함.
+			virtual void SetWorldGravity(const hyrule::Vector3D&) override;					// 월드 중력을 설정함.
 
 		private:
 			std::set<std::pair<Collider*, Collider*>> colliderTable;
 			std::vector<Manifold> manifoldArray;
 
-			Hyrule::Vector3D gravity;
+			hyrule::Vector3D gravity;
 
 			bool useOctree{ true };
 		};

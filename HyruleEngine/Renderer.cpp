@@ -2,10 +2,10 @@
 
 #include "IRenderable.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	Renderer::Renderer(Entity* _gameObject) :
-		Component(_gameObject), meshData()
+	Renderer::Renderer(HEntity* _gameObject) :
+		HComponent(_gameObject), meshData()
 	{}
 
 //	void Renderer::OnEnable()

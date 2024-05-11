@@ -2,7 +2,7 @@
 
 #include "PHYSICALLYOBJECT_INFO.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{
@@ -165,7 +165,7 @@ namespace Hyrule
 			return this->points;
 		}
 
-		std::vector<Hyrule::Vector3D> ConvexShape::GetPoints(const Matrix4x4& _matrix)
+		std::vector<hyrule::Vector3D> ConvexShape::GetPoints(const Matrix4x4& _matrix)
 		{
 			std::vector<Vector3D> point;
 

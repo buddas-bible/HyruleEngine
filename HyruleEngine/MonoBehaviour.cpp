@@ -1,9 +1,9 @@
 #include "MonoBehaviour.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	MonoBehaviour::MonoBehaviour(Entity* _gameObject) : 
-		Behaviour(_gameObject)
+	MonoBehaviour::MonoBehaviour(HEntity* _entity) :
+		Behaviour(_entity)
 	{
 
 	}

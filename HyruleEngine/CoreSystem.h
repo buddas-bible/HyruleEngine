@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class CoreSystem : public Singleton<CoreSystem>
 	{

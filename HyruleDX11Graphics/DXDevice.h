@@ -5,7 +5,7 @@ struct ID3D11Device5;
 struct ID3D11DeviceContext4;
 struct IDXGISwapChain2;
 
-namespace Hyrule
+namespace hyrule
 {
 	class DXCamera;
 	

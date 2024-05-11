@@ -1,6 +1,6 @@
 #include "InputSystem.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	void InputSystem::Update()
 	{

@@ -2,7 +2,7 @@
 
 #include "Vertex.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	Helper::Helper(
 		std::shared_ptr<DXDevice> _device, 

@@ -1,17 +1,17 @@
 #include "Scene.h"
 
-#include "Entity.h"
-#include "Camera.h"
+#include "HEntity.h"
+#include "HCamera.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	Scene::Scene(const std::wstring& _name) :
 		name(_name), gameObjecs(), mainCamera()
 	{
-		SceneManager::GetInstance().AddScene(_name, this);
+		SceneManager::Instance()->AddScene(_name, this);
 
-		Entity* camera = CreateGameObject(L"Camera");
-		mainCamera = camera->AddComponent<Camera>();
+		HEntity* camera = CreateGameObject(L"Camera");
+		mainCamera = camera->AddComponent<HCamera>();
 	}
 
 	std::wstring Scene::GetName()
@@ -19,7 +19,7 @@ namespace Hyrule
 		return this->name;
 	}
 
-	Entity* Scene::CreateGameObject(const std::wstring& _name)
+	HEntity* Scene::CreateGameObject(const std::wstring& _name)
 	{
 		auto itr = gameObjecs.find(_name);
 
@@ -28,62 +28,61 @@ namespace Hyrule
 			return itr->second;
 		}
 
-		Entity* newObejct = new Entity(_name, this);
+		HEntity* newObejct = new HEntity(_name, this);
 		gameObjecs.insert(make_pair(_name, newObejct));
 
 		return newObejct;
 	}
 
-	Entity* Scene::CreateGameObject(const std::wstring& _name, Entity* _parent)
+	HEntity* Scene::CreateGameObject(const std::wstring& _name, HEntity* _parent)
 	{
-		Entity* newObejct = CreateGameObject(_name);
+		HEntity* newObejct = CreateGameObject(_name);
 		gameObjecs[_name] = newObejct;
-		newObejct->SetParent(newObejct);
 
 		return newObejct;
 	}
 
-	std::map<std::wstring, Entity*>& Scene::SceneObjects()
+	std::map<std::wstring, HEntity*>& Scene::SceneObjects()
 	{
 		return this->gameObjecs;
 	}
 
-	std::queue<Entity*>& Scene::ActivatedQueue()
+	std::queue<HEntity*>& Scene::ActivatedQueue()
 	{
 		return this->objectsToDeactivate;
 	}
 
-	std::queue<Entity*>& Scene::DeactivatedQueue()
+	std::queue<HEntity*>& Scene::DeactivatedQueue()
 	{
 		return this->objectsToActivate;
 	}
 
-	std::queue<Entity*>& Scene::DestroyedQueue()
+	std::queue<HEntity*>& Scene::DestroyedQueue()
 	{
 		return this->objectsToDestroy;
 	}
 
-	Camera* Scene::GetMainCamera()
+	HCamera* Scene::GetMainCamera()
 	{
 		return this->mainCamera;
 	}
 
-	void Scene::SetMainCamera(Camera* _camera)
+	void Scene::SetMainCamera(HCamera* _camera)
 	{
 		this->mainCamera = _camera;
 	}
 
-	void Scene::AddActivatedQueue(Entity* _object)
+	void Scene::AddActivatedQueue(HEntity* _object)
 	{
 		this->objectsToActivate.push(_object);
 	}
 
-	void Scene::AddDeactivatedQueue(Entity* _object)
+	void Scene::AddDeactivatedQueue(HEntity* _object)
 	{
 		this->objectsToDeactivate.push(_object);
 	}
 
-	void Scene::AddDestroyedQueue(Entity* _object)
+	void Scene::AddDestroyedQueue(HEntity* _object)
 	{
 		this->objectsToDestroy.push(_object);
 	}
@@ -128,7 +127,7 @@ namespace Hyrule
 		}
 	}
 
-	void Scene::Destroy(Entity* _gameObject)
+	void Scene::Destroy(HEntity* _gameObject)
 	{
 		this->objectsToDestroy.push(_gameObject);
 	}

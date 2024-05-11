@@ -1,7 +1,7 @@
 #include "Octree.h"
 
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

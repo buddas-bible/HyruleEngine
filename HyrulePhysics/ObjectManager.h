@@ -9,7 +9,7 @@
 // #include "Octree.h"
 #include "Octree_v2.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Matrix4x4;
 

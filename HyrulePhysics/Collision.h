@@ -3,7 +3,7 @@
 #include "ICollision.h"
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 

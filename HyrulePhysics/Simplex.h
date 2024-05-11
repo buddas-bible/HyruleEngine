@@ -7,7 +7,7 @@
 
 #include "Face.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

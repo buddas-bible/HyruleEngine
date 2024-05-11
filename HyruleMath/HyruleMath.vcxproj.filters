@@ -43,13 +43,13 @@
     <ClInclude Include="Quaternion.h">
       <Filter>Quaternion</Filter>
     </ClInclude>
-    <ClInclude Include="HRConstant.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2D.h">
       <Filter>Vector</Filter>
     </ClInclude>
     <ClInclude Include="HRMathFunc.h">
+      <Filter>Function</Filter>
+    </ClInclude>
+    <ClInclude Include="HRConstant.h">
       <Filter>Function</Filter>
     </ClInclude>
   </ItemGroup>

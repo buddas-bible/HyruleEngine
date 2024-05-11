@@ -10,7 +10,7 @@
 
 #include <random>
 
-namespace Hyrule
+namespace hyrule
 {
 	UINT RenderableObject::id = 0;
 

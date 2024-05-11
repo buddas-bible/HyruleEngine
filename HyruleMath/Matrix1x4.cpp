@@ -2,7 +2,7 @@
 
 #include "Matrix1x4.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	Matrix1x4::operator Vector4D()
 	{

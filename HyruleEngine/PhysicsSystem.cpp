@@ -2,7 +2,7 @@
 
 #include "IPhysics.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	bool PhysicsSystem::LoadPhysicsDLL(const std::wstring& _path, HWND _hwnd)
 	{

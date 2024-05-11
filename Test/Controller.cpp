@@ -2,12 +2,12 @@
 
 #include "InputSystem.h"
 #include "TimeSystem.h"
-#include "Entity.h"
-#include "Transform.h"
+#include "HEntity.h"
+#include "HTransform.h"
 #include "windows.h"
 #include "SceneManager.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	void Controller::AddControllableObject(int _key, GameObject* _obj)
 	{

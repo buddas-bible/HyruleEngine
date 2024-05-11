@@ -6,7 +6,7 @@ class ID3D11InputLayout;
 class ID3DX11EffectTechnique;
 struct D3D11_INPUT_ELEMENT_DESC;
 
-namespace Hyrule
+namespace hyrule
 {
 	struct InputLayoutDesc
 	{

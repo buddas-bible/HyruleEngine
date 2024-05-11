@@ -1,14 +1,14 @@
 #include "SphereRenderer.h"
 
-#include "Entity.h"
-#include "Transform.h"
+#include "HEntity.h"
+#include "HTransform.h"
 #include "RENDERABLE_DESC.h"
 #include "IRenderable.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	SphereRenderer::SphereRenderer(Entity* _gameObject) :
-		Renderer(_gameObject)
+	SphereRenderer::SphereRenderer(HEntity* _entity) :
+		Renderer(_entity)
 	{
 		RENDERABLE_DESC desc;
 		desc.meshType = SPHERE;
@@ -17,6 +17,6 @@ namespace Hyrule
 
 	void SphereRenderer::Render()
 	{
-		this->meshData->SetWorldTransform(this->gameObject->GetTransform()->GetWorldMatrix());
+		this->meshData->SetWorldTransform(this->entity->GetTransform()->GetWorldMatrix());
 	}
 }

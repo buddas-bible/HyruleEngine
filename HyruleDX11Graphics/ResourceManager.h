@@ -8,7 +8,7 @@
 #include "DXShader.h"
 #include "DXDevice.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class DXMesh;
 	class DXTexture;

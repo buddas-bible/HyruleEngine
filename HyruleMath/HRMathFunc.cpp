@@ -8,7 +8,7 @@
 
 #include "HRMathFunc.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	/// <summary>
 	/// 오일러각을 매트릭스로 반환

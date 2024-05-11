@@ -1,9 +1,9 @@
 #include "MeleeEnemy.h"
 
-#include "Entity.h"
-#include "Transform.h"
+#include "HEntity.h"
+#include "HTransform.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	MeleeEnemy::MeleeEnemy(GameObject* _gameObject) :
 		Enemy(_gameObject)

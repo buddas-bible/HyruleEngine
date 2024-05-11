@@ -9,7 +9,7 @@ class ID3DX11EffectVariable;
 class ID3DX11EffectMatrixVariable;
 class ID3DX11EffectShaderResourceVariable;
 
-namespace Hyrule
+namespace hyrule
 {
 	class DXDevice;
 	struct Matrix4x4;

@@ -1,6 +1,6 @@
 #include "Matrix3x3.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	Matrix3x3 Matrix3x3::Transpose()
 	{

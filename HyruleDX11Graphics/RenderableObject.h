@@ -3,7 +3,7 @@
 #include "HyruleMath.h"
 #include "IRenderable.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class DXDevice;
 	class DXRasterizerState;

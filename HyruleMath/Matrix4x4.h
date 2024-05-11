@@ -3,7 +3,7 @@
 
 #include "Matrix1x4.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 	struct Matrix1x4;

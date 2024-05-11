@@ -3,7 +3,7 @@
 
 struct ID3D11RasterizerState2;
 
-namespace Hyrule
+namespace hyrule
 {
 	class DXDevice;
 

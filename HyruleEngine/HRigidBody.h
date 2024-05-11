@@ -1,10 +1,10 @@
 #pragma once
-#include "Component.h"
+#include "HComponent.h"
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	class Entity;
+	class HEntity;
 	class Vector3D;
 
 	namespace Physics
@@ -12,12 +12,12 @@ namespace Hyrule
 		class IRigidBody;
 	}
 
-	class RigidBody : public Component
+	class HRigidBody : public HComponent
 	{
 	public:
-		RigidBody() = delete;
-		RigidBody(Entity*);
-		~RigidBody() override = default;
+		HRigidBody() = delete;
+		HRigidBody(HEntity*);
+		~HRigidBody() override = default;
 
 	private:
 		Physics::IRigidBody* iRigidBody;

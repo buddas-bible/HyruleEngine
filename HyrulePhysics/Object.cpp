@@ -4,7 +4,7 @@
 #include "Collider.h"
 #include "PHYSICALLYOBJECT_INFO.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

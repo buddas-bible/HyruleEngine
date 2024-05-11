@@ -1,14 +1,14 @@
 #include "CubeRenderer.h"
 
-#include "Entity.h"
-#include "Transform.h"
+#include "HEntity.h"
+#include "HTransform.h"
 #include "RENDERABLE_DESC.h"
 #include "IRenderable.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	CubeRenderer::CubeRenderer(Entity* _gameObject) : 
-		Renderer(_gameObject)
+	CubeRenderer::CubeRenderer(HEntity* _entity) :
+		Renderer(_entity)
 	{
 		RENDERABLE_DESC desc;
 		desc.meshType = CUBE;
@@ -17,6 +17,6 @@ namespace Hyrule
 
 	void CubeRenderer::Render()
 	{
-		this->meshData->SetWorldTransform(this->gameObject->GetTransform()->GetWorldMatrix());
+		this->meshData->SetWorldTransform(this->entity->GetTransform()->GetWorldMatrix());
 	}
 }

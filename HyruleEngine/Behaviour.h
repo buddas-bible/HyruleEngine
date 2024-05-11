@@ -1,13 +1,13 @@
 #pragma once
-#include "Component.h"
+#include "HComponent.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	class Behaviour : public Component
+	class Behaviour : public HComponent
 	{
 	protected:
 		Behaviour() = delete;
-		Behaviour(Entity* _gameObject);
+		Behaviour(HEntity* _entity);
 		~Behaviour() override = default;
 
 	public:

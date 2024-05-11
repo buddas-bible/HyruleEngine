@@ -1,6 +1,6 @@
 #include "ComponentManager.h"
 
-namespace Hyrule
+namespace hyrule
 {
 
 }

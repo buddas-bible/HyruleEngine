@@ -5,7 +5,7 @@
 #include "IGraphics.h"
 #include "RenderableObject.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class DXDevice;
 	class DXRenderTarget;

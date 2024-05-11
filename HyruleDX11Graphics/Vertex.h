@@ -1,7 +1,7 @@
 #pragma once
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector2
 	{

@@ -1,6 +1,6 @@
 #include "Player.h"
 
-namespace Hyrule
+namespace hyrule
 {
 
 	Player::Player(GameObject* _gameObject) :

@@ -3,7 +3,7 @@
 #include <vector>
 
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector2D;
 	struct Vector3D;
@@ -44,7 +44,7 @@ namespace Hyrule
 			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&) abstract;
 			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const float) abstract;
 
-			virtual void SetWorldGravity(const Hyrule::Vector3D&) abstract;
+			virtual void SetWorldGravity(const hyrule::Vector3D&) abstract;
 		};
 	}
 }

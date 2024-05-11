@@ -2,15 +2,15 @@
 // #include "../HyruleMath/HRVector.h"
 // #pragma comment(lib, "../x64/Debug/KH_Math.lib")
 
-// using VECTOR_SUM = Hyrule::Vector3D(*)(const Hyrule::Vector3D&);
+// using VECTOR_SUM = hyrule::Vector3D(*)(const hyrule::Vector3D&);
 
 // nt main()
 // 
 // 	// // HMODULE vectorDLL = ::LoadLibraryW(L"..//x64/Debug//HyruleEngine.dll");
 // 	// 
-// 	// Hyrule::Vector3D vec{ 1.f,2.f,3.f };
-// 	// Hyrule::Vector3D vec1{ 1.f,2.f,3.f };
-// 	// Hyrule::Vector3D vec2{ 1.f,2.f,3.f };
+// 	// hyrule::Vector3D vec{ 1.f,2.f,3.f };
+// 	// hyrule::Vector3D vec1{ 1.f,2.f,3.f };
+// 	// hyrule::Vector3D vec2{ 1.f,2.f,3.f };
 // 	// 
 // 	// int a = 0;
 // 	// while (1)
@@ -49,8 +49,8 @@ int APIENTRY main(
 	_In_ LPSTR _lpCmdLine, 
 	_In_ int _nShowCmd)
 {
-	auto& gameEngine{ Hyrule::HyruleEngine::GetInstance() };
-	gameEngine.Initialize(_hInstance, L"Hyrule Engine");
+	auto& gameEngine{ hyrule::HyruleEngine::GetInstance() };
+	gameEngine.Initialize(_hInstance, L"hyrule Engine");
 
 #if _DEBUG		// Debug
 #if _WIN64		// x64
@@ -70,9 +70,9 @@ int APIENTRY main(
 #endif	
 #endif
 
-	auto& sceneManager = Hyrule::SceneManager::GetInstance();
-	Hyrule::Scene* scene01 = new Hyrule::Scene01(L"Scene01");
-	Hyrule::Scene* testScene01 = new Hyrule::TestScene01(L"TestScene01");
+	auto& sceneManager = hyrule::SceneManager::GetInstance();
+	hyrule::Scene* scene01 = new hyrule::Scene01(L"Scene01");
+	hyrule::Scene* testScene01 = new hyrule::TestScene01(L"TestScene01");
 	sceneManager.AddScene(L"Scene01", scene01);
 	sceneManager.AddScene(L"TestScene01", testScene01);
 

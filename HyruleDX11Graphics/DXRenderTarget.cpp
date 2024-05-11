@@ -2,7 +2,7 @@
 
 #include "DXDevice.h"
 
-namespace Hyrule
+namespace hyrule
 {
 
 	DXRenderTarget::DXRenderTarget(std::shared_ptr<DXDevice> _device)

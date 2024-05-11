@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include "HCamera.h"
 
 #include "ICamera.h"
 #include "InputSystem.h"
@@ -6,79 +6,79 @@
 #include "RendererSystem.h"
 #include "TimeSystem.h"
 
-#include "Entity.h"
-#include "Transform.h"
+#include "HEntity.h"
+#include "HTransform.h"
 
 
-namespace Hyrule 
+namespace hyrule 
 {
-	Camera::Camera(Entity* _gameObject) :
-		Component(_gameObject)
+	HCamera::HCamera(HEntity* _entity) :
+		Renderer(_entity)
 	{
-		camera = RendererSystem::Instance().GetCamera();
+		camera = RendererSystem::Instance()->GetCamera();
 
 		Vector3D eye{ 0.0f, 8.f, -9.f };
 		Vector3D at{ 0.0f, 6.f, 0.0f };
-		gameObject->GetTransform()->SetLocalPosition(eye);
-		gameObject->GetTransform()->SetLocalQuaternion(RotateVectorToVectorQuaternion(Vector3D::Forward(), (at - eye).Normalized()));
+		entity->GetTransform()->SetLocalPosition(eye);
+		entity->GetTransform()->SetLocalQuaternion(RotateVectorToVectorQuaternion(Vector3D::Forward(), (at - eye).Normalized()));
 	}
 
-	Matrix4x4 Camera::GetViewMatrix() const
+	Matrix4x4 HCamera::GetViewMatrix() const
 	{
 		return this->camera->GetViewMatrix();
 	}
 
-	Matrix4x4 Camera::GetProjMatrix() const
+	Matrix4x4 HCamera::GetProjMatrix() const
 	{
 		return this->camera->GetProjMatrix();
 	}
 
-	Matrix4x4 Camera::GetViewProjMatrix() const
+	Matrix4x4 HCamera::GetViewProjMatrix() const
 	{
 		return this->camera->GetViewProjMatrix();
 	}
 
-	void Camera::CameraLookAtLH(const Vector3D& _eyePos, const Vector3D& _focus, const Vector3D& _worldUp)
+	void HCamera::CameraLookAtLH(const Vector3D& _eyePos, const Vector3D& _focus, const Vector3D& _worldUp)
 	{
 		this->camera->CameraLookAtLH(_eyePos, _focus, _worldUp);
 	}
 
-	void Camera::CameraLookToLH(const Vector3D& _eyePos, const Vector3D& _direction, const Vector3D& _worldUp)
+	void HCamera::CameraLookToLH(const Vector3D& _eyePos, const Vector3D& _direction, const Vector3D& _worldUp)
 	{
 		this->camera->CameraLookToLH(_eyePos, _direction, _worldUp);
 	}
 
-	void Camera::CameraPerspectiveFovLH(float _angleY, float _ratio, float _near, float _far)
+	void HCamera::CameraPerspectiveFovLH(float _angleY, float _ratio, float _near, float _far)
 	{
 		this->camera->CameraPerspectiveFovLH(_angleY, _ratio, _near, _far);
 	}
 
-	void Camera::CameraOrthographicLH(float _width, float _height, float _near, float _far)
+	void HCamera::CameraOrthographicLH(float _width, float _height, float _near, float _far)
 	{
 		this->camera->CameraOrthographicLH(_width, _height, _near, _far);
 	}
 
-	float Camera::GetWindowWidth()
+	float HCamera::GetWindowWidth()
 	{
 		return this->camera->GetWindowWidth();
 	}
 
-	float Camera::GetWindowHeight()
+	float HCamera::GetWindowHeight()
 	{
 		return this->camera->GetWindowHeight();
 	}
 
-	void Camera::SetPerspectiveView()
+	void HCamera::SetPerspectiveView()
 	{
 		this->camera->SetOrthographicView();
 	}
 
-	void Camera::SetOrthographicView()
+	void HCamera::SetOrthographicView()
 	{
 		this->camera->SetOrthographicView();
 	}
 
-	void Camera::Update()
+	void HCamera::Update()
 	{
 		auto dt = TimeSystem::GetInstance().GetfDeltaTime();
 
@@ -92,7 +92,7 @@ namespace Hyrule
 		}
 	}
 
-	void Camera::LateUpdate()
+	void HCamera::LateUpdate()
 	{
 		if (InputSystem::Instance().KeyDownNow(VK_F7))
 		{
@@ -103,6 +103,6 @@ namespace Hyrule
 			camera->SetOrthographicView();
 		}
 
-		camera->SetWorldTransform(gameObject->GetTransform()->GetWorldMatrix());
+		camera->SetWorldTransform(entity->GetTransform()->GetWorldMatrix());
 	}
 }

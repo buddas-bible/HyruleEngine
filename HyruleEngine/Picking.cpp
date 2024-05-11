@@ -1,6 +1,6 @@
 #include "Picking.h"
 
-namespace Hyrule
+namespace hyrule
 {
 
 }

@@ -3,10 +3,10 @@
 #include "Vertex.h"
 #include <vector>
 
-namespace Hyrule
+namespace hyrule
 {
 
-	Hyrule::ResourceManager& ResourceManager::GetInstance()
+	hyrule::ResourceManager& ResourceManager::GetInstance()
 	{
 		static ResourceManager* insctance = nullptr;
 

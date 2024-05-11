@@ -1,70 +1,70 @@
-#include "Transform.h"
+#include "HTransform.h"
 
-#include "Entity.h"
+#include "HEntity.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	Transform::Transform(Entity* _gameObject) :
-		Component(_gameObject), 
+	HTransform::HTransform(HEntity* _entity) :
+		HComponent(_entity), 
 		position(), rotation(1.f, 0.f, 0.f, 0.f), scale(1.f, 1.f, 1.f),
 		parent(), children()
 	{}
 	
-	Vector3D Transform::GetLocalPosition()
+	Vector3D HTransform::GetLocalPosition()
 	{
-		return this->position;
+		return position;
 	}
 
-	Vector3D Transform::GetWorldPosition()
-	{
-		if (parent != nullptr)
-		{
-			return this->position * parent->GetWorldMatrix();
-		}
-		else
-		{
-			return this->position;
-		}
-	}
-
-	void Transform::SetLocalPosition(const Vector3D& _pos)
-	{
-		this->position = _pos;
-	}
-
-	Vector3D Transform::GetLocalRotation()
-	{
-		return ToEuler(this->rotation);
-	}
-
-	Quaternion Transform::GetLocalQuaternion()
-	{
-		return this->rotation;
-	}
-
-	Quaternion Transform::GetWorldQuaternion()
+	Vector3D HTransform::GetWorldPosition()
 	{
 		if (parent != nullptr)
 		{
-			return parent->GetWorldQuaternion() * this->rotation;
+			return position * parent->GetWorldMatrix();
 		}
 		else
 		{
-			return this->rotation;
+			return position;
 		}
 	}
 
-	void Transform::SetLocalQuaternion(const Quaternion& _q)
+	void HTransform::SetLocalPosition(const Vector3D& _pos)
 	{
-		this->rotation = _q;
+		position = _pos;
 	}
 
-	void Transform::SetLocalRotationFromEuler(const Vector3D& _euler)
+	Vector3D HTransform::GetLocalRotation()
 	{
-		this->rotation = ToQuaternion(_euler);
+		return ToEuler(rotation);
 	}
 
-	void Transform::SetLocalRotationFromDegree(const Vector3D& _degree)
+	Quaternion HTransform::GetLocalQuaternion()
+	{
+		return rotation;
+	}
+
+	Quaternion HTransform::GetWorldQuaternion()
+	{
+		if (parent != nullptr)
+		{
+			return parent->GetWorldQuaternion() * rotation;
+		}
+		else
+		{
+			return rotation;
+		}
+	}
+
+	void HTransform::SetLocalQuaternion(const Quaternion& _q)
+	{
+		rotation = _q;
+	}
+
+	void HTransform::SetLocalRotationFromEuler(const Vector3D& _euler)
+	{
+		rotation = ToQuaternion(_euler);
+	}
+
+	void HTransform::SetLocalRotationFromDegree(const Vector3D& _degree)
 	{
 		const float radX{ ToRadian(_degree.x) };
 		const float radY{ ToRadian(_degree.y) };
@@ -79,12 +79,12 @@ namespace Hyrule
 		rotation = qx * qy * qz;
 	}
 
-	Vector3D Transform::GetLocalScale()
+	Vector3D HTransform::GetLocalScale()
 	{
-		return this->scale;
+		return scale;
 	}
 
-	Vector3D Transform::GetWorldScale()
+	Vector3D HTransform::GetWorldScale()
 	{
 		if (parent != nullptr)
 		{
@@ -93,16 +93,16 @@ namespace Hyrule
 		}
 		else
 		{
-			return this->scale;
+			return scale;
 		}
 	}
 
-	void Transform::SetLocalScale(const Vector3D& _scl)
+	void HTransform::SetLocalScale(const Vector3D& _scl)
 	{
-		this->scale = _scl;
+		scale = _scl;
 	}
 
-	Matrix4x4 Transform::GetParentWorldMatrix()
+	Matrix4x4 HTransform::GetParentWorldMatrix()
 	{
 		if (parent)
 		{
@@ -114,7 +114,7 @@ namespace Hyrule
 		}
 	}
 
-	Vector3D Transform::GetUp()
+	Vector3D HTransform::GetUp()
 	{
 		if (parent != nullptr)
 		{
@@ -126,7 +126,7 @@ namespace Hyrule
 		}
 	 }
  
-	Vector3D Transform::GetForward()
+	Vector3D HTransform::GetForward()
 	{
 		if (parent != nullptr)
 		{
@@ -138,7 +138,7 @@ namespace Hyrule
 		}
 	 }
 
-	Vector3D Transform::GetRight()
+	Vector3D HTransform::GetRight()
 	{
 		if (parent != nullptr)
 		{
@@ -150,12 +150,12 @@ namespace Hyrule
 		}
 	 }
 
-	Matrix4x4 Transform::GetLocalMatrix()
+	Matrix4x4 HTransform::GetLocalMatrix()
 	{
 		return ToTransformMatrix(position, rotation, scale);
 	}
 
-	Matrix4x4 Transform::GetWorldMatrix()
+	Matrix4x4 HTransform::GetWorldMatrix()
 	{
 		if (parent != nullptr)
 		{
@@ -167,34 +167,34 @@ namespace Hyrule
 		}
 	}
 
-	Transform* Transform::GetParent()
+	HTransform* HTransform::GetParent()
 	{
 		return parent;
 	}
 
-	void Transform::SetParent(Transform* _parent)
+	void HTransform::SetParent(HTransform* _parent)
 	{
-		this->parent = _parent;
-		this->parent->AddChild(this);
+		parent = _parent;
+		parent->AddChild(this);
 	}
 
-	void Transform::RemoveParent()
+	void HTransform::RemoveParent()
 	{
 		parent->RemoveChild(this);
 		parent = nullptr;
 	}
 
-	void Transform::AddChild(Transform* _child)
+	void HTransform::AddChild(HTransform* _child)
 	{
 		children.push_back(_child);
 	}
 
-	void Transform::RemoveChild(Transform* _child)
+	void HTransform::RemoveChild(HTransform* _child)
 	{
 		children.erase(remove(children.begin(), children.end(), _child));
 	}
 
-	Transform* Transform::GetChild(const size_t _index)
+	HTransform* HTransform::GetChild(const size_t _index)
 	{
 		if ((_index < 0) || (_index > children.size()))
 		{
@@ -204,21 +204,21 @@ namespace Hyrule
 		return children[_index];
 	}
 
-	std::vector<Transform*> Transform::Getchildren()
+	std::vector<HTransform*> HTransform::Getchildren()
 	{
 		return this->children;
 	}
 
-	size_t Transform::GetChildCount()
+	size_t HTransform::GetChildCount()
 	{
 		return children.size();
 	}
 
-	Transform* Transform::FindChild(const std::wstring& _name)
+	HTransform* HTransform::FindChild(const std::string& _name)
 	{
 		for (auto e : children)
 		{
-			if (e->gameObject->GetName() == _name)
+			if (e->entity->GetName() == _name)
 			{
 				return e;
 			}
@@ -227,7 +227,20 @@ namespace Hyrule
 		return nullptr;
 	}
 
-	void Transform::OnDestroy()
+	HTransform* HTransform::FindChild(const InstanceID& _id)
+	{
+		for (auto e : children)
+		{
+			if (e->entity->GetInstanceID() == _id)
+			{
+				return e;
+			}
+		}
+
+		return nullptr;
+	}
+
+	void HTransform::OnDestroy()
 	{
 		// 부모관계를 끊음
 		if (parent != nullptr)
@@ -239,7 +252,7 @@ namespace Hyrule
 		// 자식을 전부 파괴함.
 		for (auto& e : children)
 		{	
-			e->gameObject->OnDestroy();
+			e->entity->OnDestroy();
 		}
 	}
 }

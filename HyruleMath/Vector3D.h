@@ -1,7 +1,7 @@
 #pragma once
 #include <sal.h>
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Matrix1x3;
 	struct Matrix3x3;

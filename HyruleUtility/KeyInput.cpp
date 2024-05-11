@@ -1,7 +1,7 @@
 #include "KeyInput.h"
 #include "framework.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	void KeyInput::Update()
 	{

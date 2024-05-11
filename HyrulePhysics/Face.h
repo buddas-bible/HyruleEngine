@@ -3,7 +3,7 @@
 #include "Edge.h"
 #include <vector>
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 	struct Edge;

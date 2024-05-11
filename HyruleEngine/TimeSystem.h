@@ -2,7 +2,7 @@
 #include "Singleton.h"
 #include "../HyruleUtility/GameTimer.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class TimeSystem : public Singleton<TimeSystem>
 	{

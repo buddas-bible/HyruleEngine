@@ -1,6 +1,6 @@
 #include "GameTimer.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	GameTimer::GameTimer()
 		: mSecondsPerCount(0.0), mDeltaTime(-1.0), mStopped(false)

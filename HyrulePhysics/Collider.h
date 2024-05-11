@@ -6,7 +6,7 @@
 #include "HyruleMath.h"
 #include "ICollision.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{
@@ -52,8 +52,8 @@ namespace Hyrule
 			bool collied;
 
 		public:
-			//         _declspec(property(get = GetCenter, put = SetCenter)) Hyrule::Vector3D Center;
-//         _declspec(property(get = GetSize, put = SetSize)) Hyrule::Vector3D Size;
+			//         _declspec(property(get = GetCenter, put = SetCenter)) hyrule::Vector3D Center;
+//         _declspec(property(get = GetSize, put = SetSize)) hyrule::Vector3D Size;
 
 			Object* GetObject();
 			RigidBody* GetRigidBody();

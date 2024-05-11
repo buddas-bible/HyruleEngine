@@ -19,7 +19,7 @@
 constexpr size_t GJK_MAX = 50;
 constexpr size_t EPA_MAX = 50;
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

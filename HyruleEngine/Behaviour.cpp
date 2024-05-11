@@ -1,7 +1,7 @@
 #include "Behaviour.h"
 
-Hyrule::Behaviour::Behaviour(Entity* _gameObject) :
-	Component(_gameObject), enabled(true)
+hyrule::Behaviour::Behaviour(HEntity* _entity) :
+	HComponent(_entity), enabled(true)
 {
 
 }

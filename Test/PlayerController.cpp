@@ -1,10 +1,10 @@
 #include "PlayerController.h"
 
-#include "Entity.h"
-#include "RigidBody.h"
+#include "HEntity.h"
+#include "HRigidBody.h"
 #include "InputSystem.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	PlayerController::PlayerController(GameObject* _gameObject) :
 		Component(_gameObject)
@@ -12,22 +12,22 @@ namespace Hyrule
 
 	}
 
-	void Hyrule::PlayerController::Awake()
+	void hyrule::PlayerController::Awake()
 	{
 
 	}
 
-	void Hyrule::PlayerController::Start()
+	void hyrule::PlayerController::Start()
 	{
 
 	}
 
-	void Hyrule::PlayerController::FixedUpdate()
+	void hyrule::PlayerController::FixedUpdate()
 	{
 
 	}
 
-	void Hyrule::PlayerController::Update()
+	void hyrule::PlayerController::Update()
 	{
 		auto& input = InputSystem::GetInstance();
 
@@ -49,14 +49,14 @@ namespace Hyrule
 		}
 	}
 
-	void Hyrule::PlayerController::LateUpdate()
+	void hyrule::PlayerController::LateUpdate()
 	{
 
 	}
 
 	void PlayerController::Move(Vector3D _force)
 	{
-		gameObject->GetComponent<Hyrule::RigidBody>()->AddForce(_force);
+		gameObject->GetComponent<hyrule::RigidBody>()->AddForce(_force);
 	}
 
 }

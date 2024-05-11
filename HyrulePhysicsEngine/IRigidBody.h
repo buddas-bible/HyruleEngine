@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 	struct Vector4D;
@@ -25,8 +25,8 @@ namespace Hyrule
 			virtual void OnDestroy() abstract;
 
 		public:
-			virtual void AddForce(const Hyrule::Vector3D&) abstract;
-			virtual void AddTorque(const Hyrule::Vector3D&) abstract;
+			virtual void AddForce(const hyrule::Vector3D&) abstract;
+			virtual void AddTorque(const hyrule::Vector3D&) abstract;
 
 			/// <summary>
 			/// 외부에서 물리량을 조절하고 싶을 때.
@@ -34,11 +34,11 @@ namespace Hyrule
 			virtual void SetMass(const float) abstract;					// 질량
 			virtual float GetMass() const abstract;
 
-			virtual void SetVelocity(const Hyrule::Vector3D&) abstract;
-			virtual Hyrule::Vector3D GetVelocity() const abstract;
+			virtual void SetVelocity(const hyrule::Vector3D&) abstract;
+			virtual hyrule::Vector3D GetVelocity() const abstract;
 
-			virtual void SetAngularVelocity(const Hyrule::Vector3D&) abstract;
-			virtual Hyrule::Vector3D GetAngularVelocity() const abstract;
+			virtual void SetAngularVelocity(const hyrule::Vector3D&) abstract;
+			virtual hyrule::Vector3D GetAngularVelocity() const abstract;
 
 			virtual void WakeUp() abstract;
 			virtual bool IsAwake() const abstract;

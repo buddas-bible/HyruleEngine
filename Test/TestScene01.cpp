@@ -1,24 +1,24 @@
 #include "TestScene01.h"
 #pragma comment(lib, "HyruleMath.lib")
 
-#include "Entity.h"
-#include "Transform.h"
+#include "HEntity.h"
+#include "HTransform.h"
 
-#include "BoxCollider.h"
-#include "SphereCollider.h"
+#include "HBoxCollider.h"
+#include "HSphereCollider.h"
 
 #include "CubeRenderer.h"
 #include "SphereRenderer.h"
 
-#include "RigidBody.h"
+#include "HRigidBody.h"
 
 #include "Controller.h"
 #include "Player.h"
 #include "PlayerController.h"
 
-#include "Camera.h"
+#include "HCamera.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	TestScene01::TestScene01(const std::wstring& _name) :
 		Scene(_name)

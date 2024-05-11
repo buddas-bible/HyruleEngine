@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 
-namespace Hyrule
+namespace hyrule
 {
 	class GameTimer
 	{

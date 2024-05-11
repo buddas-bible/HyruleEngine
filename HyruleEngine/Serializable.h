@@ -4,7 +4,7 @@
 ///	FlatBuffer 라이브러리를 사용해서 만들어보자.
 /// </summary>
 
-namespace Hyrule
+namespace hyrule
 {
 	class Serializable
 	{

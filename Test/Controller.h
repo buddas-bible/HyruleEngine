@@ -9,7 +9,7 @@ Type() = delete; \
 Type(GameObject* _gameObject) : MonoBehaviour(_gameObject)\
 { name = #Type; }\
 
-namespace Hyrule
+namespace hyrule
 {
 	class GameObject;
 

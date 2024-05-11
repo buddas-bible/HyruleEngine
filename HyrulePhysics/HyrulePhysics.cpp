@@ -14,13 +14,13 @@
 #include "Simplex.h"
 #include "Ray.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{
 		__declspec(dllexport) IPhysics* CreatePhysics()
 		{
-			return new Hyrule::Physics::HyrulePhysics;
+			return new hyrule::Physics::HyrulePhysics;
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace Hyrule
 
 		long HyrulePhysics::Initialize()
 		{
-			gravity = Hyrule::Vector3D(0.f, -9.81f, 0.f);
+			gravity = hyrule::Vector3D(0.f, -9.81f, 0.f);
 			Shapes::Initalize();
 			NonRigidBody::Init();
 			return (long)0L;
@@ -207,7 +207,7 @@ namespace Hyrule
 		/// <summary>
 		/// 중력 가속도 설정
 		/// </summary>
-		void HyrulePhysics::SetWorldGravity(const Hyrule::Vector3D& _gravity)
+		void HyrulePhysics::SetWorldGravity(const hyrule::Vector3D& _gravity)
 		{
 			this->gravity = _gravity;
 		}

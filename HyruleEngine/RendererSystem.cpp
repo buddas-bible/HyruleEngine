@@ -3,7 +3,7 @@
 #include "IGraphics.h"
 #include "IRenderable.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	bool RendererSystem::LoadGraphicsDLL(const std::wstring& _path, HWND _hwnd)
 	{
@@ -95,12 +95,12 @@ namespace Hyrule
 		return hr;
 	}
 
-	Hyrule::ICamera* RendererSystem::GetCamera()
+	hyrule::ICamera* RendererSystem::GetCamera()
 	{
 		return graphicsEngine->GetCamera();
 	}
 
-	Hyrule::IRenderable* RendererSystem::GetRenderableObject(RENDERABLE_DESC* _desc)
+	hyrule::IRenderable* RendererSystem::GetRenderableObject(RENDERABLE_DESC* _desc)
 	{
 		return graphicsEngine->GetRenderableObject(_desc);
 	}

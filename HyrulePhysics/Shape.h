@@ -16,7 +16,7 @@ enum class ShapeType : size_t
 	MESH = 5,
 };
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Matrix3x3;
 	struct Vector3D;

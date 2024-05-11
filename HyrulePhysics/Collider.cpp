@@ -7,7 +7,7 @@
 #include "Collision.h"
 #include "Manifold.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

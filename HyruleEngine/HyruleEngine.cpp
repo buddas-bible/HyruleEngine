@@ -6,7 +6,7 @@
 #include "PhysicsSystem.h"
 #include "TimeSystem.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	bool HyruleEngine::focus = true;
 
@@ -17,24 +17,13 @@ namespace Hyrule
 	}
 
 	/// <summary>
-	/// 그냥 싱글턴으로 객체 반환해주는 함수
-	/// </summary>
-	/// <returns></returns>
-	HyruleEngine& HyruleEngine::GetInstance()
-	{
-		static HyruleEngine gameEngine;
-
-		return gameEngine;
-	}
-
-	/// <summary>
 	/// 게임 메인 루프
 	/// </summary>
 	void HyruleEngine::Run()
 	{
 		MSG msg;
 		
-		TimeSystem::GetInstance().Tick();
+		TimeSystem::Instance()->Tick();
 		HyruleEngine::focus = true;
 
 		while (isRunning)
@@ -47,7 +36,7 @@ namespace Hyrule
 			else
 			{
 				if (HyruleEngine::focus)
-					isRunning = CoreSystem::Instance().GameProcess();
+					isRunning = CoreSystem::Instance()->GameProcess();
 			}
 		}
 	}
@@ -60,7 +49,7 @@ namespace Hyrule
 		// 윈도우 창 설정
 		this->CreateEngineWindow(hInstance, _name);
 
-		CoreSystem::Instance().SetHandle((int)hwnd);
+		CoreSystem::Instance()->SetHandle((int)hwnd);
 	}
 
 	/// <summary>
@@ -81,7 +70,7 @@ namespace Hyrule
 		wcex.cbSize = sizeof(WNDCLASSEX);
 
 		wcex.style = CS_HREDRAW | CS_VREDRAW;
-		wcex.lpfnWndProc = Hyrule::HyruleEngine::WndProc; // 프로시저
+		wcex.lpfnWndProc = hyrule::HyruleEngine::WndProc; // 프로시저
 		wcex.cbClsExtra = 0;
 		wcex.cbWndExtra = 0;
 		wcex.hInstance = hInstance;
@@ -136,7 +125,7 @@ namespace Hyrule
 	{
 		HRESULT hr = S_OK;
 
-		hr = (HRESULT)(RendererSystem::Instance().OnResize());
+		hr = (HRESULT)(RendererSystem::Instance()->OnResize());
 
 		if (FAILED(hr))
 		{
@@ -151,9 +140,9 @@ namespace Hyrule
 	/// </summary>
 	void HyruleEngine::LoadGraphicsDLL(const std::wstring& _path)
 	{
-		auto& renderer = RendererSystem::Instance();
+		auto renderer = RendererSystem::Instance();
 
-		auto result = renderer.LoadGraphicsDLL(_path, hwnd);
+		auto result = renderer->LoadGraphicsDLL(_path, hwnd);
 		if (!result)
 		{
 			isRunning = false;
@@ -165,9 +154,9 @@ namespace Hyrule
 	/// </summary>
 	void HyruleEngine::LoadPhysicsDLL(const std::wstring& _path)
 	{
-		auto& physics = PhysicsSystem::Instance();
+		auto physics = PhysicsSystem::Instance();
 
-		auto result = physics.LoadPhysicsDLL(_path, hwnd);
+		auto result = physics->LoadPhysicsDLL(_path, hwnd);
 		if (!result)
 		{
 			isRunning = false;
@@ -185,7 +174,7 @@ namespace Hyrule
 			{
 				// 윈도우가 포커스 될 때
 				// 타임 스케일이 1.f로 게임을 실행시킴
-				TimeSystem::GetInstance().Start();
+				TimeSystem::Instance()->Start();
 				HyruleEngine::focus = true;
 			}
  			break;
@@ -196,7 +185,7 @@ namespace Hyrule
 			{
 				// 윈도우가 비활성화 될 때
 				// 타임 스케일이 0.f로 게임을 정지시킴
-				TimeSystem::GetInstance().Stop();
+				TimeSystem::Instance()->Stop();
 				HyruleEngine::focus = false;
 			}
 			break;
@@ -207,7 +196,7 @@ namespace Hyrule
 				{
 					// 윈도우가 최소화될 때
 					// 타임 스케일이 0.f로 게임을 정지시킴
-					TimeSystem::GetInstance().Stop();
+					TimeSystem::Instance()->Stop();
 					HyruleEngine::focus = false;
 				}
 				else if (_wParam == SIZE_MAXIMIZED || _wParam == SIZE_RESTORED)
@@ -216,7 +205,7 @@ namespace Hyrule
 					// 윈도우 크기가 변경될 때
 					// if (HyruleEngine::GetInstance() != nullptr)
 					// {
-						HyruleEngine::GetInstance().OnResize();
+						HyruleEngine::Instance()->OnResize();
 					// }
 				}
 			}

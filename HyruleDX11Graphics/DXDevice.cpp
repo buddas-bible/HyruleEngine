@@ -1,7 +1,7 @@
 #include "DXDevice.h"
 #include "DXCamera.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	DXDevice::DXDevice(HWND _hwnd) :
 		m_hWnd(_hwnd), m_msaaQuality(),

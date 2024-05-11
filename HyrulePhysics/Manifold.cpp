@@ -5,7 +5,7 @@
 #include "RigidBody.h"
 #include "Collider.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{
@@ -111,7 +111,7 @@ namespace Hyrule
 			impulse += impulse;
 		}
 
-		Hyrule::Vector3D Manifold::GetImpulse()
+		hyrule::Vector3D Manifold::GetImpulse()
 		{
 			return impulse;
 		}

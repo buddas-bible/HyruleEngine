@@ -6,7 +6,7 @@
 state에 따라서 저장된 함수가 호출 되도록 한다.
 */
 
-namespace Hyrule
+namespace hyrule
 {
 	template <typename Type, typename Enum>
 	class FSM

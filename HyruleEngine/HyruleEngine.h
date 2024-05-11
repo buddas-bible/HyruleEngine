@@ -1,22 +1,13 @@
 #pragma once
 #include "framework.h"
 #include <string>
+#include "Singleton.h"
 
-
-namespace Hyrule
+namespace hyrule
 {
-	class HyruleEngine
+	class HyruleEngine : public Singleton<HyruleEngine>
 	{
-		HyruleEngine();
-		~HyruleEngine() = default;
-		HyruleEngine(const HyruleEngine&) = delete;
-		HyruleEngine(HyruleEngine&&) = delete;
-		HyruleEngine& operator=(const HyruleEngine&) = delete;
-		HyruleEngine& operator=(HyruleEngine&&) = delete;
-
 	public:
-		static HyruleEngine& GetInstance();
-		
 		void Initialize(HINSTANCE hInstance, const std::wstring& _name);
 		void Run();
 		void Finalize();

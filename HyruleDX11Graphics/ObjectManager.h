@@ -2,7 +2,7 @@
 #include <queue>
 #include <vector>
 
-namespace Hyrule
+namespace hyrule
 {
 	class RenderableObject;
 	struct Matrix4x4;

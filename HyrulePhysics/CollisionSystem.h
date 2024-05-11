@@ -6,7 +6,7 @@
 #include "Manifold.h"
 #include "Simplex.h"
 #include <functional>
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 

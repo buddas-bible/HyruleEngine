@@ -1,7 +1,7 @@
 #pragma once
 #include "HRConstant.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 	struct Vector4D;

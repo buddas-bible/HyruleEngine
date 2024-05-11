@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

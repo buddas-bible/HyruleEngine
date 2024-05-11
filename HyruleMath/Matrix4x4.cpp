@@ -3,7 +3,7 @@
 #include "Matrix4x4.h"
 #include "Vector3D.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	Matrix4x4 Matrix4x4::Transpose() const
 	{

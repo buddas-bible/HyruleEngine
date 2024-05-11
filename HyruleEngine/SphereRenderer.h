@@ -1,16 +1,16 @@
 #pragma once
 #include "Renderer.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	class Entity;
+	class HEntity;
 	class Mesh;
 
 	class SphereRenderer : public Renderer
 	{
 	public:
 		SphereRenderer() = delete;
-		SphereRenderer(Entity*);
+		SphereRenderer(HEntity* _entity);
 		~SphereRenderer() override = default;
 
 	public:

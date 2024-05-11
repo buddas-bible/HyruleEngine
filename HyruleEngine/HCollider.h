@@ -1,25 +1,25 @@
 #pragma once
-#include "Component.h"
+#include "HComponent.h"
 #include "HyruleMath.h"
 
 #include <vector>
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{
 		class ICollider;
 	}
 
-	class Entity;
+	class HEntity;
 	struct Vector3D;
 
-	class Collider : public Component
+	class HCollider : public HComponent
 	{
 	public:
-		Collider() = delete;
-		Collider(Entity*);
-		~Collider() override = default;
+		HCollider() = delete;
+		HCollider(HEntity*);
+		~HCollider() override = default;
 	
 	public:
 		Vector3D center;

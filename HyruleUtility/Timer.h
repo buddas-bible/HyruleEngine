@@ -5,7 +5,7 @@
 #ifndef GAMETIMER_H
 #define GAMETIMER_H
 
-namespace Hyrule
+namespace hyrule
 {
 	class CTimer
 	{

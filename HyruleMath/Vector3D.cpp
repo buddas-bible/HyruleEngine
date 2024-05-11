@@ -9,7 +9,7 @@
 #include "Vector3D.h"
 #include "Vector4D.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	Vector3D::operator Matrix1x3()
 	{

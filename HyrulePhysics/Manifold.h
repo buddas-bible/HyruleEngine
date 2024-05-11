@@ -4,7 +4,7 @@
 #include "HyruleMath.h"
 #include "Simplex.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

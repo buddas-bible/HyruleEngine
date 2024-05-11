@@ -6,7 +6,7 @@
 #include "Collider.h"
 #include "Ray.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

@@ -1,9 +1,9 @@
 #include "RangeEnemy.h"
 
-#include "Entity.h"
-#include "Transform.h"
+#include "HEntity.h"
+#include "HTransform.h"
 
-namespace Hyrule
+namespace hyrule
 {
 #define DELTATIME_ 0.016f
 

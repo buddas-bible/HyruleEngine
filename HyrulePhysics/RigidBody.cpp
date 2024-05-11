@@ -7,7 +7,7 @@
 #include <iostream>
 #include "HyrulePhysics.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{
@@ -30,12 +30,12 @@ namespace Hyrule
 			return this->object->GetName();
 		}
 
-		const Hyrule::Vector3D& RigidBody::ApplyPosition()
+		const hyrule::Vector3D& RigidBody::ApplyPosition()
 		{
 			return object->GetPosition();
 		}
 
-		const Hyrule::Quaternion& RigidBody::ApplyQuaternion()
+		const hyrule::Quaternion& RigidBody::ApplyQuaternion()
 		{
 			return object->GetRotation();
 		}
@@ -101,7 +101,7 @@ namespace Hyrule
 			return this->restitution;
 		}
 
-		Hyrule::Matrix3x3 RigidBody::GetInvInertia()
+		hyrule::Matrix3x3 RigidBody::GetInvInertia()
 		{
 			if (!tensorUpdate)
 			{

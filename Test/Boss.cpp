@@ -1,6 +1,6 @@
 #include "Boss.h"
 
-namespace Hyrule
+namespace hyrule
 {
 
 }

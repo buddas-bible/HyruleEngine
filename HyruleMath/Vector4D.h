@@ -3,7 +3,7 @@
 #include <sal.h>
 // #include <emmintrin.h>
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 	struct Matrix1x4;

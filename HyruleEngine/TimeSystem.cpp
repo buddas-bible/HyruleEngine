@@ -1,6 +1,6 @@
 #include "TimeSystem.h"
 
-namespace Hyrule
+namespace hyrule
 {
 
 	void TimeSystem::Start()

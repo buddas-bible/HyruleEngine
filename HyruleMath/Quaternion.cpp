@@ -5,7 +5,7 @@
 
 #include "Quaternion.h"
 
-namespace Hyrule
+namespace hyrule
 {
 // 	Quaternion::Quaternion() :
 // 		x(), y(), z(), w()

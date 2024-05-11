@@ -1,9 +1,9 @@
 #include "Vector2D.h"
 #include <cmath>
 
-namespace Hyrule
+namespace hyrule
 {
-	float Hyrule::Vector2D::Length() const
+	float hyrule::Vector2D::Length() const
 	{
 		return std::sqrtf((x * x) + (y * y));
 	}
@@ -28,7 +28,7 @@ namespace Hyrule
 		return 1 / this->Length();
 	}
 
-	Hyrule::Vector2D& Vector2D::Normalize()
+	hyrule::Vector2D& Vector2D::Normalize()
 	{
 		auto temp = this->LengthSquare();
 
@@ -44,7 +44,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Hyrule::Vector2D Vector2D::Normalized() const
+	hyrule::Vector2D Vector2D::Normalized() const
 	{
 		float temp = LengthSquare();
 
@@ -58,7 +58,7 @@ namespace Hyrule
 		return Vector2D(x * invSqrt, y * invSqrt);
 	}
 
-	Hyrule::Vector2D& Vector2D::operator+=(const Vector2D& _other)
+	hyrule::Vector2D& Vector2D::operator+=(const Vector2D& _other)
 	{
 		this->x += _other.x;
 		this->y += _other.y;
@@ -66,7 +66,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Hyrule::Vector2D& Vector2D::operator-=(const Vector2D& _other)
+	hyrule::Vector2D& Vector2D::operator-=(const Vector2D& _other)
 	{
 		this->x -= _other.x;
 		this->y -= _other.y;
@@ -74,25 +74,25 @@ namespace Hyrule
 		return *this;
 	}
 
-	Hyrule::Vector2D Vector2D::operator+(const Vector2D& _other) const
+	hyrule::Vector2D Vector2D::operator+(const Vector2D& _other) const
 	{
 		Vector2D temp(*this);
 		return temp += _other;
 	}
 
-	Hyrule::Vector2D Vector2D::operator-(const Vector2D& _other) const
+	hyrule::Vector2D Vector2D::operator-(const Vector2D& _other) const
 	{
 		Vector2D temp(*this);
 		return temp -= _other;
 	}
 
-	Hyrule::Vector2D Vector2D::operator-() const
+	hyrule::Vector2D Vector2D::operator-() const
 	{
 		Vector2D temp(*this);
 		return temp *= -1;
 	}
 
-	Hyrule::Vector2D& Vector2D::operator*=(float n)
+	hyrule::Vector2D& Vector2D::operator*=(float n)
 	{
 		this->x *= n;
 		this->y *= n;
@@ -100,7 +100,7 @@ namespace Hyrule
 		return *this;
 	}
 
-	Hyrule::Vector2D& Vector2D::operator/=(float n)
+	hyrule::Vector2D& Vector2D::operator/=(float n)
 	{
 		auto temp = 1 / n;
 		this->x *= temp;
@@ -109,13 +109,13 @@ namespace Hyrule
 		return *this;
 	}
 
-	Hyrule::Vector2D Vector2D::operator*(float n)
+	hyrule::Vector2D Vector2D::operator*(float n)
 	{
 		Vector2D temp(*this);
 		return temp *= n;
 	}
 
-	Hyrule::Vector2D Vector2D::operator/(float n)
+	hyrule::Vector2D Vector2D::operator/(float n)
 	{
 		Vector2D temp(*this);
 		return temp /= n;

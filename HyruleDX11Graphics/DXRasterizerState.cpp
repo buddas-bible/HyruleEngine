@@ -2,7 +2,7 @@
 
 #include "DXDevice.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	DXRasterizerState::DXRasterizerState(std::shared_ptr<DXDevice> _device)
 		: m_device(_device),

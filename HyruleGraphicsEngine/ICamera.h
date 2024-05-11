@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Matrix4x4;
 	struct Vector3D;

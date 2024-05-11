@@ -1,22 +1,22 @@
 #pragma once
 
-#include "Collider.h"
+#include "HCollider.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	class Entity;
+	class HEntity;
 
 	namespace Physics
 	{
 		class ICollider;
 	}
 
-	class SphereCollider : public Collider
+	class HSphereCollider : public HCollider
 	{
 	public:
-		SphereCollider() = delete;
-		SphereCollider(Entity*);
-		~SphereCollider() override;
+		HSphereCollider() = delete;
+		HSphereCollider(HEntity*);
+		~HSphereCollider() override;
 
 	private:
 		bool isColliding;

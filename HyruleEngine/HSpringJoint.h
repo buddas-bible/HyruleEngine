@@ -1,11 +1,11 @@
 #pragma once
-#include "Component.h"
+#include "HComponent.h"
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	class Entity;
-	class RigidBody;
+	class HEntity;
+	class HRigidBody;
 	class Vector3D;
 
 	namespace Physics
@@ -14,12 +14,12 @@ namespace Hyrule
 		class ISpringJoint;
 	}
 
-	class SpringJoint : public Component
+	class HSpringJoint : public HComponent
 	{
 	public:
-		SpringJoint() = delete;
-		SpringJoint(Entity*);
-		~SpringJoint() override = default;
+		HSpringJoint() = delete;
+		HSpringJoint(HEntity*);
+		~HSpringJoint() override = default;
 
 	private:
 		Physics::ISpringJoint* iJoint;

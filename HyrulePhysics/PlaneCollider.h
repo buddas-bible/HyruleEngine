@@ -2,7 +2,7 @@
 #include "Collider.h"
 #include "Shape.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

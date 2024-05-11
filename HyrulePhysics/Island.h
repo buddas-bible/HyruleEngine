@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{

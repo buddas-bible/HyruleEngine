@@ -1,7 +1,7 @@
 #pragma once
 #include "Matrix1x3.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
 	struct Matrix1x3;

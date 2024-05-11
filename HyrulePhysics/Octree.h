@@ -26,10 +26,10 @@
 // class has_Position
 // {
 // 	template <typename T>
-// 	static Hyrule::Vector3D Position(decltype(&T::GetPosition));
+// 	static hyrule::Vector3D Position(decltype(&T::GetPosition));
 // 	
 // 	template <typename T>
-// 	static Hyrule::Vector3D Position();
+// 	static hyrule::Vector3D Position();
 // 
 // public:
 // 	enum
@@ -38,7 +38,7 @@
 // 	};
 // };
 
-namespace Hyrule
+namespace hyrule
 {
 	class Collider;
 

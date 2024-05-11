@@ -2,7 +2,7 @@
 #include "MonoBehaviour.h"
 #include "FSM.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	enum class EnemyState : int
 	{

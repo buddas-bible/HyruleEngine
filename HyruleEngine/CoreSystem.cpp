@@ -10,7 +10,7 @@
 
 // https://github.com/ocornut/imgui
 
-namespace Hyrule
+namespace hyrule
 {
 	bool CoreSystem::GameProcess()
 	{
@@ -29,10 +29,9 @@ namespace Hyrule
 			TimeSystem::Instance()->Tick();
 
 			// 씬에서 Awake, Enable, Start를 호출해야 할 게임 오브젝트를 처리
-			SceneManager::GetInstance().Initalization();
+			SceneManager::Instance()->Initalization();
 				
 			state = PHYSICS;
-			break;
 		}
 		if (state == PHYSICS)
 		{
@@ -40,67 +39,63 @@ namespace Hyrule
 			// double deltaTime = fixedDeltaTime;
 			accumulatedTime += deltaTime;
 
-			// 프레임마다 한 번 호출되도록 함.
-			// while (accumulatedTime >= fixedDeltaTime)
-			// {
-				SceneManager::GetInstance().FixedUpdate();
+			SceneManager::Instance()->FixedUpdate();
 
-				if (first)
-				{
-					/// 콜라이더랑 리지드바디만 따로 모아서 관리할 수 있으면 좋을거 같긴 함.
-					SceneManager::GetInstance().PrePhysicsUpdate();				// 콜라이더 매트릭스 업데이트
-					PhysicsSystem::Instance().CollisionDetection();			// 콜라이더 충돌 체크
-					SceneManager::GetInstance().PhysicsUpdate();				// 콜라이더 충돌 여부 확인
-					PhysicsSystem::Instance().CollisionResponse(deltaTime);	// 강체 시뮬레이션
-					SceneManager::GetInstance().LatePhysicsUpdate();			// 강체 시뮬레이션 결과 적용
-				}
+			if (first)
+			{
+				/// 콜라이더랑 리지드바디만 따로 모아서 관리할 수 있으면 좋을거 같긴 함.
+				SceneManager::Instance()->PrePhysicsUpdate();				// 콜라이더 매트릭스 업데이트
+					
+				PhysicsSystem::Instance()->CollisionDetection();			// 콜라이더 충돌 체크
+					
+				SceneManager::Instance()->PhysicsUpdate();				// 콜라이더 충돌 여부 확인
+					
+				PhysicsSystem::Instance()->CollisionResponse(deltaTime);	// 강체 시뮬레이션
+					
+				SceneManager::Instance()->LatePhysicsUpdate();			// 강체 시뮬레이션 결과 적용
+			}
 
-				accumulatedTime -= fixedDeltaTime;
-		// 
-		// 	if (first == true)
-		// 	{
-		// 		first = false;
-		// 		accumulatedTime = 0.f;
-		// 		break;
-		//	}
-		// }
+			accumulatedTime -= fixedDeltaTime;
 
 			state = INPUT;
 		}
 		if (state == INPUT)
 		{
 			// 인풋 관련 함수?
-			InputSystem::Instance().Update();
+			InputSystem::Instance()->Update();
 				
 			state = GAME_LOGIC;
 		}
 		if (state == GAME_LOGIC)
 		{
-			SceneManager::GetInstance().Update();
-
-			SceneManager::GetInstance().LateUpdate();
+			SceneManager::Instance()->Update();
+			SceneManager::Instance()->LateUpdate();
 
 			state = RENDERING;
 		}
 		if (state == RENDERING)
 		{
 			RendererSystem::Instance()->Update();
-			// RendererSystem::GetInstance().PreRender();
+
+			RendererSystem::Instance()->PreRender();
 			RendererSystem::Instance()->Render();
-			// RendererSystem::GetInstance().PostRender();
-				
+			RendererSystem::Instance()->PostRender();
+#if _DEBUG
 			state = DEBUGRENDERING;
+#endif
 		}
+#if _DEBUG
 		if (state == DEBUGRENDERING)
 		{
 			RendererSystem::Instance()->DebugRender();
 
 			state = DECOMISSIONING;
 		}
+#endif
 		if (state == DECOMISSIONING)
 		{
 			// 씬에서 파괴되거나 비활성화 된 게임 오브젝트를 처리
-			SceneManager::GetInstance().Decommissioning();
+			SceneManager::Instance()->Decommissioning();
 			PhysicsSystem::Instance()->ApplyObjectDestroy();
 				
 			if (TimeSystem::Instance()->GetfDeltaTime() != 0.f)

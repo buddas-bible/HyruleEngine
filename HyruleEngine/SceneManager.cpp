@@ -1,17 +1,10 @@
 #include "SceneManager.h"
 #include "IScene.h"
 
-#include "Entity.h"
+#include "HEntity.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	SceneManager& SceneManager::GetInstance()
-	{
-		static SceneManager instance;
-
-		return instance;
-	}
-
 	void SceneManager::AddScene(const std::wstring& _name, IScene* _scene)
 	{
 		sceneMap.insert(std::make_pair(_name, _scene));

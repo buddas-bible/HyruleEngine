@@ -2,7 +2,7 @@
 
 #include "Matrix1x3.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	Matrix1x3::operator Vector3D()
 	{

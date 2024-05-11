@@ -10,7 +10,7 @@
 
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Matrix4x4;
 

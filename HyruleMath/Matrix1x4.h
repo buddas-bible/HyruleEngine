@@ -1,7 +1,7 @@
 #pragma once
 #include <smmintrin.h>
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector4D;
 

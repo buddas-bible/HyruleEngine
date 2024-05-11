@@ -1,20 +1,19 @@
 #pragma once
-#include "Component.h"
-
+#include "Renderer.h"
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	struct Vector3D;
-	class Transform;
+	class HTransform;
 	class ICamera;
 
-	class Camera : public Renderer
+	class HCamera : public Renderer
 	{
 	public:
-		Camera() = delete;
-		Camera(Entity* _gameObject);
-		~Camera() override = default;
+		HCamera() = delete;
+		HCamera(HEntity* _entity);
+		~HCamera() override = default;
 
 	private:
 		ICamera* camera;
@@ -56,8 +55,8 @@ namespace Hyrule
 	/// component
 	/// </summary>
 	public:
-		void Update() override;
-		void LateUpdate() override;
+		void Update();
+		void LateUpdate();
 	};
 }
 

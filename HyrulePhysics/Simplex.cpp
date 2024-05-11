@@ -1,7 +1,7 @@
 #include "Simplex.h"
 
 
-namespace Hyrule
+namespace hyrule
 {
 	namespace Physics
 	{
@@ -13,7 +13,7 @@ namespace Hyrule
 			points(rhs.points), index(rhs.index), faceMap(rhs.faceMap)
 		{}
 
-		Hyrule::Vector3D& Simplex::operator[](int _i)
+		hyrule::Vector3D& Simplex::operator[](int _i)
 		{
 			return points[_i];
 		}

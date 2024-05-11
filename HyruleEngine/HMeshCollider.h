@@ -1,22 +1,22 @@
 #pragma once
 
-#include "Collider.h"
+#include "HCollider.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	class Entity;
+	class HEntity;
 
 	namespace Physics
 	{
 		class ICollider;
 	}
 
-	class BoxCollider : public Collider
+	class HMeshCollider : public HCollider
 	{
 	public:
-		BoxCollider() = delete;
-		BoxCollider(Entity*);
-		~BoxCollider() override;
+		HMeshCollider() = delete;
+		HMeshCollider(HEntity*);
+		~HMeshCollider() override;
 
 	private:
 		bool isColliding;
@@ -27,7 +27,6 @@ namespace Hyrule
 		void SetSize(const Vector3D&) override;
 		void SetCenter(const Vector3D&) override;
 		bool isCollision() override;
-
 
 	public:
 		void PrePhysicsUpdate() override;

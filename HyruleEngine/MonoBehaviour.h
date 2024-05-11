@@ -1,16 +1,16 @@
 #pragma once
 #include "Behaviour.h"
 
-namespace Hyrule
+namespace hyrule
 {
-	class Collider;
+	class HCollider;
 	class Collision;
 
 	class MonoBehaviour : public Behaviour
 	{
 	public:
 		MonoBehaviour() = delete;
-		MonoBehaviour(Entity*);
+		MonoBehaviour(HEntity* _entity);
 		~MonoBehaviour() override = default;
 
 	public:
@@ -24,13 +24,18 @@ namespace Hyrule
 		virtual void LateUpdate() {};
 
 	public:
-		virtual void OnTriggerEnter(Collider*) {};
-		virtual void OnTriggerStay(Collider*) {};
-		virtual void OnTriggerExit(Collider*) {};
+		virtual void OnTriggerEnter(HCollider*) {};
+		virtual void OnTriggerStay(HCollider*) {};
+		virtual void OnTriggerExit(HCollider*) {};
 
 		virtual void OnCollisionEnter(Collision*) {};
 		virtual void OnCollisionStay(Collision*) {};
 		virtual void OnCollisionExit(Collision*) {};
+
+		virtual void OnMouseEnter() {};
+		virtual void OnMouseDown() {};
+		virtual void OnMouseStay() {};
+		virtual void OnMouseUp() {};
 
 		virtual void OnJointBreak() {};
 

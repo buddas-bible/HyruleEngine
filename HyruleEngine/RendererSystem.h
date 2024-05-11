@@ -5,7 +5,7 @@
 #include <string>
 
 
-namespace Hyrule
+namespace hyrule
 {
 	class IGraphics;
 	class IRenderable;

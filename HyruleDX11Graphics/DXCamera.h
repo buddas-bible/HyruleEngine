@@ -2,7 +2,7 @@
 #include "ICamera.h"
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class DXCamera : public ICamera
 	{

@@ -1,6 +1,6 @@
 #include "Random.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	Random::Random() :
 		rd{}, mersenne{ rd()}

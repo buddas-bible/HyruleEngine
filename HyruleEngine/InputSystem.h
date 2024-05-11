@@ -3,7 +3,7 @@
 #pragma comment(lib, "HyruleUtility.lib")
 #include "../HyruleUtility/KeyInput.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	class InputSystem : public Singleton<InputSystem>
 	{

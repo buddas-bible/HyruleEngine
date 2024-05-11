@@ -1,27 +1,20 @@
 #pragma once
+#include "Singleton.h"
 #include <map>
 #include <string>
 
-namespace Hyrule
+namespace hyrule
 {
 	class IScene;
 
-	class SceneManager
+	class SceneManager : public Singleton<SceneManager>
 	{
-	private:
-		SceneManager() = default;
-		~SceneManager() = default;
-		SceneManager& operator= (const SceneManager&) = delete;
-		SceneManager& operator= (SceneManager&&) = delete;
-
 	private:
 		IScene* currentScene;
 		std::map<std::wstring, IScene*> sceneMap;
 		bool first{ true };
 
 	public:
-		static SceneManager& GetInstance();
-
 		void AddScene(const std::wstring&, IScene*);
 		void RemoveScene(const std::wstring&);
 		void RemoveScene(IScene*&);

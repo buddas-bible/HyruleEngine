@@ -5,7 +5,7 @@
 #include "DXDevice.h"
 #include "HyruleMath.h"
 
-namespace Hyrule
+namespace hyrule
 {
 	DXEffect::DXEffect(std::shared_ptr<DXDevice> _device, const std::wstring& _path) :
 		device(_device), effect()
