@@ -6,7 +6,7 @@
 #include "Collider.h"
 #include "Ray.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
@@ -88,8 +88,8 @@ namespace hyrule
 		class Octree_v2
 		{
 		public:
-			Octree_v2() = default;
-			Octree_v2(const AABB& _aabb, const AABB& _minsize) : 
+			Octree_v2() noexcept = default;
+			Octree_v2(const AABB& _aabb, const AABB& _minsize) noexcept : 
 				root(new OctreeNode<DataType>), minSize(_minsize)
 			{
 				root->boundingVolume = _aabb;
@@ -107,6 +107,7 @@ namespace hyrule
 			void Clear();
 			
 			std::vector<DataType> Query(const Ray& _ray);					// 레이와 충돌한 데이터를 찾음
+			std::vector<DataType> Query(const Segment& _segment);			// 레이와 충돌한 데이터를 찾음
 			std::vector<DataType> Query(const AABB& _AABB);					// AABB와 충돌 가능성이 있는 데이터를 모아서 반환함
 			std::vector<DataType> Query(const Vector3D& _point);			// 점과 충돌 가능성이 있는 데이터를 모아서 반환함
 
@@ -116,6 +117,7 @@ namespace hyrule
 			AABB GetChildVolume(int, const AABB&);
 
 			void Query(const Ray&, OctreeNode<DataType>*, std::vector<DataType>&);
+			void Query(const Segment&, OctreeNode<DataType>*, std::vector<DataType>&);
 			void Query(const AABB&, OctreeNode<DataType>*, std::vector<DataType>&);
 			void Query(const Vector3D&, OctreeNode<DataType>*, std::vector<DataType>&);
 		};
@@ -301,6 +303,16 @@ namespace hyrule
 			return result;
 		}
 
+        template<typename DataType>
+        std::vector<DataType> Octree_v2<DataType>::Query(const Segment& _segment)
+        {
+            std::vector<DataType> result;
+
+            Query(_segment, root, result);
+
+            return result;
+        }
+
 		template<typename DataType>
 		inline std::vector<DataType> Octree_v2<DataType>::Query(const AABB& _AABB)
 		{
@@ -330,7 +342,7 @@ namespace hyrule
 			for (auto& d : _node->data)
 			{
 				// 노드가 가지고 있는 데이터들과 비교함
-				if (d->GetAABB().TestRay(_ray.from, _ray.direction))
+				if (d->GetAABB().TestRay(_ray.position, _ray.direction))
 				{
 					// 충돌 가능성이 있는 데이터를 반환함
 					_list.push_back(d);
@@ -342,7 +354,7 @@ namespace hyrule
 				if (child)
 				{
 					// 노드의 자식에 완전 포함되는지 비교함
-					if (child->boundingVolume.TestRay(_ray.from, _ray.direction))
+					if (child->boundingVolume.TestRay(_ray.position, _ray.direction))
 					{
 						Query(_ray, child, _list);
 						return;
@@ -350,6 +362,36 @@ namespace hyrule
 				}
 			}
 		}
+
+        template<typename DataType>
+        void Octree_v2<DataType>::Query(const Segment& _segment, OctreeNode<DataType>* _node, std::vector<DataType>& _list)
+        {
+            if (_node->Empty() == true)
+                return;
+
+            for (auto& d : _node->data)
+            {
+                // 노드가 가지고 있는 데이터들과 비교함
+                if (d->GetAABB().TestSegment(_segment.position, _segment.direction, _segment.length))
+                {
+                    // 충돌 가능성이 있는 데이터를 반환함
+                    _list.push_back(d);
+                }
+            }
+
+            for (auto child : _node->children)
+            {
+                if (child)
+                {
+                    // 노드의 자식에 완전 포함되는지 비교함
+                    if (child->boundingVolume.TestSegment(_segment.position, _segment.direction, _segment.length))
+                    {
+                        Query(_segment, child, _list);
+                        return;
+                    }
+                }
+            }
+        }
 
 		template<typename DataType>
 		inline void Octree_v2<DataType>::Query(const AABB& _AABB, OctreeNode<DataType>* _node, std::vector<DataType>& _list)

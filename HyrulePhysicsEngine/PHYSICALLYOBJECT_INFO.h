@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
+#include "../HyruleMath/HyruleMath.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Vector3D;
 	struct Quaternion;
@@ -34,8 +35,10 @@ namespace hyrule
 		/// </summary>
 		struct COLLIDER_INFO
 		{
-			std::wstring shapeName;
-			size_t collisionType;							// Static, Dynamic
+			std::string shapeName;
+            std::string tag;
+            void* userData;
+			// size_t collisionType;						// Static, Dynamic
 			SHAPE_INPO shapeInfo;
 			Vector3D colliderSize{ 1.f, 1.f, 1.f };			// 구는 x만 영향 받음
 			Vector3D colliderCenter{ 0.f, 0.f ,0.f };

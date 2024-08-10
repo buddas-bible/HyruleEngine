@@ -9,7 +9,7 @@
 // #include "Octree.h"
 #include "Octree_v2.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Matrix4x4;
 
@@ -34,13 +34,13 @@ namespace hyrule
 		class ObjectManager : public Manager<ObjectManager>
 		{
 		public:
-			ObjectManager();
-			~ObjectManager() = default;
+			ObjectManager() noexcept;
+			~ObjectManager() noexcept = default;
 			ObjectManager(const ObjectManager&) = delete;
 			void operator=(const ObjectManager&) = delete;
 
 		private:
-			std::map<std::wstring, Object*> objectMap;
+			std::map<std::string, Object*> objectMap;
 			std::vector<Collider*> colliders;					// 활성화된 콜라이더
 			std::vector<RigidBody*> rigidBodies;				// 시뮬레이션 예정인 강체
 
@@ -51,22 +51,21 @@ namespace hyrule
 			Octree_v2<Collider*> octree;
 
 		public:
-			ICollider* CreateCollider(const std::wstring&, COLLIDER_INFO*);	// 오브젝트에 콜라이더를 추가함.
-			IRigidBody* CreateRigidBody(const std::wstring&);					// 오브젝트에 강체를 추가함
+			ICollider* CreateCollider(const std::string&, COLLIDER_INFO*);	// 오브젝트에 콜라이더를 추가함.
+			IRigidBody* CreateRigidBody(const std::string&);					// 오브젝트에 강체를 추가함
 
-			void RemoveCollider(const std::wstring&, Collider*&);			// 콜라이더 포인터를 받아서 삭제
-			void RemoveCollider(const std::wstring&, ICollider*&);			// 콜라이더 포인터를 받아서 삭제
-			void RemoveCollider(const std::wstring&, int);					// 콜라이더 인덱스를 받아서 삭제
-			void RemoveRigidBody(const std::wstring&);
+			void RemoveCollider(const std::string&, Collider*&);			// 콜라이더 포인터를 받아서 삭제
+			void RemoveCollider(const std::string&, ICollider*&);			// 콜라이더 포인터를 받아서 삭제
+			void RemoveCollider(const std::string&, int);					// 콜라이더 인덱스를 받아서 삭제
+			void RemoveRigidBody(const std::string&);
 
-			std::vector<Collider*>& GetColliders();
-			std::vector<RigidBody*>& GetRigidbodies();
+			std::vector<Collider*>& GetColliders() noexcept;
+			std::vector<RigidBody*>& GetRigidbodies() noexcept;
 
-			// std::vector<std::list<Collider*>>& GetNodeContainer();
-			// void NodeContainerClear();
-			std::vector<Collider*> QctreeQuery(Collider*);
-			std::vector<Collider*> QctreeQuery(const Ray&);
-			void OctreeClear();
+			std::vector<Collider*> QctreeQuery(Collider*) noexcept;
+			std::vector<Collider*> QctreeQuery(const Ray&) noexcept;
+			std::vector<Collider*> QctreeQuery(const Segment&) noexcept;
+			void OctreeClear() noexcept;
 			void OctreeResearch(Collider*);
 
 		public:
@@ -78,9 +77,9 @@ namespace hyrule
 			Collider* AddCollider(Object*, COLLIDER_INFO*);						// 콜라이더를 만듬
 			RigidBody* AddRigidBody(Object*);									// 강체를 만듬
 
-			Object* GetObject(const std::wstring&);
-			Object* CreateObject(const std::wstring&);
-			void RemoveObject(const std::wstring&);
+			Object* GetObject(const std::string&);
+			Object* CreateObject(const std::string&);
+			void RemoveObject(const std::string&);
 		};
 	}
 }

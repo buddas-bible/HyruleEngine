@@ -28,8 +28,16 @@
     <ClInclude Include="PHYSICALLYOBJECT_INFO.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ICollision.h">
+    <ClInclude Include="RaycastInfo.h">
       <Filter>Interface</Filter>
     </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Interface.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

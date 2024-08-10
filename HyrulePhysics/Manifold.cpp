@@ -5,19 +5,18 @@
 #include "RigidBody.h"
 #include "Collider.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
-		Manifold::Manifold(Collider*& _A, Collider*& _B)
+		Manifold::Manifold(Collider*& _A, Collider*& _B) noexcept
 			: A(_A), B(_B),
 			normal{}, depth{},
-			contactPoints{},
-			impulse{}
+			contactPoints{}
 		{}
 
 
-// 		Manifold::Manifold(const Manifold& _other) :
+// 		Manifold::Manifold(const Manifold& _other) noexcept :
 // 			A(_other.A), B(_other.B),
 // 			normal(_other.normal),
 // 			depth(_other.depth),
@@ -106,33 +105,24 @@ namespace hyrule
 			this->B = _collider;
 		}
 
-		void Manifold::AddImpulse(const Vector3D& _impulse)
-		{
-			impulse += impulse;
-		}
 
-		hyrule::Vector3D Manifold::GetImpulse()
-		{
-			return impulse;
-		}
-
-		Vector3D Manifold::GetNormal() const
+		Vector3D Manifold::GetNormal() const noexcept
 		{
 			return this->normal;
 		}
 
-		void Manifold::SetNormal(const Vector3D& _normal)
+		void Manifold::SetNormal(const Vector3D& _normal) noexcept
 		{
 			this->normal = _normal;
 		}
 
 
-		float Manifold::GetDepth() const
+		float Manifold::GetDepth() const noexcept
 		{
 			return this->depth;
 		}
 
-		void Manifold::SetDepth(float _depth)
+		void Manifold::SetDepth(float _depth) noexcept
 		{
 			this->depth = _depth;
 		}

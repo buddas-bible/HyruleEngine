@@ -1,17 +1,20 @@
-#include "Object.h"
 
 #include "HyruleMath.h"
 #include "Collider.h"
+#include "RigidBody.h"
 #include "PHYSICALLYOBJECT_INFO.h"
+#include "Object.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
-		Object::Object(const std::wstring& _name)
+		Object::Object(const std::string& _name) noexcept
 			: name(_name),
 			rigidbody(), colliders(), isColliding()
-		{}
+		{
+
+		}
 
 		Vector3D& Object::GetPosition()
 		{
@@ -96,7 +99,7 @@ namespace hyrule
 			return colliders.empty() && rigidbody == nullptr;
 		}
 
-		std::wstring Object::GetName()
+		std::string Object::GetName()
 		{
 			return this->name;
 		}
@@ -120,7 +123,7 @@ namespace hyrule
 		{
 			if (colliders.size())
 			{
-				return colliders[0]->GetPosition();
+				// return colliders[0]->GetCenterOfMess();
 			}
 
 			return Vector3D();

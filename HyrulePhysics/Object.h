@@ -4,7 +4,7 @@
 #include <memory>
 #include "HyruleMath.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Matrix4x4;
 	struct Matrix3x3;
@@ -19,12 +19,12 @@ namespace hyrule
 		class Object
 		{
 		public:
-			Object() = delete;
-			Object(const std::wstring&);
-			~Object() = default;
+			Object() noexcept = delete;
+			Object(const std::string&) noexcept;
+			~Object() noexcept = default;
 
 		private:
-			std::wstring name;
+			std::string name;
 
 			Vector3D position;
 			Quaternion rotation;
@@ -54,7 +54,7 @@ namespace hyrule
 			bool Empty();
 
 		public:
-			std::wstring GetName();
+			std::string GetName();
 			// void SetCollided(bool);
 			// bool IsColliding();
 			Matrix4x4 GetWorldTM();

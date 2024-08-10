@@ -3,7 +3,7 @@
 #include "Edge.h"
 #include <vector>
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Vector3D;
 	struct Edge;
@@ -12,14 +12,14 @@ namespace hyrule
 	{
 		struct Face
 		{
-			Face() = delete;
+			Face() noexcept = delete;
 			Face(const Vector3D&, const Vector3D&, const Vector3D&, 
 				size_t, size_t, size_t)noexcept;
-			Face(const std::vector<Edge>&);
-			~Face();
+			Face(const std::vector<Edge>&) noexcept;
+			~Face() noexcept;
 
-			void Inverse();
-			void SetEdge();
+			void Inverse() noexcept;
+			void SetEdge() noexcept;
 
 			std::vector<Vector3D> vec;
 			std::vector<size_t> index;

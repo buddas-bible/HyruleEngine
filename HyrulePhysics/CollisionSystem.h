@@ -2,11 +2,13 @@
 
 #include <map>
 #include <list>
+#include <functional>
+
 #include "Manager.h"
 #include "Manifold.h"
 #include "Simplex.h"
-#include <functional>
-namespace hyrule
+
+namespace Hyrule
 {
 	struct Vector3D;
 
@@ -17,8 +19,13 @@ namespace hyrule
 		class Simplex;
 		struct Face;
 		struct Edge;
-		struct Ray;
 
+		struct Ray;
+		struct Segment;
+
+// 		typedef bool (CollisionFunc)(Collider*, Collider*, Manifold&);
+// 		typedef void (ContactPointFunc)(Manifold&);
+// 		typedef bool (RaycastFunc)(const Ray&, Collider*);
 
 		class CollisionSystem
 		{
@@ -26,7 +33,8 @@ namespace hyrule
 			static bool CollisionDetection(Collider*, Collider*, Manifold&);
 			static void FindContactPoint(Manifold&);
 
-			static bool Raycast(const Ray&, Collider*);
+			static bool Raycast(const Ray&, Collider*, Vector3D&, float&);
+			static bool Raycast(const Segment&, Collider*, Vector3D&, float&);
 
 		private:
 			static Vector3D FindSupportPoint(Collider*, Collider*, const Vector3D&);
@@ -48,9 +56,10 @@ namespace hyrule
 #pragma endregion 접촉점
 
 #pragma region 레이케스트
-			static bool RaycastToSphere(const Ray&, Collider*);
-			static bool RaycastToBox(const Ray&, Collider*);
-			static bool RaycastToConvex(const Ray&, Collider*);
+			static bool RaycastToSphere(const Ray&, Collider*, Vector3D&, float&);
+			static bool RaycastToBox(const Ray&, Collider*, Vector3D&, float&);
+			static bool RaycastToSylinder(const Ray&, Collider*, Vector3D&, float&);
+			static bool RaycastToConvex(const Ray&, Collider*, Vector3D&, float&);
 #pragma endregion 레이케스트
 
 #pragma region 충돌 감지
@@ -69,7 +78,8 @@ namespace hyrule
 		public:
 			static std::function<bool(Collider*, Collider*, Manifold&)> DetectionFunc[4][4];
 			static std::function<void(Manifold&)> FindContactFunc[4][4];
-			static std::function<bool(const Ray&, Collider*)> RaycastFunc[4];
+			static std::function<bool(const Ray&, Collider*, Vector3D&, float&)> RaycastFunc[4];
+			// static std::function<bool(const Segment&, Collider*, Vector3D&, float&)> RaycastFunc[4];
 
 		private:
 			enum GJK_State : size_t

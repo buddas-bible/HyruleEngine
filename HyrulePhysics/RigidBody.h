@@ -4,7 +4,7 @@
 #include "HyruleMath.h"
 #include <string>
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
@@ -14,9 +14,9 @@ namespace hyrule
 		class RigidBody : public IRigidBody
 		{
 		public:
-			RigidBody() = default;
-			RigidBody(Object*);
-			virtual ~RigidBody() = default;
+			RigidBody() noexcept = default;
+			RigidBody(Object*) noexcept;
+			virtual ~RigidBody() noexcept = default;
 
 		private:
 			Object* object;
@@ -25,14 +25,14 @@ namespace hyrule
 		public:
 			bool isActive();
 			Object* GetObject();
-			std::wstring GetObjectName();
+			// std::string GetObjectName() noexcept;
 
-			virtual const Vector3D& ApplyPosition() override;
-			virtual const Quaternion& ApplyQuaternion() override;
+			virtual const Vector3D& ApplyPosition() noexcept override;
+			virtual const Quaternion& ApplyQuaternion() noexcept override;
 
-			virtual void OnEnable() override;
-			virtual void OnDisable() override;
-			virtual void OnDestroy() override;
+			virtual void OnEnable() noexcept override;
+			virtual void OnDisable() noexcept override;
+			virtual void OnDestroy() noexcept override;
 			
 		private:
 			/// <summary>
@@ -55,8 +55,8 @@ namespace hyrule
 			float dfriction{ 0.1f };							// 마찰
 			float sfriction{ 0.2f };							// 마찰
 			float restitution{ 0.2f };							// 반발계수
-			Matrix3x3 inertiaTensor{ };	// 관성텐서
-			Matrix3x3 invInertiaTensor{ };// 역관성텐서
+			Matrix3x3 inertiaTensor{ Matrix3x3::Identity() };	// 관성텐서
+			Matrix3x3 invInertiaTensor{ Matrix3x3::Identity() };// 역관성텐서
 
 			float linerDamping{ 0.4f };
 			float angularDamping{ 0.4f };
@@ -64,8 +64,8 @@ namespace hyrule
 			bool sleep{ false };						// 잠지고 있는 상태인가?
 			bool kinematic;								// 다른 물체에게 외력을 받을 수 있는가?
 			bool useGravity{ true };					// 중력에 영향을 받는가?
-			bool freezePos[3];
-			bool freezeRot[3];
+            bool freezePos[3]{ true, true, true };
+            bool freezeRot[3]{ true, true, true };
 
 		private:
 			Vector3D force;						// 힘
@@ -75,42 +75,43 @@ namespace hyrule
 			float accumulate{};
 
 		public:
-			float GetInvMass();
+			float GetInvMass() noexcept;
 
-			Vector3D GetPosition();
-			void SetPosition(const Vector3D&);
+			Vector3D GetPosition() noexcept;
+			void SetPosition(const Vector3D&) noexcept;
 
-			float GetStaticFriction();
-			float GetDynamicFriction();
+			float GetStaticFriction() noexcept;
+			float GetDynamicFriction() noexcept;
 
-			float GetRestitution();
-			Matrix3x3 GetInvInertia();
+			float GetRestitution() noexcept;
+			Matrix3x3 GetInvInertia() noexcept;
 
 		public:
-			void ApplyImpulse(const hyrule::Vector3D&, const hyrule::Vector3D&);
-			void ComputeVelocity(Vector3D _gravity, float);
-			void ComputePosition(float);
-			virtual void AddForce(const hyrule::Vector3D&) override;
-			virtual void AddTorque(const hyrule::Vector3D&) override;
+			void ApplyImpulse(const Hyrule::Vector3D&, const Hyrule::Vector3D&) noexcept;
+			void ComputeVelocity(Vector3D _gravity, float) noexcept;
+			void ComputePosition(float) noexcept;
+			virtual void AddForce(const Hyrule::Vector3D&) noexcept override;
+			virtual void AddTorque(const Hyrule::Vector3D&) noexcept override;
 
-		private:
 			void CalculateInertiaTensor(float);
 			void CalculateInertiaTensor();
 			Matrix3x3 GetInertia();
 
 #pragma region GetSet
 		public:
-			virtual void SetMass(const float) override;
-			virtual float GetMass() const override;
+			virtual void SetMass(const float) noexcept override;
+			virtual float GetMass() const noexcept override;
 
-			virtual void SetVelocity(const hyrule::Vector3D&) override;
-			virtual hyrule::Vector3D GetVelocity() const override;
+			virtual void SetVelocity(const Hyrule::Vector3D&) noexcept override;
+			virtual Hyrule::Vector3D GetVelocity() const noexcept override;
 
-			virtual void SetAngularVelocity(const hyrule::Vector3D&) override;
-			virtual hyrule::Vector3D GetAngularVelocity() const override;
+			virtual void SetAngularVelocity(const Hyrule::Vector3D&) noexcept override;
+			virtual Hyrule::Vector3D GetAngularVelocity() const noexcept override;
 
-			virtual void WakeUp() override;
-			virtual bool IsAwake() const override;
+            virtual void SetFreeze(bool, bool, bool, bool, bool, bool) noexcept override;
+
+			virtual void WakeUp() noexcept override;
+			virtual bool IsAwake() const noexcept override;
 #pragma endregion GetSet
 		};
 

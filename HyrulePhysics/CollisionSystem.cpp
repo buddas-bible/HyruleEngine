@@ -19,7 +19,7 @@
 constexpr size_t GJK_MAX = 50;
 constexpr size_t EPA_MAX = 50;
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
@@ -32,7 +32,7 @@ namespace hyrule
 			NULL,				NULL,			NULL,			GJK					// convex
 		};
 
-		std::function<void(Manifold&)> CollisionSystem::FindContactFunc[4][4] =
+		std::function<void(Manifold&)> CollisionSystem::ContactFindFunc[4][4] =
 		{
 			// sphere			box				capsule			convex
 			CPSphereToSphere,	CPSphereToBox,	NULL,			CPSphereToConvex,	// sphere
@@ -41,7 +41,7 @@ namespace hyrule
 			NULL,				NULL,			NULL,			CPPolyToPoly		// convex
 		};
 
-		std::function<bool(const Ray&, Collider*)> CollisionSystem::RaycastFunc[4] =
+		std::function<bool(const Ray&, Collider*, Vector3D&, float&)> CollisionSystem::RaycastFunc[4] =
 		{
 			RaycastToSphere, RaycastToBox, NULL, RaycastToConvex
 		};
@@ -83,7 +83,7 @@ namespace hyrule
 			size_t min = std::min(typeA, typeB);
 			size_t max = std::max(typeA, typeB);
 
-			FindContactFunc[min][max](_manifold);
+			ContactFindFunc[min][max](_manifold);
 		}
 		
 		Vector3D CollisionSystem::FindSupportPoint(Collider* _colliderA, Collider* _colliderB, const Vector3D& _direction)
@@ -259,72 +259,72 @@ namespace hyrule
 			float depth{ polytope.faceMap.begin()->first };
 			Vector3D detectNormal{ polytope.faceMap.begin()->second.normal };
 
-			_manifold.SetDepth(depth );
-			_manifold.SetNormal(detectNormal);
+			_manifold.SetDepth( depth );
+			_manifold.SetNormal( detectNormal );
 			return;
 		}
 
 
 		Vector3D CollisionSystem::ClosestPointToAABB(const Vector3D& _point, Collider* _collider)
 		{
-			const Vector3D AABBScale{ _collider->GetScale() * 0.5f };
-			const Vector3D AABBMin{ _collider->GetPosition() - AABBScale };
-			const Vector3D AANNMax{ _collider->GetPosition() + AABBScale };
+            const Vector3D AABBScale{ _collider->GetScale() * 0.5f };
+            const Vector3D AABBMin{ _collider->GetPosition() - AABBScale };
+            const Vector3D AANNMax{ _collider->GetPosition() + AABBScale };
 
-			Vector3D result;
+            Vector3D result;
 
-			for (int i = 0; i < 3; i++)
-			{
-				float v = _point.e[i];
+            for (int i = 0; i < 3; i++)
+            {
+                float v = _point.e[i];
 
-				if (v < AABBMin.e[i])
-				{
-					v = AABBMin.e[i];
-				}
-				else if (v > AANNMax.e[i])
-				{
-					v = AANNMax.e[i];
-				}
+                if (v < AABBMin.e[i])
+                {
+                    v = AABBMin.e[i];
+                }
+                else if (v > AANNMax.e[i])
+                {
+                    v = AANNMax.e[i];
+                }
 
-				result.e[i] = v;
-			}
+                result.e[i] = v;
+            }
 
-			return result;
+            return result;
 		}
 
 		Vector3D CollisionSystem::ClosestPointToOBB(const Vector3D& _point, Collider* _collider)
 		{
-			Vector3D pos = _collider->GetPosition();
-			Matrix3x3 rotate = ToMatrix3(_collider->GetRotation());
-			Vector3D scale = _collider->GetScale() * 0.5f;
+            const Vector3D pos = _collider->GetPosition();
+            Matrix3x3 rotate = ToMatrix3(_collider->GetRotation());
+            const Vector3D scale = _collider->GetScale() * 0.5f;
 
-			Vector3D d = (_point - pos) * rotate.Inverse();
+            Vector3D d = (_point - pos) * rotate.Inverse();
 
-			Vector3D Axis[3]
-			{
-				Vector3D(1.f, 0.f, 0.f),
-				Vector3D(0.f, 1.f, 0.f),
-				Vector3D(0.f, 0.f, 1.f),
-			};
+            Vector3D Axis[3]
+            {
+                Vector3D(1.f, 0.f, 0.f),
+                Vector3D(0.f, 1.f, 0.f),
+                Vector3D(0.f, 0.f, 1.f),
+            };
 
-			Vector3D result;
-			for (int i = 0; i < 3; i++)
-			{
-				float dist = d.Dot(Axis[i]);
+            Vector3D result;
+            for (int i = 0; i < 3; i++)
+            {
+                float dist = d.Dot(Axis[i]);
 
-				if (dist < -scale.e[i])
-				{
-					dist = -scale.e[i];
-				}
-				else if (dist > scale.e[i])
-				{
-					dist = scale.e[i];
-				}
+                if (dist < -scale.e[i])
+                {
+                    dist = -scale.e[i];
+                }
+                else if (dist > scale.e[i])
+                {
+                    dist = scale.e[i];
+                }
 
-				result += Axis[i] * dist;
-			}
+                result += Axis[i] * dist;
+            }
 
-			return result * rotate + pos;
+            return result * rotate + pos;
 		}
 
 		Vector3D CollisionSystem::ClosestPointToConvex(const Vector3D&, Collider*)
@@ -338,10 +338,10 @@ namespace hyrule
 			Collider* A = _manifold.GetColliderA();
 			Collider* B = _manifold.GetColliderB();
 
-			if (A->hasRigidBody() && B->hasRigidBody())
-			{
+            // if (A->hasRigidBody() && B->hasRigidBody())
+            // {
 				_manifold.Apply();
-			}
+			// }
 		}
 
 		void CollisionSystem::CPSphereToBox(Manifold& _manifold)
@@ -350,7 +350,8 @@ namespace hyrule
 			Collider* box{ _manifold.GetColliderB() };
 
 			Vector3D sphereScale{ sphere->GetScale() };
-			float Radius{ 0.5f * sphereScale.x };
+			float sphereScaleMax{ std::max(std::max(sphereScale.x, sphereScale.y), sphereScale.z) };
+			float Radius{ 0.5f * sphereScaleMax };
 
 			Vector3D sphereCenter{ sphere->GetPosition() };
 			Vector3D closestPoint{ ClosestPointToOBB(sphereCenter, box) };
@@ -363,11 +364,11 @@ namespace hyrule
 			_manifold.SetNormal(normal);
 			_manifold.AddContactPoint(closestPoint);
 
-			if (sphere->hasRigidBody() && box->hasRigidBody())
-			{
+            // if (sphere->hasRigidBody() && box->hasRigidBody())
+            // {
 				_manifold.SetDepth(penetrationDepth);
 				_manifold.Apply();
-			}
+			// }
 		}
 
 		void CollisionSystem::CPSphereToConvex(Manifold& _manifold)
@@ -378,7 +379,8 @@ namespace hyrule
 			Vector3D sphereCenter{ sphere->GetPosition() };
 
 			Vector3D sphereScale{ sphere->GetScale() };
-			float sphereRadius{ 0.5f * sphereScale.x };
+			float sphereScaleMax{ std::max(std::max(sphereScale.x, sphereScale.y), sphereScale.z) };
+			float sphereRadius{ 0.5f * sphereScaleMax };
 			
 			Vector3D closestPointOnConvex{ ClosestPointToConvex(sphereCenter, convex) };
 
@@ -389,11 +391,11 @@ namespace hyrule
 			_manifold.SetNormal(normal);
 			_manifold.SetDepth(penetrationDepth);
 
-			if (sphere->hasRigidBody() && convex->hasRigidBody())
-			{
+            // if (sphere->hasRigidBody() && convex->hasRigidBody())
+            // {
 				_manifold.AddContactPoint(closestPointOnConvex);
 				_manifold.Apply();
-			}
+			// }
 		}
 
 		void CollisionSystem::CPPolyToPoly(Manifold& _manifold)
@@ -403,213 +405,243 @@ namespace hyrule
 			Collider* _cA{ _manifold.GetColliderA() };
 			Collider* _cB{ _manifold.GetColliderB() };
 
-				Vector3D direction = _manifold.GetNormal();
+			Vector3D direction = _manifold.GetNormal();
 
-				// 충돌에 관여한 면을 찾아냄
-				Face A = _manifold.GetColliderA()->FindSupportFace(direction);
-				Face B = _manifold.GetColliderB()->FindSupportFace(-direction);
+            if (direction == Vector3D::Zero())
+            {
+                return;
+            }
 
-				Face* reference = &A;
-				Face* incident = &B;
+			// 충돌에 관여한 면을 찾아냄
+			Face A = _manifold.GetColliderA()->FindSupportFace(direction);
+			Face B = _manifold.GetColliderB()->FindSupportFace(-direction);
 
-				float aPerpendicular = std::fabs(reference->normal.Dot(direction));
-				float bPerpendicular = std::fabs(incident->normal.Dot(direction));
+			Face* reference = &A;
+			Face* incident = &B;
 
-				// 1에 제일 가까운 면을 기준면으로 삼음
-				if (aPerpendicular < bPerpendicular)
-				{
-					_manifold.SetColliderA(_cB);
-					_manifold.SetColliderB(_cA);
-					_manifold.SetNormal(-direction);
-					reference = &B;
-					incident = &A;
-					direction = -direction;
-				}
+			float aPerpendicular = std::fabs(reference->normal.Dot(direction));
+			float bPerpendicular = std::fabs(incident->normal.Dot(direction));
 
-				std::vector<Vector3D> contactPoint{ incident->vec };
-
-				// 기준 면의 모서리를 순회하면서 면을 잘라냄
-				// 모서리 하나에 대해서 잘라내고 나면 face를 반환 받을 것.
-				for (auto& edge : reference->edge)
-				{
-					contactPoint = FaceClip(contactPoint, edge, edge.normal, false);
-				}
-
-				// 레퍼런스 페이스의 노말 방향으로 잘라냄
-
-				contactPoint = FaceClip(contactPoint, reference->edge[0], reference->normal, true);
-
-				for (auto i = 0; i < contactPoint.size(); i++)
-				{
-					_manifold.AddContactPoint(contactPoint[i]);
-				}
-
-				if (_cA->hasRigidBody() && _cB->hasRigidBody())
-				{
-				_manifold.Apply();
+			// 1에 제일 가까운 면을 기준면으로 삼음
+			if (aPerpendicular < bPerpendicular)
+			{
+				_manifold.SetColliderA(_cB);
+				_manifold.SetColliderB(_cA);
+				_manifold.SetNormal(-direction);
+				reference = &B;
+				incident = &A;
+				direction = -direction;
 			}
+
+			std::vector<Vector3D> contactPoint{ incident->vec };
+
+			// 기준 면의 모서리를 순회하면서 면을 잘라냄
+			// 모서리 하나에 대해서 잘라내고 나면 face를 반환 받을 것.
+			for (auto& edge : reference->edge)
+			{
+				contactPoint = FaceClip(contactPoint, edge, edge.normal, false);
+			}
+
+			// 레퍼런스 페이스의 노말 방향으로 잘라냄
+
+			contactPoint = FaceClip(contactPoint, reference->edge[0], reference->normal, true);
+
+			for (auto i = 0; i < contactPoint.size(); i++)
+			{
+				_manifold.AddContactPoint(contactPoint[i]);
+			}
+
+            // if (_cA->hasRigidBody() && _cB->hasRigidBody())
+            // {
+				_manifold.Apply();
+			// }
 		}
 
 
-		bool CollisionSystem::Raycast(const Ray& _ray, Collider* _collider)
+		bool CollisionSystem::Raycast(const Ray& _ray, Collider* _collider, Vector3D& _contact, float& _t)
 		{
 			size_t type = (size_t)_collider->GetType();
 
-			return RaycastFunc[type](_ray, _collider);
+			return RaycastFunc[type](_ray, _collider, _contact, _t);
 		}
 
-		bool CollisionSystem::RaycastToSphere(const Ray& _ray, Collider* _collider)
+        bool CollisionSystem::Raycast(const Segment& _segment, Collider* _collider, Vector3D& _contact, float& _t)
+        {
+            size_t type = (size_t)_collider->GetType();
+
+            Ray ray;
+            ray.position = _segment.position;
+            ray.direction = _segment.direction;
+            float dist = _segment.length;
+
+            if (RaycastFunc[type](ray, _collider, _contact, _t))
+            {
+                if (dist < _t)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        bool CollisionSystem::RaycastToSphere(const Ray& _ray, Collider* _collider, Vector3D& _contact, float& _t)
 		{
-			// 스피어 - 레이 벡터
-			Vector3D sphereToOrigin{ _ray.from - _collider->GetPosition() };
+            Vector3D sphereToOrigin{ _ray.position - _collider->GetPosition() };
+            Vector3D scl{ _collider->GetScale() };
+            float sphereRadius{ std::max(std::max(scl.x, scl.y), scl.z) * 0.5f };
 
-			// 스피어까지의 거리에 스피어의 반지름을 뺀 것
-			float c{ sphereToOrigin.Dot(sphereToOrigin) - 
-				_collider->GetLength() * _collider->GetLength() 
-			};
+            float b = sphereToOrigin.Dot(_ray.direction);
+            float c = sphereToOrigin.Dot(sphereToOrigin) - sphereRadius * sphereRadius;
 
-			// 거리가 짧다면 충돌
-			if (c <= 0.f)
-			{
-				return true;
-			}
+            if (c > 0.f && b > 0.f)
+            {
+                return false;
+            }
 
-			// 
-			float b{ sphereToOrigin.Dot(_ray.direction) };
+            // 판별식
+            float disc = b * b - c;
+            if (disc < 0.f)
+            {
+                return false;
+            }
 
-			if (b > 0.f)
-			{
-				return false;
-			}
+            _t = -b - std::sqrt(disc);
+            if (_t < 0.f)
+            {
+                _t = 0.f;
+            }
 
-			float disc{ b * b - c };
-			if (disc < 0.f)
-			{
-				return false;
-			}
-
-			return true;
+            _contact = _ray.position + _ray.direction * _t;
+            return true;
 		}
 
-		bool CollisionSystem::RaycastToBox(const Ray& _ray, Collider* _collider)
+		bool CollisionSystem::RaycastToBox(const Ray& _ray, Collider* _collider, Vector3D& _contact, float& _t)
 		{
-			// Ray = t * to + from 로 표현할 수 있는데
-// 
+            // Ray = t * to + from 로 표현할 수 있는데
+            // 
 
-			// Vector3D boxPosition{ _collider->GetPosition() };
-			// Quaternion boxQuaternion{ _collider->GetRotation() };
-			// Matrix3x3 boxRotationTranspose{ ToMatrix3(boxQuaternion).Transpose() };
-			// Vector3D boxScale{ _collider->GetScale() };
-			// 
-			// // 레이를 BOX 로컬로 가져옴
-			// // Vector3D rayPos{ (_ray.position - boxPosition) * boxRotationTranspose };
-			// Vector3D rayDirection{ _ray.direction * boxRotationTranspose };
-			// 
-			// // _t = 0.0f;
-			// float tmax = FLT_MAX;
-			// 
-			// Vector3D min{ -boxScale * 0.5f };
-			// Vector3D max{ boxScale * 0.5f };
-			// 
-			// for (int i = 0; i < 3; i++)
-			// {
-			// 	if (std::abs(rayDirection.e[i]) < Epsilon)
-			// 	{
-			// 		if (rayPos.e[i] < min.e[i] || rayPos.e[i] > max.e[i])
-			// 		{
-			// 			return 0;
-			// 		}
-			// 	}
-			// 	else
-			// 	{
-			// 		float ood = 1.0f / rayDirection.e[i];
-			// 		float t1 = (min.e[i] - rayPos.e[i]) * ood;
-			// 		float t2 = (max.e[i] - rayPos.e[i]) * ood;
-			// 		if (t1 > t2)
-			// 		{
-			// 			std::swap(t1, t2);
-			// 		}
-			// 		if (t1 > _t)
-			// 		{
-			// 			_t = t1;
-			// 		}
-			// 		if (t2 > tmax)
-			// 		{
-			// 			tmax = t2;
-			// 		}
-			// 		if (_t > tmax)
-			// 		{
-			// 			// 교차가 없음
-			// 			return false;
-			// 		}
-			// 	}
-			// }
+            Vector3D boxPosition{ _collider->GetPosition() };
+            Quaternion boxQuaternion{ _collider->GetRotation() };
+            Matrix3x3 boxRotationTranspose{ ToMatrix3(boxQuaternion).Transpose() };
+            Vector3D boxScale{ _collider->GetScale() };
 
-			// _contact = _ray.position + _ray.direction * _t;
-			return true;
+            // 레이를 BOX 로컬로 가져옴
+            Vector3D rayPos{ (_ray.position - boxPosition) * boxRotationTranspose };
+            Vector3D rayDirection{ _ray.direction * boxRotationTranspose };
+
+            _t = 0.0f;
+            float tmax = FLT_MAX;
+
+            Vector3D min{ -boxScale * 0.5f };
+            Vector3D max{ boxScale * 0.5f };
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (std::abs(rayDirection.e[i]) < Epsilon)
+                {
+                    if (rayPos.e[i] < min.e[i] || rayPos.e[i] > max.e[i])
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    float ood = 1.0f / rayDirection.e[i];
+                    float t1 = (min.e[i] - rayPos.e[i]) * ood;
+                    float t2 = (max.e[i] - rayPos.e[i]) * ood;
+                    if (t1 > t2)
+                    {
+                        std::swap(t1, t2);
+                    }
+                    if (t1 > _t)
+                    {
+                        _t = t1;
+                    }
+                    if (t2 > tmax)
+                    {
+                        tmax = t2;
+                    }
+                    if (_t > tmax)
+                    {
+                        // 교차가 없음
+                        return false;
+                    }
+                }
+            }
+
+            _contact = _ray.position + _ray.direction * _t;
+            return true;
 		}
 
-		bool CollisionSystem::RaycastToConvex(const Ray& _ray, Collider* _collider)
+        bool CollisionSystem::RaycastToSylinder(const Ray& _ray, Collider* _collider, Vector3D& _contact, float& _t)
+        {
+			return false;
+        }
+
+        bool CollisionSystem::RaycastToConvex(const Ray& _ray, Collider* _collider, Vector3D& _contact, float& _t)
 		{
 			return false;
 		}
 
 
-		bool CollisionSystem::TestSphereSphere(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
-		{
-			Vector3D Apos{ _colliderA->GetPosition() };
-			Vector3D Bpos{ _colliderB->GetPosition() };
+        bool CollisionSystem::TestSphereSphere(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+        {
+            Vector3D Apos{ _colliderA->GetPosition() };
+            Vector3D Bpos{ _colliderB->GetPosition() };
 
-			Vector3D AB{ Bpos - Apos };
+            Vector3D AB{ Bpos - Apos };
 
-			Vector3D sphereScaleA = _colliderA->GetScale();
-			Vector3D sphereScaleB = _colliderB->GetScale();
-			
-			float radiusA{ 0.5f * sphereScaleA.x };
-			float radiusB{ 0.5f * sphereScaleB.x };
+            Vector3D sphereScaleA = _colliderA->GetScale();
+            Vector3D sphereScaleB = _colliderB->GetScale();
 
-			float total{ radiusA + radiusB };
-			float distanceBetweenCenters{ AB.Length() };
-			Vector3D normal{ AB.Normalized() };
+            float radiusA{ 0.5f * sphereScaleA.x };
+            float radiusB{ 0.5f * sphereScaleB.x };
 
-			float penetrationDepth = (radiusA + radiusB) - distanceBetweenCenters;
+            float total{ radiusA + radiusB };
+            float distanceBetweenCenters{ AB.Length() };
+            Vector3D normal{ AB.Normalized() };
 
-			Vector3D contactPoint = Apos + normal * radiusA;
+            float penetrationDepth = (radiusA + radiusB) - distanceBetweenCenters;
 
-			if (total >= distanceBetweenCenters)
-			{
-				_manifold.SetNormal(normal);
-				_manifold.SetDepth(penetrationDepth);
-				_manifold.AddContactPoint(contactPoint);
-				return true;
-			}
+            Vector3D contactPoint = Apos + normal * radiusA;
 
-			return false;
-		}
+            if (total >= distanceBetweenCenters)
+            {
+                _manifold.SetNormal(normal);
+                _manifold.SetDepth(penetrationDepth);
+                _manifold.AddContactPoint(contactPoint);
+                return true;
+            }
 
-		bool CollisionSystem::TestSphereAABB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
-		{
-			Vector3D p = ClosestPointToAABB(_colliderA->GetPosition(), _colliderB);
+            return false;
+        }
 
-			Vector3D v{ p - _colliderA->GetPosition() };
-			Vector3D scl{ _colliderA->GetScale() };
+        bool CollisionSystem::TestSphereAABB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+        {
+            Vector3D p = ClosestPointToAABB(_colliderA->GetPosition(), _colliderB);
 
-			float r{ 0.5f * scl.x };
+            Vector3D v{ p - _colliderA->GetPosition() };
+            Vector3D scl{ _colliderA->GetScale() };
 
-			return v.Dot(v) <= r * r;
-		}
+            float r{ 0.5f * scl.x };
 
-		bool CollisionSystem::TestSphereOBB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
-		{
-			Vector3D p = ClosestPointToOBB(_colliderA->GetPosition(), _colliderB);
+            return v.Dot(v) <= r * r;
+        }
 
-			Vector3D v{ p - _colliderA->GetPosition() };
-			Vector3D scl{ _colliderA->GetScale() };
+        bool CollisionSystem::TestSphereOBB(Collider* _colliderA, Collider* _colliderB, Manifold& _manifold)
+        {
+            Vector3D p = ClosestPointToOBB(_colliderA->GetPosition(), _colliderB);
 
-			float r{ 0.5f * scl.x };
+            Vector3D v{ p - _colliderA->GetPosition() };
+            Vector3D scl{ _colliderA->GetScale() };
 
-			return v.Dot(v) <= r * r;
-		}
+            float r{ 0.5f * scl.x };
+
+            return v.Dot(v) <= r * r;
+        }
 
 		bool CollisionSystem::TestSphereConvex(Collider*, Collider*, Manifold&)
 		{
@@ -1002,38 +1034,37 @@ namespace hyrule
 
 				/// 임펄스 기반 반응 모델
 				// 질량 중심에서 충돌 지점까지의 벡터
-				Vector3D r_1{ contactPoint - P_a };
-				Vector3D r_2{ contactPoint - P_b };
+				Vector3D r_1 = contactPoint - P_a;
+				Vector3D r_2 = contactPoint - P_b;
 
 				// 충돌 지점에서 속도와 상대 속도
-				Vector3D v_p1{ V_a + W_a.Cross(r_1) };
-				Vector3D v_p2{ V_b + W_b.Cross(r_2) };
-				Vector3D v_r{ v_p2 - v_p1 };
+				Vector3D v_p1 = V_a + W_a.Cross(r_1);
+				Vector3D v_p2 = V_b + W_b.Cross(r_2);
+				Vector3D v_r = v_p2 - v_p1;
 
 				// 충돌 지점에서 노말 방향으로의 상대 속도
-				float contactVelocity{ v_r.Dot(Normal) };
+				float contactVelocity = v_r.Dot(Normal);
 
 				if (contactVelocity > 0.f)
 				{
 					return;
 				}
 
-				Matrix3x3 inertiaTMA{ A->GetInvInertia() };
-				Matrix3x3 inertiaTMB{ B->GetInvInertia() };
+				Matrix3x3 inertiaTMA = A->GetInvInertia();
+				Matrix3x3 inertiaTMB = B->GetInvInertia();
 
 				/// 임펄스 공식의 분모 부분.
-				Vector3D inertiaA{ r_1.Cross(Normal).Cross(r_1) * inertiaTMA };
-				Vector3D inertiaB{ r_2.Cross(Normal).Cross(r_2) * inertiaTMB };
-				float numerator{ systemMass + (inertiaA + inertiaB).Dot(Normal) };
+				Vector3D inertiaA = r_1.Cross(Normal).Cross(r_1) * inertiaTMA;
+				Vector3D inertiaB = r_2.Cross(Normal).Cross(r_2) * inertiaTMB;
+				float numerator = systemMass + (inertiaA + inertiaB).Dot(Normal);
 
 				// 임펄스 크기
-				float j{ -(1.f + restitution) * contactVelocity };
+				float j = -(1.f + restitution) * contactVelocity;
 				j /= numerator;
 				j /= (float)contactPoints.size();
 
 				// 임펄스 벡터
 				Vector3D impulse = Normal * j;
-				// _manifold.AddImpulse(impulse);
 				A->ApplyImpulse(-impulse, r_1);
 				B->ApplyImpulse(impulse, r_2);
 
@@ -1041,12 +1072,12 @@ namespace hyrule
 				/// 임펄스 기반 마찰 모델
 				// 마찰 임펄스 방향.
 				// 이 공식은 contactVelocity != 0 일 때 적용되는 공식
-				Vector3D tangent{ (v_r - (Normal * contactVelocity)).Normalized() };
+				Vector3D tangent = (v_r - (Normal * contactVelocity)).Normalized();
 
-				if (tangent == Vector3D::Zero())
-				{
-					return;
-				}
+                if (tangent == Vector3D::Zero())
+                {
+                    return;
+                }
 
 				// 임펄스 크기
 				// contactVelocity를 구했던 v_r Dot normal과 비슷하지만 음수가 붙은 점이 다름.
@@ -1082,11 +1113,6 @@ namespace hyrule
 			RigidBody* A{ _manifold.RigidBodyA() };
 			RigidBody* B{ _manifold.RigidBodyB() };
 			
-			if (A->IsAwake() == false || B->IsAwake() == false)
-			{
-				return;
-			}
-
 			float InvMassA = (A == nullptr) ? 0.f : A->GetInvMass();
 			float InvMassB = (B == nullptr) ? 0.f : B->GetInvMass();
 			
@@ -1100,7 +1126,7 @@ namespace hyrule
 			Vector3D p_A{ A->GetPosition() };
 			Vector3D p_B{ B->GetPosition() };
 
-			const float persent{ 0.8f };
+			const float persent{ 1.0f };
 			const float threshold{ 0.00001f };
 
 			float depth{ _manifold.GetDepth() };
@@ -1122,3 +1148,34 @@ namespace hyrule
 		}
 	}
 }
+
+/*
+* 서포트 포인트
+*
+서포터 포인트는 해당 방향으로부터 가장 먼 점을 찾는 것인데
+콜라이더의 점 개수만큼 내적해서 찾아야한다는 점이 매우 비효율적일듯 싶어 방법을 조금만 바꿔보기로 했다.
+메모리는 조금 잡아 먹겠지만 점과 인덱스를 가지고 Face를 미리 연산을 해둔다.
+노말 방향으로부터 가장 먼 Face의 중점을 찾는다. (Face의 개수만큼 탐색은 할 것이다.)
+그 Face를 이루는 세 점 중에서 가장 먼 점을 찾으면
+모든 점을 탐색하는 것보단 빨라지지 않을까?
+*/
+
+/*
+* 민코프스키 차와 EPA
+*
+EPA에 대해서 한가지 착각을 하고 있던 점이 있었지만
+초천재 킹범준이 바로 잡아주어서 어떻게 해결이 될 수도 있을 것같다.
+*/
+
+/*
+* 충돌지점 찾기
+*
+물리에서 복수의 충돌 지점 찾는 것이 매우 중요하다.
+힘의 분산도 그러하고 지터링을 완화를 시킬 수 있기 때문이다
+(이번에 기회가 된다면 Sleep도 넣어보려고 한다.)
+
+EPA에서 얻은 노말(방향) 벡터로부터 두 도형의 Face를 우선 찾는다.
+EPA에서 얻은 벡터는 특정 면의 수직이기 때문에 내적을 해서 1에 가장 가까운 면을 찾으면 될 것이다.
+충돌과 방향은 알았지만 누가 침투했는지 형상은 모르기에 그것을 해결하기 위해서
+수직인 면을 가진 오브젝트가 침투 당한(?) 오브젝트라 생각하여
+*/

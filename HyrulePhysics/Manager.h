@@ -1,6 +1,6 @@
 #pragma once
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
@@ -8,10 +8,10 @@ namespace hyrule
 		class Manager
 		{
 		protected:
-			Manager() = default;
+			Manager() noexcept = default;
 
 		public:
-			static T& GetInstance()
+			static T& GetInstance() noexcept
 			{
 				static T* instance;
 

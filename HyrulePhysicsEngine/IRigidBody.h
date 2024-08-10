@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Vector3D;
 	struct Vector4D;
@@ -13,35 +13,37 @@ namespace hyrule
 		class IRigidBody
 		{
 		public:
-			IRigidBody() = default;
-			virtual ~IRigidBody() = default;
+			IRigidBody() noexcept = default;
+			virtual ~IRigidBody() noexcept = default;
 
 		public:
-			virtual const Vector3D& ApplyPosition() abstract;
-			virtual const Quaternion& ApplyQuaternion() abstract;
+			virtual const Vector3D& ApplyPosition() noexcept abstract;
+			virtual const Quaternion& ApplyQuaternion() noexcept abstract;
 
-			virtual void OnEnable() abstract;
-			virtual void OnDisable() abstract;
-			virtual void OnDestroy() abstract;
+			virtual void OnEnable() noexcept abstract;
+			virtual void OnDisable() noexcept abstract;
+			virtual void OnDestroy() noexcept abstract;
 
 		public:
-			virtual void AddForce(const hyrule::Vector3D&) abstract;
-			virtual void AddTorque(const hyrule::Vector3D&) abstract;
+			virtual void AddForce(const Hyrule::Vector3D&) noexcept abstract;
+			virtual void AddTorque(const Hyrule::Vector3D&) noexcept abstract;
 
 			/// <summary>
 			/// 외부에서 물리량을 조절하고 싶을 때.
 			/// </summary>
-			virtual void SetMass(const float) abstract;					// 질량
-			virtual float GetMass() const abstract;
+			virtual void SetMass(const float) noexcept abstract;					// 질량
+			virtual float GetMass() const noexcept abstract;
 
-			virtual void SetVelocity(const hyrule::Vector3D&) abstract;
-			virtual hyrule::Vector3D GetVelocity() const abstract;
+			virtual void SetVelocity(const Hyrule::Vector3D&) noexcept abstract;
+			virtual Hyrule::Vector3D GetVelocity() const noexcept abstract;
 
-			virtual void SetAngularVelocity(const hyrule::Vector3D&) abstract;
-			virtual hyrule::Vector3D GetAngularVelocity() const abstract;
+			virtual void SetAngularVelocity(const Hyrule::Vector3D&) noexcept abstract;
+			virtual Hyrule::Vector3D GetAngularVelocity() const noexcept abstract;
 
-			virtual void WakeUp() abstract;
-			virtual bool IsAwake() const abstract;
+            virtual void SetFreeze(bool, bool, bool, bool, bool, bool) noexcept abstract;
+
+			virtual void WakeUp() noexcept abstract;
+			virtual bool IsAwake() const noexcept abstract;
 		};
 	}
 }

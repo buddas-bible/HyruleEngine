@@ -13,14 +13,15 @@
 #include "Manifold.h"
 #include "Simplex.h"
 #include "Ray.h"
+#include "../HyrulePhysicsEngine/RaycastInfo.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
-		__declspec(dllexport) IPhysics* CreatePhysics()
+        __declspec(dllexport) IPhysics* CreatePhysics()
 		{
-			return new hyrule::Physics::HyrulePhysics;
+			return new Hyrule::Physics::HyrulePhysics;
 		}
 
 		/// <summary>
@@ -28,7 +29,7 @@ namespace hyrule
 		/// 트랜스폼 정보
 		/// 콜라이더 정보를 받아서 콜라이더를 만든다.
 		/// </summary>
-		ICollider* HyrulePhysics::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _colinfo)
+		ICollider* HyrulePhysics::CreateCollider(const std::string& _name, COLLIDER_INFO* _colinfo)
 		{
 			return ObjectManager::GetInstance().CreateCollider(_name, _colinfo);
 		}
@@ -37,16 +38,17 @@ namespace hyrule
 		/// 게임 오브젝트 이름
 		/// 트랜스폼 정보를 받아서 강체를 만든다.
 		/// </summary>
-		IRigidBody* HyrulePhysics::CreateRigidBody(const std::wstring& _name)
+		IRigidBody* HyrulePhysics::CreateRigidBody(const std::string& _name)
 		{
 			return ObjectManager::GetInstance().CreateRigidBody(_name);
 		}
 
 		long HyrulePhysics::Initialize()
 		{
-			gravity = hyrule::Vector3D(0.f, -9.81f, 0.f);
+			gravity = Hyrule::Vector3D(0.f, -9.81f, 0.f);
 			Shapes::Initalize();
 			NonRigidBody::Init();
+
 			return (long)0L;
 		}
 
@@ -69,6 +71,9 @@ namespace hyrule
 				
 			for (auto& e : colliders)
 			{
+                if (e->isActive() == false)
+                    continue;
+
 				auto queryResult = ObjectManager::GetInstance().QctreeQuery(e);
 				for (auto& test : queryResult)
 				{
@@ -114,6 +119,9 @@ namespace hyrule
 				/// 강체, 콜라이더 충돌 대응
 				for (auto& e : manifoldArray)
 				{
+                    if (e.GetColliderA()->GetTrigger() || e.GetColliderB()->GetTrigger())
+                        continue;
+
 					// 충돌
 					CollisionSystem::ComputeImpulse(e);
 				}
@@ -140,6 +148,9 @@ namespace hyrule
 			/// 밀어냄
 			for (auto& e : manifoldArray)
 			{
+                if (e.GetColliderA()->GetTrigger() || e.GetColliderB()->GetTrigger())
+                    continue;
+
 				CollisionSystem::ResolveCollision(e);
 			}
 		}
@@ -154,12 +165,10 @@ namespace hyrule
 			
 		}
 
-		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to)
+		bool HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to, RaycastInfo* _data)
 		{
-			RaycastInfo* info = new RaycastInfo;
-
 			Ray ray;
-			ray.from = _from;
+			ray.position = _from;
 			ray.direction = _to;
 
 			auto colliders{ ObjectManager::GetInstance().QctreeQuery(ray) };
@@ -167,47 +176,80 @@ namespace hyrule
 			// 트리 안에서 충돌한 콜라이더가 없음
 			if (colliders.empty())
 			{
-				info->collision = false;
-				return info;
+				return false;
 			}
 			else
 			{
-				// 
+                float minDist{ FLT_MAX };
+
 				for (auto& e : colliders)
 				{
-					bool collision = CollisionSystem::Raycast(ray, e);
+                    Vector3D contact;
+                    float dist;
 
 					// 충돌 하면? 충돌 위치가 가까우면 저장해둠.
-					if (collision)
+					if (CollisionSystem::Raycast(ray, e, contact, dist))
 					{
-						info->collision = true;
-						info->position;
+                        if (dist < minDist)
+                        {
+                            _data->collision = true;
+                            _data->position = contact;
+                            _data->instaceID = e->GetInstaceID();
+                            _data->tag = e->GetTag();
+                            _data->userData = e->GetUserData();
+                        }
 					}
 				}
 
-				return info;
+				return _data->collision;
 			}
 		}
 
-		RaycastInfo* HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to, const float _length)
+        bool HyrulePhysics::Raycast(const Vector3D& _from, const Vector3D& _to, const float _length, RaycastInfo* _data)
 		{
-			RaycastInfo* info = new RaycastInfo;
+			Segment segment;
+			segment.position = _from;
+			segment.direction = _to;
+			segment.length = _length;
 
-			Ray ray;
-			ray.from = _from;
-			ray.direction = _to;
-			ray.length = _length;
+			auto colliders{ ObjectManager::GetInstance().QctreeQuery(segment) };
 
-			auto colliders{ ObjectManager::GetInstance().QctreeQuery(ray) };
+            // 트리 안에서 충돌한 콜라이더가 없음
+            if (colliders.empty())
+            {
+                return false;
+            }
+            else
+            {
+                float minDist{ FLT_MAX };
 
+                for (auto& e : colliders)
+                {
+                    Vector3D contact;
+                    float dist;
 
-			return info;
+                    // 충돌 하면? 충돌 위치가 가까우면 저장해둠.
+                    if (CollisionSystem::Raycast(segment, e, contact, dist))
+                    {
+                        if (dist < minDist)
+                        {
+                            _data->collision = true;
+                            _data->position = contact;
+                            _data->instaceID = e->GetInstaceID();
+                            _data->tag = e->GetTag();
+                            _data->userData = e->GetUserData();
+                        }
+                    }
+                }
+
+                return _data->collision;
+            }
 		}
 
 		/// <summary>
 		/// 중력 가속도 설정
 		/// </summary>
-		void HyrulePhysics::SetWorldGravity(const hyrule::Vector3D& _gravity)
+		void HyrulePhysics::SetWorldGravity(const Hyrule::Vector3D& _gravity)
 		{
 			this->gravity = _gravity;
 		}

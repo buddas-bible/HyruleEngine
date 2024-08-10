@@ -2,7 +2,7 @@
 #include <vector>
 #include <list>
 
-#include "Vector3D.h"
+#include "Vector3D.hh"
 #include "AABB.h"
 
 
@@ -26,10 +26,10 @@
 // class has_Position
 // {
 // 	template <typename T>
-// 	static hyrule::Vector3D Position(decltype(&T::GetPosition));
+// 	static Hyrule::Vector3D Position(decltype(&T::GetPosition));
 // 	
 // 	template <typename T>
-// 	static hyrule::Vector3D Position();
+// 	static Hyrule::Vector3D Position();
 // 
 // public:
 // 	enum
@@ -38,7 +38,7 @@
 // 	};
 // };
 
-namespace hyrule
+namespace Hyrule
 {
 	class Collider;
 
@@ -59,12 +59,12 @@ namespace hyrule
 			struct Node
 			{
 			public:
-				Node() = delete;
+				Node() noexcept = delete;
 				Node(const Vector3D& _centre, float _length, size_t _depth) :
 					aabb(_centre, _length),
 					depth(_depth), children(), dataList()
 				{}
-				~Node()
+				~Node() noexcept
 				{
 					for (auto& child : children)
 					{
@@ -225,12 +225,12 @@ namespace hyrule
 
 
 		public:
-			Octree() = default;
+			Octree() noexcept = default;
 			Octree(const Vector3D& _centre, float _length, size_t depth = 10) : root(), DepthLimit(6)
 			{
 				root = new Node(_centre, _length, DepthLimit);
 			}
-			~Octree()
+			~Octree() noexcept
 			{
 				if (root != nullptr)
 				{

@@ -12,16 +12,17 @@
 #include "ConvexCollider.h"
 #include "PlaneCollider.h"
 
+#include "Ray.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
 
-		ObjectManager::ObjectManager() : octree({ Vector3D(), 30000.f }, {Vector3D(), 100.f})
+		ObjectManager::ObjectManager() noexcept : octree({ Vector3D(), 30000.f }, {Vector3D(), 100.f})
 		{}
 
-		ICollider* ObjectManager::CreateCollider(const std::wstring& _name, COLLIDER_INFO* _info)
+		ICollider* ObjectManager::CreateCollider(const std::string& _name, COLLIDER_INFO* _info)
 		{
 			Object* obj = this->GetObject(_name);
 
@@ -38,7 +39,7 @@ namespace hyrule
 			return (ICollider*)collider;
 		}
 
-		IRigidBody* ObjectManager::CreateRigidBody(const std::wstring& _name)
+		IRigidBody* ObjectManager::CreateRigidBody(const std::string& _name)
 		{
 			Object* obj = this->GetObject(_name);
 
@@ -60,7 +61,7 @@ namespace hyrule
 		}
 
 
-		void ObjectManager::RemoveCollider(const std::wstring& _name, ICollider*& _target)
+		void ObjectManager::RemoveCollider(const std::string& _name, ICollider*& _target)
 		{
 			Object* obj = this->GetObject(_name);
 
@@ -81,7 +82,7 @@ namespace hyrule
 			}
 		}
 
-		void ObjectManager::RemoveCollider(const std::wstring& _name, int _index)
+		void ObjectManager::RemoveCollider(const std::string& _name, int _index)
 		{
 			Object* obj = this->GetObject(_name);
 
@@ -103,7 +104,7 @@ namespace hyrule
 			}
 		}
 
-		void ObjectManager::RemoveCollider(const std::wstring& _name, Collider*& _target)
+		void ObjectManager::RemoveCollider(const std::string& _name, Collider*& _target)
 		{
 			Object* obj = this->GetObject(_name);
 
@@ -123,7 +124,7 @@ namespace hyrule
 			}
 		}
 
-		void ObjectManager::RemoveRigidBody(const std::wstring& _name)
+		void ObjectManager::RemoveRigidBody(const std::string& _name)
 		{
 			Object* obj = this->GetObject(_name);
 
@@ -143,22 +144,22 @@ namespace hyrule
 			}
 		}
 
-		std::vector<Collider*>& ObjectManager::GetColliders()
+		std::vector<Collider*>& ObjectManager::GetColliders() noexcept
 		{
 			return this->colliders;
 		}
 
-		// std::vector<std::list<Collider*>>& ObjectManager::GetNodeContainer()
+		// std::vector<std::list<Collider*>>& ObjectManager::GetNodeContainer() noexcept
 		// {
 		// 	return octree.GetDataList();
 		// }
 
-		// void ObjectManager::NodeContainerClear()
+		// void ObjectManager::NodeContainerClear() noexcept
 		// {
 		// 	octree.DataListClear();
 		// }
 
-		std::vector<Collider*> ObjectManager::QctreeQuery(Collider* _collider)
+		std::vector<Collider*> ObjectManager::QctreeQuery(Collider* _collider) noexcept
 		{
 			// 지금은 딱 맞는 AABB로 하고 있지만
 			// 이것도 연산이 좀 필요하다보니까
@@ -169,12 +170,17 @@ namespace hyrule
 			return octree.Query(_collider->GetAABB());
 		}
 
-		std::vector<Collider*> ObjectManager::QctreeQuery(const Ray& _ray)
+		std::vector<Collider*> ObjectManager::QctreeQuery(const Ray& _ray) noexcept
 		{
 			return octree.Query(_ray);
 		}
 
-		void ObjectManager::OctreeClear()
+        std::vector<Collider*> ObjectManager::QctreeQuery(const Segment& _segment) noexcept
+        {
+            return octree.Query(_segment);
+        }
+
+        void ObjectManager::OctreeClear() noexcept
 		{
 			octree.Clear();
 		}
@@ -186,7 +192,7 @@ namespace hyrule
 			octree.Insert(_collider, _collider->GetAABB());
 		}
 
-		std::vector<RigidBody*>& ObjectManager::GetRigidbodies()
+		std::vector<RigidBody*>& ObjectManager::GetRigidbodies() noexcept
 		{
 			return this->rigidBodies;
 		}
@@ -299,7 +305,7 @@ namespace hyrule
 		}
 
 
-		Object* ObjectManager::GetObject(const std::wstring& _name)
+		Object* ObjectManager::GetObject(const std::string& _name)
 		{
 			Object* obj = nullptr;
 
@@ -317,7 +323,7 @@ namespace hyrule
 			return obj;
 		}
 
-		Object* ObjectManager::CreateObject(const std::wstring& _name)
+		Object* ObjectManager::CreateObject(const std::string& _name)
 		{
 			Object* obj = new Object(_name);
 			// std::unique_ptr<Object> obbj = std::make_unique<Object>(_name);
@@ -326,7 +332,7 @@ namespace hyrule
 			return obj;
 		}
 
-		void ObjectManager::RemoveObject(const std::wstring& _name)
+		void ObjectManager::RemoveObject(const std::string& _name)
 		{
 			auto itr = objectMap.find(_name);
 

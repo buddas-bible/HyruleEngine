@@ -85,14 +85,8 @@
     <ClInclude Include="Face.h">
       <Filter>2. Struct</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>2. Struct</Filter>
-    </ClInclude>
     <ClInclude Include="Octree.h">
       <Filter>DataStruct</Filter>
-    </ClInclude>
-    <ClInclude Include="Ray.h">
-      <Filter>2. Struct</Filter>
     </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>2. Struct</Filter>
@@ -106,11 +100,17 @@
     <ClInclude Include="Octree_v2.h">
       <Filter>DataStruct</Filter>
     </ClInclude>
+    <ClInclude Include="HillClimbing.h">
+      <Filter>DataStruct</Filter>
+    </ClInclude>
     <ClInclude Include="SpringJoint.h">
       <Filter>2. Struct\Joint</Filter>
     </ClInclude>
     <ClInclude Include="AngleJoint.h">
       <Filter>2. Struct\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="Ray.h">
+      <Filter>2. Struct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,16 +162,13 @@
     <ClCompile Include="Face.cpp">
       <Filter>2. Struct</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>2. Struct</Filter>
-    </ClCompile>
     <ClCompile Include="Octree.cpp">
       <Filter>DataStruct</Filter>
     </ClCompile>
     <ClCompile Include="AABB.cpp">
       <Filter>2. Struct</Filter>
     </ClCompile>
-    <ClCompile Include="AABBTree.cpp">
+    <ClCompile Include="HillClimbing.cpp">
       <Filter>DataStruct</Filter>
     </ClCompile>
     <ClCompile Include="Octree_v2.cpp">

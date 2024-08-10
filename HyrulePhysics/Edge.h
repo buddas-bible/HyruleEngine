@@ -1,24 +1,24 @@
 #pragma once
 #include "HyruleMath.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
 		struct Edge
 		{
-			Edge() = default;
-			Edge(const Vector3D&, const Vector3D&, size_t, size_t);
-			Edge(const Edge&);
-			Edge(Edge&&);
-			Edge& operator=(const Edge&);
-			Edge& operator=(Edge&&);
-			~Edge() = default;
+			Edge() noexcept = default;
+			Edge(const Vector3D&, const Vector3D&, size_t, size_t) noexcept;
+			Edge(const Edge&) noexcept;
+			Edge(Edge&&) noexcept;
+			Edge& operator=(const Edge&) noexcept;
+			Edge& operator=(Edge&&) noexcept;
+			~Edge() noexcept = default;
 
-			void Initialze();
-			float GetLength() const;
-			float GetLengthSquare() const;
-			void SetNormal(const Vector3D&);
+			void Initialze() noexcept;
+			float GetLength() const noexcept;
+			float GetLengthSquare() const noexcept;
+			void SetNormal(const Vector3D&) noexcept;
 
 			Vector3D vectorA;
 			Vector3D vectorB;
@@ -29,7 +29,7 @@ namespace hyrule
 			Vector3D direction;
 			Vector3D normal;
 
-			bool operator==(const Edge&);
+			bool operator==(const Edge&) noexcept;
 		};
 	}
 }

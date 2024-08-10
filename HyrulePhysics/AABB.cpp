@@ -2,14 +2,14 @@
 
 
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
 		/// <summary>
 		/// 중심과 한 변의 길이를 받아서 AABB를 만듬
 		/// </summary>
-		AABB::AABB(const Vector3D& _center, float _length) :
+		AABB::AABB(const Vector3D& _center, float _length) noexcept :
 			min(_center.x - _length / 2, _center.y - _length / 2, _center.z - _length / 2),
 			max(_center.x + _length / 2, _center.y + _length / 2, _center.z + _length / 2)
 		{}
@@ -17,12 +17,12 @@ namespace hyrule
 		/// <summary>
 		/// 최대 최소 값을 받아서 AABB를 만듬
 		/// </summary>
-		AABB::AABB(const Vector3D& _min, const Vector3D& _max) : 
+		AABB::AABB(const Vector3D& _min, const Vector3D& _max) noexcept : 
 			min(_min),
 			max(_max)
 		{}
 
-		Vector3D AABB::GetCenter() const
+		Vector3D AABB::GetCenter() const noexcept
 		{
 			return (min + max) * 0.5f;
 		}
@@ -30,7 +30,7 @@ namespace hyrule
 		/// <summary>
 		/// AABB 안에 점이 있는가?
 		/// </summary>
-		bool AABB::ContainsPoint(const Vector3D& _point) const
+		bool AABB::ContainsPoint(const Vector3D& _point) const noexcept
 		{
 			if ((this->min.x > _point.x) || (_point.x > this->max.x)) return false;
 			if ((this->min.y > _point.y) || (_point.y > this->max.y)) return false;
@@ -42,7 +42,7 @@ namespace hyrule
 		/// <summary>
 		/// 다른 AABB와 충돌 했는가?
 		/// </summary>
-		bool AABB::Overlap(const AABB& _other) const
+		bool AABB::Overlap(const AABB& _other) const noexcept
 		{
 			if ((this->max.x < _other.min.x) || (_other.max.x < this->min.x)) return false;
 			if ((this->max.y < _other.min.y) || (_other.max.y < this->min.y)) return false;
@@ -68,7 +68,7 @@ namespace hyrule
 		/// <summary>
 		/// AABB가 Ray와 충돌 했는가?
 		/// </summary>
-		bool AABB::TestRay(const Vector3D& _from, const Vector3D& _to) const
+		bool AABB::TestRay(const Vector3D& _from, const Vector3D& _to) const noexcept
 		{
 			Vector3D invDir(1.0f / (_to.x - _from.x), 1.0f / (_to.y - _from.y), 1.0f / (_to.z - _from.z));
 			float tMin, tMax, tYMin, tYMax, tZMin, tZMax;
@@ -104,7 +104,7 @@ namespace hyrule
 		}
 
 
-		bool AABB::TestSegment(const Vector3D& _from, const Vector3D& _to, const float _length) const
+		bool AABB::TestSegment(const Vector3D& _from, const Vector3D& _to, const float _length) const noexcept
 		{
 			Vector3D end = _from + _to * _length;
 			Vector3D invDir(1.0f / (_to.x * _length), 1.0f / (_to.y * _length), 1.0f / (_to.z * _length));

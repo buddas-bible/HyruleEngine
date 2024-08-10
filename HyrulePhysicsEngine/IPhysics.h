@@ -3,7 +3,7 @@
 #include <vector>
 
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Vector2D;
 	struct Vector3D;
@@ -20,19 +20,19 @@ namespace hyrule
 		class IPhysics
 		{
 		public:
-			IPhysics() {};
-			virtual ~IPhysics() {};
+			IPhysics() noexcept {};
+			virtual ~IPhysics() noexcept {};
 
 		public:
 			/// <summary>
 			/// 오브젝트 이름, 콜라이더 정보를 받음.
 			/// </summary>
-			virtual ICollider* CreateCollider(const std::wstring&, COLLIDER_INFO*) abstract;
+			virtual ICollider* CreateCollider(const std::string&, COLLIDER_INFO*) abstract;
 			
 			/// <summary>
 			/// 오브젝트 이름을 받음.
 			/// </summary>
-			virtual IRigidBody* CreateRigidBody(const std::wstring&) abstract;
+			virtual IRigidBody* CreateRigidBody(const std::string&) abstract;
 
 		public:
 			virtual long Initialize() abstract;
@@ -41,10 +41,10 @@ namespace hyrule
 			virtual void ApplyObjectDestroy() abstract;
 			virtual void Finalize() abstract;
 
-			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&) abstract;
-			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const float) abstract;
+            virtual bool Raycast(const Hyrule::Vector3D&, const Hyrule::Vector3D&, Hyrule::Physics::RaycastInfo*) abstract;
+            virtual bool Raycast(const Hyrule::Vector3D&, const Hyrule::Vector3D&, const float, Hyrule::Physics::RaycastInfo*) abstract;
 
-			virtual void SetWorldGravity(const hyrule::Vector3D&) abstract;
+			virtual void SetWorldGravity(const Hyrule::Vector3D&) abstract;
 		};
 	}
 }

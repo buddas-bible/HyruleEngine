@@ -4,7 +4,7 @@
 #include "HyruleMath.h"
 #include "Simplex.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
@@ -17,11 +17,11 @@ namespace hyrule
 		class Manifold
 		{
 		public:
-			// Manifold() = default;
-			Manifold(Collider*& _A, Collider*& _B);
-			Manifold(const Manifold&) = default;
-			Manifold(Manifold&&) = default;
-			~Manifold() = default;
+			// Manifold() noexcept = default;
+			Manifold(Collider*& _A, Collider*& _B) noexcept;
+			Manifold(const Manifold&) noexcept = default;
+			Manifold(Manifold&&) noexcept = default;
+			~Manifold() noexcept = default;
 			Manifold& operator=(const Manifold&) = default;
 			Manifold& operator=(Manifold&&) = default;
 
@@ -35,8 +35,6 @@ namespace hyrule
 
 			float depth;									// 충돌의 깊이
 			std::vector<Vector3D> contactPoints;			// 충돌 접점
-
-			Vector3D impulse;
 
 			Simplex simplex{};
 
@@ -58,14 +56,14 @@ namespace hyrule
 			void SetColliderA(Collider*);
 			void SetColliderB(Collider*);
 
-			void AddImpulse(const Vector3D&);
-			Vector3D GetImpulse();
+			Vector3D GetNormal() const noexcept;
+			void SetNormal(const Vector3D& _normal) noexcept;
 
-			Vector3D GetNormal() const;
-			void SetNormal(const Vector3D& _normal);
+			Vector3D GetContactNormal() const noexcept;
+			void SetContactNormal(const Vector3D& _contactNormal) noexcept;
 
-			float GetDepth() const;
-			void SetDepth(float _depth);
+			float GetDepth() const noexcept;
+			void SetDepth(float _depth) noexcept;
 
 			const std::vector<Vector3D>& GetContactPoints() const;
 			void AddContactPoint(const Vector3D& point);

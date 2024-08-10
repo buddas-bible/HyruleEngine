@@ -1,7 +1,7 @@
 #pragma once
 #include "HyruleMath.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Vector3D;
 
@@ -9,17 +9,16 @@ namespace hyrule
 	{
 		struct Ray
 		{
-			Vector3D from;
+			Vector3D position;
 			Vector3D direction;
-			float length;
 		};
 
-		struct RaycastInfo
-		{
-			bool collision;
-			std::string name;
-			Vector3D position;
-		};
+        struct Segment
+        {
+            Vector3D position;
+            Vector3D direction;
+            float length;
+        };
 	}
 }
 

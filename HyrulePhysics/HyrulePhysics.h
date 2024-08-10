@@ -1,5 +1,5 @@
 #pragma once
-#include "IPhysics.h"
+#include "../HyrulePhysicsEngine/IPhysics.h"
 
 #include <string>
 #include <vector>
@@ -9,7 +9,7 @@
 
 #include "HyruleMath.h"
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Vector3D;
 
@@ -23,18 +23,19 @@ namespace hyrule
 		
 		class Object;
 		class Simplex;
+
 		struct COLLIDER_INFO;
 		struct RaycastInfo;
 
 		class HyrulePhysics : public IPhysics
 		{
 		public:
-			HyrulePhysics() = default;
+			HyrulePhysics() noexcept = default;
 			virtual ~HyrulePhysics() = default;
 
 		public:
-			virtual ICollider* CreateCollider(const std::wstring&, COLLIDER_INFO*) override;	// 오브젝트에 콜라이더를 추가함.
-			virtual IRigidBody* CreateRigidBody(const std::wstring&) override;					// 오브젝트에 강체를 추가함
+			virtual ICollider* CreateCollider(const std::string&, COLLIDER_INFO*) override;	// 오브젝트에 콜라이더를 추가함.
+			virtual IRigidBody* CreateRigidBody(const std::string&) override;					// 오브젝트에 강체를 추가함
 
 		public:
 			virtual long Initialize() override;
@@ -43,24 +44,21 @@ namespace hyrule
 			virtual void ApplyObjectDestroy() override;
 			virtual void Finalize() override;
 
-			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&) override;
-			virtual RaycastInfo* Raycast(const Vector3D&, const Vector3D&, const float) override;
+            virtual bool Raycast(const Vector3D&, const Vector3D&, RaycastInfo*) override;
+            virtual bool Raycast(const Vector3D&, const Vector3D&, const float, RaycastInfo*) override;
 
-			virtual void SetWorldGravity(const hyrule::Vector3D&) override;					// 월드 중력을 설정함.
+			virtual void SetWorldGravity(const Hyrule::Vector3D&) override;					// 월드 중력을 설정함.
 
 		private:
 			std::set<std::pair<Collider*, Collider*>> colliderTable;
 			std::vector<Manifold> manifoldArray;
 
-			hyrule::Vector3D gravity;
+			Hyrule::Vector3D gravity;
 
 			bool useOctree{ true };
 		};
 
-		extern "C"
-		{
-			__declspec(dllexport) IPhysics* CreatePhysics();
-		}
+        __declspec(dllexport) IPhysics* CreatePhysics();
 	}
 }
 

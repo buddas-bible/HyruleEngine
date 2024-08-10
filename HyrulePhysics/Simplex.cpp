@@ -1,19 +1,19 @@
 #include "Simplex.h"
 
 
-namespace hyrule
+namespace Hyrule
 {
 	namespace Physics
 	{
-		Simplex::Simplex(const Simplex& rhs) : 
+		Simplex::Simplex(const Simplex& rhs) noexcept : 
 			points(rhs.points), index(rhs.index), faceMap(rhs.faceMap)
 		{}
 
-		Simplex::Simplex(Simplex&& rhs) :
+		Simplex::Simplex(Simplex&& rhs) noexcept :
 			points(rhs.points), index(rhs.index), faceMap(rhs.faceMap)
 		{}
 
-		hyrule::Vector3D& Simplex::operator[](int _i)
+		Hyrule::Vector3D& Simplex::operator[](int _i)
 		{
 			return points[_i];
 		}
