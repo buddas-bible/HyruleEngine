@@ -1,6 +1,6 @@
 #pragma once
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Vector3D;
 
@@ -9,21 +9,21 @@ namespace hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		constexpr Matrix1x3() : 
+		constexpr Matrix1x3() noexcept : 
 			e {}
 		{}
 		constexpr Matrix1x3(
-			float _e00, float _e01, float _e02) : 
+			float _e00, float _e01, float _e02) noexcept : 
 			e{ _e00, _e01, _e02 }
 		{}
-		constexpr Matrix1x3(const Matrix1x3&) = default;
-		constexpr Matrix1x3(Matrix1x3&&) = default;
-		~Matrix1x3() = default;
+		constexpr Matrix1x3(const Matrix1x3&) noexcept = default;
+		constexpr Matrix1x3(Matrix1x3&&) noexcept = default;
+		~Matrix1x3() noexcept = default;
 
-		constexpr Matrix1x3& operator= (const Matrix1x3&) = default;
-		constexpr Matrix1x3& operator= (Matrix1x3&&) = default;
+		constexpr Matrix1x3& operator= (const Matrix1x3&) noexcept = default;
+		constexpr Matrix1x3& operator= (Matrix1x3&&) noexcept = default;
 
-		explicit operator Vector3D();
+		explicit operator Vector3D() noexcept;
 
 		/// <summary>
 		/// ¸â¹ö º¯¼ö
@@ -37,18 +37,18 @@ namespace hyrule
 			float e[3];
 		};
 
-		Matrix1x3& operator += (const Matrix1x3&);
-		Matrix1x3& operator -= (const Matrix1x3&);
+		Matrix1x3& operator += (const Matrix1x3&) noexcept;
+		Matrix1x3& operator -= (const Matrix1x3&) noexcept;
 
-		Matrix1x3 operator + (const Matrix1x3&) const;
-		Matrix1x3 operator - (const Matrix1x3&) const;
-		Matrix1x3 operator - () const;
+		Matrix1x3 operator + (const Matrix1x3&) const noexcept;
+		Matrix1x3 operator - (const Matrix1x3&) const noexcept;
+		Matrix1x3 operator - () const noexcept;
 
-		Matrix1x3& operator *= (const float);
-		Matrix1x3& operator /= (const float);
+		Matrix1x3& operator *= (const float) noexcept;
+		Matrix1x3& operator /= (const float) noexcept;
 
-		Matrix1x3 operator * (const float) const;
-		Matrix1x3 operator / (const float) const;
-		bool operator == (const Matrix1x3&) const;
+		Matrix1x3 operator * (const float) const noexcept;
+		Matrix1x3 operator / (const float) const noexcept;
+		bool operator == (const Matrix1x3&) const noexcept;
 	};
 }

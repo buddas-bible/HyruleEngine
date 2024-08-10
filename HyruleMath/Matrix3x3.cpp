@@ -1,8 +1,8 @@
 #include "Matrix3x3.h"
 
-namespace hyrule
+namespace Hyrule
 {
-	Matrix3x3 Matrix3x3::Transpose()
+	Matrix3x3 Matrix3x3::Transpose() noexcept
 	{
 		return Matrix3x3
 		{
@@ -12,7 +12,7 @@ namespace hyrule
 		};
 	}
 
-	Matrix3x3 Matrix3x3::Inverse()
+	Matrix3x3 Matrix3x3::Inverse() noexcept
 	{
 		Matrix3x3 result{};
 
@@ -39,17 +39,7 @@ namespace hyrule
 		return result;
 	}
 
-// 	Matrix3x3 Matrix3x3::Identity()
-// 	{
-// 		return Matrix3x3
-// 		{
-// 			1.f, 0.f, 0.f,
-// 			0.f, 1.f, 0.f,
-// 			0.f, 0.f, 1.f,
-// 		};
-// 	}
-
-	float Matrix3x3::Determinant()
+	float Matrix3x3::Determinant() noexcept
 	{
 		float det = 
 			e00 * (e11 * e22 - e21 * e12) - 
@@ -59,25 +49,25 @@ namespace hyrule
 		return det;
 	}
 
-	Matrix3x3 Matrix3x3::operator+(const Matrix3x3& other) const
+	Matrix3x3 Matrix3x3::operator+(const Matrix3x3& other) const noexcept
 	{
 		return Matrix3x3
 		(
-			(this->e[0][0] + other.e[0][0]),
-			(this->e[0][1] + other.e[0][1]),
-			(this->e[0][2] + other.e[0][2]),
+			(this->e00 + other.e00),
+			(this->e01 + other.e01),
+			(this->e02 + other.e02),
 
-			(this->e[1][0] + other.e[1][0]),
-			(this->e[1][1] + other.e[1][1]),
-			(this->e[1][2] + other.e[1][2]),
+			(this->e10 + other.e10),
+			(this->e11 + other.e11),
+			(this->e12 + other.e12),
 
-			(this->e[2][0] + other.e[2][0]),
-			(this->e[2][1] + other.e[2][1]),
-			(this->e[2][2] + other.e[2][2])
+			(this->e20 + other.e20),
+			(this->e21 + other.e21),
+			(this->e22 + other.e22)
 		);
 	}
 
-	Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& other)
+	Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& other) noexcept
 	{
 		this->e00 += other.e00;
 		this->e01 += other.e01;
@@ -94,25 +84,25 @@ namespace hyrule
 		return *this;
 	}
 
-	Matrix3x3 Matrix3x3::operator-(const Matrix3x3& other) const
+	Matrix3x3 Matrix3x3::operator-(const Matrix3x3& other) const noexcept
 	{
 		return Matrix3x3
 		(
-			(this->e[0][0] - other.e[0][0]),
-			(this->e[0][1] - other.e[0][1]),
-			(this->e[0][2] - other.e[0][2]),
+			(this->e00 - other.e00),
+			(this->e01 - other.e01),
+			(this->e02 - other.e02),
 
-			(this->e[1][0] - other.e[1][0]),
-			(this->e[1][1] - other.e[1][1]),
-			(this->e[1][2] - other.e[1][2]),
+			(this->e10 - other.e10),
+			(this->e11 - other.e11),
+			(this->e12 - other.e12),
 
-			(this->e[2][0] - other.e[2][0]),
-			(this->e[2][1] - other.e[2][1]),
-			(this->e[2][2] - other.e[2][2])
+			(this->e20 - other.e20),
+			(this->e21 - other.e21),
+			(this->e22 - other.e22)
 		);
 	}
 
-	Matrix3x3& Matrix3x3::operator-=(const Matrix3x3& other)
+	Matrix3x3& Matrix3x3::operator-=(const Matrix3x3& other) noexcept
 	{
 		this->e00 -= other.e00;
 		this->e01 -= other.e01;
@@ -129,43 +119,43 @@ namespace hyrule
 		return *this;
 	}
 
-	Matrix3x3 Matrix3x3::operator*(const Matrix3x3& other) const
+	Matrix3x3 Matrix3x3::operator*(const Matrix3x3& other) const noexcept
 	{
 		return Matrix3x3
 		(
-			(this->e[0][0] * other.e[0][0] + this->e[0][1] * other.e[1][0] + this->e[0][2] * other.e[2][0]),
-			(this->e[0][0] * other.e[0][1] + this->e[0][1] * other.e[1][1] + this->e[0][2] * other.e[2][1]),
-			(this->e[0][0] * other.e[0][2] + this->e[0][1] * other.e[1][2] + this->e[0][2] * other.e[2][2]),
+			(this->e00 * other.e00 + this->e01 * other.e10 + this->e02 * other.e20),
+			(this->e00 * other.e01 + this->e01 * other.e11 + this->e02 * other.e21),
+			(this->e00 * other.e02 + this->e01 * other.e12 + this->e02 * other.e22),
 
-			(this->e[1][0] * other.e[0][0] + this->e[1][1] * other.e[1][0] + this->e[1][2] * other.e[2][0]),
-			(this->e[1][0] * other.e[0][1] + this->e[1][1] * other.e[1][1] + this->e[1][2] * other.e[2][1]),
-			(this->e[1][0] * other.e[0][2] + this->e[1][1] * other.e[1][2] + this->e[1][2] * other.e[2][2]),
+			(this->e10 * other.e00 + this->e11 * other.e10 + this->e12 * other.e20),
+			(this->e10 * other.e01 + this->e11 * other.e11 + this->e12 * other.e21),
+			(this->e10 * other.e02 + this->e11 * other.e12 + this->e12 * other.e22),
 
-			(this->e[2][0] * other.e[0][0] + this->e[2][1] * other.e[1][0] + this->e[2][2] * other.e[2][0]),
-			(this->e[2][0] * other.e[0][1] + this->e[2][1] * other.e[1][1] + this->e[2][2] * other.e[2][1]),
-			(this->e[2][0] * other.e[0][2] + this->e[2][1] * other.e[1][2] + this->e[2][2] * other.e[2][2])
+			(this->e20 * other.e00 + this->e21 * other.e10 + this->e22 * other.e20),
+			(this->e20 * other.e01 + this->e21 * other.e11 + this->e22 * other.e21),
+			(this->e20 * other.e02 + this->e21 * other.e12 + this->e22 * other.e22)
 		);
 	}
 
-	Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& other)
+	Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& other) noexcept
 	{
-		(this->e[0][0] * other.e[0][0] + this->e[0][1] * other.e[1][0] + this->e[0][2] * other.e[2][0]);
-		(this->e[0][0] * other.e[0][1] + this->e[0][1] * other.e[1][1] + this->e[0][2] * other.e[2][1]);
-		(this->e[0][0] * other.e[0][2] + this->e[0][1] * other.e[1][2] + this->e[0][2] * other.e[2][2]);
+		(this->e00 * other.e00 + this->e01 * other.e10 + this->e02 * other.e20);
+		(this->e00 * other.e01 + this->e01 * other.e11 + this->e02 * other.e21);
+		(this->e00 * other.e02 + this->e01 * other.e12 + this->e02 * other.e22);
 
-		(this->e[1][0] * other.e[0][0] + this->e[1][1] * other.e[1][0] + this->e[1][2] * other.e[2][0]);
-		(this->e[1][0] * other.e[0][1] + this->e[1][1] * other.e[1][1] + this->e[1][2] * other.e[2][1]);
-		(this->e[1][0] * other.e[0][2] + this->e[1][1] * other.e[1][2] + this->e[1][2] * other.e[2][2]);
+		(this->e10 * other.e00 + this->e11 * other.e10 + this->e12 * other.e20);
+		(this->e10 * other.e01 + this->e11 * other.e11 + this->e12 * other.e21);
+		(this->e10 * other.e02 + this->e11 * other.e12 + this->e12 * other.e22);
 
-		(this->e[2][0] * other.e[0][0] + this->e[2][1] * other.e[1][0] + this->e[2][2] * other.e[2][0]);
-		(this->e[2][0] * other.e[0][1] + this->e[2][1] * other.e[1][1] + this->e[2][2] * other.e[2][1]);
-		(this->e[2][0] * other.e[0][2] + this->e[2][1] * other.e[1][2] + this->e[2][2] * other.e[2][2]);
+		(this->e20 * other.e00 + this->e21 * other.e10 + this->e22 * other.e20);
+		(this->e20 * other.e01 + this->e21 * other.e11 + this->e22 * other.e21);
+		(this->e20 * other.e02 + this->e21 * other.e12 + this->e22 * other.e22);
 
 		return *this;
 	}
 
 
-	bool Matrix3x3::operator==(const Matrix3x3& other) const
+	bool Matrix3x3::operator==(const Matrix3x3& other) const noexcept
 	{
 		return 
 			(this->e00 == other.e00) && (this->e01 == other.e01) && (this->e02 == other.e02) &&

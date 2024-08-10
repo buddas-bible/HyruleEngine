@@ -5,9 +5,9 @@
 #include "HRConstant.h"
 
 // Vecotr3D, 4D
-#include "Vector2D.h"
-#include "Vector3D.h"
-#include "Vector4D.h"
+#include "Vector2D.hh"
+#include "Vector3D.hh"
+#include "Vector4D.hh"
 
 
 // Matrix1x4, 1x3, 3x3, 4x4
@@ -17,7 +17,7 @@
 #include "Matrix4x4.h"
 
 // Quaternion
-#include "Quaternion.h"
+#include "Quaternion.hh"
 
 // 
 #include "HRMathFunc.h"

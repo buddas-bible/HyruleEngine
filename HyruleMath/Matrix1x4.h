@@ -1,7 +1,7 @@
 #pragma once
 #include <smmintrin.h>
 
-namespace hyrule
+namespace Hyrule
 {
 	struct Vector4D;
 
@@ -10,25 +10,25 @@ namespace hyrule
 		/// <summary>
 		/// Æ¯¼ö ¸â¹ö ÇÔ¼ö
 		/// </summary>
-		constexpr Matrix1x4() :
+		constexpr Matrix1x4() noexcept :
 			e{}
 		{}
 		constexpr Matrix1x4(
-			__m128 _m) :
+			__m128 _m) noexcept :
 			m{ _m }
 		{}
 		constexpr Matrix1x4(
-			float _e00, float _e01, float _e02, float _e03) :
+			float _e00, float _e01, float _e02, float _e03) noexcept :
 			e{ _e00, _e01, _e02, _e03 }
 		{}
-		constexpr Matrix1x4(const Matrix1x4&) = default;
-		constexpr Matrix1x4(Matrix1x4&&) = default;
-		~Matrix1x4() = default;
+		constexpr Matrix1x4(const Matrix1x4&) noexcept = default;
+		constexpr Matrix1x4(Matrix1x4&&) noexcept = default;
+		~Matrix1x4() noexcept = default;
 
-		constexpr Matrix1x4& operator= (const Matrix1x4&) = default;
-		constexpr Matrix1x4& operator= (Matrix1x4&&) = default;
+		constexpr Matrix1x4& operator= (const Matrix1x4&) noexcept = default;
+		constexpr Matrix1x4& operator= (Matrix1x4&&) noexcept = default;
 
-		explicit operator Vector4D();
+		explicit operator Vector4D() noexcept;
 
 		/// <summary>
 		/// ¸â¹ö º¯¼ö
@@ -43,20 +43,20 @@ namespace hyrule
 			__m128 m;
 		};
 
-		Matrix1x4& operator += (const Matrix1x4&);
-		Matrix1x4& operator -= (const Matrix1x4&);
+		Matrix1x4& operator += (const Matrix1x4&) noexcept;
+		Matrix1x4& operator -= (const Matrix1x4&) noexcept;
 
-		Matrix1x4 operator + (const Matrix1x4&) const;
-		Matrix1x4 operator - (const Matrix1x4&) const;
-		Matrix1x4 operator - () const;
+		Matrix1x4 operator + (const Matrix1x4&) const noexcept;
+		Matrix1x4 operator - (const Matrix1x4&) const noexcept;
+		Matrix1x4 operator - () const noexcept;
 
-		Matrix1x4& operator *= (const float);
-		Matrix1x4& operator /= (const float);
+		Matrix1x4& operator *= (const float) noexcept;
+		Matrix1x4& operator /= (const float) noexcept;
 
-		Matrix1x4 operator * (const float) const;
-		Matrix1x4 operator / (const float) const;
+		Matrix1x4 operator * (const float) const noexcept;
+		Matrix1x4 operator / (const float) const noexcept;
 
-		bool operator == (const Matrix1x4&) const;
+		bool operator == (const Matrix1x4&) const noexcept;
 	};
 }
 
